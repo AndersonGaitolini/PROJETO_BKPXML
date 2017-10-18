@@ -321,6 +321,15 @@ begin
 
     end;
 
+
+
+    if wSaveXML.Execute then
+    begin
+      pCompress();
+
+    end;
+
+
   end;
 
 end;

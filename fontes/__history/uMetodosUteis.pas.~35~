@@ -494,7 +494,10 @@ begin
     else
      pMsg(1);
 
-    Result :=  wSaveXML.Execute;
+    if wSaveXML.Execute then
+    begin
+
+    end;
 
 
   finally

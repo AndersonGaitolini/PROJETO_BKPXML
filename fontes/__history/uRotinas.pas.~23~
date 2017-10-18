@@ -284,6 +284,11 @@ var
   I : integer;
   wSaveXML: TSaveDialog;
 begin
+  wSaveXML := TSaveDialog.Create(Application);
+  wSaveXML.Filter := 'ZIP|*.zip';
+  wSaveXML.Title :=  'Salve o arquivo ZIP ';
+  wSaveXML.InitialDir := ExtractFileDir(GetCurrentDir);
+  wSaveXML.FileName := 'Notas.zip';
 
 //  wStream := TMemoryStream.Create;
   SetLength(wArrayStream, wSLSeleconados.Count);
@@ -320,6 +325,15 @@ begin
       end;
 
     end;
+
+
+
+    if wSaveXML.Execute then
+    begin
+      pCompress();
+
+    end;
+
 
   end;
 

@@ -472,9 +472,9 @@ var  wSaveXML : TSaveDialog;
       1: begin
             ShowMessage('Diretório: '+pInitialDir+' não existe!');
          end;
-    end;
 
-    exit;
+
+    end;
   end;
 begin
   wSaveXML := TSaveDialog.Create(Application);
@@ -485,16 +485,14 @@ begin
   wSaveXML.Title :=  pTitle; //'Salve o arquivo ZIP ';
 
     if DirectoryExists(ExtractFileDir(pFileName)) then
-      wSaveXML.FileName := pFileName
+      wSaveXML.FileName := pFileName;
     else
       pMSG(0);
 
     if  DirectoryExists(pInitialDir) then
       wSaveXML.InitialDir := pInitialDir
     else
-     pMsg(1);
-
-    Result :=  wSaveXML.Execute;
+     p
 
 
   finally

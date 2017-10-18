@@ -259,13 +259,11 @@ end;
 
 function fExportaLoteXML(pLista: TStringList):Boolean;
 var
-  wSLFiles: TStringList;
-  wPath : string;
+  slFiles: TStringList;
 begin
-  fOpenPath(wPath, 'Selecione o ')
-  wSLFiles := TStringList.Create;
+  slFiles := TStringList.Create;
   pEnumFiles('C:\Meu Sistema\BD\', '*', faAnyFile - faDirectory, slFiles, True, True);
-  pCompressLote(slFiles, 'c:\Backup1.bkp');
+  pCompressFiles(slFiles, 'c:\Backup1.bkp');
 
   try
 
@@ -284,6 +282,11 @@ var
   I : integer;
   wSaveXML: TSaveDialog;
 begin
+  wSaveXML := TSaveDialog.Create(Application);
+  wSaveXML.Filter := 'ZIP|*.zip';
+  wSaveXML.Title :=  'Salve o arquivo ZIP ';
+  wSaveXML.InitialDir := ExtractFileDir(GetCurrentDir);
+  wSaveXML.FileName := 'Notas.zip';
 
 //  wStream := TMemoryStream.Create;
   SetLength(wArrayStream, wSLSeleconados.Count);
@@ -320,6 +323,15 @@ begin
       end;
 
     end;
+
+
+
+    if wSaveXML.Execute then
+    begin
+      pCompress();
+
+    end;
+
 
   end;
 

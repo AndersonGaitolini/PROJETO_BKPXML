@@ -461,21 +461,6 @@ end;
 function fSaveFile(pInitialDir, pFileName, pTitle: String; pFilter: array of string = ['All| *.*']): boolean;
 var  wSaveXML : TSaveDialog;
      I : Integer;
-
-  procedure pMSG(pMsg : Integer);
-  begin
-    case pMsg of
-      0:  begin
-            ShowMessage('Diretório do '+ ExtractFileName(pFileName) +': '+ExtractFileDir(pFileNAme+' não existe!');
-          end;
-
-      1: begin
-            ShowMessage('Diretório: '+pInitialDir+' não existe!');
-         end;
-    end;
-
-    exit;
-  end;
 begin
   wSaveXML := TSaveDialog.Create(Application);
   try
@@ -483,18 +468,17 @@ begin
       wSaveXML.Filter := pFilter[i]; //'ZIP|*.zip';
 
   wSaveXML.Title :=  pTitle; //'Salve o arquivo ZIP ';
-
     if DirectoryExists(ExtractFileDir(pFileName)) then
-      wSaveXML.FileName := pFileName
+    begin
+      wSaveXML.FileName := pFileName;
+    end
     else
-      pMSG(0);
+     ShowMessage('Diretório do '+ ExtractFileName(pFileName) +': '+ExtractFileDir(pFileNAme+' não existe!');
 
     if  DirectoryExists(pInitialDir) then
       wSaveXML.InitialDir := pInitialDir
     else
-     pMsg(1);
-
-    Result :=  wSaveXML.Execute;
+     ShowMessage('Diretório: '+pInitialDir+' não existe!');
 
 
   finally
