@@ -1,0 +1,80 @@
+unit uSuperSysLogin;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufoLoginPadrao, Vcl.Menus,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TfrmSuperSysLogin = class(TfoLoginPadrao)
+    btnCancelar: TBitBtn;
+    procedure btnAcessarClick(Sender: TObject);
+    procedure edSenhaExit(Sender: TObject);
+    procedure edUsuarioExit(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+  private
+    { Private declarations }
+
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSuperSysLogin: TfrmSuperSysLogin;
+  wObjUsuario : TUsuarios;
+  wDaoUsuario : TDaoLogin;
+  SuperSysTelaPrincipal: TfrmSuperSysPrincipal;
+  wTabConect : TT_conectado;
+implementation
+
+{$R *.dfm}
+
+procedure TfrmSuperSysLogin.btnCancelarClick(Sender: TObject);
+begin
+  inherited;
+  //
+  ModalResult := mrCancel;
+end;
+
+procedure TfrmSuperSysLogin.btnAcessarClick(Sender: TObject);
+
+begin
+  wTabConect := TT_conectado.create;
+  wObjUsuario.Userultacesso := Now;
+  if wDaoUsuario.fLogar(wObjUsuario) then
+    begin
+
+      ModalResult := mrOk;
+
+    end
+  else
+  begin
+    edUsuario.SetFocus;
+    ModalResult := mrNone; //mrCancel;
+  end;
+
+
+end;
+
+procedure TfrmSuperSysLogin.edSenhaExit(Sender: TObject);
+begin;
+   wObjUsuario.Usersenha := Trim(edSenha.Text);
+end;
+
+procedure TfrmSuperSysLogin.edUsuarioExit(Sender: TObject);
+begin
+  wObjUsuario.Userlogin := Trim(edUsuario.Text);
+end;
+
+procedure TfrmSuperSysLogin.FormCreate(Sender: TObject);
+begin
+  edUsuario.Clear;
+  edSenha.Clear;
+  wObjUsuario := TUsuarios.Create();
+  wDaoUsuario := TDaoLogin.Create;
+end;
+
+end.

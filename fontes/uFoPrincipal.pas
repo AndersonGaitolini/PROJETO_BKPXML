@@ -251,8 +251,8 @@ begin
         dbgNfebkp.Refresh;
 	    end;
     end;
-
-     fExportaSelecaoXML(wSLSeleconados);
+       fExportaLoteXML(wSLSeleconados);
+//     fExportaSelecaoXML(wSLSeleconados);
   finally
     FreeAndNil(wDataSet);
   end;
@@ -422,7 +422,7 @@ begin
      wStream := TMemoryStream.Create;
      wStream := SelectedField.DataSet.CreateBlobStream(SelectedField, bmReadWrite);
      pSalveName(SelectedField.FieldName, wFileName);
-     dlgSaveXML.Filter := 'XML|*.xml';
+     dlgSaveXML.Filter := 'XML | *.xml';
      dlgSaveXML.Title :=  'Salve o arquivo: '+ Columns[SelectedField.Index].Title.Caption;
      dlgSaveXML.InitialDir := ExtractFileDir(wFileName);
      dlgSaveXML.FileName := wFileName;

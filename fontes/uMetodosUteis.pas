@@ -48,9 +48,10 @@ Const
   function DateXMLToDate(pDateXML: String): TDate;
   function fOpenFileName(pFilter: array of string;pFilterName: array of string;var prFileName:string;pTitle : string = ''): Boolean;
   function fOpenPath(var pInitialDir: string; pTitle : string = ''): Boolean;
-  function fSaveFile(pInitialDir, pFileNAme, pTitle: String; pFilter: array of string = ['All| *.*']): boolean;
+  function fSaveFile(pInitialDir, pFileNAme, pTitle: String; pFilter: array of string): TSaveDialog;
   Procedure pZapFiles(pMasc:string);
   procedure pCopyFiles(pFileSource, pFileDest:String; pListErro:Boolean);
+  procedure pSalveName(pFieldName, pExt: string; var wFileName: string);
 
   function fSenhaAtual(pData: string):string;
   function fSEsp(Txt: string): string;
@@ -391,6 +392,18 @@ begin
   CopyFile(wWCSource,wWCDest,pListErro);
 end;
 
+procedure pSalveName(pFieldName, pExt: string; var wFileName: string);
+var wStr : String;
+begin
+  wStr := AnsiUpperCase(pFieldName);
+  if (wStr = 'XMLENVIO')  or ( wStr = 'XMLEXTEND') then
+   wFileName := 'Env_NFe'+ wFileName + '.'+pExt;
+
+  if (wStr = 'XMLENVIOCANC') or (wStr = 'XMLEXTENDCANC' ) then
+   wFileName := 'Can_'+ wFileName + '.'+pExt;
+
+end;
+
 Procedure pZapFiles(pMasc:String);
 {Apaga arquivos usando mascaras tipo: c:\Temp\*.zip, c:\Temp\*.*
  Obs: Requer o Path dos arquivos a serem deletados}
@@ -458,49 +471,55 @@ var
   end;
 end;
 
-function fSaveFile(pInitialDir, pFileName, pTitle: String; pFilter: array of string = ['All| *.*']): boolean;
+function fSaveFile(pInitialDir, pFileName, pTitle: String; pFilter: array of string): TSaveDialog;
 var  wSaveXML : TSaveDialog;
      I : Integer;
+     wMsg: string;
 
   procedure pMSG(pMsg : Integer);
   begin
     case pMsg of
-      0:  begin
-            ShowMessage('Diretório do '+ ExtractFileName(pFileName) +': '+ExtractFileDir(pFileNAme+' não existe!');
-          end;
-
-      1: begin
-            ShowMessage('Diretório: '+pInitialDir+' não existe!');
-         end;
+      0: wMsg := 'Diretório do '+ ExtractFileName(pFileName) +': '+ ExtractFileDir(pFileNAme)+' não existe!';
+      1: wMsg := 'Diretório: '+pInitialDir+' não existe!';
     end;
 
+    ShowMessage(wMsg);
     exit;
   end;
+
 begin
   wSaveXML := TSaveDialog.Create(Application);
   try
     for I := Low(pFilter) to High(pFilter) do
-      wSaveXML.Filter := pFilter[i]; //'ZIP|*.zip';
+    begin
+      if i = 0 then
+        wSaveXML.Filter := pFilter[i]//'ZIP|*.zip';
+      else
+        wSaveXML.Filter := ' | '+ pFilter[i]
+    end;
 
-  wSaveXML.Title :=  pTitle; //'Salve o arquivo ZIP ';
+    wSaveXML.Name :='wSaveDLG';
+    wSaveXML.Title :=  pTitle; //'Salve o arquivo ZIP ';
+    wSaveXML.FilterIndex := 1;
 
-    if DirectoryExists(ExtractFileDir(pFileName)) then
-      wSaveXML.FileName := pFileName
-    else
-      pMSG(0);
+    wSaveXML.Ctl3D := true;
+    wSaveXML.Options := [ofHideReadOnly,ofEnableSizing];
 
     if  DirectoryExists(pInitialDir) then
       wSaveXML.InitialDir := pInitialDir
     else
      pMsg(1);
 
-    Result :=  wSaveXML.Execute;
+      pFileName := ExtractFileDir(pFileName);
+      wSaveXML.FileName := pFileName;
+//    else
+//      pMSG(0);
 
+    Result := wSaveXML;
 
   finally
     wSaveXML.Free;
   end;
-
 end;
 
 
@@ -736,3 +755,4 @@ class function TConvert<T>.EnumConvertStr(const eEnum:T): String;
 
 
 end.
+

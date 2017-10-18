@@ -1,0 +1,20 @@
+unit uLoadXML;
+
+interface
+
+uses System, System.Classes,Configuracoes;
+
+type
+  TLoadXML = class(Tobject)
+    private
+    function fLerArquivosNFE:boolean;
+    function fLerArquivosNFCE:boolean;
+    function fLerArquivosNFSE:boolean;
+
+    public
+
+  end;
+
+implementation
+
+end.

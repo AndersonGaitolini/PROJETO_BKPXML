@@ -2,13 +2,13 @@ object DM_NFEDFE: TDM_NFEDFE
   OldCreateOrder = False
   OnCreate = DataModuleCreate
   Height = 422
-  Width = 367
+  Width = 412
   object conConexaoFD: TFDConnection
     Params.Strings = (
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      'Database=D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'
+      'Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
       'DriverID=FBEmbed')
     LoginPrompt = False
     Left = 20

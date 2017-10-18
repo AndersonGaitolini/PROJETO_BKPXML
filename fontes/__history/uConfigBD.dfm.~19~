@@ -1,0 +1,373 @@
+object frmConfigBD: TfrmConfigBD
+  Left = 0
+  Top = 0
+  BorderStyle = bsDialog
+  Caption = 'Configura'#231#245'es do banco de dados'
+  ClientHeight = 415
+  ClientWidth = 479
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -10
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  FormStyle = fsMDIForm
+  OldCreateOrder = False
+  Position = poMainFormCenter
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 12
+  object pnlConfig: TPanel
+    Left = 0
+    Top = 0
+    Width = 479
+    Height = 415
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = 8
+    ExplicitTop = -8
+    ExplicitWidth = 550
+    ExplicitHeight = 369
+    object pgcConfig: TPageControl
+      Left = 1
+      Top = 1
+      Width = 477
+      Height = 352
+      ActivePage = tsConfigBD
+      TabOrder = 0
+      object tsConfigBD: TTabSheet
+        Caption = 'Configura BD'
+        ExplicitLeft = 8
+        ExplicitTop = 21
+        ExplicitWidth = 432
+        ExplicitHeight = 242
+        object btnGetDirBanco: TSpeedButton
+          Left = 277
+          Top = 63
+          Width = 33
+          Height = 31
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Flat = True
+          Glyph.Data = {
+            F6070000424DF60700000000000036040000280000001E0000001E0000000100
+            080000000000C0030000120B0000120B000000010000BE000000534D4A00DBD1
+            CA005F5D5C003994D400A5BFE0003A90DB003480D5004983C6002665CB00608E
+            D300FFF4EA0000BCFF00326EC300BABBBB005F91B80054AEFE0076BEE400DCEC
+            FB0096908B002CB7F50017AEFE007EA7D300AFAFAF009EC5E300BED0E400727D
+            82005393D10062A5DF00E2E5E900E7FAFF004F86D6004F84C5003078D1004DA7
+            F8005095DA004885D40000D9FF00BBCDE000F1ECE50021D8FE0091ABC70064C5
+            FF00E1DED900A9C3DF00409FF600595959004C94D6004F89C7004A8BD6003C81
+            CD005093D7002D71CE00D7DDE8008BD9FF0077CBFE0002E0FF0081818100CCCC
+            CC00CCE1FD00779CC70051B9F4001ACCFE006D6C6B003C7ABE00FFFBF50036AD
+            E10093B6D900649AD50069B6ED00F9F4EF00417ACC004184D200578AC900E5EC
+            F20015F0FF00EBDFD500EFEFEF0000CCFF009D9D9D0014EBFF004783CE005997
+            DA00EEE4E40052C7FB005E544E0028C7F4005B656900B7CADF0041B2F600348D
+            DA005993CD009CC7DE003679C3003F92DB007097C6003B76CE002F6BCB000ED9
+            FF005793D90068C1FD00C2D4E8006A9DD9006BA6DD005C8DD500948E8B00CBD2
+            D800E6E6E600D7D6D500518BCE00EBF0F50079A1CE004A8CC5001EB4FE003B9B
+            D400C4C4C40086D3FD0058C5FA00F7F7F7005285CF00FCF8F300757F920099D2
+            FD005EA3DE003C89D6000AE1FF00B7B7B6008CAACB00DEDEDE003B7ACF00D7ED
+            FD00A8C2DF005555550001C5FF0073737300E5E1DD005A5662003673C6006262
+            620055ACFA0075A0CF006DBAEF00539BDB00BDD6E600F0FCFF004489D3005A5A
+            5200FFFFFF00F7EFEF005B8CD0003F7CC8004A8CCE006595D600EAEEF5002B6B
+            CC006C9FDB0052B3FF006AC6FF005C9CDC004A94DE0005D6FF004183CE00DEDE
+            E600F7EFE600B7C9E000DED8D300449CD400DEEFFF0094959500518AD500417B
+            BD003374CE0006D0FF002AD9FF009BB6D2005D9CD500BAC1C80004EAFF003882
+            D400A2C5E400DBE3EC0066CCFF00CAD1D7007D9DC70021CAFC0033C3F3003A8C
+            DE00CFD6DC0020BCFD0093ADCA00000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000929292929292
+            9292929292929292929292929292929292929292929292920000929292927518
+            1825256464646464252525255757575757572557B39292920000929275753407
+            76070709949494949494944343436565650776767E409292000092924C4CBA1F
+            081F8880808080804747303022228D8D8D2F6046BC459292000092754C6A691F
+            9907461E1E1E1E1E62629D9D1B1B1B1B1B2F604628267592000092756A6AB51F
+            99070748484848485A5A5A5A5A5A5A5A5A1F6046BC267592000092754C4C341F
+            99075C80808080313131313131A0A0A031076046AD777592000092929292491F
+            9907952323232323232323303030303030076046049292920000929292926D1F
+            99769523232323232323303030303030300760502B9292920000929292926D2F
+            33769523232323232330303030303030301FAA502B9292920000929292929848
+            206C9523232323233030303030303030301F8023829292920000929292929848
+            061A9523232323303030303030303030302FB13082929292000092929292986C
+            591A9530303030303030303030323232302F7B2E82929292000092929292985A
+            051A9530303030303030303030323232322F5D2E82929292000092929292985A
+            051A9530303030303030303032323232322F5D2E82929292000092929292985A
+            051A9530303030303030303232222222226C5D2E82929292000092929292985A
+            051AA90707070707070707072F2F2F2F072F5D2E82929292000092929292755A
+            051A1F6794949494940997976565666666485D2E82929292000092929292345A
+            591A0CAAAAAAAA80804790902E2E2E2E2E6C052E2B92929200009292924CAF1A
+            9E1A951E1E940909979765656566666666489D9D04929292000092924C6B1C6E
+            158B5E3B3B1A030303717171A51AAE1A1A5CA9A9649292920000924C397F6A26
+            26452A4BB2700B0B844D4D247C13449C9B2C2004929292920000926A6B7F7F7F
+            7F6AA417140B0B8484ABAB37B04A418C9C9B211192929292000092926A6A6A6A
+            6A6A2A175813BB3D9F9F7C2755B8B442109C9B211192929200009292926A6A6A
+            6A6A7F868634A33C613727797887920156109C0F8AA692920000929292926A6A
+            6A6A7F7F26860A3AB74F5352264E4EA7001935630F0F4992000092929292926A
+            6A4C7F6A7F4C929274AC4254894C6B8983688F73290E02720000929292929292
+            6A4C7F7F4C92929281361C2D83927502830D921D5B123E2D0000929292929292
+            924C6A4C929292929292927F68163883854C9292457D16750000929292929292
+            92927592929292929292929292724E4E6A929292924C92920000}
+          Layout = blGlyphTop
+          OnClick = btnGetDirBancoClick
+        end
+        object edUsuarioBD: TLabeledEdit
+          Left = 26
+          Top = 26
+          Width = 155
+          Height = 20
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          EditLabel.Width = 34
+          EditLabel.Height = 12
+          EditLabel.Margins.Left = 2
+          EditLabel.Margins.Top = 2
+          EditLabel.Margins.Right = 2
+          EditLabel.Margins.Bottom = 2
+          EditLabel.Caption = 'Usu'#225'rio'
+          TabOrder = 0
+        end
+        object edSenhaBD: TLabeledEdit
+          Left = 204
+          Top = 26
+          Width = 141
+          Height = 20
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          EditLabel.Width = 28
+          EditLabel.Height = 12
+          EditLabel.Margins.Left = 2
+          EditLabel.Margins.Top = 2
+          EditLabel.Margins.Right = 2
+          EditLabel.Margins.Bottom = 2
+          EditLabel.Caption = 'Senha'
+          PasswordChar = '*'
+          TabOrder = 1
+        end
+        object edArquivo: TLabeledEdit
+          Left = 26
+          Top = 74
+          Width = 247
+          Height = 20
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          EditLabel.Width = 118
+          EditLabel.Height = 12
+          EditLabel.Margins.Left = 2
+          EditLabel.Margins.Top = 2
+          EditLabel.Margins.Right = 2
+          EditLabel.Margins.Bottom = 2
+          EditLabel.Caption = 'Banco de dados GBD/FDB'
+          TabOrder = 2
+        end
+        object btnOK: TBitBtn
+          Left = 48
+          Top = 138
+          Width = 91
+          Height = 20
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Caption = 'OK'
+          Default = True
+          Glyph.Data = {
+            DE010000424DDE01000000000000760000002800000024000000120000000100
+            0400000000006801000000000000000000001000000000000000000000000000
+            80000080000000808000800000008000800080800000C0C0C000808080000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            3333333333333333333333330000333333333333333333333333F33333333333
+            00003333344333333333333333388F3333333333000033334224333333333333
+            338338F3333333330000333422224333333333333833338F3333333300003342
+            222224333333333383333338F3333333000034222A22224333333338F338F333
+            8F33333300003222A3A2224333333338F3838F338F33333300003A2A333A2224
+            33333338F83338F338F33333000033A33333A222433333338333338F338F3333
+            0000333333333A222433333333333338F338F33300003333333333A222433333
+            333333338F338F33000033333333333A222433333333333338F338F300003333
+            33333333A222433333333333338F338F00003333333333333A22433333333333
+            3338F38F000033333333333333A223333333333333338F830000333333333333
+            333A333333333333333338330000333333333333333333333333333333333333
+            0000}
+          NumGlyphs = 2
+          TabOrder = 3
+          OnClick = btnOKClick
+        end
+        object btn2: TBitBtn
+          Left = 166
+          Top = 138
+          Width = 91
+          Height = 20
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          Kind = bkCancel
+          NumGlyphs = 2
+          TabOrder = 4
+        end
+      end
+      object tsConfigDir: TTabSheet
+        Caption = 'Configura NFe'
+        ImageIndex = 1
+        ExplicitLeft = 8
+        ExplicitTop = 21
+        ExplicitHeight = 367
+        object edNFePathSend: TLabeledEdit
+          Left = 10
+          Top = 40
+          Width = 250
+          Height = 20
+          EditLabel.Width = 109
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Caminho envio do XML:'
+          TabOrder = 0
+        end
+        object edNFePathReturn: TLabeledEdit
+          Left = 10
+          Top = 74
+          Width = 250
+          Height = 20
+          EditLabel.Width = 118
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Caminho retorno do XML:'
+          TabOrder = 1
+        end
+        object edPathRetEnvNFe: TLabeledEdit
+          Left = 10
+          Top = 108
+          Width = 250
+          Height = 20
+          EditLabel.Width = 139
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Caminho do retorno enviados:'
+          TabOrder = 4
+        end
+        object edPathRetCancNFe: TLabeledEdit
+          Left = 10
+          Top = 142
+          Width = 250
+          Height = 20
+          EditLabel.Width = 148
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Caminho do retorno cancelados:'
+          TabOrder = 5
+        end
+        object edPathRetInutNFe: TLabeledEdit
+          Left = 10
+          Top = 176
+          Width = 250
+          Height = 20
+          EditLabel.Width = 147
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Caminho do retorno inutilizados:'
+          TabOrder = 6
+        end
+        object edExtAutNFe: TLabeledEdit
+          Left = 10
+          Top = 210
+          Width = 125
+          Height = 20
+          EditLabel.Width = 112
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Extens'#227'o de autorizados:'
+          TabOrder = 7
+        end
+        object edExtInutNFe: TLabeledEdit
+          Left = 10
+          Top = 278
+          Width = 125
+          Height = 20
+          EditLabel.Width = 109
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Extens'#227'o de inutilizados:'
+          TabOrder = 8
+        end
+        object edExtCancNFe: TLabeledEdit
+          Left = 10
+          Top = 244
+          Width = 125
+          Height = 20
+          EditLabel.Width = 110
+          EditLabel.Height = 12
+          EditLabel.Caption = 'Extens'#227'o de cancelados:'
+          TabOrder = 9
+        end
+        object btnOpen1: TBitBtn
+          Left = 266
+          Top = 38
+          Width = 25
+          Height = 22
+          Caption = '...'
+          TabOrder = 3
+        end
+        object btnOpen2: TBitBtn
+          Left = 266
+          Top = 73
+          Width = 25
+          Height = 22
+          Caption = '...'
+          TabOrder = 2
+        end
+        object btnOpen3: TBitBtn
+          Left = 266
+          Top = 107
+          Width = 25
+          Height = 22
+          Caption = '...'
+          TabOrder = 10
+        end
+        object btnOpen4: TBitBtn
+          Left = 266
+          Top = 139
+          Width = 25
+          Height = 22
+          Caption = '...'
+          TabOrder = 11
+        end
+        object btnOpen5: TBitBtn
+          Left = 266
+          Top = 173
+          Width = 25
+          Height = 22
+          Caption = '...'
+          TabOrder = 12
+        end
+        object BitBtn1: TBitBtn
+          Left = 80
+          Top = 352
+          Width = 75
+          Height = 25
+          Caption = 'BitBtn1'
+          TabOrder = 13
+        end
+      end
+    end
+    object statRodape: TStatusBar
+      Left = 1
+      Top = 395
+      Width = 477
+      Height = 19
+      Panels = <>
+      ExplicitLeft = 272
+      ExplicitTop = 352
+      ExplicitWidth = 0
+    end
+  end
+  object dlgOpenDir: TOpenDialog
+    Left = 360
+  end
+end

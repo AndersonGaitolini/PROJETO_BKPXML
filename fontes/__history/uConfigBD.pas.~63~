@@ -1,0 +1,177 @@
+unit uConfigBD;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,
+  Vcl.ComCtrls;
+
+type
+
+  TfrmConfigBD = class(TForm)
+    pnlConfig: TPanel;
+    pgcConfig: TPageControl;
+    tsConfigBD: TTabSheet;
+    btnGetDirBanco: TSpeedButton;
+    edUsuarioBD: TLabeledEdit;
+    edSenhaBD: TLabeledEdit;
+    edArquivo: TLabeledEdit;
+    statRodape: TStatusBar;
+    tsConfigDir: TTabSheet;
+    edNFePathSend: TLabeledEdit;
+    dlgOpenDir: TOpenDialog;
+    edNFePathReturn: TLabeledEdit;
+    edPathRetEnvNFe: TLabeledEdit;
+    edPathRetCancNFe: TLabeledEdit;
+    edPathRetInutNFe: TLabeledEdit;
+    edExtAutNFe: TLabeledEdit;
+    edExtInutNFe: TLabeledEdit;
+    edExtCancNFe: TLabeledEdit;
+    btnOpen1: TBitBtn;
+    btnOpen2: TBitBtn;
+    btnOpen3: TBitBtn;
+    btnOpen4: TBitBtn;
+    btnOpen5: TBitBtn;
+    BitBtn1: TBitBtn;
+    pnlRodape: TPanel;
+    btn2: TBitBtn;
+    btnOK: TBitBtn;
+    procedure btnGetDirBancoClick(Sender: TObject);
+    procedure btnOKClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnOpen1Click(Sender: TObject);
+  private
+    { Private declarations }
+    function valida: Boolean;
+    procedure SalvarParamatros;
+    procedure LerParametros;
+    function pOpenFileName(var prFileName:string): Boolean;
+    function pOpenPath(var prPath: string): Boolean;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConfigBD: TfrmConfigBD;
+
+implementation
+
+uses
+  uMetodosUteis, uConfiguracoes;
+
+{$R *.dfm}
+
+procedure TfrmConfigBD.btnGetDirBancoClick(Sender: TObject);
+begin
+// pExecuteDlg()
+end;
+
+procedure TfrmConfigBD.btnOKClick(Sender: TObject);
+begin
+  if valida then
+  begin
+    SalvarParamatros;
+    ModalResult := mrOk
+  end;
+end;
+
+procedure TfrmConfigBD.btnOpen1Click(Sender: TObject);
+begin
+ if pOpenPath(ConfigDfe.NFePathSend) then
+   edNFePathSend.Text := ConfigDfe.NFePathSend;
+end;
+
+procedure TfrmConfigBD.FormCreate(Sender: TObject);
+begin
+  ConfigDfe := TConfigDfe.Create;
+  LerParametros;
+
+end;
+
+procedure TfrmConfigBD.LerParametros;
+begin
+
+  if FileExists(fArqIni) then
+  begin
+  edUsuarioBD.Text := getINI(fArqIni, 'BD', 'USUARIO', '');
+  edSenhaBD.Text   := getINI(fArqIni, 'BD', 'SENHA', '');
+  edArquivo.Text   := getINI(fArqIni, 'BD', 'ARQUIVO', '');
+  end;
+end;
+
+function TfrmConfigBD.pOpenFileName(var prFileName:string): Boolean;
+begin
+  dlgOpenDir := TOpenDialog.Create(Application);
+  try
+     Result := dlgOpenDir.Execute;
+     if Result then
+       prFileName := dlgOpenDir.FileName
+     else
+       prFileName := '';
+  finally
+    dlgOpenDir.Free;
+  end;
+end;
+
+function TfrmConfigBD.pOpenPath(var prPath: string): Boolean;
+begin
+  Result := false;
+  dlgOpenDir := TOpenDialog.Create(Application);
+  try
+     Result := dlgOpenDir.Execute;
+     if Result then
+       prPath := ExtractFilePath(dlgOpenDir.FileName)
+     else
+       prPath := '';
+  finally
+    dlgOpenDir.Free;
+  end;
+end;
+
+procedure TfrmConfigBD.SalvarParamatros;
+var
+ wINI : string;
+begin
+  wINI := ExtractFileName(ChangeFileExt(Application.ExeName, 'INI'));
+  wINI := GetCurrentDir +'\'+wIni;
+  setINI(wINI, 'BD', 'USUARIO', Trim(edUsuarioBD.Text));
+  setINI(wINI, 'BD', 'SENHA', Trim(edSenhaBD.Text));
+  setINI(wINI, 'BD', 'ARQUIVO', Trim(edArquivo.Text));
+end;
+
+function TfrmConfigBD.valida: Boolean;
+begin
+  Result := False;
+  if Trim(edUsuarioBD.Text) = '' then
+  begin
+    ShowMessage('Informe o usuário, o campo está vázio!');
+    if edUsuarioBD.CanFocus then
+      edUsuarioBD.SetFocus;
+
+    Exit;
+  end;
+
+  if Trim(edSenhaBD.Text) = '' then
+  begin
+    ShowMessage('Informe a senha, o campo está vázio!');
+    if edSenhaBD.CanFocus then
+      edSenhaBD.SetFocus;
+
+    Exit;
+  end;
+
+  if Trim(edArquivo.Text) = '' then
+  begin
+    ShowMessage('Informe a senha, o campo está vázio!');
+    if edArquivo.CanFocus then
+      edArquivo.SetFocus;
+
+    Exit;
+  end;
+
+  Result := True;
+end;
+
+
+end.
