@@ -5,29 +5,32 @@ object DM_NFEDFE: TDM_NFEDFE
   Width = 412
   object conConexaoFD: TFDConnection
     Params.Strings = (
-      'DriverID=FB'
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      'Database=E:\Arquivos\2_Dev\Projetos\aaa\bd\BACKUPXML.FDB')
-    Connected = True
+      'Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
+      'DriverID=FBEmbed')
     LoginPrompt = False
-    Left = 36
-    Top = 58
+    Left = 20
+    Top = 90
   end
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
-    Left = 332
-    Top = 58
+    Left = 244
+    Top = 90
   end
   object fdWaitCursor: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 152
-    Top = 58
+    Left = 96
+    Top = 82
   end
   object fddrfbDriver: TFDPhysFBDriverLink
-    Left = 228
-    Top = 58
+    DriverID = 'FBEmbed'
+    VendorLib = 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll'
+    OnDriverCreated = DataModuleCreate
+    Embedded = True
+    Left = 164
+    Top = 82
   end
   object sqlConfiguracoes: TFDQuery
     Connection = conConexaoFD
@@ -48,6 +51,7 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 280
   end
   object cdsBkpdfe: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'provBkpdfe'
@@ -58,6 +62,10 @@ object DM_NFEDFE: TDM_NFEDFE
       Origin = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
+    end
+    object cdsBkpdfeSELECAO: TStringField
+      FieldName = 'SELECAO'
+      Size = 1
     end
     object cdsBkpdfeCHAVE: TStringField
       FieldName = 'CHAVE'

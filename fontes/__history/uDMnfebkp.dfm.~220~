@@ -8,28 +8,30 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      'Database=E:\Projeto\bd\BACKUPXML.FDB'
+      'Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
       'DriverID=FBEmbed')
+    Connected = True
     LoginPrompt = False
     Left = 20
-    Top = 66
+    Top = 90
   end
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
-    Left = 332
-    Top = 58
+    Left = 244
+    Top = 90
   end
   object fdWaitCursor: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 152
-    Top = 58
+    Left = 96
+    Top = 82
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
-    VendorLib = 'J:\exe\fb\fbClient.dll'
+    VendorLib = 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll'
+    OnDriverCreated = DataModuleCreate
     Embedded = True
-    Left = 228
-    Top = 58
+    Left = 164
+    Top = 82
   end
   object sqlConfiguracoes: TFDQuery
     Connection = conConexaoFD
@@ -50,6 +52,7 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 280
   end
   object cdsBkpdfe: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'provBkpdfe'
@@ -57,86 +60,78 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 144
     object cdsBkpdfeID: TIntegerField
       FieldName = 'ID'
-      Origin = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
     object cdsBkpdfeCHAVE: TStringField
       FieldName = 'CHAVE'
-      Origin = 'CHAVE'
       Size = 300
-    end
-    object cdsBkpdfeIDF_DOCUMENTO: TIntegerField
-      FieldName = 'IDF_DOCUMENTO'
-      Origin = 'IDF_DOCUMENTO'
-      Required = True
     end
     object cdsBkpdfeDATAEMISSAO: TDateField
       FieldName = 'DATAEMISSAO'
-      Origin = 'DATAEMISSAO'
     end
     object cdsBkpdfeDATARECTO: TDateField
       FieldName = 'DATARECTO'
-      Origin = 'DATARECTO'
+    end
+    object cdsBkpdfeIDF_DOCUMENTO: TIntegerField
+      FieldName = 'IDF_DOCUMENTO'
     end
     object cdsBkpdfeMOTIVO: TStringField
       FieldName = 'MOTIVO'
-      Origin = 'MOTIVO'
     end
     object cdsBkpdfePROTOCOLOCANC: TStringField
       FieldName = 'PROTOCOLOCANC'
-      Origin = 'PROTOCOLOCANC'
       Size = 50
     end
     object cdsBkpdfePROTOCOLORECTO: TStringField
       FieldName = 'PROTOCOLORECTO'
-      Origin = 'PROTOCOLORECTO'
       Size = 50
     end
     object cdsBkpdfeDATAALTERACAO: TDateField
       FieldName = 'DATAALTERACAO'
-      Origin = 'DATAALTERACAO'
     end
     object cdsBkpdfeTIPO: TStringField
       FieldName = 'TIPO'
-      Origin = 'TIPO'
       FixedChar = True
       Size = 1
     end
     object cdsBkpdfeEMAILSNOTIFICADOS: TStringField
       FieldName = 'EMAILSNOTIFICADOS'
-      Origin = 'EMAILSNOTIFICADOS'
       Size = 150
     end
     object cdsBkpdfeTIPOAMBIENTE: TStringField
       FieldName = 'TIPOAMBIENTE'
-      Origin = 'TIPOAMBIENTE'
       Size = 30
     end
     object cdsBkpdfeXMLENVIO: TBlobField
       FieldName = 'XMLENVIO'
-      Origin = 'XMLENVIO'
     end
     object cdsBkpdfeXMLEXTEND: TBlobField
       FieldName = 'XMLEXTEND'
-      Origin = 'XMLEXTEND'
     end
     object cdsBkpdfeMOTIVOCANC: TStringField
       FieldName = 'MOTIVOCANC'
-      Origin = 'MOTIVOCANC'
     end
     object cdsBkpdfeXMLENVIOCANC: TBlobField
       FieldName = 'XMLENVIOCANC'
-      Origin = 'XMLENVIOCANC'
     end
     object cdsBkpdfeXMLEXTENDCANC: TBlobField
       FieldName = 'XMLEXTENDCANC'
-      Origin = 'XMLEXTENDCANC'
     end
     object cdsBkpdfePROTOCOLOAUT: TStringField
       FieldName = 'PROTOCOLOAUT'
-      Origin = 'PROTOCOLOAUT'
       Size = 50
+    end
+    object cdsBkpdfeCAMPOSTREAM: TMemoField
+      FieldName = 'CAMPOSTREAM'
+      BlobType = ftMemo
+    end
+    object cdsBkpdfeSELECAO: TStringField
+      FieldName = 'SELECAO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsBkpdfeCHECKBOX: TSmallintField
+      FieldName = 'CHECKBOX'
     end
   end
   object provBkpdfe: TDataSetProvider
