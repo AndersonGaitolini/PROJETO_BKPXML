@@ -10,6 +10,7 @@ object DM_NFEDFE: TDM_NFEDFE
       'Password=masterkey'
       'Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
       'DriverID=FBEmbed')
+    Connected = True
     LoginPrompt = False
     Left = 20
     Top = 90
@@ -51,9 +52,110 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 280
   end
   object cdsBkpdfe: TClientDataSet
+    Active = True
     Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'ID'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'CHAVE'
+        DataType = ftString
+        Size = 300
+      end
+      item
+        Name = 'DATAEMISSAO'
+        DataType = ftDate
+      end
+      item
+        Name = 'DATARECTO'
+        DataType = ftDate
+      end
+      item
+        Name = 'IDF_DOCUMENTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'MOTIVO'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'PROTOCOLOCANC'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'PROTOCOLORECTO'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'DATAALTERACAO'
+        DataType = ftDate
+      end
+      item
+        Name = 'TIPO'
+        Attributes = [faFixed]
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'EMAILSNOTIFICADOS'
+        DataType = ftString
+        Size = 150
+      end
+      item
+        Name = 'TIPOAMBIENTE'
+        DataType = ftString
+        Size = 30
+      end
+      item
+        Name = 'XMLENVIO'
+        DataType = ftBlob
+      end
+      item
+        Name = 'XMLEXTEND'
+        DataType = ftBlob
+      end
+      item
+        Name = 'MOTIVOCANC'
+        DataType = ftString
+        Size = 20
+      end
+      item
+        Name = 'XMLENVIOCANC'
+        DataType = ftBlob
+      end
+      item
+        Name = 'XMLEXTENDCANC'
+        DataType = ftBlob
+      end
+      item
+        Name = 'PROTOCOLOAUT'
+        DataType = ftString
+        Size = 50
+      end
+      item
+        Name = 'CAMPOSTREAM'
+        DataType = ftMemo
+      end
+      item
+        Name = 'SELECAO'
+        Attributes = [faFixed]
+        DataType = ftString
+        Size = 1
+      end
+      item
+        Name = 'CHECKBOX'
+        DataType = ftSmallint
+      end>
+    IndexDefs = <>
     Params = <>
     ProviderName = 'provBkpdfe'
+    StoreDefs = True
     Left = 24
     Top = 144
     object cdsBkpdfeID: TIntegerField
@@ -67,11 +169,6 @@ object DM_NFEDFE: TDM_NFEDFE
       Origin = 'CHAVE'
       Size = 300
     end
-    object cdsBkpdfeIDF_DOCUMENTO: TIntegerField
-      FieldName = 'IDF_DOCUMENTO'
-      Origin = 'IDF_DOCUMENTO'
-      Required = True
-    end
     object cdsBkpdfeDATAEMISSAO: TDateField
       FieldName = 'DATAEMISSAO'
       Origin = 'DATAEMISSAO'
@@ -79,6 +176,10 @@ object DM_NFEDFE: TDM_NFEDFE
     object cdsBkpdfeDATARECTO: TDateField
       FieldName = 'DATARECTO'
       Origin = 'DATARECTO'
+    end
+    object cdsBkpdfeIDF_DOCUMENTO: TIntegerField
+      FieldName = 'IDF_DOCUMENTO'
+      Origin = 'IDF_DOCUMENTO'
     end
     object cdsBkpdfeMOTIVO: TStringField
       FieldName = 'MOTIVO'
@@ -139,6 +240,21 @@ object DM_NFEDFE: TDM_NFEDFE
       Origin = 'PROTOCOLOAUT'
       Size = 50
     end
+    object cdsBkpdfeCAMPOSTREAM: TMemoField
+      FieldName = 'CAMPOSTREAM'
+      Origin = 'CAMPOSTREAM'
+      BlobType = ftMemo
+    end
+    object cdsBkpdfeSELECAO: TStringField
+      FieldName = 'SELECAO'
+      Origin = 'SELECAO'
+      FixedChar = True
+      Size = 1
+    end
+    object cdsBkpdfeCHECKBOX: TSmallintField
+      FieldName = 'CHECKBOX'
+      Origin = 'CHECKBOX'
+    end
   end
   object provBkpdfe: TDataSetProvider
     DataSet = sqlBkpDfe
@@ -146,6 +262,7 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 212
   end
   object sqlBkpDfe: TFDQuery
+    Active = True
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (

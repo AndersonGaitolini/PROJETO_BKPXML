@@ -66,129 +66,171 @@ object foPrincipal: TfoPrincipal
     TitleFont.Style = []
     Touch.ParentTabletOptions = False
     Touch.TabletOptions = [toPressAndHold, toPenBarrelFeedback]
-    OnCellClick = dbgNfebkpCellClick
+    OnColExit = dbgNfebkpColExit
     OnDrawColumnCell = dbgNfebkpDrawColumnCell
     OnDblClick = dbgNfebkpDblClick
+    OnKeyPress = dbgNfebkpKeyPress
     OnTitleClick = dbgNfebkpTitleClick
     Columns = <
       item
+        Alignment = taCenter
         Expanded = False
         FieldName = 'ID'
+        Title.Alignment = taCenter
         Visible = False
       end
       item
+        Alignment = taCenter
         Expanded = False
-        FieldName = 'CHAVE'
-        Title.Caption = 'Chave da NF-e'
-        Width = 260
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'IDF_DOCUMENTO'
-        Title.Caption = 'Documento'
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATAEMISSAO'
-        Title.Caption = 'Data Emiss'#227'o'
-        Width = 130
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATARECTO'
-        Title.Caption = 'Data recibimento'
-        Width = 130
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'MOTIVO'
-        Title.Caption = 'Motivo'
-        Width = 130
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PROTOCOLOCANC'
-        Title.Caption = 'Prot. Cancelamento'
-        Width = 200
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PROTOCOLORECTO'
-        Title.Caption = 'Prot. recebimento'
-        Width = 200
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATAALTERACAO'
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TIPO'
-        Title.Caption = 'Tipo NF-e'
+        FieldName = 'CHECKBOX'
+        Title.Alignment = taCenter
+        Title.Caption = 'X'
         Width = 30
         Visible = True
       end
       item
+        Alignment = taCenter
         Expanded = False
-        FieldName = 'EMAILSNOTIFICADOS'
-        Title.Caption = 'Email notificado'
-        Width = 200
+        FieldName = 'DATAALTERACAO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Data Altera'#231#227'o'
+        Width = 70
         Visible = True
       end
       item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'CHAVE'
+        Title.Alignment = taCenter
+        Title.Caption = 'Chave'
+        Width = 300
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'DATAEMISSAO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Emiss'#227'o'
+        Width = 70
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'DATARECTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Recebimento'
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'IDF_DOCUMENTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'N'#186' Nota fiscal'
+        Width = 70
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'MOTIVO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Motivo'
+        Width = 95
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'PROTOCOLOCANC'
+        Title.Alignment = taCenter
+        Title.Caption = 'Prot. Cancelamento'
+        Width = 140
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'PROTOCOLORECTO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Prot. Recebimento'
+        Width = 140
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'TIPO'
+        Title.Alignment = taCenter
+        Title.Caption = 'Tipo doc.'
+        Visible = True
+      end
+      item
+        Alignment = taCenter
         Expanded = False
         FieldName = 'TIPOAMBIENTE'
-        Title.Caption = 'Tipo Ambiente'
-        Width = 100
+        Title.Alignment = taCenter
+        Title.Caption = 'Ambiente'
+        Width = 80
         Visible = True
       end
       item
+        Alignment = taCenter
         Expanded = False
-        FieldName = 'XMLENVIO'
-        Title.Caption = 'XML de Envio'
-        Width = 50
+        FieldName = 'PROTOCOLOAUT'
+        Title.Alignment = taCenter
+        Title.Caption = 'Prot. Atoriza'#231#227'o'
+        Width = 140
         Visible = True
       end
       item
+        Alignment = taCenter
         Expanded = False
         FieldName = 'XMLEXTEND'
+        Title.Alignment = taCenter
         Title.Caption = 'XML Autorizado'
         Visible = True
       end
       item
+        Alignment = taCenter
         Expanded = False
-        FieldName = 'MOTIVOCANC'
-        Title.Caption = 'Motivo do cancelamento'
-        Width = 150
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'XMLENVIOCANC'
+        FieldName = 'XMLEXTENDCANC'
+        Title.Alignment = taCenter
         Title.Caption = 'XML Cancelado'
         Visible = True
       end
       item
+        Alignment = taCenter
         Expanded = False
-        FieldName = 'XMLEXTENDCANC'
-        Title.Caption = 'XML cancelamento'
+        FieldName = 'MOTIVOCANC'
+        Title.Alignment = taCenter
+        Width = 130
         Visible = True
       end
       item
+        Alignment = taCenter
         Expanded = False
-        FieldName = 'PROTOCOLOAUT'
-        Title.Caption = 'Protocolo de autoriza'#231#227'o'
-        Width = 300
+        FieldName = 'EMAILSNOTIFICADOS'
+        Title.Alignment = taCenter
+        Title.Caption = 'E-Mail Notif.'
+        Width = 260
         Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'XMLENVIO'
+        Title.Alignment = taCenter
+        Visible = False
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
+        FieldName = 'XMLENVIOCANC'
+        Title.Alignment = taCenter
+        Visible = False
       end>
   end
   object pnlMenu: TPanel
@@ -198,9 +240,11 @@ object foPrincipal: TfoPrincipal
     Height = 65
     Align = alTop
     TabOrder = 0
+    ExplicitLeft = -8
+    ExplicitTop = -6
     object btn1: TSpeedButton
-      Left = 469
-      Top = 9
+      Left = 255
+      Top = 42
       Width = 18
       Height = 18
       Margins.Left = 2
@@ -211,85 +255,63 @@ object foPrincipal: TfoPrincipal
       Flat = True
       OnClick = btn1Click
     end
-    object edConfiguracao: TEdit
-      Left = 318
-      Top = 8
-      Width = 145
-      Height = 20
-      TabOrder = 2
+    object lbDataIni: TLabel
+      Left = 10
+      Top = 12
+      Width = 25
+      Height = 12
+      Caption = 'Inicio'
     end
-    object grpFiltroDatas: TGroupBox
-      Left = 8
-      Top = 0
-      Width = 304
-      Height = 48
-      Caption = 'Filtro Datas'
+    object lbDataFIm: TLabel
+      Left = 148
+      Top = 11
+      Width = 16
+      Height = 12
+      Caption = 'Fim'
+    end
+    object lbConfig: TLabel
+      Left = 10
+      Top = 44
+      Width = 61
+      Height = 12
+      Caption = 'Configura'#231#227'o'
+    end
+    object edConfiguracao: TEdit
+      Left = 75
+      Top = 41
+      Width = 180
+      Height = 20
       TabOrder = 1
-      object lbDataIni: TLabel
-        Left = 10
-        Top = 20
-        Width = 25
-        Height = 12
-        Caption = 'Inicio'
-      end
-      object lbDataFIm: TLabel
-        Left = 156
-        Top = 20
-        Width = 16
-        Height = 12
-        Caption = 'Fim'
-      end
-      object dtpDataFiltroINI: TDateTimePicker
-        Left = 41
-        Top = 15
-        Width = 105
-        Height = 20
-        Date = 43006.636531076380000000
-        Time = 43006.636531076380000000
-        TabOrder = 0
-        OnCloseUp = dtpDataFiltroINICloseUp
-        OnExit = dtpDataFiltroINIExit
-      end
-      object dtpDataFiltroFin: TDateTimePicker
-        Left = 178
-        Top = 15
-        Width = 105
-        Height = 20
-        Date = 43006.636531076380000000
-        Time = 43006.636531076380000000
-        TabOrder = 1
-        OnCloseUp = dtpDataFiltroFinCloseUp
-      end
     end
     object btnProcRetorno: TButton
-      Left = 632
+      Left = 568
       Top = 34
       Width = 90
       Height = 25
       Caption = 'Retorno XML'
-      TabOrder = 5
+      TabOrder = 4
       OnClick = btnProcRetornoClick
     end
     object btnProcessaEnvio: TButton
-      Left = 444
+      Left = 380
       Top = 34
       Width = 90
       Height = 25
       Caption = 'Envio XML'
-      TabOrder = 3
+      TabOrder = 2
       OnClick = btnProcessaEnvioClick
     end
     object btn2: TButton
-      Left = 538
+      Left = 474
       Top = 34
       Width = 90
       Height = 25
       Caption = 'Envio extend XML'
-      TabOrder = 4
+      TabOrder = 3
       OnClick = btn2Click
     end
     object btnteste: TButton
-      Left = 726
+      Left = 662
       Top = 34
       Width = 90
       Height = 25
@@ -298,13 +320,47 @@ object foPrincipal: TfoPrincipal
       OnClick = btntesteClick
     end
     object btnPelaChave: TButton
-      Left = 536
-      Top = 3
+      Left = 286
+      Top = 34
       Width = 90
       Height = 25
       Caption = 'XML pela chave'
-      TabOrder = 6
+      TabOrder = 5
       OnClick = btnPelaChaveClick
+    end
+    object dbckCHECKBOX: TDBCheckBox
+      Left = 279
+      Top = 7
+      Width = 97
+      Height = 17
+      DataField = 'CHECKBOX'
+      DataSource = DM_NFEDFE.dsBkpdfe
+      TabOrder = 6
+      ValueChecked = '0'
+      ValueUnchecked = '-1'
+      Visible = False
+      OnClick = dbckCHECKBOXClick
+    end
+    object dtpDataFiltroINI: TDateTimePicker
+      Left = 39
+      Top = 7
+      Width = 105
+      Height = 20
+      Date = 43006.636531076380000000
+      Time = 43006.636531076380000000
+      TabOrder = 7
+      OnCloseUp = dtpDataFiltroINICloseUp
+      OnExit = dtpDataFiltroINIExit
+    end
+    object dtpDataFiltroFin: TDateTimePicker
+      Left = 168
+      Top = 7
+      Width = 105
+      Height = 20
+      Date = 43006.636531076380000000
+      Time = 43006.636531076380000000
+      TabOrder = 8
+      OnCloseUp = dtpDataFiltroFinCloseUp
     end
   end
   object ProgressBar1: TProgressBar
@@ -317,8 +373,8 @@ object foPrincipal: TfoPrincipal
   end
   object mmPrincipal: TMainMenu
     Images = ilPrincipal
-    Left = 314
-    Top = 257
+    Left = 554
+    Top = 355
     object mmArquivo: TMenuItem
       Caption = '&Arquivo'
       object mmNovo: TMenuItem
@@ -358,10 +414,10 @@ object foPrincipal: TfoPrincipal
   object ilPrincipal: TImageList
     Height = 32
     Width = 32
-    Left = 226
-    Top = 257
+    Left = 466
+    Top = 355
     Bitmap = {
-      494C01012C003C00800120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C008C0120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6705,13 +6761,13 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object tmrHora: TTimer
-    Left = 534
-    Top = 257
+    Left = 774
+    Top = 355
   end
   object pmExporta: TPopupMenu
     OnChange = pmExportaChange
-    Left = 358
-    Top = 257
+    Left = 598
+    Top = 355
     object mmExportaXML: TMenuItem
       Caption = 'Exporta XML'
     end
@@ -6724,10 +6780,10 @@ object foPrincipal: TfoPrincipal
     end
   end
   object ilMenu: TImageList
-    Left = 182
-    Top = 257
+    Left = 422
+    Top = 355
     Bitmap = {
-      494C010103000C00280110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00340110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF
@@ -6867,26 +6923,26 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object EvaAlertas: TFDEventAlerter
-    Left = 138
-    Top = 257
+    Left = 378
+    Top = 355
   end
   object tiTryIcon: TJvTrayIcon
     IconIndex = 0
-    Left = 270
-    Top = 257
+    Left = 510
+    Top = 355
   end
   object pshEventosPush: TPushEvents
-    Left = 402
-    Top = 257
+    Left = 642
+    Top = 355
   end
   object tmrVerifica: TTimer
-    Left = 490
-    Top = 257
+    Left = 730
+    Top = 355
   end
   object dlgSaveXML: TSaveDialog
     Filter = 'XML|*.XML'
     Title = 'Salvando oXML zipado'
-    Left = 446
-    Top = 257
+    Left = 686
+    Top = 355
   end
 end

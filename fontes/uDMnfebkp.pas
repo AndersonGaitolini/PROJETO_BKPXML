@@ -25,24 +25,6 @@ type
     cdsBkpdfe: TClientDataSet;
     provBkpdfe: TDataSetProvider;
     sqlBkpDfe: TFDQuery;
-    cdsBkpdfeID: TIntegerField;
-    cdsBkpdfeCHAVE: TStringField;
-    cdsBkpdfeIDF_DOCUMENTO: TIntegerField;
-    cdsBkpdfeDATAEMISSAO: TDateField;
-    cdsBkpdfeDATARECTO: TDateField;
-    cdsBkpdfeMOTIVO: TStringField;
-    cdsBkpdfePROTOCOLOCANC: TStringField;
-    cdsBkpdfePROTOCOLORECTO: TStringField;
-    cdsBkpdfeDATAALTERACAO: TDateField;
-    cdsBkpdfeTIPO: TStringField;
-    cdsBkpdfeEMAILSNOTIFICADOS: TStringField;
-    cdsBkpdfeTIPOAMBIENTE: TStringField;
-    cdsBkpdfeXMLENVIO: TBlobField;
-    cdsBkpdfeXMLEXTEND: TBlobField;
-    cdsBkpdfeMOTIVOCANC: TStringField;
-    cdsBkpdfeXMLENVIOCANC: TBlobField;
-    cdsBkpdfeXMLEXTENDCANC: TBlobField;
-    cdsBkpdfePROTOCOLOAUT: TStringField;
     dsUsuarios: TDataSource;
     cdsUsuarios: TClientDataSet;
     provUsuarios: TDataSetProvider;
@@ -83,6 +65,28 @@ type
     cdsConfiguracoesEXTCANCNFSE: TStringField;
     cdsConfiguracoesDESCRICONFIG: TStringField;
     cdsConfiguracoesIDUSUARIO: TIntegerField;
+    cdsBkpdfeID: TIntegerField;
+    cdsBkpdfeCHAVE: TStringField;
+    cdsBkpdfeDATAEMISSAO: TDateField;
+    cdsBkpdfeDATARECTO: TDateField;
+    cdsBkpdfeIDF_DOCUMENTO: TIntegerField;
+    cdsBkpdfeMOTIVO: TStringField;
+    cdsBkpdfePROTOCOLOCANC: TStringField;
+    cdsBkpdfePROTOCOLORECTO: TStringField;
+    cdsBkpdfeDATAALTERACAO: TDateField;
+    cdsBkpdfeTIPO: TStringField;
+    cdsBkpdfeEMAILSNOTIFICADOS: TStringField;
+    cdsBkpdfeTIPOAMBIENTE: TStringField;
+    cdsBkpdfeXMLENVIO: TBlobField;
+    cdsBkpdfeXMLEXTEND: TBlobField;
+    cdsBkpdfeMOTIVOCANC: TStringField;
+    cdsBkpdfeXMLENVIOCANC: TBlobField;
+    cdsBkpdfeXMLEXTENDCANC: TBlobField;
+    cdsBkpdfePROTOCOLOAUT: TStringField;
+    cdsBkpdfeCAMPOSTREAM: TMemoField;
+    cdsBkpdfeSELECAO: TStringField;
+    cdsBkpdfeCHECKBOX: TSmallintField;
+
     procedure DataModuleCreate(Sender: TObject);
   private
     { Private declarations }

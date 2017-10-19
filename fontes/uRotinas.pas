@@ -16,6 +16,7 @@ uses
 procedure pLeituradaNFE;
 //Métodos para importar e exportar arquivos XML
 function fExportaLoteXML(pLista: TStringList):Boolean;
+function fDeleteObjetoXML(pLista: TStringList):Boolean;
 function fLoadXMLNFe(pTipoXML: TTipoXML; pObjConfig : TConfiguracoes; pChaveNFE: string = ''; pEmail : string = ''): Boolean;
 //Métodos de Compressão
 function fCompactar(pPath: string): TFileStream;
@@ -388,6 +389,22 @@ begin
     end;
   finally
     FreeAndNil(wStream);
+  end;
+end;
+
+function fDeleteObjetoXML(pLista: TStringList):Boolean;
+var i: integer;
+begin
+  with DaoObjetoXML do
+  for I := 0 to pLista.Count - 1 do
+  begin
+    ObjetoXML:= TLm_bkpdfe.Create;
+    ObjetoXML.Chave := pLista.Strings[i];
+    if DM_NFEDFE.Dao.ConsultaTab(ObjetoXML,['chave']).RecordCount >=1 then
+    begin
+      DM_NFEDFE.Dao.Excluir(ObjetoXML);
+    end;
+
   end;
 
 end;
@@ -1319,7 +1336,7 @@ var
    for I := Low(wArrayObjXML) to High(wArrayObjXML) do
    begin
      if wDaoXML.fCarregaXMLEnvio(wArrayObjXML[I]) then
-       wArrayObjXML[i].Free;
+        wArrayObjXML[i].Free;
    end;
      Result := True;
    finally

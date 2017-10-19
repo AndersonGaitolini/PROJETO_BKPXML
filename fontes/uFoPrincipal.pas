@@ -11,7 +11,8 @@ uses
   FireDAC.Phys.Intf, FireDAC.Stan.Option, FireDAC.Stan.Intf, JvComponentBase,
   JvTrayIcon, IPPeerClient, REST.Backend.PushTypes, System.JSON,
   System.PushNotification, Data.Bind.Components, Data.Bind.ObjectScope,
-  REST.Backend.BindSource, REST.Backend.PushDevice,System.TypInfo, Vcl.Buttons,uRotinas;
+  REST.Backend.BindSource, REST.Backend.PushDevice,System.TypInfo, Vcl.Buttons,uRotinas,
+  Vcl.DBCtrls;
 
 type
   TOrdena = (ordCodigo, ordData, ordChave);
@@ -37,11 +38,6 @@ type
     mmConfiguraoconsulta: TMenuItem;
     pnlMenu: TPanel;
     edConfiguracao: TEdit;
-    grpFiltroDatas: TGroupBox;
-    dtpDataFiltroINI: TDateTimePicker;
-    lbDataIni: TLabel;
-    lbDataFIm: TLabel;
-    dtpDataFiltroFin: TDateTimePicker;
     EvaAlertas: TFDEventAlerter;
     tiTryIcon: TJvTrayIcon;
     pshEventosPush: TPushEvents;
@@ -55,6 +51,12 @@ type
     dlgSaveXML: TSaveDialog;
     btnPelaChave: TButton;
     mmExportaSelecao: TMenuItem;
+    dbckCHECKBOX: TDBCheckBox;
+    lbDataIni: TLabel;
+    dtpDataFiltroINI: TDateTimePicker;
+    lbDataFIm: TLabel;
+    dtpDataFiltroFin: TDateTimePicker;
+    lbConfig: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -78,13 +80,15 @@ type
       const Rect: TRect);
     procedure btn2Click(Sender: TObject);
     procedure btntesteClick(Sender: TObject);
-    procedure dbgNfebkpCellClick(Column: TColumn);
     procedure dbgNfebkpDblClick(Sender: TObject);
     procedure btnPelaChaveClick(Sender: TObject);
     procedure pmExportaChange(Sender: TObject; Source: TMenuItem;
       Rebuild: Boolean);
     procedure mmExportaSelecaoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure dbgNfebkpColExit(Sender: TObject);
+    procedure dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
+    procedure dbckCHECKBOXClick(Sender: TObject);
   private
     { Private declarations }
     procedure fOrdenaGrid(prOrder: Integer);  overload;
@@ -95,6 +99,7 @@ type
     procedure pRetornaFieldFiltros(var pFieldName: String; ffFiltro: TFieldFiltros);
     procedure StatusBarProgress;
     procedure pSalveName(pFieldName: string; var wFileName: string);
+    procedure pSelecaoChave(var pLista: TStringList);
   public
     { Public declarations }
 
@@ -212,6 +217,14 @@ begin
    //
 end;
 
+procedure TfoPrincipal.dbckCHECKBOXClick(Sender: TObject);
+begin
+  if dbckCHECKBOX.Checked then
+    dbckCHECKBOX.Caption := 'true'//dbckCHECKBOX.ValueChecked
+  else
+    dbckCHECKBOX.Caption := 'false'//dbckCHECKBOX.ValueUnChecked;
+end;
+
 procedure TfoPrincipal.mmConfiguraoconsultaClick(Sender: TObject);
 begin
   foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
@@ -226,44 +239,9 @@ end;
 end;
 
 procedure TfoPrincipal.mmExportaSelecaoClick(Sender: TObject);
-var
-	i: Integer;
-	aux: string;
-  wDataSet : TDataSet;
-  wDataSource : TDataSource;
-
 begin
-    wDataSet := TDataSet.Create(Application);
-    wSLSeleconados := TStringList.Create;
-  try
-    with DM_NFEDFE do
-    begin
-      for i := 0 to  dbgNfebkp.SelectedRows.Count - 1 do
-      begin
-        if dbgNfebkp.SelectedRows.IndexOf(dbgNfebkp.SelectedRows.Items[i]) > -1 then
-        begin
-          dbgNfebkp.DataSource.DataSet.Bookmark := dbgNfebkp.SelectedRows.Items[i];
-
-          if wSLSeleconados.IndexOf(dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString) < 0 then
-            wSLSeleconados.Add(dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString);
-
-        end;
-        dbgNfebkp.Refresh;
-	    end;
-    end;
-       fExportaLoteXML(wSLSeleconados);
-//     fExportaSelecaoXML(wSLSeleconados);
-  finally
-    FreeAndNil(wDataSet);
-  end;
-//	for i := 0 to  dbgNfebkp.SelectedRows.Count - 1 do
-//	begin
-//		cdsBkpdfe.GotoBookmark(pointer(dbgNfebkp.SelectedRows.Items[i]));
-//		aux := aux + IntToStr(cdsBkpdfe.RecNo) + ' - ' +
-//		cdsBkpdfe.FieldByName('idf_documento').AsString + #13;
-//	end;
-//	ShowMessage('Linhas selecionadas: ' + #13 + aux);
-
+  pSelecaoChave(wSLSeleconados);
+  fExportaLoteXML(wSLSeleconados);
 end;
 
 procedure TfoPrincipal.dbgNfebkpTitleClick(Column: TColumn);
@@ -278,11 +256,9 @@ begin
   wDataINI := dtpDataFiltroINI.Date;
   wDataFIN := dtpDataFiltroFIN.Date;
 
-//  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,wUpDown, Column.FieldName,wDataINI, wDataFIN,wValue1,wValue2);
-
   case Column.Index of
 
-    3,4,8: begin
+    2,4,5 : begin
              dbgNfebkp.DataSource.DataSet.First;
              DtAUX1 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsDateTime;
              dbgNfebkp.DataSource.DataSet.Last;
@@ -305,14 +281,14 @@ begin
                wValue2 := QuotedStr(wValue2);
            end;
 
-    2: begin
+    6: begin
        dbgNfebkp.DataSource.DataSet.First;
        wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
        dbgNfebkp.DataSource.DataSet.Last;
        wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
        end;
 
-    1,5,6,7,9,10,11,14,17:
+    3,7,8,9,10,11,12,15,16:
      begin
        dbgNfebkp.DataSource.DataSet.First;
        wValueAux := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
@@ -326,7 +302,7 @@ begin
          wValue2 := QuotedStr(wValue2);
      end;
 
-    12,13,15,16:
+    13,14:
      begin
        dbgNfebkp.DataSource.DataSet.First;
        wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
@@ -384,24 +360,10 @@ begin
     DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
-procedure TfoPrincipal.dbgNfebkpCellClick(Column: TColumn);
-//var wStream : TStream;
-//    wFileName : String;
+procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
 begin
-//   if Column.Field.IsBlob then
-//   begin
-//     if (MessageDlg('Deseja salavar o XML?', mtConfirmation, [mbYes, mbNo],0)= mrNo) then
-//       exit;
-//     Column.Field.DataSet.Edit;
-//     wStream := TMemoryStream.Create;
-//     wStream := Column.Field.DataSet.CreateBlobStream(Column.Field, bmReadWrite);
-//     pSalveName(Column.FieldName, wFileName);
-//     dlgSaveXML.FileName := wFileName;
-//     if dlgSaveXML.Execute then
-//     begin
-//       pDecompress(wStream, dlgSaveXML.FileName);
-//     end;
-//   end;
+   if dbgNfebkp.SelectedField.FieldName = dbckCHECKBOX.DataField then
+     dbckCHECKBOX.Visible := False
 end;
 
 procedure TfoPrincipal.dbgNfebkpDblClick(Sender: TObject);
@@ -436,8 +398,13 @@ end;
 
 procedure TfoPrincipal.dbgNfebkpDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+  const IsChecked : array[Boolean] of Integer = (DFCS_BUTTONCHECK, DFCS_BUTTONCHECK or DFCS_CHECKED);
+//   const IsChecked1 : array[smallint] of Integer = (DFCS_BUTTONCHECK, DFCS_BUTTONCHECK or DFCS_CHECKED);
 var wStream : TStream;
     wFileName : String;
+
+   DrawState, Check: Integer;
+   DrawRect, R: TRect;
 begin
   with (Sender as TDBGrid).Canvas do
   begin
@@ -450,6 +417,93 @@ begin
     end;
   end;
   dbgNfebkp.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+
+
+   if (gdFocused in State) then
+   begin
+     if (Column.Field.FieldName = dbckCHECKBOX.DataField) then
+     begin
+      dbckCHECKBOX.Left := Rect.Left + dbgNfebkp.Left + 2;
+      dbckCHECKBOX.Top := Rect.Top + dbgNfebkp.top + 2;
+      dbckCHECKBOX.Width := Rect.Right - Rect.Left;
+      dbckCHECKBOX.Height := Rect.Bottom - Rect.Top;
+      dbckCHECKBOX.Visible := True;
+     end
+   end
+   else
+   begin
+     if (Column.Field.FieldName = dbckCHECKBOX.DataField) then
+     begin
+       DrawRect:=Rect;
+       InflateRect(DrawRect,-1,-1);
+       DrawState := Column.Field.AsINTEGER;
+       dbgNfebkp.Canvas.FillRect(Rect);
+       DrawFrameControl(dbgNfebkp.Canvas.Handle, DrawRect,
+         DFC_BUTTON, DrawState);
+     end;
+   end;
+
+{
+  //Desenha um checkbox no dbgrid
+  if Column.FieldName = 'SELECAO' then
+   begin
+    dbgNfebkp.Canvas.FillRect(Rect);
+    Check := 0;
+    if DM_NFEDFE.cdsBkpdfeSELECAO.AsString = 'X' then
+      Check := DFCS_CHECKED
+    else Check := 0;
+    R:=Rect;
+    InflateRect(R,-2,-2); //Diminue o tamanho do CheckBox
+    DrawFrameControl(dbgNfebkp.Canvas.Handle,R,DFC_BUTTON, DFCS_BUTTONCHECK or Check);
+   end;}
+end;
+
+procedure TfoPrincipal.dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
+var wOK : Boolean;
+    wMR : Integer;
+begin
+  if Key = Chr(46) then
+  begin
+    pSelecaoChave(wSLSeleconados);
+    wOK := wSLSeleconados.Count >= 1;
+    if wOK then
+    begin
+       wMR := MessageDlg('Você está prestes a deletar '+IntToStr(wSLSeleconados.Count) +'Arquivos.'+#10#13+
+                         'Deseja excluir o XML '+wSLSeleconados.Strings[0] +'?',
+                          mtConfirmation, [mbNo, mbYes, mbYesToAll],0 );
+
+     if wMR = mrNo then
+       wOK := False;
+
+      while wOK do
+      begin
+        fDeleteObjetoXML(wSLSeleconados);
+      end;
+
+    end
+    else
+    if wSLSeleconados.Count = 1 then
+    begin
+      if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
+        fDeleteObjetoXML(wSLSeleconados);
+    end;
+  end;
+
+
+  pSelecaoChave(wSLSeleconados);
+
+
+
+   if (key = Chr(9)) then
+     Exit;
+   if (dbgNfebkp.SelectedField.FieldName = dbckCHECKBOX.DataField) then
+   begin
+     dbckCHECKBOX.SetFocus;
+     SendMessage(dbckCHECKBOX.Handle, WM_Char, word(Key), 0);
+   end;
+
+
+
 end;
 
 procedure TfoPrincipal.fOrdenaGrid(fieldbyname: string);
@@ -515,6 +569,20 @@ end;
 procedure TfoPrincipal.FormCreate(Sender: TObject);
 var i:Integer;
     dts : TDataSet;
+
+  procedure pIniciaDBCheckBox;
+  begin
+    dbckCHECKBOX.DataSource := DM_NFEDFE.dsBkpdfe;
+    dbckCHECKBOX.DataField := 'CHECKBOX';
+    dbckCHECKBOX.Visible := False;
+    dbckCHECKBOX.Color := dbgNfebkp.Color;
+    dbckCHECKBOX.Caption := '';
+    //explicado mais adiante no artigo
+  //  dbckCHECKBOX.ValueChecked := 'Yes a Winner!';
+  //  dbckCHECKBOX.ValueUnChecked := 'Not this time.';
+
+  end;
+
 begin
   StatusBarProgress;
 
@@ -540,7 +608,8 @@ begin
   statPrincipal.Panels[1].Text := '';
   LastColunm := -1;
   wUpDown := obyASCENDENTE;
-
+  pIniciaDBCheckBox;
+  wSLSeleconados := TStringList.Create;
 end;
 
 procedure TfoPrincipal.FormShow(Sender: TObject);
@@ -575,18 +644,38 @@ begin
 
 end;
 
+procedure TfoPrincipal.pSelecaoChave(var pLista: TStringList);
+var I : Integer;
+begin
+  if not Assigned(pLista) then
+    pLista := TStringList.Create;
+
+  with DM_NFEDFE do
+  begin
+    for i := 0 to  dbgNfebkp.SelectedRows.Count - 1 do
+    begin
+      if dbgNfebkp.SelectedRows.IndexOf(dbgNfebkp.SelectedRows.Items[i]) > -1 then
+      begin
+        dbgNfebkp.DataSource.DataSet.Bookmark := dbgNfebkp.SelectedRows.Items[i];
+
+        if pLista.IndexOf(dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString) < 0 then
+          pLista.Add(dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString);
+      end;
+      dbgNfebkp.Refresh;
+    end;
+  end;
+end;
+
 procedure TfoPrincipal.statPrincipalDrawPanel(StatusBar: TStatusBar;
   Panel: TStatusPanel; const Rect: TRect);
 begin
   if Panel = StatusBar.Panels[1] then
   with ProgressBar1 do
   begin
-
     Top := Rect.Top;
     Left := Rect.Left;
     Width := Rect.Right - Rect.Left - 15;
     Height := Rect.Bottom - Rect.Top;
-
   end;
 
 end;

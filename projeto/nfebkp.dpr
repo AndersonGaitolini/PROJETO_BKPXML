@@ -39,6 +39,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
+
   if ParamCount = 0 then
   begin
     Application.CreateForm(TfoLogin, foLogin);

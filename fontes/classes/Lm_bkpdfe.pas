@@ -33,6 +33,8 @@ type
     FXmlextendcanc: TStream;
     FProtocoloaut: string;
     FCampoStream : TStream;
+    FSelecao: string;
+    FCheckBox: Boolean;
   public
     [attPK]
     property Id: Integer read FId write FId;
@@ -54,6 +56,8 @@ type
     property Xmlextendcanc: TStream read FXmlextendcanc write FXmlextendcanc;
     property Protocoloaut: string read FProtocoloaut write FProtocoloaut;
     property CampoStream : TStream read FCampoStream write FCampoStream;
+    property Selecao: string read FSelecao write FSelecao;
+    property CheckBox: Boolean read FCheckBox write FCheckBox;
   end;
 
 
@@ -75,7 +79,9 @@ type
                       ffMOTIVOCANC,
                       ffXMLENVIOCANC,
                       ffXMLEXTENDCANC,
-                      ffPROTOCOLOAUT);
+                      ffPROTOCOLOAUT,
+                      ffCAMPOSTREAM,
+                      ffSELECAO);
 
     TOrdenaBy = (obyASCENDENTE, obyDESCEDENTE, obyNone);
 
@@ -227,6 +233,12 @@ begin
 
           if (pObjXML.Protocoloaut = '') then
           pObjXML.Protocoloaut := FieldByName('Protocoloaut').AsString;
+
+          if pObjXML.Selecao = '' then
+          pObjXML.Selecao := FieldByName('selecao').AsString;
+
+          if pObjXML.CheckBox = false then
+          pObjXML.CheckBox := FieldByName('CheckBox').AsBoolean;
 
           wStream := wDataSet.CreateBlobStream(wDataSet.FieldByName('CAMPOSTREAM'),bmReadWrite);
           if Assigned(wStream) then
@@ -488,7 +500,7 @@ begin
       ffXMLENVIOCANC: begin Filtro('ID') end;
       ffXMLEXTENDCANC: begin Filtro('ID') end;
       ffPROTOCOLOAUT: begin Filtro('PROTOCOLOAUT') end;
-
+//      ffSELECAO:begin Filtro('SELECAO') end;
     end;
 
 end;
@@ -534,6 +546,7 @@ begin
     Xmlextendcanc := nil;
     Protocoloaut := '';
     CampoStream  := nil;
+    Selecao := '';
   end;
 end;
 
