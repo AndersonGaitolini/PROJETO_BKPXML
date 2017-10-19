@@ -9,34 +9,39 @@ uses
  Vcl.Buttons, Vcl.ExtCtrls, System.IniFiles,
  Data.SqlExpr, FireDAC.Comp.Client,Vcl.ComCtrls, System.ZLib,uDMnfebkp,
  Xml.XMLDoc,Xml.XMLIntf, uMetodosUteis,Data.DB,System.Zip,System.DateUtils,
- Usuarios;
+ Usuarios, ShellAPI, TlHelp32, Comobj;
 
  type TOperArquivos = (oaReplace, oaAdd, oaDescarta);
-
+//Demo
 procedure pLeituradaNFE;
+//Métodos para importar e exportar arquivos XML
+function fExportaLoteXML(pLista: TStringList):Boolean;
 function fLoadXMLNFe(pTipoXML: TTipoXML; pObjConfig : TConfiguracoes; pChaveNFE: string = ''; pEmail : string = ''): Boolean;
+//Métodos de Compressão
 function fCompactar(pPath: string): TFileStream;
-function fCompactar2(pStream: TStream):TStream;
 function fDescompacartar(pPath: string): boolean;
+//Métodos de Compactação de arquivos
 function fZipFile(pZipFile, AFileName: string; pArqDuplicado : boolean = false): Boolean;
 function fZipFileExtrair(FZipFile, APath: string): Boolean;
-function fExportaSelecaoXML(pLista: TStringList):boolean;
-function fExportaLoteXML(pLista: TStringList):Boolean;
 //Metodos da IS
+function fNumProcessThreads: Integer;
+function fIsValidDispatch(const v: OleVariant): Boolean;
 procedure pCompress(const ASrc: string; var vDest: TStream; aEHStringStream: Boolean);
-//procedure ShellZip(zipfile, sourcefolder: OleVariant; filter: String);
-
-procedure pCompressLote(Files: TStrings; const Filename: String);
-function fCompress(const ASrc: string; var vDest: TFileStream; aEHStringStream: Boolean): TStream;
 procedure pDecompress(var vXML: TStream; ADest: string); overload;
+procedure pShellZip(pZipfile, pSourceFolder: OleVariant; pFilter: String);
+//Metodos de compressão em lote
+procedure pCompressFiles(Files: TStrings; const Filename: String);
+procedure pDecompressFiles(const Filename, DestDirectory : String);
 procedure pEnumFiles(szPath, szAllowedExt: String; iAttributes: Integer;
   Buffer: TStrings; bClear, bIncludePath: Boolean); StdCall;
-procedure pDecompressFiles(const Filename, DestDirectory : String);
-
-
-
 
 const
+  SHCONTCH_NOPROGRESSBOX = 4;
+  SHCONTCH_AUTORENAME = 8;
+  SHCONTCH_RESPONDYESTOALL = 16;
+  SHCONTF_INCLUDEHIDDEN = 128;
+  SHCONTF_FOLDERS = 32;
+  SHCONTF_NONFOLDERS = 64;
 
   cEnv_ = 'Env_NFe*.xml';
   cCan_ = 'Can_*.xml';
@@ -144,55 +149,86 @@ begin
   end;
 end;
 
-//procedure ShellZip(zipfile, sourcefolder: OleVariant; filter: String);
-//const //A tipagem dos diretórios(parâmetros) deve ser OleVariant para funcionar o get 'shellobj.NameSpace'.
-//  emptyzip: array[0..23] of byte  = (80,75,5,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-//var
-//  ms:             TMemoryStream;
-//  srcfldr:        Variant;
-//  destfldr:       Variant;
-//  shellfldritems: Variant;
-//  shellobj:       Variant;
-//  NumT: Integer;
-//begin
-//  if not FileExists(zipfile) then
-//  begin
-//    //Criando um novo arquivo ZIP vazio.
-//    ms := TMemoryStream.Create;
-//    ms.WriteBuffer(emptyzip, sizeof(emptyzip));
-//    ms.SaveToFile(zipfile);
-//    ms.Free;
-//  end;
-//
-//  NumT     := NumProcessThreads;
-//  shellobj := CreateOleObject('Shell.Application');
-//
-//  srcfldr := shellobj.NameSpace(sourcefolder);
-//  if not IsValidDispatch(srcfldr) then
-//    raise EInvalidOperation.CreateFmt('<%s> Caminho Inválido!', [sourcefolder]);
-//
-//  destfldr := shellobj.NameSpace(zipfile);
-//  if not IsValidDispatch(destfldr) then
-//    raise EInvalidOperation.CreateFmt('<%s> Arquivo ZIP Inválido!', [Zipfile]);
-//
-//  shellfldritems := srcfldr.Items;
-//
-//  if filter <> '' then
-//  begin
-//    shellfldritems.Filter(SHCONTF_INCLUDEHIDDEN or SHCONTF_NONFOLDERS or SHCONTF_FOLDERS, Filter);
-//    destfldr.copyhere(shellfldritems, 0);
-//  end
-//  else
-//  begin
-//    shellfldritems.Filter(SHCONTF_INCLUDEHIDDEN or SHCONTF_NONFOLDERS or SHCONTF_FOLDERS, '');
-//    destfldr.copyhere(shellfldritems, SHCONTCH_NOPROGRESSBOX or SHCONTCH_RESPONDYESTOALL);
-//  end;
-//
-//  while NumProcessThreads <> NumT do
-//   Sleep(100);
-//end;
+function fNumProcessThreads: Integer;
+var
+  HSnapShot: THandle;
+  Te32: TThreadEntry32;
+  Proch: DWORD;
+  ProcThreads: Integer;
+begin
+  ProcThreads := 0;
+  Proch       := GetCurrentProcessID;
+  HSnapShot   := CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
+  Te32.dwSize := SizeOf(TTHREADENTRY32);
+  if Thread32First(HSnapShot, Te32) then
+  begin
+    if Te32.th32OwnerProcessID = Proch then
+      Inc(ProcThreads);
 
-procedure pCompressLote(Files: TStrings; const Filename: String);
+    while Thread32Next(hSnapShot, Te32) do
+    begin
+      if Te32.th32OwnerProcessID = Proch then
+        Inc(ProcThreads);
+    end;
+  end;
+  CloseHandle (HSnapShot);
+  Result := ProcThreads;
+end;
+
+function fIsValidDispatch(const v: OleVariant): Boolean;
+begin
+  result := (VarType(v) = varDispatch) and Assigned(TVarData(v).VDispatch);
+end;
+
+procedure pShellZip(pZipfile, pSourceFolder: OleVariant; pFilter: String);
+const //A tipagem dos diretórios(parâmetros) deve ser OleVariant para funcionar o get 'shellobj.NameSpace'.
+  emptyzip: array[0..23] of byte  = (80,75,5,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+var
+  ms:             TMemoryStream;
+  wSrcfldr:        Variant;
+  wDestfldr:       Variant;
+  wShellfldrItems: Variant;
+  wShellObj:       Variant;
+  wNumT: Integer;
+begin
+  if not FileExists(pZipfile) then
+  begin
+    //Criando um novo arquivo ZIP vazio.
+    ms := TMemoryStream.Create;
+    ms.WriteBuffer(emptyzip, sizeof(emptyzip));
+    ms.SaveToFile(pZipfile);
+    ms.Free;
+  end;
+
+  wNumT     := fNumProcessThreads;
+  wShellObj := CreateOleObject('Shell.Application');
+
+  wSrcfldr := wShellObj.NameSpace(pSourceFolder);
+  if not fIsValidDispatch(wSrcfldr) then
+    raise EInvalidOperation.CreateFmt('<%s> Caminho Inválido!', [pSourceFolder]);
+
+  wDestfldr := wShellObj.NameSpace(pZipfile);
+  if not fIsValidDispatch(wDestfldr) then
+    raise EInvalidOperation.CreateFmt('<%s> Arquivo ZIP Inválido!', [pZipfile]);
+
+  wShellfldrItems := wSrcfldr.Items;
+
+  if pFilter <> '' then
+  begin
+    wShellfldrItems.pFilter(SHCONTF_INCLUDEHIDDEN or SHCONTF_NONFOLDERS or SHCONTF_FOLDERS, pFilter);
+    wDestfldr.copyhere(wShellfldrItems, 0);
+  end
+  else
+  begin
+    wShellfldrItems.pFilter(SHCONTF_INCLUDEHIDDEN or SHCONTF_NONFOLDERS or SHCONTF_FOLDERS, '');
+    wDestfldr.copyhere(wShellfldrItems, SHCONTCH_NOPROGRESSBOX or SHCONTCH_RESPONDYESTOALL);
+  end;
+
+  while fNumProcessThreads <> wNumT do
+   Sleep(100);
+end;
+
+procedure pCompressFiles(Files: TStrings; const Filename: String);
 var
   infile, outfile, tmpFile : TFileStream;
   compr : TCompressionStream;
@@ -245,41 +281,6 @@ begin
   end;
 end;
 
-function fCompress(const ASrc: string; var vDest: TFileStream; aEHStringStream: Boolean): TStream;
-var
-  FileIni: TFileStream;
-  Zip:     TCompressionStream;
-  tString: TStringStream;
-begin
-  tString := nil;
-  FileIni := nil;
-
-  if aEHStringStream then //Se for no momento do envio, pega da string (memória) e não do arquivo físico.
-    tString := TStringStream.Create(ASrc)
-  else
-    FileIni := TFileStream.Create(ASrc, fmOpenRead and fmShareExclusive);
-
-  Zip := TCompressionStream.Create(vDest); //clMax,
-  try
-    try
-      if aEHStringStream then
-        Zip.CopyFrom(tString, tString.Size)
-      else
-        Zip.CopyFrom(FileIni, FileIni.Size);
-
-      Result := TStream(Zip);
-
-    except
-      Raise Exception.Create('Não foi possível compactar o arquivo');
-      abort;
-    end;
-  finally
-    FreeAndNil(tString);
-    FreeAndNil(Zip);
-    FreeAndNil(FileIni);
-  end;
-end;
-
 procedure pDecompress(var vXML: TStream; ADest: string);
 var
   FileOut: TFileStream;
@@ -310,155 +311,83 @@ end;
 function fExportaLoteXML(pLista: TStringList):Boolean;
 var
   I : Integer;
+  wStream : TStream;
   wSLFiles: TStringList;
   wDir, wDirTemp, wPathZIP, wXMLFilename, wZipFilename : string;
-
-  wArrayStream :array of TStream;
-  wArrayStreamCan :array[0..1] of TStream;
-  wStream : TStream;
-  wStrStream : TStringStream;
-  wMemo : TMemoryStream;
-  wFileStream : TFileStream;
-  wObjConfig : TConfiguracoes;
-
-//  function fMemStream: TMemoryStream;
-//  var wPointer : Int64;
-//  begin
-//    if Not Assigned(Result) then
-//    begin
-//      Result := TMemoryStream.Create;
-//      wPointer := Result.Memory;
-//    end
-//    else
-//    if Result.Memory <> wPointer then
-//    begin
-//      Result.
-//      Result := TMemoryStream.Create;
-//    end;
-//
-//  end;
-
 begin
-  wMemo := TMemoryStream.Create;
   wStream := TMemoryStream.Create;
-  wSLFiles := TStringList.Create;
-  wStrStream := TStringStream.Create('');
-
   try
     wDirTemp := ExtractFileDir(GetCurrentDir);
-//    with fSaveFile('C:\', 'Notas.zip','Exportando arquivos em Lotes',['ZIP|*.ZIP']) do
-    with foPrincipal.dlgSaveXML do
-    if Execute then
+    with foPrincipal.dlgSaveXML, DaoObjetoXML do
     begin
-      wDirTemp := ExpandFileName(ExtractFileDir(FileName) +'\Notas_Temp'); //ExtractFileDir(FileName)
-      if not DirectoryExists(wDirTemp) then
-        if not CreateDir(wDirTemp) then
-          if not ForceDirectories(wDirTemp) then
-          begin
-            ShowMessage('Não Foi possivel criar um diretório TEMP aqui');
-            exit;
-          end;
-
-      wPathZIP := FileName;
-
-      if not Assigned(ObjetoXML) then
-        ObjetoXML := TLm_bkpdfe.Create;
-
-      for I := 0 to pLista.Count - 1 do
+      Filter := 'ZIP | *.zip';
+      FilterIndex := FilterIndex+1;
+      FileName := 'LoteXML.zip';
+      if Execute then
       begin
-        ObjetoXML:= TLm_bkpdfe.Create;
-        ObjetoXML.Chave := pLista.Strings[i];
-        ObjetoXML.Protocolocanc := '';
-        if DaoObjetoXML.fConsultaObjXML(ObjetoXML, ['chave']) then
-        begin
-          if ObjetoXML.Protocolocanc <> '' then
-          begin
-            wXMLFilename := ObjetoXML.Chave;
-            pSalveName('xmlextendcanc','xml', wXMLFilename);
-            wStream := objetoXML.Xmlextendcanc;
-            pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-            wZipFilename := ObjetoXML.Chave;
-            pSalveName('xmlextendcanc','zip', wZipFilename);
-            if fZipFile(wDirTemp+'\'+wZipFilename, wDirTemp+'\'+wXMLFilename) then
-              if DeleteFile(wDirTemp+'\'+wXMLFilename) then
-                fZipFile(wPathZIP, wDirTemp+'\'+wZipFilename);
+        wDirTemp := ExpandFileName(ExtractFileDir(FileName) +'\Notas_Temp'); //ExtractFileDir(FileName)
+        if not DirectoryExists(wDirTemp) then
+          if not CreateDir(wDirTemp) then
+            if not ForceDirectories(wDirTemp) then
+            begin
+              ShowMessage('Não Foi possivel criar um diretório TEMP aqui');
+              exit;
+            end;
 
-            wStream := objetoXML.Xmlextend;
-            wXMLFilename := ObjetoXML.Chave;
-            pSalveName('xmlextend','xml', wXMLFilename );
-            pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-            if fZipFile(wDirTemp+'\'+wZipFilename, wDirTemp+'\'+wXMLFilename)then
-              if DeleteFile(wDirTemp+'\'+wXMLFilename) then
-                if fZipFile(wPathZIP, wDirTemp+'\'+wZipFilename) then
-                   DeleteFile(wDirTemp+'\'+wZipFilename);
-          end
-          else
+        wPathZIP := FileName;
+
+        if not Assigned(ObjetoXML) then
+          ObjetoXML := TLm_bkpdfe.Create;
+
+        for I := 0 to pLista.Count - 1 do
+        begin
+          ObjetoXML:= TLm_bkpdfe.Create;
+//          pLimpaObjetoXML(ObjetoXML);
+          ObjetoXML.Chave := pLista.Strings[i];
+
+          if fConsultaObjXML(ObjetoXML, ['chave']) then
           begin
-            wStream := objetoXML.Xmlextend;
-            wXMLFilename := ObjetoXML.Chave;
-            pSalveName('xmlextend','xml',wXMLFilename);
-            pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-            if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
-              if DeleteFile(wDirTemp+'\'+wXMLFilename) then
+            if ObjetoXML.Protocolocanc <> '' then
+            begin
+              wXMLFilename := ObjetoXML.Chave;
+              pSalveName('xmlextendcanc','xml', wXMLFilename);
+              wStream := objetoXML.Xmlextendcanc;
+              pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
+              wZipFilename := ObjetoXML.Chave;
+              pSalveName('xmlextendcanc','zip', wZipFilename);
+              if fZipFile(wDirTemp+'\'+wZipFilename, wDirTemp+'\'+wXMLFilename) then
+//              pShellZip(wDirTemp+'\'+wXMLFilename, wDirTemp+'\'+wZipFilename,'');
+                if DeleteFile(wDirTemp+'\'+wXMLFilename) then
+  //                fZipFile(wPathZIP, wDirTemp+'\'+wZipFilename);
+
+              wStream := objetoXML.Xmlextend;
+              wXMLFilename := ObjetoXML.Chave;
+              pSalveName('xmlextend','xml', wXMLFilename );
+              pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
+              if fZipFile(wDirTemp+'\'+wZipFilename, wDirTemp+'\'+wXMLFilename)then
+//              pShellZip(wDirTemp+'\'+wXMLFilename, wDirTemp+'\'+wZipFilename,'');
+                if DeleteFile(wDirTemp+'\'+wXMLFilename) then
+                  if fZipFile(wPathZIP, wDirTemp+'\'+wZipFilename) then
+//                  pShellZip(wDirTemp+'\'+wZipFilename, wPathZIP,'');
+                     DeleteFile(wDirTemp+'\'+wZipFilename);
+            end
+            else
+            begin
+              wStream := objetoXML.Xmlextend;
+              wXMLFilename := ObjetoXML.Chave;
+              pSalveName('xmlextend','xml',wXMLFilename);
+              pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
+              if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
+//              pShellZip(wDirTemp+'\'+wXMLFilename, wPathZIP,'');
+                if DeleteFile(wDirTemp+'\'+wXMLFilename) then
+            end;
           end;
         end;
+        RemoveDir(wDirTemp);
       end;
-
-      RemoveDir(wDirTemp);
     end;
-
   finally
-
-  end;
-
-end;
-
-function fExportaSelecaoXML(pLista: TStringList):boolean;
-var
-  wArrayStream :array of TStream;
-  wArrayStreamCan :array[0..1] of TStream;
-  wStream : TStream;
-  wArq, wDiretorio : String;
-  I : integer;
-  wSaveXML: TSaveDialog;
-begin
-
-//  wStream := TMemoryStream.Create;
-  SetLength(wArrayStream, wSLSeleconados.Count);
-  for I := 0 to wSLSeleconados.Count - 1 do
-  begin
-    if DaoObjetoXML.fConsultaObjXML(ObjetoXML, [wSLSeleconados.Names[i]]) then
-    begin
-      wArrayStream[i] := TMemoryStream.Create;
-
-      if ObjetoXML.Protocolocanc <> '' then
-      begin
-        wStream := ObjetoXML.Xmlextendcanc;
-        if Assigned(wStream) then
-        begin
-          pDecompress(wStream, '');
-          wArrayStreamCan[0] := wStream;
-        end;
-
-        wStream := ObjetoXML.Xmlextend;
-        if Assigned(wStream) then
-        begin
-          pDecompress(wStream, wDiretorio);
-          wArrayStreamCan[1] := wStream;
-        end;
-      end
-      else
-      begin
-        wStream := ObjetoXML.Xmlextend;
-        if Assigned(wStream) then
-        begin
-          pDecompress(wStream, wDiretorio);
-          wArrayStream[i] := wStream;
-        end;
-      end;
-
-    end;
-
+    FreeAndNil(wStream);
   end;
 
 end;
@@ -530,27 +459,6 @@ begin
     Zip.Free;
     FileOut.Free;
     FileIni.Free;
-  end;
-end;
-
-function fCompactar2(pStream: TStream):TStream;
-var
-FileIni, FileOut: TFileStream;
-Zip: TCompressionStream;
-begin
-  try
-    if not Assigned(pStream) then
-      exit;
-
-//    FileIni:=TFileStream.Create(pPath, fmOpenRead and fmShareExclusive);//fmOpenRead);
-//    FileOut:=TFileStream.Create(pPath, fmCreate and fmShareExclusive);   // fmShareExclusive);
-    Zip:=TCompressionStream.Create(clMax, pStream);
-    Zip.CopyFrom(pStream, pStream.Size);
-    Result := Zip;
-  finally
-    Zip.Free;
-//    FileOut.Free;
-//    FileIni.Free;
   end;
 end;
 

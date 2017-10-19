@@ -89,6 +89,7 @@ type
     function fFindChaveXML(var pObjXML   : TLm_bkpdfe): Boolean;
     function fConsultaObjXML(var pObjXML : TLm_bkpdfe; pCampos: array of string): Boolean;
     procedure fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
+    procedure pLimpaObjetoXML(var pObjXML : TLm_bkpdfe);
   end;
 
   var
@@ -507,6 +508,32 @@ begin
     except on E: Exception do
     end;
   finally
+  end;
+end;
+
+procedure TDaoBkpdfe.pLimpaObjetoXML(var pObjXML: TLm_bkpdfe);
+begin
+  with pObjXML do
+  begin
+    id := 0;
+    Chave := '';
+    Idf_documento := 0;
+    Dataemissao := 0;
+    Datarecto := 0;
+    Motivo := '';
+    Protocolocanc := '';
+    Protocolorecto := '';
+    Dataalteracao := 0;
+    Tipo := '';
+    Emailsnotificados := '';
+    Tipoambiente := '';
+    Xmlenvio := nil;
+    Xmlextend := nil;
+    Motivocanc := '';
+    Xmlenviocanc := nil;
+    Xmlextendcanc := nil;
+    Protocoloaut := '';
+    CampoStream  := nil;
   end;
 end;
 

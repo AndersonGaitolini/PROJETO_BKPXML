@@ -26,7 +26,8 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
-    VendorLib = 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll'
+    VendorLib = 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll'
+    OnDriverCreated = DataModuleCreate
     Embedded = True
     Left = 164
     Top = 82
