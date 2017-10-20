@@ -32,7 +32,7 @@ uses
 
 var
  ShowResult : Byte;
- wMsg, wUsuario, wSenha, wChave : string;
+ wMsg : string;
  SoapUsuario : TUsuarios;
 {$R *.res}
 begin
@@ -81,8 +81,10 @@ begin
   else
   if ParamCount >= 3 then
   begin
-   tabUsuarios.Usuario := Trim(ParamStr(1));
-   tabUsuarios.Senha    := Trim(ParamStr(2));
+//    if not FileExists(DM_NFEDFE.fddrfbDriver.VendorLib) then
+//    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver)  then
+    tabUsuarios.Usuario := Trim(ParamStr(1));
+    tabUsuarios.Senha    := Trim(ParamStr(2));
 
 
    if daoLogin.fLogar(tabUsuarios) then

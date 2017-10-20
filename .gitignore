@@ -1,3 +1,4 @@
 CRUD_ORM.log
 fontes/__history/
-*.~
+*.pas~
+*.dcu

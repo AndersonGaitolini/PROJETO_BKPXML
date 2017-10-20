@@ -2,12 +2,12 @@ object foPrincipal: TfoPrincipal
   Left = 0
   Top = 0
   Caption = 'Sistema backup XML'
-  ClientHeight = 538
-  ClientWidth = 1090
+  ClientHeight = 453
+  ClientWidth = 872
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
+  Font.Height = -10
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -18,20 +18,24 @@ object foPrincipal: TfoPrincipal
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 12
   object statPrincipal: TStatusBar
     Left = 0
-    Top = 519
-    Width = 1090
+    Top = 434
+    Width = 872
     Height = 19
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
     Panels = <
       item
-        Text = 'Banco dados: '
+        Text = 'Total de Linhas..'
         Width = 100
       end
       item
-        Text = 'Desconectado'
+        Text = 'Linhas Selecionadas..'
         Width = 125
       end
       item
@@ -43,25 +47,21 @@ object foPrincipal: TfoPrincipal
         Width = 80
       end>
     OnDrawPanel = statPrincipalDrawPanel
+    ExplicitTop = 439
   end
   object dbgNfebkp: TDBGrid
     Left = 0
-    Top = 81
-    Width = 1090
-    Height = 417
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 65
+    Width = 872
+    Height = 352
     Align = alClient
     DataSource = DM_NFEDFE.dsBkpdfe
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
-    PopupMenu = pmExporta
     ReadOnly = True
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
+    TitleFont.Height = -10
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
     Touch.ParentTabletOptions = False
@@ -71,6 +71,7 @@ object foPrincipal: TfoPrincipal
     OnDblClick = dbgNfebkpDblClick
     OnKeyPress = dbgNfebkpKeyPress
     OnKeyUp = dbgNfebkpKeyUp
+    OnMouseActivate = dbgNfebkpMouseActivate
     OnTitleClick = dbgNfebkpTitleClick
     Columns = <
       item
@@ -157,6 +158,7 @@ object foPrincipal: TfoPrincipal
         FieldName = 'TIPO'
         Title.Alignment = taCenter
         Title.Caption = 'Tipo doc.'
+        Width = 64
         Visible = True
       end
       item
@@ -183,6 +185,7 @@ object foPrincipal: TfoPrincipal
         FieldName = 'XMLEXTEND'
         Title.Alignment = taCenter
         Title.Caption = 'XML Autorizado'
+        Width = 64
         Visible = True
       end
       item
@@ -191,6 +194,7 @@ object foPrincipal: TfoPrincipal
         FieldName = 'XMLEXTENDCANC'
         Title.Alignment = taCenter
         Title.Caption = 'XML Cancelado'
+        Width = 64
         Visible = True
       end
       item
@@ -223,150 +227,106 @@ object foPrincipal: TfoPrincipal
         FieldName = 'XMLENVIOCANC'
         Title.Alignment = taCenter
         Visible = False
-      end
-      item
-        Expanded = False
-        Visible = True
       end>
   end
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 1090
-    Height = 81
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 872
+    Height = 65
     Align = alTop
     TabOrder = 0
     object btn1: TSpeedButton
-      Left = 319
-      Top = 53
-      Width = 22
-      Height = 22
+      Left = 255
+      Top = 42
+      Width = 18
+      Height = 18
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
       Caption = '...'
       Flat = True
       OnClick = btn1Click
     end
     object lbDataIni: TLabel
-      Left = 13
-      Top = 15
-      Width = 30
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 10
+      Top = 12
+      Width = 25
+      Height = 12
       Caption = 'Inicio'
     end
     object lbDataFIm: TLabel
-      Left = 185
-      Top = 14
-      Width = 21
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 148
+      Top = 11
+      Width = 16
+      Height = 12
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 13
-      Top = 55
-      Width = 75
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 10
+      Top = 44
+      Width = 61
+      Height = 12
       Caption = 'Configura'#231#227'o'
     end
     object edConfiguracao: TEdit
-      Left = 94
-      Top = 51
-      Width = 225
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 75
+      Top = 41
+      Width = 180
+      Height = 20
       TabOrder = 8
     end
     object btnProcRetorno: TButton
-      Left = 710
-      Top = 43
-      Width = 113
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 568
+      Top = 34
+      Width = 90
+      Height = 25
       Caption = 'Retorno XML'
       TabOrder = 6
       OnClick = btnProcRetornoClick
     end
     object btnProcessaEnvio: TButton
-      Left = 475
-      Top = 43
-      Width = 113
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 380
+      Top = 34
+      Width = 90
+      Height = 25
       Caption = 'Envio XML'
       TabOrder = 4
       OnClick = btnProcessaEnvioClick
     end
     object btn2: TButton
-      Left = 593
-      Top = 43
-      Width = 112
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 474
+      Top = 34
+      Width = 90
+      Height = 25
       Caption = 'Envio extend XML'
       TabOrder = 5
       OnClick = btn2Click
     end
     object btnteste: TButton
-      Left = 828
-      Top = 43
-      Width = 112
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 662
+      Top = 34
+      Width = 90
+      Height = 25
       Caption = 'Sel. arquivo XML'
       TabOrder = 7
       OnClick = btntesteClick
     end
     object btnPelaChave: TButton
-      Left = 358
-      Top = 43
-      Width = 112
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 286
+      Top = 34
+      Width = 90
+      Height = 25
       Caption = 'XML pela chave'
       TabOrder = 3
       OnClick = btnPelaChaveClick
     end
     object dbchkCHECKBOX: TDBCheckBox
-      Left = 349
-      Top = 9
-      Width = 121
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 279
+      Top = 7
+      Width = 97
+      Height = 17
       DataField = 'CHECKBOX'
       DataSource = DM_NFEDFE.dsBkpdfe
       TabOrder = 2
@@ -376,14 +336,10 @@ object foPrincipal: TfoPrincipal
       OnClick = dbchkCHECKBOXClick
     end
     object dtpDataFiltroINI: TDateTimePicker
-      Left = 49
-      Top = 9
-      Width = 131
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 39
+      Top = 7
+      Width = 105
+      Height = 20
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 0
@@ -391,14 +347,10 @@ object foPrincipal: TfoPrincipal
       OnExit = dtpDataFiltroINIExit
     end
     object dtpDataFiltroFin: TDateTimePicker
-      Left = 210
-      Top = 9
-      Width = 131
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 168
+      Top = 7
+      Width = 105
+      Height = 20
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 1
@@ -407,15 +359,12 @@ object foPrincipal: TfoPrincipal
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 498
-    Width = 1090
-    Height = 21
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 417
+    Width = 872
+    Height = 17
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 394
   end
   object mmPrincipal: TMainMenu
     Images = ilPrincipal
@@ -463,7 +412,7 @@ object foPrincipal: TfoPrincipal
     Left = 466
     Top = 355
     Bitmap = {
-      494C01012C003C00A00120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00A80120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6811,25 +6760,35 @@ object foPrincipal: TfoPrincipal
     Top = 355
   end
   object pmExporta: TPopupMenu
-    OnChange = pmExportaChange
+    OnPopup = pmExportaPopup
     Left = 598
     Top = 355
-    object mmExportaXML: TMenuItem
-      Caption = 'Exporta XML'
-    end
     object mmExportaTodos: TMenuItem
-      Caption = 'Exporta todos XML'
+      Caption = 'Exporta todos os XML'
+      OnClick = mmExportaTodosClick
     end
     object mmExportaSelecao: TMenuItem
-      Caption = 'Exporta  XML Selecionados'
+      Caption = 'Exporta  XML selecionados'
       OnClick = mmExportaSelecaoClick
+    end
+    object mmDeletarTodos: TMenuItem
+      Caption = '&Deletar todos'
+      OnClick = mmDeletarTodosClick
+    end
+    object mmDelTodosSelecionados: TMenuItem
+      Caption = 'D&eletar todos selecionados'
+      OnClick = mmDelTodosSelecionadosClick
+    end
+    object mmRemoveSelTodos: TMenuItem
+      Caption = '&Remove sele'#231#227'o '
+      OnClick = mmRemoveSelTodosClick
     end
   end
   object ilMenu: TImageList
     Left = 422
     Top = 355
     Bitmap = {
-      494C010103000C00480110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00500110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF
@@ -6990,5 +6949,18 @@ object foPrincipal: TfoPrincipal
     Title = 'Salvando oXML zipado'
     Left = 686
     Top = 355
+  end
+  object pmSelecionar: TPopupMenu
+    OnPopup = pmSelecionarPopup
+    Left = 598
+    Top = 315
+    object mmSelTodos: TMenuItem
+      Caption = 'Selecionar &todos'
+      OnClick = mmSelTodosClick
+    end
+    object mmSelTodosExportar: TMenuItem
+      Caption = 'Selecionar todos e &exportar'
+      OnClick = mmSelTodosExportarClick
+    end
   end
 end

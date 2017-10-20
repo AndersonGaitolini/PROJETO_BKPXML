@@ -31,7 +31,6 @@ type
     tmrHora: TTimer;
     dbgNfebkp: TDBGrid;
     pmExporta: TPopupMenu;
-    mmExportaXML: TMenuItem;
     mmExportaTodos: TMenuItem;
     mmGeraclasse: TMenuItem;
     ilMenu: TImageList;
@@ -57,6 +56,12 @@ type
     lbDataFIm: TLabel;
     dtpDataFiltroFin: TDateTimePicker;
     lbConfig: TLabel;
+    pmSelecionar: TPopupMenu;
+    mmSelTodos: TMenuItem;
+    mmSelTodosExportar: TMenuItem;
+    mmDeletarTodos: TMenuItem;
+    mmDelTodosSelecionados: TMenuItem;
+    mmRemoveSelTodos: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -82,8 +87,6 @@ type
     procedure btntesteClick(Sender: TObject);
     procedure dbgNfebkpDblClick(Sender: TObject);
     procedure btnPelaChaveClick(Sender: TObject);
-    procedure pmExportaChange(Sender: TObject; Source: TMenuItem;
-      Rebuild: Boolean);
     procedure mmExportaSelecaoClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure dbgNfebkpColExit(Sender: TObject);
@@ -91,6 +94,17 @@ type
     procedure dbchkCHECKBOXClick(Sender: TObject);
     procedure dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
+    procedure mmSelTodosClick(Sender: TObject);
+    procedure mmSelTodosExportarClick(Sender: TObject);
+    procedure mmExportaTodosClick(Sender: TObject);
+    procedure mmRemoveSelTodosClick(Sender: TObject);
+    procedure pmExportaPopup(Sender: TObject);
+    procedure dbgNfebkpMouseActivate(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y, HitTest: Integer;
+      var MouseActivate: TMouseActivate);
+    procedure pmSelecionarPopup(Sender: TObject);
+    procedure mmDelTodosSelecionadosClick(Sender: TObject);
+    procedure mmDeletarTodosClick(Sender: TObject);
   private
     { Private declarations }
     procedure fOrdenaGrid(prOrder: Integer);  overload;
@@ -102,6 +116,8 @@ type
     procedure StatusBarProgress;
     procedure pSalveName(pFieldName: string; var wFileName: string);
     procedure pSelecaoChave(var pLista: TStringList);
+    procedure pSelTodasLinhas;
+    procedure pRemoveSelTodasLinhas;
   public
     { Public declarations }
 
@@ -111,8 +127,9 @@ type
 
 var
   foPrincipal : TfoPrincipal;
-  LastColunm,AtualColunm,i  : Integer;
-  wUpDown : TOrdenaBy;
+  wLastColunm,AtualColunm,i  : Integer;
+  wUpDown,
+  wLastOrderBy: TOrdenaBy;
   wLoadXML : TLoadXML;
   SLXMLEnv :TStringList;
   wSLSeleconados : TStringList;
@@ -145,7 +162,7 @@ end;
 procedure TfoPrincipal.btn2Click(Sender: TObject);
 begin
   if fLoadXMLNFe(txRetProcXML,tabConfiguracoes) then
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnInserirClick(Sender: TObject);
@@ -168,7 +185,7 @@ begin
   if fLoadXMLNFe(txEnvioXML,tabConfiguracoes) then
   begin
    pDataFiltro;
-   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, '','');
+   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, '','');
   end;
 end;
 
@@ -177,7 +194,7 @@ begin
   if fLoadXMLNFe(txRetSaiXML,tabConfiguracoes) then
   begin
     pDataFiltro;
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
   end;
 end;
 
@@ -186,7 +203,7 @@ begin
   if fLoadXMLNFe(txEnvioXMLArq,tabConfiguracoes) then
   begin
     pDataFiltro;
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
   end;
 end;
 
@@ -208,10 +225,45 @@ begin
   dtpDataFiltroFin.DateTime := EncodeDate(y,m,DaysInMonth(Now));
 end;
 
-procedure TfoPrincipal.pmExportaChange(Sender: TObject; Source: TMenuItem;
-  Rebuild: Boolean);
+procedure TfoPrincipal.pmExportaPopup(Sender: TObject);
+  var wI,wJ : Integer;
+      wSTR1,wSTR2 : String;
 begin
-  mmExportaSelecao.Caption :=  'Exporta '+IntToStr(dbgNfebkp.SelectedRows.Count)+' XML Selecionados'
+  wI := dbgNfebkp.SelectedRows.Count;
+  wJ := dbgNfebkp.DataSource.DataSet.RecordCount;
+  wSTR1 := IntToStr(wI);
+  wSTR2 := IntToStr(wJ);
+  if wI > 0 then
+  begin
+    if wI = 1 then
+      mmExportaSelecao.Caption :=  'Exporta o XML'
+    else
+      mmExportaSelecao.Caption :=  'Exporta '+wSTR1+' XML selecionados';
+
+    mmExportaTodos.Caption := 'Exporta todos os XML('+wSTR2+')';
+
+    mmDeletarTodos.Caption := '&Deletar todos('+wSTR2+')';
+    mmDelTodosSelecionados.Caption := 'D&eletar todos os selecionados ('+wSTR1+')';
+
+    mmRemoveSelTodos.Caption := '&Remove a seleção ('+ wSTR1 + ')';
+  end
+end;
+
+procedure TfoPrincipal.pmSelecionarPopup(Sender: TObject);
+  var wI,wJ : Integer;
+      wSTR1,wSTR2 : String;
+begin
+  wI := dbgNfebkp.SelectedRows.Count;
+  wJ := dbgNfebkp.DataSource.DataSet.RecordCount;
+  wSTR1 := IntToStr(wI);
+  wSTR2 := IntToStr(wJ);
+
+  if wI < 0 then
+  begin
+//    dbgNfebkp.PopupMenu := pmSelecionar;
+    mmSelTodos.Caption := 'Selecionar &todos ('+wSTR2+')';
+    mmSelTodosExportar.Caption := 'Selecionar todos e &exportar ('+wSTR2+')';
+  end;
 end;
 
 procedure TfoPrincipal.cbTipoNFChange(Sender: TObject);
@@ -240,8 +292,50 @@ finally
 end;
 end;
 
+procedure TfoPrincipal.mmDeletarTodosClick(Sender: TObject);
+begin
+  pSelTodasLinhas;
+  pSelecaoChave(wSLSeleconados);
+  if wSLSeleconados.Count > 1 then
+  begin
+    if MessageDlg('Você está prestes a deletar todos'+ IntToStr(wSLSeleconados.Count) +' arquivos.',
+       mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
+      fDeleteObjetoXML(wSLSeleconados);
+  end;
+
+  DM_NFEDFE.cdsBkpdfe.Close;
+  DM_NFEDFE.cdsBkpdfe.Open;
+end;
+
+procedure TfoPrincipal.mmDelTodosSelecionadosClick(Sender: TObject);
+begin
+  pSelecaoChave(wSLSeleconados);
+  if wSLSeleconados.Count > 1 then
+  begin
+    if MessageDlg('Você está prestes a deletar '+ IntToStr(wSLSeleconados.Count) +' arquivos.',
+       mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
+      fDeleteObjetoXML(wSLSeleconados);
+  end
+  else
+  if wSLSeleconados.Count = 1 then
+  begin
+    if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
+      fDeleteObjetoXML(wSLSeleconados);
+  end;
+
+  DM_NFEDFE.cdsBkpdfe.Close;
+  DM_NFEDFE.cdsBkpdfe.Open;
+end;
+
 procedure TfoPrincipal.mmExportaSelecaoClick(Sender: TObject);
 begin
+  pSelecaoChave(wSLSeleconados);
+  fExportaLoteXML(wSLSeleconados);
+end;
+
+procedure TfoPrincipal.mmExportaTodosClick(Sender: TObject);
+begin
+  pSelTodasLinhas;
   pSelecaoChave(wSLSeleconados);
   fExportaLoteXML(wSLSeleconados);
 end;
@@ -340,18 +434,21 @@ begin
   else
   wValue1 := wValueAux;
 
-  DaoObjetoXML.fFiltraOrdena(wFieldOrd,wUpDown, Column.FieldName,wDataINI, wDataFIN,'','');
+  if wLastOrderBy = obyNone then
+    wLastOrderBy:= obyASCENDENTE;
 
-  if wUpDown = obyASCENDENTE then
-    wUpDown := obyDESCEDENTE
+  DaoObjetoXML.fFiltraOrdena(wFieldOrd,wLastOrderBy, Column.FieldName,wDataINI, wDataFIN,'','');
+
+  if wLastOrderBy = obyASCENDENTE then
+    wLastOrderBy := obyDESCEDENTE
   else
-   wUpDown := obyASCENDENTE;
+   wLastOrderBy := obyASCENDENTE;
 
-  if LastColunm >= 0 then
-    dbgNfebkp.Columns[LastColunm].Title.Font.Style := [];
+  if wLastColunm >= 0 then
+    dbgNfebkp.Columns[wLastColunm].Title.Font.Style := [];
 
   dbgNfebkp.Columns[Column.Index].Title.Font.Style := [fsBold];
-  LastColunm := Column.Index;
+  wLastColunm := Column.Index;
 
 end;
 
@@ -377,7 +474,7 @@ begin
      dtpDataFiltroFin.Date := dtpDataFiltroINI.Date;
 
   if dtpDataFiltroINI.Date <= dtpDataFiltroFin.Date then
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
@@ -495,21 +592,50 @@ end;
 
 procedure TfoPrincipal.dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+
+  procedure pRefreshCDS;
+  begin
+    DM_NFEDFE.cdsBkpdfe.Close;
+    DM_NFEDFE.cdsBkpdfe.Open;
+  end;
 begin
   if Key = 46 then
   begin
-    pSelecaoChave(wSLSeleconados);
+//    pSelecaoChave(wSLSeleconados);
     if wSLSeleconados.Count > 1 then
     begin
-      if MessageDlg('Você está prestes a deletar '+IntToStr(wSLSeleconados.Count) +'Arquivos.',
+      if MessageDlg('Você está prestes a deletar '+ IntToStr(wSLSeleconados.Count) +' arquivos.',
          mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-        fDeleteObjetoXML(wSLSeleconados);
+        if fDeleteObjetoXML(wSLSeleconados) then
+          pRefreshCDS;
     end
     else
     if wSLSeleconados.Count = 1 then
     begin
       if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
-        fDeleteObjetoXML(wSLSeleconados);
+        if fDeleteObjetoXML(wSLSeleconados) then
+          pRefreshCDS;
+    end;
+
+
+  end;
+end;
+
+procedure TfoPrincipal.dbgNfebkpMouseActivate(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
+  var MouseActivate: TMouseActivate);
+  var wI: Integer;
+begin
+  if Button = mbRight then
+  begin
+    wI := dbgNfebkp.SelectedRows.Count;
+    if wI > 0 then
+    begin
+      dbgNfebkp.PopupMenu := pmExporta;
+    end
+    else
+    begin
+      dbgNfebkp.PopupMenu := pmSelecionar;
     end;
   end;
 end;
@@ -562,11 +688,17 @@ begin
 end;
 
 procedure TfoPrincipal.FormActivate(Sender: TObject);
+//var wBotãoDir : TNotifyEvent;
 begin
-   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
-
+  if DM_NFEDFE.cdsBkpdfe.Active then;
+  begin
+    DM_NFEDFE.cdsBkpdfe.Close;
+    DM_NFEDFE.cdsBkpdfe.Open;
+    statPrincipal.Panels[0].Text := 'Total de Linhas: '+ IntToStr(DM_NFEDFE.cdsBkpdfe.RecordCount);
+    statPrincipal.Panels[1].Text := 'Linhas Selecionadas: '+ IntToStr(dbgNfebkp.SelectedRows.Count);
+  end;
 //   if LoadXML(wLoadXML,tabConfiguracoes.NFePathSend) then
-//     DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -611,13 +743,15 @@ begin
   dts.Free;
 
   pCarregaConfigUsuario(i);
-
   wLoadXML := lxNone;
-  statPrincipal.Panels[1].Text := '';
-  LastColunm := -1;
-  wUpDown := obyASCENDENTE;
+  wLastColunm := -1;
+  wLastOrderBy := obyNone;
+
   pIniciaDBCheckBox;
   wSLSeleconados := TStringList.Create;
+
+//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+
 end;
 
 procedure TfoPrincipal.FormShow(Sender: TObject);
@@ -627,7 +761,6 @@ begin
     mmGeraclasse.Visible := tabUsuarios.Id = 0;
     mmGeraclasse.Enabled := tabUsuarios.Id = 0;
     pDataFiltro;
-
 //    DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
     //     OpenTabela;
   end;
@@ -654,9 +787,16 @@ end;
 
 procedure TfoPrincipal.pSelecaoChave(var pLista: TStringList);
 var I : Integer;
+    wObjXML :TLm_bkpdfe;
+    wSLAux : TStringList;
 begin
   if not Assigned(pLista) then
+    pLista := TStringList.Create
+  else
+  begin
+    FreeAndNil(pLista);
     pLista := TStringList.Create;
+  end;
 
   with DM_NFEDFE do
   begin
@@ -667,11 +807,51 @@ begin
         dbgNfebkp.DataSource.DataSet.Bookmark := dbgNfebkp.SelectedRows.Items[i];
 
         if pLista.IndexOf(dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString) < 0 then
-          pLista.Add(dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString);
+        begin
+          wObjXML := TLm_bkpdfe.Create;
+          wObjXML.Chave := dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString;
+          DaoObjetoXML.fConsultaObjXML(wObjXML,['chave']);
+          pLista.AddObject(wObjXML.Chave, wObjXML);
+        end;
       end;
       dbgNfebkp.Refresh;
     end;
   end;
+end;
+
+procedure TfoPrincipal.pSelTodasLinhas;
+var
+ wlLinha: Integer;
+begin
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  with dbgNfebkp.DataSource.DataSet do
+  begin
+    First;
+    for wlLinha := 0 to RecordCount - 1 do
+    begin
+      dbgNfebkp.SelectedRows.CurrentRowSelected := True;
+      Next;
+    end;
+  end;
+  dbgNfebkp.SelectedRows.Refresh;
+end;
+
+
+procedure TfoPrincipal.pRemoveSelTodasLinhas;
+var
+wlLinha: Integer;
+begin
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  with dbgNfebkp.DataSource.DataSet do
+  begin
+    First;
+    for wlLinha := 0 to RecordCount - 1 do
+    begin
+      dbgNfebkp.SelectedRows.CurrentRowSelected := False;
+      Next;
+    end;
+  end;
+  dbgNfebkp.SelectedRows.Refresh;
 end;
 
 procedure TfoPrincipal.statPrincipalDrawPanel(StatusBar: TStatusBar;
@@ -712,6 +892,25 @@ begin
  finally
    foGeraClasse.Free;
  end;
+end;
+
+procedure TfoPrincipal.mmRemoveSelTodosClick(Sender: TObject);
+begin
+  pRemoveSelTodasLinhas;
+end;
+
+procedure TfoPrincipal.mmSelTodosClick(Sender: TObject);
+var wI: Integer;
+
+begin
+  pSelTodasLinhas;
+end;
+
+procedure TfoPrincipal.mmSelTodosExportarClick(Sender: TObject);
+begin
+  pSelTodasLinhas;
+  pSelecaoChave(wSLSeleconados);
+  fExportaLoteXML(wSLSeleconados);
 end;
 
 procedure TfoPrincipal.mniConfigBDClick(Sender: TObject);

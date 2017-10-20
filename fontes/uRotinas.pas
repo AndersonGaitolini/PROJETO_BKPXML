@@ -14,6 +14,7 @@ uses
  type TOperArquivos = (oaReplace, oaAdd, oaDescarta);
 //Demo
 procedure pLeituradaNFE;
+function fGetIdf_DocPelaChave(pChave: string):Integer;
 //Métodos para importar e exportar arquivos XML
 function fExportaLoteXML(pLista: TStringList):Boolean;
 function fDeleteObjetoXML(pLista: TStringList):Boolean;
@@ -394,20 +395,21 @@ end;
 
 function fDeleteObjetoXML(pLista: TStringList):Boolean;
 var i: integer;
+    wObjtXML : TLm_bkpdfe;
 begin
+  Result := False;
   with DaoObjetoXML do
   for I := 0 to pLista.Count - 1 do
   begin
-
-    ObjetoXML.Chave := pLista.Strings[i];
-    if DaoObjetoXML.fConsultaObjXML(ObjetoXML,['CHAVE']) then
-    begin
-      DM_NFEDFE.Dao.Excluir(ObjetoXML);
-      ObjetoXML:= TLm_bkpdfe.Create;
-    end;
-
+    wObjtXML := TLm_bkpdfe.create;
+    wObjtXML := TLm_bkpdfe(pLista.Objects[I]);
+    if wObjtXML.Chave = pLista.Strings[i] then
+      if DaoObjetoXML.fConsDeleteObjXML(wObjtXML,['CHAVE']) > 0 then
+      begin
+        Result := DaoObjetoXML.fExcluirObjXML(wObjtXML);
+        ObjetoXML:= TLm_bkpdfe.Create;
+      end;
   end;
-
 end;
 
 function fZipFileExtrair(FZipFile, APath: string): Boolean;
@@ -838,7 +840,7 @@ var
 //      wXmlName := ExtractFileName(wFileSource);
       ObjetoXML := TLm_bkpdfe.Create;
       Chave := fGetChaveFilename(wXmlName);
-
+      Idf_documento := fGetIdf_DocPelaChave(Chave);
       Inc(J,1);
       SetLength(wArrayObjXML, J);
 
@@ -1381,6 +1383,26 @@ begin
     pZapFiles(wPathFile+'\~*.zip');
     pZapFiles(wPathFile+'\~*.xml')
   end;
+end;
+
+function fGetIdf_DocPelaChave(pChave: string):integer;
+var wLen : Integer;
+begin
+  Result := 0;
+  if pChave= '' then
+    exit;
+  wLen := Length(pChave);
+  if (wLen = 44) and fIsNumeric(pChave) then
+  begin
+    Result := IntToStr(Copy(pChave, 26,9));
+    exit;
+  end;
+
+  if (Len = 52) and (pos('Can_',pChave)>0 ) then
+
+
+
+
 end;
 
 procedure pLeituradaNFE;

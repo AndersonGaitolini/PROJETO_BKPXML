@@ -5,7 +5,6 @@ interface
 uses
   Base, System.SysUtils, Atributos, System.Classes,Data.DB, uDMnfebkp,FireDAC.Comp.Client,Vcl.DBGrids,
   Datasnap.DBClient, Datasnap.Provider,Vcl.Forms,Vcl.Dialogs;
-
 type
   TPushXML = (pshNone, pshEnvio1st, pshEnvioSinc);
   TLoadXML = (lxNone,lxXMLEnvio, lxXMLProc, lxXMLRetSai, lxXMLArquivo, lxXMLFull);
@@ -60,44 +59,46 @@ type
     property CheckBox: SmallInt read FCheckBox write FCheckBox;
   end;
 
+type
+  TFieldFiltros  = (ffID,
+                    ffCHAVE,
+                    ffIDF_DOCUMENTO,
+                    ffDATAEMISSAO,
+                    ffDATARECTO,
+                    ffMOTIVO,
+                    ffPROTOCOLOCANC,
+                    ffPROTOCOLORECTO,
+                    ffDATAALTERACAO,
+                    ffTIPO,
+                    ffEMAILSNOTIFICADOS,
+                    ffTIPOAMBIENTE,
+                    ffXMLENVIO,
+                    ffXMLEXTEND,
+                    ffMOTIVOCANC,
+                    ffXMLENVIOCANC,
+                    ffXMLEXTENDCANC,
+                    ffPROTOCOLOAUT,
+                    ffCAMPOSTREAM,
+                    ffSELECAO,
+                    ffCHECKBOX);
 
-  type
-    TFieldFiltros  = (ffID,
-                      ffCHAVE,
-                      ffIDF_DOCUMENTO,
-                      ffDATAEMISSAO,
-                      ffDATARECTO,
-                      ffMOTIVO,
-                      ffPROTOCOLOCANC,
-                      ffPROTOCOLORECTO,
-                      ffDATAALTERACAO,
-                      ffTIPO,
-                      ffEMAILSNOTIFICADOS,
-                      ffTIPOAMBIENTE,
-                      ffXMLENVIO,
-                      ffXMLEXTEND,
-                      ffMOTIVOCANC,
-                      ffXMLENVIOCANC,
-                      ffXMLEXTENDCANC,
-                      ffPROTOCOLOAUT,
-                      ffCAMPOSTREAM,
-                      ffSELECAO,
-                      ffCHECKBOX);
-
-    TOrdenaBy = (obyASCENDENTE, obyDESCEDENTE, obyNone);
+  TOrdenaBy = (obyASCENDENTE, obyDESCEDENTE, obyNone);
 
   TDaoBkpdfe = class(TObject)
   private
   public
-    function fNextId(pObjXML             : TLm_bkpdfe): integer;
-    function fTotalArquivos(pTabela      : TLm_bkpdfe): Integer;
-    function fCarregaXMLEnvio(pObjXML    : TLm_bkpdfe): Boolean;
-    function fCarregaXMLRetorno(pObjXML  : TLm_bkpdfe): Boolean;
-    function fFindChaveXML(var pObjXML   : TLm_bkpdfe): Boolean;
-    function fConsultaObjXML(var pObjXML : TLm_bkpdfe; pCampos: array of string): Boolean; OVERLOAD;
-//    function fConsultaObjXML(pCount: integer; pChave: String;  pArraObjXML: array of TLm_bkpdfe; pCampos: array of string): Boolean; OVERLOAD;
-    procedure fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
-    procedure pLimpaObjetoXML(var pObjXML : TLm_bkpdfe);
+    function fNextId(pObjXML                : TLm_bkpdfe): integer;
+    function fExcluirObjXML(pObjXML         : TLm_bkpdfe): Boolean;
+    function fTotalArquivos(pObjXML         : TLm_bkpdfe): Integer;
+    function fCarregaXMLEnvio(pObjXML       : TLm_bkpdfe): Boolean;
+    function fFindChaveXML(var pObjXML      : TLm_bkpdfe): Boolean;
+    function fCarregaXMLRetorno(pObjXML     : TLm_bkpdfe): Boolean;
+    function fConsultaObjXML(var pObjXML    : TLm_bkpdfe; pCampos: array of string): Boolean; OVERLOAD;
+    function fConsDeleteObjXML(var pObjXML  : TLm_bkpdfe; pCampos: array of string): Integer;
+
+    procedure pLimpaObjetoXML(var pObjXML   : TLm_bkpdfe);
+    procedure fFiltraOrdena(pFieldNameOrder : TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
+
   end;
 
   var
@@ -111,7 +112,6 @@ implementation
 uses
   uMetodosUteis;
 
-label GOTOUpdate;
 { TDaoBkpdfe }
 
 function TDaoBkpdfe.fCarregaXMLEnvio(pObjXML : TLm_bkpdfe): Boolean;
@@ -120,28 +120,33 @@ var wDataSet : TDataSet;
     wControle : Integer;
     wSQL : string;
 begin
+  wChaveAux := pObjXML.Chave;
   wDataSet := TDataSet.Create(Application);
   try
+    DM_NFEDFE.Dao.StartTransaction;
     try
       with DM_NFEDFE do
       begin
         if (DaoObjetoXML.fConsultaObjXML(pObjXML,['chave'])) then
         begin
           wControle := Dao.Salvar(pObjXML);
-          AddLog('CRUD_ORM','J:\','Update id:'+IntToStr(pObjXML.Id));
+          AddLog('CRUD_ORM','J:\','Update id: '+IntToStr(pObjXML.Id));
         end
         else
         begin
            pObjXML.Id := fNextId(pObjXML);
            wControle:= Dao.Inserir(pObjXML);
-           AddLog('CRUD_ORM','J:\','Inseriu id:'+IntToStr(pObjXML.Id));
+           AddLog('CRUD_ORM','J:\','Inseriu id: '+IntToStr(pObjXML.Id));
         end;
 
         Result := (wControle > 0);
+        DM_NFEDFE.Dao.Commit;
       end;
     except on E: Exception do
            begin
-             ShowMessage(e.Message);
+             DM_NFEDFE.Dao.RollBack;
+             ShowMessage('Método: fCarregaXMLEnvio!'+#10#13+
+                         'Exception: '+E.Message);
            end;
     end;
   finally
@@ -151,9 +156,11 @@ end;
 
 function TDaoBkpdfe.fCarregaXMLRetorno(pObjXML: TLm_bkpdfe): Boolean;
 var wDataSet : TDataSet;
+    wChaveAux : String;
 begin
   wDataSet := TDataSet.Create(Application);
   try
+    DM_NFEDFE.Dao.StartTransaction;
     try
       with DM_NFEDFE do
       begin
@@ -168,33 +175,43 @@ begin
         end
         else
           Result := Dao.Inserir(pObjXML,['id'],fcIgnore) > 0;
+
+        DM_NFEDFE.Dao.Commit;
       end;
 
     except on E: Exception do
+           begin
+             DM_NFEDFE.Dao.RollBack;
+             ShowMessage('Método: fCarregaXMLRetorno!'+#10#13+
+                         'Exception: '+E.Message);
+           end;
     end;
   finally
    FreeAndNil(wDataSet);
   end;
 end;
 
-//function TDaoBkpdfe.fConsultaObjXML(pCount: integer; pChave: String; var pArraObjXML: array of TLm_bkpdfe;
-//  pCampos: array of string): Boolean;
-//
-//var wLen : Integer;
-//    wObjXML : TLm_bkpdfe;
-//begin
-//
-//  wLen :=0;
-//
-//  if pChave <> '' then
-//  begin
-//    wObjXML := TLm_bkpdfe.Create;
-//    wObjXML.Chave := pChave;
-//    SetLength(pArraObjXML, pCount);
-//  end;
-//
-//  fConsultaObjXML()
-//end;
+function TDaoBkpdfe.fConsDeleteObjXML(var pObjXML: TLm_bkpdfe;
+  pCampos: array of string): Integer;
+var wDataSet : TDataSet;
+    wStream : TStream;
+    i: Integer;
+begin
+  Result := 0;
+  wDataSet := TDataSet.Create(Application);
+  try
+    with DM_NFEDFE do
+    begin
+      wDataSet := dao.ConsultaTab(pObjXML, pCampos);
+      wDataSet.Close;
+      wDataSet.Open;
+      Result := wDataSet.RecordCount;
+    end;
+  except on E: Exception do
+          ShowMessage('Método: fConsDeleteObjXML!'+#10#13+
+                      'Exception: '+e.Message);
+  end;
+end;
 
 function TDaoBkpdfe.fConsultaObjXML(var pObjXML: TLm_bkpdfe; pCampos: array of string): Boolean;
 var wDataSet : TDataSet;
@@ -211,7 +228,7 @@ begin
         wDataSet.Open;
         wDataSet.Edit;
         with wDataSet do
-        if RecordCount = 1 then
+        if wDataSet.RecordCount = 1 then
         begin
           if (pObjXML.Id < 1) then
             pObjXML.Id := FieldByName('id').AsInteger;
@@ -310,7 +327,34 @@ begin
         end;
       end;
     except on E: Exception do
+           ShowMessage('Método: fConsultaObjXML!'+#10#13+
+                       'Exception: '+e.Message);
     end;
+end;
+
+function TDaoBkpdfe.fExcluirObjXML(pObjXML : TLm_bkpdfe): Boolean;
+var
+  Registros: Integer;
+begin
+//  ATab := TTeste.Create;
+  try
+    DM_NFEDFE.Dao.StartTransaction;
+    try
+      Registros := DM_NFEDFE.Dao.Excluir(pObjXML);
+
+      DM_NFEDFE.Dao.Commit;
+    except
+      on E: Exception do
+      begin
+        DM_NFEDFE.Dao.RollBack;
+        ShowMessage('Método: fExcluirObjXML!'+#10#13+
+                    'Exception: '+e.Message);
+      end;
+    end;
+  finally
+    pObjXML.Free;
+  end;
+
 end;
 
 function TDaoBkpdfe.fFindChaveXML(var pObjXML: TLm_bkpdfe): Boolean;
@@ -318,24 +362,21 @@ var wDataSet : TDataSet;
 begin
   wDataSet := TDataSet.Create(Application);
   try
-  with DM_NFEDFE do
-  begin
-    if pObjXML.Chave = '' then
+    with DM_NFEDFE do
     begin
-      Result := False;
-      Exit;
+      if pObjXML.Chave = '' then
+      begin
+        Result := False;
+        Exit;
+      end;
+
+      wDataSet := Dao.ConsultaTab(pObjXML,['Chave']);
+      if wDataSet.RecordCount > 0 then
+      begin
+        if wDataSet.FieldByName('Chave').AsString = pObjXML.Chave then
+          Result := True;
+      end;
     end;
-
-    wDataSet := Dao.ConsultaTab(pObjXML,['Chave']);
-
-    if wDataSet.RecordCount > 0 then
-    begin
-      if wDataSet.FieldByName('Chave').AsString = pObjXML.Chave then
-        Result := True;
-    end;
-
-  end;
-
   finally
     FreeAndNil(wDataSet);
   end;
@@ -359,14 +400,16 @@ begin
       wDataSet.last;
       Result := wDataSet.FieldByName('id').AsInteger+1;
     except on E: Exception do
-             ShowMessage('Erro no método fNextId '+#10#13+e.Message);
+             ShowMessage('Método: fNextId!'+#10#13+
+                         'Exception: '+e.Message);
     end;
   finally
     FreeAndNil(wDataSet);
   end;
 end;
 
-procedure TDaoBkpdfe.fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone ;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
+procedure TDaoBkpdfe.fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone ;
+  pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
 var data1STR, data2STR, str1, str2:string;
     wDataSet : TDataSet;
     wUpDown: string;
@@ -374,7 +417,7 @@ var data1STR, data2STR, str1, str2:string;
 const cAsc = 'Asc'; cdesc = 'desc';
 
 
-  procedure FiltroData(pFieldOrder:string);
+  procedure pFiltroData(pFieldOrder:string);
   begin
     try
       with DM_NFEDFE, sqlBkpDfe do
@@ -395,9 +438,6 @@ const cAsc = 'Asc'; cdesc = 'desc';
           SQL.Add(str1);
         end;
 
-//        if mostraSQL then
-//          ShowMessage(SQL.Text);
-
         sqlBkpDfe.Open;
         wDataSet := sqlBkpDfe;
         dsBkpdfe.DataSet := wDataSet;
@@ -406,70 +446,31 @@ const cAsc = 'Asc'; cdesc = 'desc';
         Application.ProcessMessages;
       end;
     except on E: Exception do
-
+               ShowMessage('Método: pFiltroData!'+#10#13+
+                           'Exception: '+e.Message);
     end;
   end;
 
-  procedure Filtro(pFieldOrder:string);
+  procedure pFiltro(pFieldOrder:string);
   var wOrdData: Boolean;
       auxFF : TFieldFiltros;
   begin
-      auxFF := TConvert<TFieldFiltros>.StrConvertEnum('ff'+pFieldOrder);
-      wOrdData := ((auxFF = ffDATARECTO) or (auxFF = ffDATAALTERACAO));
+    auxFF := TConvert<TFieldFiltros>.StrConvertEnum('ff'+pFieldOrder);
+    wOrdData := ((auxFF = ffDATARECTO) or (auxFF = ffDATAALTERACAO));
     try
       with DM_NFEDFE, sqlBkpDfe do
       begin
-//        if not wOrdData then
-//        begin
-          DateTimeToString(data1STR, 'yyyy/mm/dd', pDtINI);
-          data1STR := QuotedStr(data1STR);
-          DateTimeToString(data2STR, 'yyyy/mm/dd', pDtFin);
-          data2STR := QuotedStr(data2STR);
-//        end;
+        DateTimeToString(data1STR, 'yyyy/mm/dd', pDtINI);
+        data1STR := QuotedStr(data1STR);
+        DateTimeToString(data2STR, 'yyyy/mm/dd', pDtFin);
+        data2STR := QuotedStr(data2STR);
 
         SQL.Clear;
         SQL.Add('Select * from lm_bkpdfe ');
 
-//        if wOrdData and (not wV1Empty or not wV2Empty) then
-//          SQL.Add( 'where ')
-//        else
-//        begin
-          SQL.Add( 'where ');
-          str1 := Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
-          SQL.Add(str1);
-//        end;
-//
-//        if not wV1Empty and not wV2Empty then
-//        begin
-//          if pValue1 = pValue2 then
-//            str1 := Format('and (%s = %s) ',[pValue1, pValue2])
-//          else
-//            str1 := Format('and (%s between %s and %s) ',[pFieldOrder, pValue1, pValue2]);
-//
-//          SQL.Add(str1);
-//        end
-//        else
-//        if wV1Empty and wV2Empty then
-//        begin
-//          if pValue1 = pValue2 then
-//            str1 := Format('%s = %s',[pValue1, pValue2])
-//          else
-//            str1 := Format('%s between %s and %s ',[pFieldOrder, pValue1, pValue2]);
-//
-//          SQL.Add(str1);
-//        end
-//        else
-//        if not wV1Empty then
-//        begin
-//          str1 := Format('(%s = %s)',[pFieldOrder, pValue1]);
-//          SQL.Add(str1);
-//        end
-//        else
-//        if not wV2Empty then
-//        begin
-//          str1 := Format('(%s = %s)',[pFieldOrder, pValue2]);
-//          SQL.Add(str1);
-//        end;
+        SQL.Add( 'where ');
+        str1 := Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
+        SQL.Add(str1);
 
         if pUpDown <> obyNone then
         begin
@@ -477,9 +478,6 @@ const cAsc = 'Asc'; cdesc = 'desc';
           SQL.Add(str1);
         end;
 
-//        if mostraSQL then
-//          ShowMessage(SQL.Text);
-
         sqlBkpDfe.Open;
         wDataSet := sqlBkpDfe;
         dsBkpdfe.DataSet := wDataSet;
@@ -488,47 +486,52 @@ const cAsc = 'Asc'; cdesc = 'desc';
         Application.ProcessMessages;
       end;
     except on E: Exception do
-
+             ShowMessage('Método: pFiltro!'+#10#13+
+             'Exception: '+e.Message);
     end;
   end;
 
 
 begin
-    wV1Empty := pValue1 = '';
-    wV2Empty := pValue2 = '';
 
-    case pUpDown of
-      obyASCENDENTE: wUpDown := cAsc;
-      obyDESCEDENTE: wUpDown := cdesc;
-    end;
+  if pUpDown = obyNone then
+    pUpDown:= obyASCENDENTE;
 
-    case pFieldNameOrder of
-      ffID: begin end;
-      ffCHAVE: begin Filtro('CHAVE') end;
-      ffIDF_DOCUMENTO: begin Filtro('IDF_DOCUMENTO') end;
-      ffDATAEMISSAO: begin FiltroData('DATAEMISSAO') end;
-      ffDATARECTO: begin Filtro('DATARECTO') end;
-      ffMOTIVO: begin Filtro('MOTIVO') end;
-      ffPROTOCOLOCANC: begin Filtro('PROTOCOLOCANC') end;
-      ffPROTOCOLORECTO: begin Filtro('PROTOCOLORECTO') end;
-      ffDATAALTERACAO: begin Filtro('DATAALTERACAO') end;
-      ffTIPO: begin Filtro('TIPO') end;
-      ffEMAILSNOTIFICADOS: begin Filtro('EMAILSNOTIFICADOS') end;
-      ffTIPOAMBIENTE: begin Filtro('TIPOAMBIENTE') end;
-      ffXMLENVIO: begin Filtro('ID') end;
-      ffXMLEXTEND: begin Filtro('ID') end;
-      ffMOTIVOCANC: begin Filtro('MOTIVOCANC') end;
-      ffXMLENVIOCANC: begin Filtro('ID') end;
-      ffXMLEXTENDCANC: begin Filtro('ID') end;
-      ffPROTOCOLOAUT: begin Filtro('PROTOCOLOAUT') end;
+  wV1Empty := pValue1 = '';
+  wV2Empty := pValue2 = '';
+
+  case pUpDown of
+    obyASCENDENTE: wUpDown := cAsc;
+    obyDESCEDENTE: wUpDown := cdesc;
+  end;
+
+  case pFieldNameOrder of
+    ffID: begin end;
+    ffCHAVE: begin pFiltro('CHAVE') end;
+    ffIDF_DOCUMENTO: begin pFiltro('IDF_DOCUMENTO') end;
+    ffDATAEMISSAO: begin pFiltroData('DATAEMISSAO') end;
+    ffDATARECTO: begin pFiltro('DATARECTO') end;
+    ffMOTIVO: begin pFiltro('MOTIVO') end;
+    ffPROTOCOLOCANC: begin pFiltro('PROTOCOLOCANC') end;
+    ffPROTOCOLORECTO: begin pFiltro('PROTOCOLORECTO') end;
+    ffDATAALTERACAO: begin pFiltro('DATAALTERACAO') end;
+    ffTIPO: begin pFiltro('TIPO') end;
+    ffEMAILSNOTIFICADOS: begin pFiltro('EMAILSNOTIFICADOS') end;
+    ffTIPOAMBIENTE: begin pFiltro('TIPOAMBIENTE') end;
+    ffXMLENVIO: begin pFiltro('ID') end;
+    ffXMLEXTEND: begin pFiltro('ID') end;
+    ffMOTIVOCANC: begin pFiltro('MOTIVOCANC') end;
+    ffXMLENVIOCANC: begin pFiltro('ID') end;
+    ffXMLEXTENDCANC: begin pFiltro('ID') end;
+    ffPROTOCOLOAUT: begin pFiltro('PROTOCOLOAUT') end;
 //      ffSELECAO:begin Filtro('SELECAO') end;
-    end;
+  end;
 
 end;
 
-function TDaoBkpdfe.fTotalArquivos(pTabela: TLm_bkpdfe): Integer;
+function TDaoBkpdfe.fTotalArquivos(pObjXML: TLm_bkpdfe): Integer;
 begin
-  if not Assigned(pTabela) then
+  if not Assigned(pObjXML) then
     Exit;
 
   Result := 0;
@@ -536,9 +539,11 @@ begin
     try
        with DM_NFEDFE do
        begin
-         Result := Dao.GetRecordCount(pTabela, ['id']);
+         Result := Dao.GetRecordCount(pObjXML, ['id']);
        end;
     except on E: Exception do
+            ShowMessage('Método: fTotalArquivos!'+#10#13+
+            'Exception: '+e.Message);
     end;
   finally
   end;

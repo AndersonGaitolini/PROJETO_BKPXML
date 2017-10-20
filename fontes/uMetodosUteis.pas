@@ -37,6 +37,7 @@ Const
        class function EnumConvertStr(const eEnum:T):string;
      end;
 
+  function fIsNumeric(pStr : String) : Boolean;
   procedure AddLog(pNameLog,pDirLog, aStr: string);
   procedure setINI(pIniFilePath, prSessao, prSubSessao, prValor:string);
   function getINI(pIniFilePath, prSessao, prSubSessao, prValor:string): string;
@@ -105,6 +106,16 @@ implementation
 //     ist[0] := pString[1];
 //     result   := WideCharToString(ist);
 //  end;
+
+function fIsNumeric(pStr: String) : Boolean;
+begin
+  Result := True;
+  try
+     StrToInt(pStr);
+  Except
+    Result := False;
+  end;
+end;
 
 
 function fSenhaAtual(pData: string):string;
@@ -652,12 +663,12 @@ begin
     prCon.Connected := False;
     prCon.Close;
 
-//    prDriver.VendorLib := 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll';
-    prDriver.VendorLib := 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll';
+    prDriver.VendorLib := 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll';
+//    prDriver.VendorLib := 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll';
     prCon.Params.Values['User_Name'] := 'sysdba';//wUser;
     prCon.Params.Values['Password']  := 'masterkey';//wSenha;
-//    prCon.Params.Values['Database']  := 'E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
-    prCon.Params.Values['Database']  := 'D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
+    prCon.Params.Values['Database']  := 'E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
+//    prCon.Params.Values['Database']  := 'D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
     prCon.Params.Values['SQLDialect'] := '3';
 
     prCon.Open;
