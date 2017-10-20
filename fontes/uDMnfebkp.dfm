@@ -8,7 +8,7 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      'Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
+      'Database=D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'
       'DriverID=FBEmbed')
     Connected = True
     LoginPrompt = False
@@ -27,7 +27,7 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
-    VendorLib = 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll'
+    VendorLib = 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll'
     OnDriverCreated = DataModuleCreate
     Embedded = True
     Left = 164
@@ -52,7 +52,6 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 280
   end
   object cdsBkpdfe: TClientDataSet
-    Active = True
     Aggregates = <>
     FieldDefs = <
       item
@@ -245,15 +244,8 @@ object DM_NFEDFE: TDM_NFEDFE
       Origin = 'CAMPOSTREAM'
       BlobType = ftMemo
     end
-    object cdsBkpdfeSELECAO: TStringField
-      FieldName = 'SELECAO'
-      Origin = 'SELECAO'
-      FixedChar = True
-      Size = 1
-    end
     object cdsBkpdfeCHECKBOX: TSmallintField
       FieldName = 'CHECKBOX'
-      Origin = 'CHECKBOX'
     end
   end
   object provBkpdfe: TDataSetProvider
@@ -262,7 +254,6 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 212
   end
   object sqlBkpDfe: TFDQuery
-    Active = True
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (

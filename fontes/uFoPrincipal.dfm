@@ -2,12 +2,12 @@ object foPrincipal: TfoPrincipal
   Left = 0
   Top = 0
   Caption = 'Sistema backup XML'
-  ClientHeight = 430
-  ClientWidth = 872
+  ClientHeight = 538
+  ClientWidth = 1090
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -10
+  Font.Height = -13
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -18,17 +18,13 @@ object foPrincipal: TfoPrincipal
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 12
+  PixelsPerInch = 120
+  TextHeight = 16
   object statPrincipal: TStatusBar
     Left = 0
-    Top = 411
-    Width = 872
+    Top = 519
+    Width = 1090
     Height = 19
-    Margins.Left = 2
-    Margins.Top = 2
-    Margins.Right = 2
-    Margins.Bottom = 2
     Panels = <
       item
         Text = 'Banco dados: '
@@ -50,9 +46,13 @@ object foPrincipal: TfoPrincipal
   end
   object dbgNfebkp: TDBGrid
     Left = 0
-    Top = 65
-    Width = 872
-    Height = 329
+    Top = 81
+    Width = 1090
+    Height = 417
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     DataSource = DM_NFEDFE.dsBkpdfe
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
@@ -61,7 +61,7 @@ object foPrincipal: TfoPrincipal
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -10
+    TitleFont.Height = -13
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
     Touch.ParentTabletOptions = False
@@ -70,6 +70,7 @@ object foPrincipal: TfoPrincipal
     OnDrawColumnCell = dbgNfebkpDrawColumnCell
     OnDblClick = dbgNfebkpDblClick
     OnKeyPress = dbgNfebkpKeyPress
+    OnKeyUp = dbgNfebkpKeyUp
     OnTitleClick = dbgNfebkpTitleClick
     Columns = <
       item
@@ -82,19 +83,10 @@ object foPrincipal: TfoPrincipal
       item
         Alignment = taCenter
         Expanded = False
-        FieldName = 'CHECKBOX'
-        Title.Alignment = taCenter
-        Title.Caption = 'X'
-        Width = 30
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
         FieldName = 'DATAALTERACAO'
         Title.Alignment = taCenter
         Title.Caption = 'Data Altera'#231#227'o'
-        Width = 70
+        Width = 102
         Visible = True
       end
       item
@@ -231,143 +223,197 @@ object foPrincipal: TfoPrincipal
         FieldName = 'XMLENVIOCANC'
         Title.Alignment = taCenter
         Visible = False
+      end
+      item
+        Expanded = False
+        Visible = True
       end>
   end
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 872
-    Height = 65
+    Width = 1090
+    Height = 81
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     TabOrder = 0
-    ExplicitLeft = -8
-    ExplicitTop = -6
     object btn1: TSpeedButton
-      Left = 255
-      Top = 42
-      Width = 18
-      Height = 18
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 319
+      Top = 53
+      Width = 22
+      Height = 22
       Caption = '...'
       Flat = True
       OnClick = btn1Click
     end
     object lbDataIni: TLabel
-      Left = 10
-      Top = 12
-      Width = 25
-      Height = 12
+      Left = 13
+      Top = 15
+      Width = 30
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Inicio'
     end
     object lbDataFIm: TLabel
-      Left = 148
-      Top = 11
-      Width = 16
-      Height = 12
+      Left = 185
+      Top = 14
+      Width = 21
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 10
-      Top = 44
-      Width = 61
-      Height = 12
+      Left = 13
+      Top = 55
+      Width = 75
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Configura'#231#227'o'
     end
     object edConfiguracao: TEdit
-      Left = 75
-      Top = 41
-      Width = 180
-      Height = 20
-      TabOrder = 1
+      Left = 94
+      Top = 51
+      Width = 225
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      TabOrder = 8
     end
     object btnProcRetorno: TButton
-      Left = 568
-      Top = 34
-      Width = 90
-      Height = 25
+      Left = 710
+      Top = 43
+      Width = 113
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Retorno XML'
-      TabOrder = 4
+      TabOrder = 6
       OnClick = btnProcRetornoClick
     end
     object btnProcessaEnvio: TButton
-      Left = 380
-      Top = 34
-      Width = 90
-      Height = 25
+      Left = 475
+      Top = 43
+      Width = 113
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Envio XML'
-      TabOrder = 2
+      TabOrder = 4
       OnClick = btnProcessaEnvioClick
     end
     object btn2: TButton
-      Left = 474
-      Top = 34
-      Width = 90
-      Height = 25
+      Left = 593
+      Top = 43
+      Width = 112
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Envio extend XML'
-      TabOrder = 3
+      TabOrder = 5
       OnClick = btn2Click
     end
     object btnteste: TButton
-      Left = 662
-      Top = 34
-      Width = 90
-      Height = 25
+      Left = 828
+      Top = 43
+      Width = 112
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Sel. arquivo XML'
-      TabOrder = 0
+      TabOrder = 7
       OnClick = btntesteClick
     end
     object btnPelaChave: TButton
-      Left = 286
-      Top = 34
-      Width = 90
-      Height = 25
+      Left = 358
+      Top = 43
+      Width = 112
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML pela chave'
-      TabOrder = 5
+      TabOrder = 3
       OnClick = btnPelaChaveClick
     end
-    object dbckCHECKBOX: TDBCheckBox
-      Left = 279
-      Top = 7
-      Width = 97
-      Height = 17
+    object dbchkCHECKBOX: TDBCheckBox
+      Left = 349
+      Top = 9
+      Width = 121
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       DataField = 'CHECKBOX'
       DataSource = DM_NFEDFE.dsBkpdfe
-      TabOrder = 6
+      TabOrder = 2
       ValueChecked = '0'
       ValueUnchecked = '-1'
       Visible = False
-      OnClick = dbckCHECKBOXClick
+      OnClick = dbchkCHECKBOXClick
     end
     object dtpDataFiltroINI: TDateTimePicker
-      Left = 39
-      Top = 7
-      Width = 105
-      Height = 20
+      Left = 49
+      Top = 9
+      Width = 131
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
-      TabOrder = 7
+      TabOrder = 0
       OnCloseUp = dtpDataFiltroINICloseUp
       OnExit = dtpDataFiltroINIExit
     end
     object dtpDataFiltroFin: TDateTimePicker
-      Left = 168
-      Top = 7
-      Width = 105
-      Height = 20
+      Left = 210
+      Top = 9
+      Width = 131
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
-      TabOrder = 8
+      TabOrder = 1
       OnCloseUp = dtpDataFiltroFinCloseUp
     end
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 394
-    Width = 872
-    Height = 17
+    Top = 498
+    Width = 1090
+    Height = 21
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alBottom
     TabOrder = 2
   end
@@ -417,7 +463,7 @@ object foPrincipal: TfoPrincipal
     Left = 466
     Top = 355
     Bitmap = {
-      494C01012C003C008C0120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00A00120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6783,7 +6829,7 @@ object foPrincipal: TfoPrincipal
     Left = 422
     Top = 355
     Bitmap = {
-      494C010103000C00340110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00480110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF

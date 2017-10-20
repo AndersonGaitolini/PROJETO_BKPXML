@@ -652,12 +652,12 @@ begin
     prCon.Connected := False;
     prCon.Close;
 
-    prDriver.VendorLib := 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll';
-//    prDriver.VendorLib := 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll';
+//    prDriver.VendorLib := 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll';
+    prDriver.VendorLib := 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll';
     prCon.Params.Values['User_Name'] := 'sysdba';//wUser;
     prCon.Params.Values['Password']  := 'masterkey';//wSenha;
-    prCon.Params.Values['Database']  := 'E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
-//    prCon.Params.Values['Database']  := 'D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
+//    prCon.Params.Values['Database']  := 'E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
+    prCon.Params.Values['Database']  := 'D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
     prCon.Params.Values['SQLDialect'] := '3';
 
     prCon.Open;

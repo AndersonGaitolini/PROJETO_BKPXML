@@ -205,6 +205,7 @@ begin
                   end;
 
       opAlterar: begin
+                   tabUsuarios := TUsuarios.Create;
                    tabUsuarios.ConfigSalva := tabConfiguracoes.id;
                    if fSalvarConfiguracoes(tabConfiguracoes) then
                    begin

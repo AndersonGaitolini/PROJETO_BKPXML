@@ -34,7 +34,7 @@ type
     FProtocoloaut: string;
     FCampoStream : TStream;
     FSelecao: string;
-    FCheckBox: Boolean;
+    FCheckBox: SmallInt;
   public
     [attPK]
     property Id: Integer read FId write FId;
@@ -57,7 +57,7 @@ type
     property Protocoloaut: string read FProtocoloaut write FProtocoloaut;
     property CampoStream : TStream read FCampoStream write FCampoStream;
     property Selecao: string read FSelecao write FSelecao;
-    property CheckBox: Boolean read FCheckBox write FCheckBox;
+    property CheckBox: SmallInt read FCheckBox write FCheckBox;
   end;
 
 
@@ -81,7 +81,8 @@ type
                       ffXMLEXTENDCANC,
                       ffPROTOCOLOAUT,
                       ffCAMPOSTREAM,
-                      ffSELECAO);
+                      ffSELECAO,
+                      ffCHECKBOX);
 
     TOrdenaBy = (obyASCENDENTE, obyDESCEDENTE, obyNone);
 
@@ -93,7 +94,8 @@ type
     function fCarregaXMLEnvio(pObjXML    : TLm_bkpdfe): Boolean;
     function fCarregaXMLRetorno(pObjXML  : TLm_bkpdfe): Boolean;
     function fFindChaveXML(var pObjXML   : TLm_bkpdfe): Boolean;
-    function fConsultaObjXML(var pObjXML : TLm_bkpdfe; pCampos: array of string): Boolean;
+    function fConsultaObjXML(var pObjXML : TLm_bkpdfe; pCampos: array of string): Boolean; OVERLOAD;
+//    function fConsultaObjXML(pCount: integer; pChave: String;  pArraObjXML: array of TLm_bkpdfe; pCampos: array of string): Boolean; OVERLOAD;
     procedure fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
     procedure pLimpaObjetoXML(var pObjXML : TLm_bkpdfe);
   end;
@@ -175,6 +177,25 @@ begin
   end;
 end;
 
+//function TDaoBkpdfe.fConsultaObjXML(pCount: integer; pChave: String; var pArraObjXML: array of TLm_bkpdfe;
+//  pCampos: array of string): Boolean;
+//
+//var wLen : Integer;
+//    wObjXML : TLm_bkpdfe;
+//begin
+//
+//  wLen :=0;
+//
+//  if pChave <> '' then
+//  begin
+//    wObjXML := TLm_bkpdfe.Create;
+//    wObjXML.Chave := pChave;
+//    SetLength(pArraObjXML, pCount);
+//  end;
+//
+//  fConsultaObjXML()
+//end;
+
 function TDaoBkpdfe.fConsultaObjXML(var pObjXML: TLm_bkpdfe; pCampos: array of string): Boolean;
 var wDataSet : TDataSet;
     wStream : TStream;
@@ -237,8 +258,8 @@ begin
           if pObjXML.Selecao = '' then
           pObjXML.Selecao := FieldByName('selecao').AsString;
 
-          if pObjXML.CheckBox = false then
-          pObjXML.CheckBox := FieldByName('CheckBox').AsBoolean;
+          if pObjXML.CheckBox = -1 then
+          pObjXML.CheckBox := FieldByName('CheckBox').AsInteger;
 
           wStream := wDataSet.CreateBlobStream(wDataSet.FieldByName('CAMPOSTREAM'),bmReadWrite);
           if Assigned(wStream) then

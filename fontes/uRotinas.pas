@@ -398,11 +398,12 @@ begin
   with DaoObjetoXML do
   for I := 0 to pLista.Count - 1 do
   begin
-    ObjetoXML:= TLm_bkpdfe.Create;
+
     ObjetoXML.Chave := pLista.Strings[i];
-    if DM_NFEDFE.Dao.ConsultaTab(ObjetoXML,['chave']).RecordCount >=1 then
+    if DaoObjetoXML.fConsultaObjXML(ObjetoXML,['CHAVE']) then
     begin
       DM_NFEDFE.Dao.Excluir(ObjetoXML);
+      ObjetoXML:= TLm_bkpdfe.Create;
     end;
 
   end;

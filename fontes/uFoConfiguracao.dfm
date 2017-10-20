@@ -3,12 +3,12 @@ object foConfiguracao: TfoConfiguracao
   Top = 0
   BorderStyle = bsDialog
   Caption = 'Configura'#231#245'es do banco de dados'
-  ClientHeight = 466
-  ClientWidth = 423
+  ClientHeight = 583
+  ClientWidth = 529
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -10
+  Font.Height = -13
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsMDIForm
@@ -22,118 +22,97 @@ object foConfiguracao: TfoConfiguracao
   OnKeyPress = FormKeyPress
   OnKeyUp = FormKeyUp
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 12
+  PixelsPerInch = 120
+  TextHeight = 16
   object pnlConfig: TPanel
     Left = 0
     Top = 37
-    Width = 423
-    Height = 368
+    Width = 529
+    Height = 474
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     TabOrder = 2
+    ExplicitTop = 46
+    ExplicitHeight = 460
     object pgcConfig: TPageControl
       Left = 1
       Top = 1
-      Width = 421
-      Height = 366
+      Width = 527
+      Height = 472
       Hint = 'Configura par'#226'metros do banco de dados'
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       ActivePage = tsConfigBD
       Align = alClient
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
+      ExplicitHeight = 458
       object tsConfigBD: TTabSheet
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Configura BD'
         ExplicitLeft = 0
         ExplicitTop = 0
         ExplicitWidth = 0
         ExplicitHeight = 0
         object btnGetDirBanco: TSpeedButton
-          Left = 325
-          Top = 204
-          Width = 33
-          Height = 20
-          Margins.Left = 2
-          Margins.Top = 2
-          Margins.Right = 2
-          Margins.Bottom = 2
+          Left = 406
+          Top = 255
+          Width = 42
+          Height = 25
           Caption = '...'
           Flat = True
           Layout = blGlyphTop
           OnClick = btnGetDirBancoClick
         end
         object edUsuarioBD: TLabeledEdit
-          Left = 55
-          Top = 141
-          Width = 155
+          Left = 69
+          Top = 176
+          Width = 194
           Height = 20
-          Margins.Left = 2
-          Margins.Top = 2
-          Margins.Right = 2
-          Margins.Bottom = 2
-          EditLabel.Width = 34
-          EditLabel.Height = 12
-          EditLabel.Margins.Left = 2
-          EditLabel.Margins.Top = 2
-          EditLabel.Margins.Right = 2
-          EditLabel.Margins.Bottom = 2
+          EditLabel.Width = 43
+          EditLabel.Height = 16
           EditLabel.Caption = 'Usu'#225'rio'
           TabOrder = 1
           OnExit = edUsuarioBDExit
         end
         object edSenhaBD: TLabeledEdit
-          Left = 55
-          Top = 177
-          Width = 155
+          Left = 69
+          Top = 221
+          Width = 194
           Height = 20
-          Margins.Left = 2
-          Margins.Top = 2
-          Margins.Right = 2
-          Margins.Bottom = 2
-          EditLabel.Width = 28
-          EditLabel.Height = 12
-          EditLabel.Margins.Left = 2
-          EditLabel.Margins.Top = 2
-          EditLabel.Margins.Right = 2
-          EditLabel.Margins.Bottom = 2
+          EditLabel.Width = 36
+          EditLabel.Height = 16
           EditLabel.Caption = 'Senha'
           TabOrder = 2
           OnExit = edSenhaBDExit
         end
         object edArquivo: TLabeledEdit
-          Left = 55
-          Top = 213
-          Width = 266
+          Left = 69
+          Top = 266
+          Width = 332
           Height = 20
-          Margins.Left = 2
-          Margins.Top = 2
-          Margins.Right = 2
-          Margins.Bottom = 2
-          EditLabel.Width = 118
-          EditLabel.Height = 12
-          EditLabel.Margins.Left = 2
-          EditLabel.Margins.Top = 2
-          EditLabel.Margins.Right = 2
-          EditLabel.Margins.Bottom = 2
+          EditLabel.Width = 144
+          EditLabel.Height = 16
           EditLabel.Caption = 'Banco de dados GBD/FDB'
           TabOrder = 3
           OnExit = edArquivoExit
         end
         object edDescriConfig: TLabeledEdit
-          Left = 55
-          Top = 105
-          Width = 266
+          Left = 69
+          Top = 131
+          Width = 332
           Height = 20
-          Margins.Left = 2
-          Margins.Top = 2
-          Margins.Right = 2
-          Margins.Bottom = 2
-          EditLabel.Width = 102
-          EditLabel.Height = 12
-          EditLabel.Margins.Left = 2
-          EditLabel.Margins.Top = 2
-          EditLabel.Margins.Right = 2
-          EditLabel.Margins.Bottom = 2
+          EditLabel.Width = 128
+          EditLabel.Height = 16
           EditLabel.Caption = 'Nome da configura'#231#227'o'
           TabOrder = 0
           OnExit = edDescriConfigExit
@@ -141,6 +120,10 @@ object foConfiguracao: TfoConfiguracao
       end
       object tsConfigNFe: TTabSheet
         Hint = 'Configura par'#226'metros de notas fiscais eletr'#244'nica'
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Configura NFe'
         ImageIndex = 1
         ParentShowHint = False
@@ -150,137 +133,221 @@ object foConfiguracao: TfoConfiguracao
         ExplicitWidth = 0
         ExplicitHeight = 0
         object edNFePathSend: TLabeledEdit
-          Left = 66
-          Top = 34
-          Width = 250
+          Left = 83
+          Top = 43
+          Width = 312
           Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 135
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho envio do XML:'
           TabOrder = 1
           OnExit = edNFePathSendExit
         end
         object edNFePathReturn: TLabeledEdit
-          Left = 66
-          Top = 68
-          Width = 250
+          Left = 83
+          Top = 85
+          Width = 312
           Height = 20
-          EditLabel.Width = 118
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 147
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho retorno do XML:'
           TabOrder = 2
           OnExit = edNFePathReturnExit
         end
         object edPathRetEnvNFe: TLabeledEdit
-          Left = 66
-          Top = 106
-          Width = 250
+          Left = 83
+          Top = 133
+          Width = 312
           Height = 20
-          EditLabel.Width = 139
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 173
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno enviados:'
           TabOrder = 5
           OnExit = edPathRetEnvNFeExit
         end
         object edPathRetCancNFe: TLabeledEdit
-          Left = 66
-          Top = 142
-          Width = 250
+          Left = 83
+          Top = 178
+          Width = 312
           Height = 20
-          EditLabel.Width = 148
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 186
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno cancelados:'
           TabOrder = 7
           OnExit = edPathRetCancNFeExit
         end
         object edPathRetInutNFe: TLabeledEdit
-          Left = 66
-          Top = 178
-          Width = 250
+          Left = 83
+          Top = 223
+          Width = 312
           Height = 20
-          EditLabel.Width = 147
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 186
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno inutilizados:'
           TabOrder = 9
           OnExit = edPathRetInutNFeExit
         end
         object edExtAutNFe: TLabeledEdit
-          Left = 66
-          Top = 214
-          Width = 125
+          Left = 83
+          Top = 268
+          Width = 156
           Height = 20
-          EditLabel.Width = 112
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 144
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de autorizados:'
           TabOrder = 10
           Text = 'retsai_*.xml'
           OnExit = edExtAutNFeExit
         end
         object edExtInutNFe: TLabeledEdit
-          Left = 66
-          Top = 286
-          Width = 125
+          Left = 83
+          Top = 358
+          Width = 156
           Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 141
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de inutilizados:'
           TabOrder = 12
           Text = 'retinut_*.xml'
           OnExit = edExtInutNFeExit
         end
         object edExtCancNFe: TLabeledEdit
-          Left = 66
-          Top = 250
-          Width = 125
+          Left = 83
+          Top = 313
+          Width = 156
           Height = 20
-          EditLabel.Width = 110
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 141
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de cancelados:'
           TabOrder = 11
           Text = 'reteven_*.xml'
           OnExit = edExtCancNFeExit
         end
         object btnOpen1: TBitBtn
-          Left = 322
-          Top = 33
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 41
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 0
           OnClick = btnOpen1Click
         end
         object btnOpen2: TBitBtn
-          Left = 322
-          Top = 69
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 86
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 3
           OnClick = btnOpen2Click
         end
         object btnOpen3: TBitBtn
-          Left = 322
-          Top = 105
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 131
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 4
           OnClick = btnOpen3Click
         end
         object btnOpen4: TBitBtn
-          Left = 322
-          Top = 141
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 176
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 6
           OnClick = btnOpen4Click
         end
         object btnOpen5: TBitBtn
-          Left = 322
-          Top = 177
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 221
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 8
           OnClick = btnOpen5Click
@@ -288,6 +355,10 @@ object foConfiguracao: TfoConfiguracao
       end
       object tsConfigNFCe: TTabSheet
         Hint = 'Configura par'#226'metros de notas fiscais de cumpom fiscal'
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Configura NFCe'
         ImageIndex = 2
         ExplicitLeft = 0
@@ -295,140 +366,228 @@ object foConfiguracao: TfoConfiguracao
         ExplicitWidth = 0
         ExplicitHeight = 0
         object edNFCePathSend: TLabeledEdit
-          Left = 66
-          Top = 34
-          Width = 250
+          Left = 83
+          Top = 43
+          Width = 312
           Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 135
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho envio do XML:'
           TabOrder = 1
           OnExit = edNFCePathSendExit
         end
         object edNFCePathReturn: TLabeledEdit
-          Left = 66
-          Top = 70
-          Width = 250
+          Left = 83
+          Top = 88
+          Width = 312
           Height = 20
-          EditLabel.Width = 118
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 147
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho retorno do XML:'
           TabOrder = 3
           OnExit = edNFCePathReturnExit
         end
         object edPathRetEnvNFCe: TLabeledEdit
-          Left = 66
-          Top = 106
-          Width = 250
+          Left = 83
+          Top = 133
+          Width = 312
           Height = 20
-          EditLabel.Width = 139
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 173
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno enviados:'
           TabOrder = 5
           OnExit = edPathRetEnvNFCeExit
         end
         object edPathRetCancNFCe: TLabeledEdit
-          Left = 66
-          Top = 142
-          Width = 250
+          Left = 83
+          Top = 178
+          Width = 312
           Height = 20
-          EditLabel.Width = 148
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 186
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno cancelados:'
           TabOrder = 7
           OnExit = edPathRetCancNFCeExit
         end
         object edPathRetInutNFCe: TLabeledEdit
-          Left = 66
-          Top = 177
-          Width = 250
+          Left = 83
+          Top = 221
+          Width = 312
           Height = 20
-          EditLabel.Width = 147
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 186
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno inutilizados:'
           TabOrder = 8
           OnExit = edPathRetInutNFCeExit
         end
         object edExtAutNFCe: TLabeledEdit
-          Left = 66
-          Top = 214
-          Width = 125
+          Left = 83
+          Top = 268
+          Width = 156
           Height = 20
-          EditLabel.Width = 112
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 144
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de autorizados:'
           TabOrder = 10
           OnExit = edExtAutNFCeExit
         end
         object edExtInutNFCe: TLabeledEdit
-          Left = 66
-          Top = 286
-          Width = 125
+          Left = 83
+          Top = 358
+          Width = 156
           Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 141
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de inutilizados:'
           TabOrder = 12
           OnExit = edExtInutNFCeExit
         end
         object edExtCancNFCe: TLabeledEdit
-          Left = 66
-          Top = 250
-          Width = 125
+          Left = 83
+          Top = 313
+          Width = 156
           Height = 20
-          EditLabel.Width = 110
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 141
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de cancelados:'
           TabOrder = 11
           OnExit = edExtCancNFCeExit
         end
         object btnOpenNFCe1: TBitBtn
-          Left = 322
-          Top = 33
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 41
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 0
           OnClick = btnOpenNFCe1Click
         end
         object btnOpenNFCe2: TBitBtn
-          Left = 322
-          Top = 69
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 86
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 2
           OnClick = btnOpenNFCe2Click
         end
         object btnOpenNFCe3: TBitBtn
-          Left = 322
-          Top = 105
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 131
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 4
           OnClick = btnOpenNFCe3Click
         end
         object btnOpenNFCe4: TBitBtn
-          Left = 322
-          Top = 141
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 176
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 6
           OnClick = btnOpenNFCe4Click
         end
         object btnOpenNFCe5: TBitBtn
-          Left = 322
-          Top = 177
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 221
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 9
           OnClick = btnOpenNFCe5Click
         end
       end
       object tsConfigNFSe: TTabSheet
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Caption = 'Configura NFSe'
         ImageIndex = 3
         ParentShowHint = False
@@ -438,137 +597,221 @@ object foConfiguracao: TfoConfiguracao
         ExplicitWidth = 0
         ExplicitHeight = 0
         object edNFSePathSend: TLabeledEdit
-          Left = 66
-          Top = 34
-          Width = 250
+          Left = 83
+          Top = 43
+          Width = 312
           Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 135
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho envio do XML:'
           TabOrder = 1
           OnExit = edNFSePathSendExit
         end
         object edNFSePathReturn: TLabeledEdit
-          Left = 66
-          Top = 70
-          Width = 250
+          Left = 83
+          Top = 88
+          Width = 312
           Height = 20
-          EditLabel.Width = 118
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 147
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho retorno do XML:'
           TabOrder = 3
           OnExit = edNFSePathReturnExit
         end
         object edPathRetEnvNFSe: TLabeledEdit
-          Left = 66
-          Top = 106
-          Width = 250
+          Left = 83
+          Top = 133
+          Width = 312
           Height = 20
-          EditLabel.Width = 139
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 173
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno enviados:'
           TabOrder = 5
           OnExit = edPathRetEnvNFSeExit
         end
         object edPathRetCancNFSe: TLabeledEdit
-          Left = 66
-          Top = 142
-          Width = 250
+          Left = 83
+          Top = 178
+          Width = 312
           Height = 20
-          EditLabel.Width = 148
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 186
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno cancelados:'
           TabOrder = 7
           OnExit = edPathRetCancNFSeExit
         end
         object edPathRetInutNFSe: TLabeledEdit
-          Left = 66
-          Top = 178
-          Width = 250
+          Left = 83
+          Top = 223
+          Width = 312
           Height = 20
-          EditLabel.Width = 147
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 186
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Caminho do retorno inutilizados:'
           TabOrder = 9
           OnExit = edPathRetInutNFSeExit
         end
         object edExtAutNFSe: TLabeledEdit
-          Left = 66
-          Top = 214
-          Width = 125
+          Left = 83
+          Top = 268
+          Width = 156
           Height = 20
-          EditLabel.Width = 112
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 144
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de autorizados:'
           TabOrder = 10
           Text = 'retsai_*.txt'
           OnExit = edExtAutNFSeExit
         end
         object edExtInutNFSe: TLabeledEdit
-          Left = 66
-          Top = 286
-          Width = 125
+          Left = 83
+          Top = 358
+          Width = 156
           Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 141
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de inutilizados:'
           TabOrder = 12
           Text = 'retinut_*.txt'
           OnExit = edExtInutNFSeExit
         end
         object edExtCancNFSe: TLabeledEdit
-          Left = 66
-          Top = 250
-          Width = 125
+          Left = 83
+          Top = 313
+          Width = 156
           Height = 20
-          EditLabel.Width = 110
-          EditLabel.Height = 12
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
+          EditLabel.Width = 141
+          EditLabel.Height = 16
+          EditLabel.Margins.Left = 4
+          EditLabel.Margins.Top = 4
+          EditLabel.Margins.Right = 4
+          EditLabel.Margins.Bottom = 4
           EditLabel.Caption = 'Extens'#227'o de cancelados:'
           TabOrder = 11
           Text = 'retcan_*.txt'
           OnExit = edExtCancNFSeExit
         end
         object btnOpenNFSe1: TBitBtn
-          Left = 322
-          Top = 33
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 41
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 0
           OnClick = btnOpenNFSe1Click
         end
         object btnOpenNFSe2: TBitBtn
-          Left = 322
-          Top = 69
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 86
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 2
           OnClick = btnOpenNFSe2Click
         end
         object btnOpenNFSe3: TBitBtn
-          Left = 322
-          Top = 105
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 131
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 4
           OnClick = btnOpenNFSe3Click
         end
         object btnOpenNFSe4: TBitBtn
-          Left = 322
-          Top = 141
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 176
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 6
           OnClick = btnOpenNFSe4Click
         end
         object btnOpenNFSe5: TBitBtn
-          Left = 322
-          Top = 177
-          Width = 25
-          Height = 22
+          Left = 403
+          Top = 221
+          Width = 31
+          Height = 28
+          Margins.Left = 4
+          Margins.Top = 4
+          Margins.Right = 4
+          Margins.Bottom = 4
           Caption = '...'
           TabOrder = 8
           OnClick = btnOpenNFSe5Click
@@ -578,9 +821,13 @@ object foConfiguracao: TfoConfiguracao
   end
   object statMSg: TStatusBar
     Left = 0
-    Top = 447
-    Width = 423
+    Top = 564
+    Width = 529
     Height = 19
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Panels = <
       item
         Text = 'Situa'#231#227'o: '
@@ -590,26 +837,29 @@ object foConfiguracao: TfoConfiguracao
         Text = 'Nenhuma'
         Width = 50
       end>
+    ExplicitTop = 559
+    ExplicitWidth = 423
   end
   object pnlRodape: TPanel
     Left = 0
-    Top = 405
-    Width = 423
-    Height = 42
+    Top = 511
+    Width = 529
+    Height = 53
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alBottom
     TabOrder = 3
+    ExplicitTop = 506
     DesignSize = (
-      423
-      42)
+      529
+      53)
     object btn2: TBitBtn
-      Left = 261
-      Top = 11
-      Width = 91
-      Height = 20
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 326
+      Top = 14
+      Width = 114
+      Height = 25
       Anchors = [akTop, akRight]
       Cancel = True
       Caption = '&Cancel'
@@ -635,14 +885,10 @@ object foConfiguracao: TfoConfiguracao
       OnClick = btn2Click
     end
     object btnOK: TBitBtn
-      Left = 71
-      Top = 5
-      Width = 91
-      Height = 20
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 89
+      Top = 6
+      Width = 114
+      Height = 25
       Anchors = [akTop, akRight]
       Caption = '&OK'
       Default = True
@@ -668,14 +914,10 @@ object foConfiguracao: TfoConfiguracao
       OnClick = btnOKClick
     end
     object btnAplicar: TBitBtn
-      Left = 166
-      Top = 11
-      Width = 91
-      Height = 20
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 208
+      Top = 14
+      Width = 113
+      Height = 25
       Anchors = [akTop, akRight]
       Caption = '&Aplicar'
       Glyph.Data = {
@@ -703,15 +945,20 @@ object foConfiguracao: TfoConfiguracao
   object pnlMenu: TPanel
     Left = 0
     Top = 36
-    Width = 423
+    Width = 529
     Height = 1
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     TabOrder = 1
+    ExplicitTop = 45
   end
   object jtobMenuConfig: TJvToolBar
     Left = 0
     Top = 0
-    Width = 423
+    Width = 529
     Height = 36
     ButtonHeight = 35
     ButtonWidth = 62
@@ -719,6 +966,7 @@ object foConfiguracao: TfoConfiguracao
     Images = ilCadastro
     ShowCaptions = True
     TabOrder = 0
+    ExplicitWidth = 423
     object btn1: TToolButton
       Left = 0
       Top = 0
@@ -746,7 +994,7 @@ object foConfiguracao: TfoConfiguracao
     Left = 340
     Top = 464
     Bitmap = {
-      494C010104000C00F80010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C00FC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -51,7 +51,7 @@ type
     dlgSaveXML: TSaveDialog;
     btnPelaChave: TButton;
     mmExportaSelecao: TMenuItem;
-    dbckCHECKBOX: TDBCheckBox;
+    dbchkCHECKBOX: TDBCheckBox;
     lbDataIni: TLabel;
     dtpDataFiltroINI: TDateTimePicker;
     lbDataFIm: TLabel;
@@ -88,7 +88,9 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure dbgNfebkpColExit(Sender: TObject);
     procedure dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
-    procedure dbckCHECKBOXClick(Sender: TObject);
+    procedure dbchkCHECKBOXClick(Sender: TObject);
+    procedure dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
     { Private declarations }
     procedure fOrdenaGrid(prOrder: Integer);  overload;
@@ -217,12 +219,12 @@ begin
    //
 end;
 
-procedure TfoPrincipal.dbckCHECKBOXClick(Sender: TObject);
+procedure TfoPrincipal.dbchkCHECKBOXClick(Sender: TObject);
 begin
-  if dbckCHECKBOX.Checked then
-    dbckCHECKBOX.Caption := 'true'//dbckCHECKBOX.ValueChecked
+  if dbchkCHECKBOX.Checked then
+    dbchkCHECKBOX.Caption := 'true'//dbckCHECKBOX.ValueChecked
   else
-    dbckCHECKBOX.Caption := 'false'//dbckCHECKBOX.ValueUnChecked;
+    dbchkCHECKBOX.Caption := 'false'//dbckCHECKBOX.ValueUnChecked;
 end;
 
 procedure TfoPrincipal.mmConfiguraoconsultaClick(Sender: TObject);
@@ -249,6 +251,7 @@ var iFirst, iLast: Integer;
     wDataINI, wDataFIN,DtAUX1,DtAUX2 : TDate;
     wValue1, wValue2, wValueAux : string;
     wFieldOrd : TFieldFiltros;
+    wFieldFiltro : TFieldFiltros;
 begin
   iFirst := 1;
   iLast := dbgNfebkp.DataSource.DataSet.RecordCount;
@@ -256,9 +259,15 @@ begin
   wDataINI := dtpDataFiltroINI.Date;
   wDataFIN := dtpDataFiltroFIN.Date;
 
-  case Column.Index of
+ wFieldFiltro := TConvert<TFieldFiltros>.StrConvertEnum('ff'+dbgNfebkp.Columns[Column.Index].FieldName);
 
-    2,4,5 : begin
+
+  case wFieldFiltro of
+
+   ffDATARECTO,
+   ffDATAEMISSAO,
+   ffDATAALTERACAO:
+           begin
              dbgNfebkp.DataSource.DataSet.First;
              DtAUX1 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsDateTime;
              dbgNfebkp.DataSource.DataSet.Last;
@@ -281,35 +290,46 @@ begin
                wValue2 := QuotedStr(wValue2);
            end;
 
-    6: begin
+    ffIDF_DOCUMENTO:
+       begin
        dbgNfebkp.DataSource.DataSet.First;
        wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
        dbgNfebkp.DataSource.DataSet.Last;
        wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
        end;
 
-    3,7,8,9,10,11,12,15,16:
-     begin
-       dbgNfebkp.DataSource.DataSet.First;
-       wValueAux := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
-       dbgNfebkp.DataSource.DataSet.Last;
-       wValue2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
+    ffTIPO,
+    ffCHAVE,
+    ffMOTIVO,
+    ffMOTIVOCANC,
+    ffPROTOCOLOAUT,
+    ffTIPOAMBIENTE,
+    ffPROTOCOLOCANC,
+    ffPROTOCOLORECTO,
+    ffEMAILSNOTIFICADOS:
+    begin
+     dbgNfebkp.DataSource.DataSet.First;
+     wValueAux := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
+     dbgNfebkp.DataSource.DataSet.Last;
+     wValue2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
 
-       if wValueAux <> '' then
-         wValueAux := QuotedStr(wValueAux);
+     if wValueAux <> '' then
+       wValueAux := QuotedStr(wValueAux);
 
-       if wValue2 <> '' then
-         wValue2 := QuotedStr(wValue2);
-     end;
+     if wValue2 <> '' then
+       wValue2 := QuotedStr(wValue2);
+    end;
 
-    13,14:
-     begin
-       dbgNfebkp.DataSource.DataSet.First;
-       wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
-       dbgNfebkp.DataSource.DataSet.Last;
-       wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
-     end;
-
+    ffXMLENVIO,
+    ffXMLEXTEND,
+    ffXMLENVIOCANC,
+    ffXMLEXTENDCANC:
+    begin
+     dbgNfebkp.DataSource.DataSet.First;
+     wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
+     dbgNfebkp.DataSource.DataSet.Last;
+     wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
+    end;
   end;
 
   if wValueAux > wValue2 then
@@ -362,8 +382,8 @@ end;
 
 procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
 begin
-   if dbgNfebkp.SelectedField.FieldName = dbckCHECKBOX.DataField then
-     dbckCHECKBOX.Visible := False
+   if dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField then
+     dbchkCHECKBOX.Visible := False
 end;
 
 procedure TfoPrincipal.dbgNfebkpDblClick(Sender: TObject);
@@ -421,18 +441,18 @@ begin
 
    if (gdFocused in State) then
    begin
-     if (Column.Field.FieldName = dbckCHECKBOX.DataField) then
+     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
      begin
-      dbckCHECKBOX.Left := Rect.Left + dbgNfebkp.Left + 2;
-      dbckCHECKBOX.Top := Rect.Top + dbgNfebkp.top + 2;
-      dbckCHECKBOX.Width := Rect.Right - Rect.Left;
-      dbckCHECKBOX.Height := Rect.Bottom - Rect.Top;
-      dbckCHECKBOX.Visible := True;
+      dbchkCHECKBOX.Left := Rect.Left + dbgNfebkp.Left + 2;
+      dbchkCHECKBOX.Top := Rect.Top + dbgNfebkp.top + 2;
+      dbchkCHECKBOX.Width := Rect.Right - Rect.Left;
+      dbchkCHECKBOX.Height := Rect.Bottom - Rect.Top;
+      dbchkCHECKBOX.Visible := True;
      end
    end
    else
    begin
-     if (Column.Field.FieldName = dbckCHECKBOX.DataField) then
+     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
      begin
        DrawRect:=Rect;
        InflateRect(DrawRect,-1,-1);
@@ -460,26 +480,30 @@ end;
 
 procedure TfoPrincipal.dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
 var wOK : Boolean;
-    wMR : Integer;
+    wMR,I : Integer;
 begin
-  if Key = Chr(46) then
+
+
+  if (key = Chr(9)) then
+   Exit;
+  if (dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField) then
+  begin
+   dbchkCHECKBOX.SetFocus;
+   SendMessage(dbchkCHECKBOX.Handle, WM_Char, word(Key), 0);
+  end;
+end;
+
+procedure TfoPrincipal.dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = 46 then
   begin
     pSelecaoChave(wSLSeleconados);
-    wOK := wSLSeleconados.Count >= 1;
-    if wOK then
+    if wSLSeleconados.Count > 1 then
     begin
-       wMR := MessageDlg('Você está prestes a deletar '+IntToStr(wSLSeleconados.Count) +'Arquivos.'+#10#13+
-                         'Deseja excluir o XML '+wSLSeleconados.Strings[0] +'?',
-                          mtConfirmation, [mbNo, mbYes, mbYesToAll],0 );
-
-     if wMR = mrNo then
-       wOK := False;
-
-      while wOK do
-      begin
+      if MessageDlg('Você está prestes a deletar '+IntToStr(wSLSeleconados.Count) +'Arquivos.',
+         mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
         fDeleteObjetoXML(wSLSeleconados);
-      end;
-
     end
     else
     if wSLSeleconados.Count = 1 then
@@ -488,22 +512,6 @@ begin
         fDeleteObjetoXML(wSLSeleconados);
     end;
   end;
-
-
-  pSelecaoChave(wSLSeleconados);
-
-
-
-   if (key = Chr(9)) then
-     Exit;
-   if (dbgNfebkp.SelectedField.FieldName = dbckCHECKBOX.DataField) then
-   begin
-     dbckCHECKBOX.SetFocus;
-     SendMessage(dbckCHECKBOX.Handle, WM_Char, word(Key), 0);
-   end;
-
-
-
 end;
 
 procedure TfoPrincipal.fOrdenaGrid(fieldbyname: string);
@@ -572,11 +580,11 @@ var i:Integer;
 
   procedure pIniciaDBCheckBox;
   begin
-    dbckCHECKBOX.DataSource := DM_NFEDFE.dsBkpdfe;
-    dbckCHECKBOX.DataField := 'CHECKBOX';
-    dbckCHECKBOX.Visible := False;
-    dbckCHECKBOX.Color := dbgNfebkp.Color;
-    dbckCHECKBOX.Caption := '';
+    dbchkCHECKBOX.DataSource := DM_NFEDFE.dsBkpdfe;
+    dbchkCHECKBOX.DataField := 'CHECKBOX';
+    dbchkCHECKBOX.Visible := False;
+    dbchkCHECKBOX.Color := dbgNfebkp.Color;
+    dbchkCHECKBOX.Caption := '';
     //explicado mais adiante no artigo
   //  dbckCHECKBOX.ValueChecked := 'Yes a Winner!';
   //  dbckCHECKBOX.ValueUnChecked := 'Not this time.';

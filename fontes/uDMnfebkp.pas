@@ -84,7 +84,6 @@ type
     cdsBkpdfeXMLEXTENDCANC: TBlobField;
     cdsBkpdfePROTOCOLOAUT: TStringField;
     cdsBkpdfeCAMPOSTREAM: TMemoField;
-    cdsBkpdfeSELECAO: TStringField;
     cdsBkpdfeCHECKBOX: TSmallintField;
 
     procedure DataModuleCreate(Sender: TObject);
