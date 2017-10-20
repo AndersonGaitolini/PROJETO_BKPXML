@@ -1396,25 +1396,23 @@ begin
   begin
     pChave := Copy(pChave, 1,9);
     if fIsNumeric(pChave) then
-    Result := IntToStr(pChave)
+    Result := StrToIntDef(pChave,0);
     exit;
   end;
-
 
   if (wLen = 52) and (pos('Can_',pChave)>0 ) then
   begin
     pChave := Copy(pChave, 30,9);
     if fIsNumeric(pChave) then
-    Result := IntToStr(pChave)
+    Result := StrToIntDef(pChave,0);
     exit;
   end;
-
 
   if (wLen = 53) and (pos('Inut_',pChave)>0 ) then
   begin
     pChave := Copy(pChave, 31,9);
     if fIsNumeric(pChave) then
-    Result := IntToStr(pChave)
+    Result := StrToIntDef(pChave,0);
     exit;
   end;
 
@@ -1422,11 +1420,9 @@ begin
   begin
     pChave := Copy(pChave, 33,9);
     if fIsNumeric(pChave) then
-    Result := IntToStr(pChave)
+    Result := StrToIntDef(pChave,0);
     exit;
   end;
-
-
 end;
 
 procedure pLeituradaNFE;
