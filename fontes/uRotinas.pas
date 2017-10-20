@@ -1394,13 +1394,37 @@ begin
   wLen := Length(pChave);
   if (wLen = 44) and fIsNumeric(pChave) then
   begin
-    Result := IntToStr(Copy(pChave, 26,9));
+    pChave := Copy(pChave, 1,9);
+    if fIsNumeric(pChave) then
+    Result := IntToStr(pChave)
     exit;
   end;
 
-  if (Len = 52) and (pos('Can_',pChave)>0 ) then
+
+  if (wLen = 52) and (pos('Can_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 30,9);
+    if fIsNumeric(pChave) then
+    Result := IntToStr(pChave)
+    exit;
+  end;
 
 
+  if (wLen = 53) and (pos('Inut_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 31,9);
+    if fIsNumeric(pChave) then
+    Result := IntToStr(pChave)
+    exit;
+  end;
+
+  if (wLen = 55) and (pos('Env_NFe',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 33,9);
+    if fIsNumeric(pChave) then
+    Result := IntToStr(pChave)
+    exit;
+  end;
 
 
 end;
