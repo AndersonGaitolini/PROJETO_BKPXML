@@ -42,13 +42,8 @@ type
     pshEventosPush: TPushEvents;
     ProgressBar1: TProgressBar;
     tmrVerifica: TTimer;
-    btnProcRetorno: TButton;
-    btnProcessaEnvio: TButton;
     btn1: TSpeedButton;
-    btn2: TButton;
-    btnteste: TButton;
     dlgSaveXML: TSaveDialog;
-    btnPelaChave: TButton;
     mmExportaSelecao: TMenuItem;
     dbchkCHECKBOX: TDBCheckBox;
     lbDataIni: TLabel;
@@ -62,6 +57,15 @@ type
     mmDeletarTodos: TMenuItem;
     mmDelTodosSelecionados: TMenuItem;
     mmRemoveSelTodos: TMenuItem;
+    pnlControles: TPanel;
+    btnEnvioArq: TButton;
+    btnEnvioLote: TButton;
+    btnEnvioExt: TButton;
+    btnXMLEnvioExtLote: TButton;
+    btnCanEnvioLote: TButton;
+    btnCanEnvioArq: TButton;
+    btnCanEnvioExt: TButton;
+    btnCanExetendLote: TButton;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -83,8 +87,6 @@ type
     procedure dtpDataFiltroINIExit(Sender: TObject);
     procedure statPrincipalDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
-    procedure btn2Click(Sender: TObject);
-    procedure btntesteClick(Sender: TObject);
     procedure dbgNfebkpDblClick(Sender: TObject);
     procedure btnPelaChaveClick(Sender: TObject);
     procedure mmExportaSelecaoClick(Sender: TObject);
@@ -105,6 +107,14 @@ type
     procedure pmSelecionarPopup(Sender: TObject);
     procedure mmDelTodosSelecionadosClick(Sender: TObject);
     procedure mmDeletarTodosClick(Sender: TObject);
+    procedure btnEnvioArqClick(Sender: TObject);
+    procedure btnEnvioLoteClick(Sender: TObject);
+    procedure btnEnvioExtClick(Sender: TObject);
+    procedure btnXMLEnvioExtLoteClick(Sender: TObject);
+    procedure btnCanEnvioArqClick(Sender: TObject);
+    procedure btnCanEnvioLoteClick(Sender: TObject);
+    procedure btnCanEnvioExtClick(Sender: TObject);
+    procedure btnCanExetendLoteClick(Sender: TObject);
   private
     { Private declarations }
     procedure fOrdenaGrid(prOrder: Integer);  overload;
@@ -117,6 +127,7 @@ type
     procedure pSalveName(pFieldName: string; var wFileName: string);
     procedure pSelecaoChave(var pLista: TStringList);
     procedure pSelTodasLinhas;
+    procedure pDeleteRowsSelectGrid;
     procedure pRemoveSelTodasLinhas;
   public
     { Public declarations }
@@ -159,10 +170,59 @@ finally
 end;
 end;
 
-procedure TfoPrincipal.btn2Click(Sender: TObject);
+procedure TfoPrincipal.btnCanEnvioArqClick(Sender: TObject);
+var wFilename: string;
 begin
-  if fLoadXMLNFe(txRetProcXML,tabConfiguracoes) then
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  wFilename := 'Can_';
+  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML de Cancelamento');
+  fLoadXMLNFe(tabConfiguracoes,txCan_, False, wFilename);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+end;
+
+procedure TfoPrincipal.btnCanEnvioExtClick(Sender: TObject);
+var wFilename: string;
+begin
+  wFilename := 'Can_';
+  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML de Cancelamento processado');
+  fLoadXMLNFe(tabConfiguracoes,txCan_Ext, False, wFilename);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+end;
+
+procedure TfoPrincipal.btnCanEnvioLoteClick(Sender: TObject);
+begin
+  fLoadXMLNFe(tabConfiguracoes,txCan_Lote, True);
+end;
+
+procedure TfoPrincipal.btnCanExetendLoteClick(Sender: TObject);
+begin
+  fLoadXMLNFe(tabConfiguracoes,txCan_ExtLote, True);
+end;
+
+procedure TfoPrincipal.btnEnvioArqClick(Sender: TObject);
+var wFilename: string;
+begin
+  wFilename := 'Env_Nfe';
+  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML de Envio');
+  fLoadXMLNFe(tabConfiguracoes, txNFE_Env, false, wFilename);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+end;
+
+procedure TfoPrincipal.btnEnvioExtClick(Sender: TObject);
+var wFilename: string;
+begin
+  wFilename := 'Env_Nfe';
+  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML Processado');
+  fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt, False, wFilename);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+end;
+
+procedure TfoPrincipal.btnEnvioLoteClick(Sender: TObject);
+begin
+  fLoadXMLNFe(tabConfiguracoes,txNFE_EnvLote, True);
 end;
 
 procedure TfoPrincipal.btnInserirClick(Sender: TObject);
@@ -174,37 +234,33 @@ end;
 procedure TfoPrincipal.btnPelaChaveClick(Sender: TObject);
 var wFilename: string;
 begin
-  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML');
-  fLoadXMLNFe(txXMLChave,tabConfiguracoes,wFilename);
-  pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+//  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML');
+//  fLoadXMLNFe(tabConfiguracoes,[txTodos],false,wFilename);
+//  pDataFiltro;
+//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnProcessaEnvioClick(Sender: TObject);
 begin
-  if fLoadXMLNFe(txEnvioXML,tabConfiguracoes) then
-  begin
-   pDataFiltro;
-   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, '','');
-  end;
+//  if fLoadXMLNFe(tabConfiguracoes,[txNFE_EnvLote],True) then
+//  begin
+//   pDataFiltro;
+//   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, '','');
+//  end;
 end;
 
 procedure TfoPrincipal.btnProcRetornoClick(Sender: TObject);
 begin
-  if fLoadXMLNFe(txRetSaiXML,tabConfiguracoes) then
+  if fLoadXMLNFe(tabConfiguracoes,txRet_Sai,True) then
   begin
     pDataFiltro;
     DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
   end;
 end;
 
-procedure TfoPrincipal.btntesteClick(Sender: TObject);
+procedure TfoPrincipal.btnXMLEnvioExtLoteClick(Sender: TObject);
 begin
-  if fLoadXMLNFe(txEnvioXMLArq,tabConfiguracoes) then
-  begin
-    pDataFiltro;
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
-  end;
+  fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExtLote, True);
 end;
 
 procedure TfoPrincipal.pCarregaConfigUsuario(pIDConfig: Integer);
@@ -223,6 +279,31 @@ begin
   DecodeDate(now,y,m,d);
   dtpDataFiltroINI.DateTime := EncodeDate(y,m,01);
   dtpDataFiltroFin.DateTime := EncodeDate(y,m,DaysInMonth(Now));
+end;
+
+procedure TfoPrincipal.pDeleteRowsSelectGrid;
+  procedure pRefreshCDS;
+  begin
+    DM_NFEDFE.cdsBkpdfe.Close;
+    DM_NFEDFE.cdsBkpdfe.Open;
+  end;
+
+begin
+    pSelecaoChave(wSLSeleconados);
+    if dbgNfebkp.SelectedRows.Count > 1 then
+    begin
+      if MessageDlg('Você está prestes a deletar '+ IntToStr(wSLSeleconados.Count) +' arquivos.',
+         mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
+        if fDeleteObjetoXML(wSLSeleconados) then
+          pRefreshCDS;
+    end
+    else
+    if dbgNfebkp.SelectedRows.Count = 1 then
+    begin
+      if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
+        if fDeleteObjetoXML(wSLSeleconados) then
+          pRefreshCDS;
+    end;
 end;
 
 procedure TfoPrincipal.pmExportaPopup(Sender: TObject);
@@ -579,8 +660,6 @@ procedure TfoPrincipal.dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
 var wOK : Boolean;
     wMR,I : Integer;
 begin
-
-
   if (key = Chr(9)) then
    Exit;
   if (dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField) then
@@ -592,32 +671,10 @@ end;
 
 procedure TfoPrincipal.dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
-
-  procedure pRefreshCDS;
-  begin
-    DM_NFEDFE.cdsBkpdfe.Close;
-    DM_NFEDFE.cdsBkpdfe.Open;
-  end;
 begin
   if Key = 46 then
   begin
-//    pSelecaoChave(wSLSeleconados);
-    if wSLSeleconados.Count > 1 then
-    begin
-      if MessageDlg('Você está prestes a deletar '+ IntToStr(wSLSeleconados.Count) +' arquivos.',
-         mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-        if fDeleteObjetoXML(wSLSeleconados) then
-          pRefreshCDS;
-    end
-    else
-    if wSLSeleconados.Count = 1 then
-    begin
-      if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
-        if fDeleteObjetoXML(wSLSeleconados) then
-          pRefreshCDS;
-    end;
-
-
+    pDeleteRowsSelectGrid;
   end;
 end;
 

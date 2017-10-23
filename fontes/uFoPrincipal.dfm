@@ -2,8 +2,8 @@ object foPrincipal: TfoPrincipal
   Left = 0
   Top = 0
   Caption = 'Sistema backup XML'
-  ClientHeight = 453
-  ClientWidth = 872
+  ClientHeight = 462
+  ClientWidth = 1001
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,8 +22,8 @@ object foPrincipal: TfoPrincipal
   TextHeight = 12
   object statPrincipal: TStatusBar
     Left = 0
-    Top = 434
-    Width = 872
+    Top = 443
+    Width = 1001
     Height = 19
     Margins.Left = 2
     Margins.Top = 2
@@ -47,13 +47,13 @@ object foPrincipal: TfoPrincipal
         Width = 80
       end>
     OnDrawPanel = statPrincipalDrawPanel
-    ExplicitTop = 439
+    ExplicitWidth = 872
   end
   object dbgNfebkp: TDBGrid
     Left = 0
-    Top = 65
-    Width = 872
-    Height = 352
+    Top = 41
+    Width = 1001
+    Height = 327
     Align = alClient
     DataSource = DM_NFEDFE.dsBkpdfe
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
@@ -232,13 +232,13 @@ object foPrincipal: TfoPrincipal
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 872
-    Height = 65
+    Width = 1001
+    Height = 41
     Align = alTop
     TabOrder = 0
     object btn1: TSpeedButton
-      Left = 255
-      Top = 42
+      Left = 562
+      Top = 6
       Width = 18
       Height = 18
       Margins.Left = 2
@@ -264,63 +264,18 @@ object foPrincipal: TfoPrincipal
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 10
-      Top = 44
+      Left = 317
+      Top = 8
       Width = 61
       Height = 12
       Caption = 'Configura'#231#227'o'
     end
     object edConfiguracao: TEdit
-      Left = 75
-      Top = 41
+      Left = 382
+      Top = 5
       Width = 180
       Height = 20
-      TabOrder = 8
-    end
-    object btnProcRetorno: TButton
-      Left = 568
-      Top = 34
-      Width = 90
-      Height = 25
-      Caption = 'Retorno XML'
-      TabOrder = 6
-      OnClick = btnProcRetornoClick
-    end
-    object btnProcessaEnvio: TButton
-      Left = 380
-      Top = 34
-      Width = 90
-      Height = 25
-      Caption = 'Envio XML'
-      TabOrder = 4
-      OnClick = btnProcessaEnvioClick
-    end
-    object btn2: TButton
-      Left = 474
-      Top = 34
-      Width = 90
-      Height = 25
-      Caption = 'Envio extend XML'
-      TabOrder = 5
-      OnClick = btn2Click
-    end
-    object btnteste: TButton
-      Left = 662
-      Top = 34
-      Width = 90
-      Height = 25
-      Caption = 'Sel. arquivo XML'
-      TabOrder = 7
-      OnClick = btntesteClick
-    end
-    object btnPelaChave: TButton
-      Left = 286
-      Top = 34
-      Width = 90
-      Height = 25
-      Caption = 'XML pela chave'
       TabOrder = 3
-      OnClick = btnPelaChaveClick
     end
     object dbchkCHECKBOX: TDBCheckBox
       Left = 279
@@ -359,17 +314,98 @@ object foPrincipal: TfoPrincipal
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 417
-    Width = 872
+    Top = 426
+    Width = 1001
     Height = 17
     Align = alBottom
+    TabOrder = 3
+    ExplicitWidth = 872
+  end
+  object pnlControles: TPanel
+    Left = 0
+    Top = 368
+    Width = 1001
+    Height = 58
+    Align = alBottom
     TabOrder = 2
-    ExplicitTop = 394
+    ExplicitWidth = 872
+    object btnEnvioArq: TButton
+      Left = 9
+      Top = 2
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio'
+      TabOrder = 0
+      OnClick = btnEnvioArqClick
+    end
+    object btnEnvioLote: TButton
+      Left = 11
+      Top = 31
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio Lote'
+      TabOrder = 1
+      OnClick = btnEnvioLoteClick
+    end
+    object btnEnvioExt: TButton
+      Left = 125
+      Top = 2
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio Extend'
+      TabOrder = 2
+      OnClick = btnEnvioExtClick
+    end
+    object btnXMLEnvioExtLote: TButton
+      Left = 125
+      Top = 31
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio Ext. Lote'
+      TabOrder = 3
+      OnClick = btnXMLEnvioExtLoteClick
+    end
+    object btnCanEnvioLote: TButton
+      Left = 239
+      Top = 31
+      Width = 110
+      Height = 25
+      Caption = 'XML Cancel. Lote'
+      TabOrder = 4
+      OnClick = btnCanEnvioLoteClick
+    end
+    object btnCanEnvioArq: TButton
+      Left = 239
+      Top = 2
+      Width = 110
+      Height = 25
+      Caption = 'XML Cancelamento'
+      TabOrder = 5
+      OnClick = btnCanEnvioArqClick
+    end
+    object btnCanEnvioExt: TButton
+      Left = 353
+      Top = 2
+      Width = 110
+      Height = 25
+      Caption = 'XML Canc. Extend'
+      TabOrder = 6
+      OnClick = btnCanEnvioExtClick
+    end
+    object btnCanExetendLote: TButton
+      Left = 354
+      Top = 31
+      Width = 110
+      Height = 25
+      Caption = 'XML Can Ext. Lote'
+      TabOrder = 7
+      OnClick = btnCanExetendLoteClick
+    end
   end
   object mmPrincipal: TMainMenu
     Images = ilPrincipal
-    Left = 554
-    Top = 355
+    Left = 594
+    Top = 235
     object mmArquivo: TMenuItem
       Caption = '&Arquivo'
       object mmNovo: TMenuItem
@@ -409,10 +445,10 @@ object foPrincipal: TfoPrincipal
   object ilPrincipal: TImageList
     Height = 32
     Width = 32
-    Left = 466
-    Top = 355
+    Left = 506
+    Top = 235
     Bitmap = {
-      494C01012C003C00A80120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00B40120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6756,13 +6792,13 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object tmrHora: TTimer
-    Left = 774
-    Top = 355
+    Left = 814
+    Top = 235
   end
   object pmExporta: TPopupMenu
     OnPopup = pmExportaPopup
-    Left = 598
-    Top = 355
+    Left = 638
+    Top = 235
     object mmExportaTodos: TMenuItem
       Caption = 'Exporta todos os XML'
       OnClick = mmExportaTodosClick
@@ -6785,10 +6821,10 @@ object foPrincipal: TfoPrincipal
     end
   end
   object ilMenu: TImageList
-    Left = 422
-    Top = 355
+    Left = 462
+    Top = 235
     Bitmap = {
-      494C010103000C00500110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C005C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF
@@ -6928,32 +6964,32 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object EvaAlertas: TFDEventAlerter
-    Left = 378
-    Top = 355
+    Left = 418
+    Top = 235
   end
   object tiTryIcon: TJvTrayIcon
     IconIndex = 0
-    Left = 510
-    Top = 355
+    Left = 550
+    Top = 235
   end
   object pshEventosPush: TPushEvents
-    Left = 642
-    Top = 355
+    Left = 682
+    Top = 235
   end
   object tmrVerifica: TTimer
-    Left = 730
-    Top = 355
+    Left = 770
+    Top = 235
   end
   object dlgSaveXML: TSaveDialog
     Filter = 'XML|*.XML'
     Title = 'Salvando oXML zipado'
-    Left = 686
-    Top = 355
+    Left = 726
+    Top = 235
   end
   object pmSelecionar: TPopupMenu
     OnPopup = pmSelecionarPopup
-    Left = 598
-    Top = 315
+    Left = 638
+    Top = 195
     object mmSelTodos: TMenuItem
       Caption = 'Selecionar &todos'
       OnClick = mmSelTodosClick

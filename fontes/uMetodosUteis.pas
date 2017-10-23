@@ -26,11 +26,11 @@ Const
     TTipoClass = (tiLabel, tiButton, tiBitBtn, tiEdit, tiPanel, tiComboBox, tiTodos);
     DayType = (Domingo, Segunda, Terca, Quarta, Quinta, Sexta, Sabado);
 
+  Type
   TGenerico = 0..255;
 
    TConvert<T:record> = class
      private
-
      public
        class procedure PopulateListEnum(AList: TStrings);
        class function StrConvertEnum(const AStr: string):T;
@@ -476,6 +476,9 @@ var
 
      dlgOpenDir.FilterIndex := 0;
      dlgOpenDir.Title := pTitle;
+     if prFileName <> '' then
+       dlgOpenDir.FileName := prFileName;
+
      Result := dlgOpenDir.Execute;
 
      if Result then

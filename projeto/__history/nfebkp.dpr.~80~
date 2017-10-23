@@ -79,7 +79,7 @@ begin
 
   end
   else
-  if ParamCount >= 4 then
+  if ParamCount >= 3 then
   begin
 //    if not FileExists(DM_NFEDFE.fddrfbDriver.VendorLib) then
 //    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver)  then

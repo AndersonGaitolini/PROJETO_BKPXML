@@ -8,7 +8,7 @@ uses
 type
   TPushXML = (pshNone, pshEnvio1st, pshEnvioSinc);
   TLoadXML = (lxNone,lxXMLEnvio, lxXMLProc, lxXMLRetSai, lxXMLArquivo, lxXMLFull);
-  TTipoXML = (txTodos, txNFE_Env, txNFe_EnvExt,txNFE_EnvLote, txNFe_EnvExtLote, txRet_Sai, txCan_, txCan_Ext, txCan_Lote, txCan_ExtLote, txRetEven);
+  TTipoXML = (txEnvioXML, txRetProcXML, txRetSaiXML, txEnvioXMLArq, txXMLChave, txRetEven);
 
   [attTabela('LM_BKPDFE')]
   TLm_bkpdfe = class(TTabela)
@@ -94,7 +94,7 @@ type
     function fFindChaveXML(var pObjXML      : TLm_bkpdfe): Boolean;
     function fCarregaXMLRetorno(pObjXML     : TLm_bkpdfe): Boolean;
     function fConsultaObjXML(var pObjXML    : TLm_bkpdfe; pCampos: array of string): Boolean; OVERLOAD;
-    function fConsDeleteObjXML(var pObjXML  : TLm_bkpdfe; pCampos: array of string): Boolean;
+    function fConsDeleteObjXML(var pObjXML  : TLm_bkpdfe; pCampos: array of string): Integer;
 
     procedure pLimpaObjetoXML(var pObjXML   : TLm_bkpdfe);
     procedure fFiltraOrdena(pFieldNameOrder : TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
@@ -192,12 +192,12 @@ begin
 end;
 
 function TDaoBkpdfe.fConsDeleteObjXML(var pObjXML: TLm_bkpdfe;
-  pCampos: array of string): Boolean;
+  pCampos: array of string): Integer;
 var wDataSet : TDataSet;
     wStream : TStream;
     i: Integer;
 begin
-  Result := False;
+  Result := 0;
   wDataSet := TDataSet.Create(Application);
   try
     with DM_NFEDFE do
@@ -205,15 +205,8 @@ begin
       wDataSet := dao.ConsultaTab(pObjXML, pCampos);
       wDataSet.Close;
       wDataSet.Open;
-      if wDataSet.RecordCount >= 1 then
-      begin
-        Result := true;
-        if wDataSet.RecordCount > 1 then
-          wDataSet.First
-      end;
+      if wDataSet.RecordCount = 0 then
 
-      if Result then
-        pObjXML.Idf_documento :=  wDataSet.FieldByName('Idf_documento').AsInteger;
     end;
   except on E: Exception do
           ShowMessage('Método: fConsDeleteObjXML!'+#10#13+
@@ -341,12 +334,14 @@ begin
 end;
 
 function TDaoBkpdfe.fExcluirObjXML(pObjXML : TLm_bkpdfe): Integer;
+var
+  Registros: Integer;
 begin
   Result := 0;
   try
     DM_NFEDFE.Dao.StartTransaction;
     try
-      Result := DM_NFEDFE.Dao.Excluir(pObjXML);
+      Result := Registros := DM_NFEDFE.Dao.Excluir(pObjXML);
 
       DM_NFEDFE.Dao.Commit;
     except
