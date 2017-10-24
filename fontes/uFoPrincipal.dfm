@@ -2,12 +2,12 @@ object foPrincipal: TfoPrincipal
   Left = 0
   Top = 0
   Caption = 'Sistema backup XML'
-  ClientHeight = 462
-  ClientWidth = 1001
+  ClientHeight = 578
+  ClientWidth = 1251
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -10
+  Font.Height = -13
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -18,17 +18,13 @@ object foPrincipal: TfoPrincipal
   OnClose = FormClose
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 12
+  PixelsPerInch = 120
+  TextHeight = 16
   object statPrincipal: TStatusBar
     Left = 0
-    Top = 443
-    Width = 1001
+    Top = 559
+    Width = 1251
     Height = 19
-    Margins.Left = 2
-    Margins.Top = 2
-    Margins.Right = 2
-    Margins.Bottom = 2
     Panels = <
       item
         Text = 'Total de Linhas..'
@@ -47,13 +43,16 @@ object foPrincipal: TfoPrincipal
         Width = 80
       end>
     OnDrawPanel = statPrincipalDrawPanel
-    ExplicitWidth = 872
   end
   object dbgNfebkp: TDBGrid
     Left = 0
-    Top = 41
-    Width = 1001
-    Height = 327
+    Top = 51
+    Width = 1251
+    Height = 414
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     DataSource = DM_NFEDFE.dsBkpdfe
     Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
@@ -61,7 +60,7 @@ object foPrincipal: TfoPrincipal
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -10
+    TitleFont.Height = -13
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
     Touch.ParentTabletOptions = False
@@ -232,171 +231,237 @@ object foPrincipal: TfoPrincipal
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 1001
-    Height = 41
+    Width = 1251
+    Height = 51
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     TabOrder = 0
     object btn1: TSpeedButton
-      Left = 562
-      Top = 6
-      Width = 18
-      Height = 18
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 703
+      Top = 8
+      Width = 22
+      Height = 22
       Caption = '...'
       Flat = True
       OnClick = btn1Click
     end
     object lbDataIni: TLabel
-      Left = 10
-      Top = 12
-      Width = 25
-      Height = 12
+      Left = 13
+      Top = 15
+      Width = 30
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Inicio'
     end
     object lbDataFIm: TLabel
-      Left = 148
-      Top = 11
-      Width = 16
-      Height = 12
+      Left = 185
+      Top = 14
+      Width = 21
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 317
-      Top = 8
-      Width = 61
-      Height = 12
+      Left = 396
+      Top = 10
+      Width = 75
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Configura'#231#227'o'
     end
     object edConfiguracao: TEdit
-      Left = 382
-      Top = 5
-      Width = 180
-      Height = 20
-      TabOrder = 3
+      Left = 478
+      Top = 6
+      Width = 225
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      TabOrder = 0
     end
     object dbchkCHECKBOX: TDBCheckBox
-      Left = 279
-      Top = 7
-      Width = 97
-      Height = 17
+      Left = 349
+      Top = 9
+      Width = 121
+      Height = 21
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       DataField = 'CHECKBOX'
       DataSource = DM_NFEDFE.dsBkpdfe
-      TabOrder = 2
+      TabOrder = 3
       ValueChecked = '0'
       ValueUnchecked = '-1'
       Visible = False
       OnClick = dbchkCHECKBOXClick
     end
     object dtpDataFiltroINI: TDateTimePicker
-      Left = 39
-      Top = 7
-      Width = 105
-      Height = 20
+      Left = 49
+      Top = 9
+      Width = 131
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
-      TabOrder = 0
+      TabOrder = 1
       OnCloseUp = dtpDataFiltroINICloseUp
       OnExit = dtpDataFiltroINIExit
     end
     object dtpDataFiltroFin: TDateTimePicker
-      Left = 168
-      Top = 7
-      Width = 105
-      Height = 20
+      Left = 210
+      Top = 9
+      Width = 131
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
-      TabOrder = 1
+      TabOrder = 2
       OnCloseUp = dtpDataFiltroFinCloseUp
     end
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 426
-    Width = 1001
-    Height = 17
+    Top = 538
+    Width = 1251
+    Height = 21
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alBottom
     TabOrder = 3
-    ExplicitWidth = 872
   end
   object pnlControles: TPanel
     Left = 0
-    Top = 368
-    Width = 1001
-    Height = 58
+    Top = 465
+    Width = 1251
+    Height = 73
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alBottom
     TabOrder = 2
-    ExplicitWidth = 872
     object btnEnvioArq: TButton
-      Left = 9
-      Top = 2
-      Width = 110
-      Height = 25
+      Left = 11
+      Top = 3
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio'
       TabOrder = 0
       OnClick = btnEnvioArqClick
     end
     object btnEnvioLote: TButton
-      Left = 11
-      Top = 31
-      Width = 110
-      Height = 25
+      Left = 14
+      Top = 39
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio Lote'
-      TabOrder = 1
+      TabOrder = 4
       OnClick = btnEnvioLoteClick
     end
     object btnEnvioExt: TButton
-      Left = 125
-      Top = 2
-      Width = 110
-      Height = 25
+      Left = 156
+      Top = 3
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio Extend'
-      TabOrder = 2
+      TabOrder = 1
       OnClick = btnEnvioExtClick
     end
     object btnXMLEnvioExtLote: TButton
-      Left = 125
-      Top = 31
-      Width = 110
-      Height = 25
+      Left = 156
+      Top = 39
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio Ext. Lote'
-      TabOrder = 3
+      TabOrder = 5
       OnClick = btnXMLEnvioExtLoteClick
     end
     object btnCanEnvioLote: TButton
-      Left = 239
-      Top = 31
-      Width = 110
-      Height = 25
+      Left = 299
+      Top = 39
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Cancel. Lote'
-      TabOrder = 4
+      TabOrder = 6
       OnClick = btnCanEnvioLoteClick
     end
     object btnCanEnvioArq: TButton
-      Left = 239
-      Top = 2
-      Width = 110
-      Height = 25
+      Left = 299
+      Top = 3
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Cancelamento'
-      TabOrder = 5
+      TabOrder = 2
       OnClick = btnCanEnvioArqClick
     end
     object btnCanEnvioExt: TButton
-      Left = 353
-      Top = 2
-      Width = 110
-      Height = 25
+      Left = 441
+      Top = 3
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Canc. Extend'
-      TabOrder = 6
+      TabOrder = 3
       OnClick = btnCanEnvioExtClick
     end
     object btnCanExetendLote: TButton
-      Left = 354
-      Top = 31
-      Width = 110
-      Height = 25
+      Left = 443
+      Top = 39
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Can Ext. Lote'
       TabOrder = 7
       OnClick = btnCanExetendLoteClick
@@ -448,7 +513,7 @@ object foPrincipal: TfoPrincipal
     Left = 506
     Top = 235
     Bitmap = {
-      494C01012C003C00B40120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00B80120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6824,7 +6889,7 @@ object foPrincipal: TfoPrincipal
     Left = 462
     Top = 235
     Bitmap = {
-      494C010103000C005C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00600110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF

@@ -29,42 +29,30 @@ type
     edSenhaBD: TLabeledEdit;
     edArquivo: TLabeledEdit;
     tsConfigNFe: TTabSheet;
-    edNFePathSend: TLabeledEdit;
-    edNFePathReturn: TLabeledEdit;
-    edPathRetEnvNFe: TLabeledEdit;
-    edPathRetCancNFe: TLabeledEdit;
-    edPathRetInutNFe: TLabeledEdit;
-    edExtAutNFe: TLabeledEdit;
-    edExtInutNFe: TLabeledEdit;
-    edExtCancNFe: TLabeledEdit;
+    edNFePathEnvio: TLabeledEdit;
+    edNFePathProcessado: TLabeledEdit;
+    edNFePathRejeitado: TLabeledEdit;
+    edNFePathRetornoLido: TLabeledEdit;
+    edNFePathPDFSalvo: TLabeledEdit;
     btnOpen1: TBitBtn;
     btnOpen2: TBitBtn;
     btnOpen3: TBitBtn;
     btnOpen4: TBitBtn;
     btnOpen5: TBitBtn;
     tsConfigNFCe: TTabSheet;
-    edNFCePathSend: TLabeledEdit;
-    edNFCePathReturn: TLabeledEdit;
-    edPathRetEnvNFCe: TLabeledEdit;
-    edPathRetCancNFCe: TLabeledEdit;
-    edPathRetInutNFCe: TLabeledEdit;
-    edExtAutNFCe: TLabeledEdit;
-    edExtInutNFCe: TLabeledEdit;
-    edExtCancNFCe: TLabeledEdit;
+    edNFCePathEnvio: TLabeledEdit;
+    edNFCePathProcessado: TLabeledEdit;
+    edNFCePathPDFSalvo: TLabeledEdit;
     btnOpenNFCe1: TBitBtn;
     btnOpenNFCe2: TBitBtn;
     btnOpenNFCe3: TBitBtn;
     btnOpenNFCe4: TBitBtn;
     btnOpenNFCe5: TBitBtn;
     tsConfigNFSe: TTabSheet;
-    edNFSePathSend: TLabeledEdit;
-    edNFSePathReturn: TLabeledEdit;
-    edPathRetEnvNFSe: TLabeledEdit;
-    edPathRetCancNFSe: TLabeledEdit;
-    edPathRetInutNFSe: TLabeledEdit;
-    edExtAutNFSe: TLabeledEdit;
-    edExtInutNFSe: TLabeledEdit;
-    edExtCancNFSe: TLabeledEdit;
+    edNFSePathEnvio: TLabeledEdit;
+    edNFSePathProcessado: TLabeledEdit;
+    edNFSePathRejeitado: TLabeledEdit;
+    edNFSePathPDFSalvo: TLabeledEdit;
     btnOpenNFSe1: TBitBtn;
     btnOpenNFSe2: TBitBtn;
     btnOpenNFSe3: TBitBtn;
@@ -82,6 +70,9 @@ type
     edDescriConfig: TLabeledEdit;
     btn3: TToolButton;
     jopdOpenDir: TJvSelectDirectory;
+    edNFSePathRetornoLido: TLabeledEdit;
+    edNFCePathRejeitado: TLabeledEdit;
+    edNFCePathRetornoLido: TLabeledEdit;
     procedure btnOKClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure btnOpen1Click(Sender: TObject);
@@ -113,34 +104,27 @@ type
     procedure edUsuarioBDExit(Sender: TObject);
     procedure edSenhaBDExit(Sender: TObject);
     procedure edArquivoExit(Sender: TObject);
-    procedure edNFePathSendExit(Sender: TObject);
+    procedure edNFePathEnvioExit(Sender: TObject);
     procedure btn2Click(Sender: TObject);
-    procedure edNFePathReturnExit(Sender: TObject);
-    procedure edPathRetEnvNFeExit(Sender: TObject);
-    procedure edPathRetCancNFeExit(Sender: TObject);
-    procedure edPathRetInutNFeExit(Sender: TObject);
-    procedure edNFCePathSendExit(Sender: TObject);
-    procedure edNFCePathReturnExit(Sender: TObject);
-    procedure edPathRetEnvNFCeExit(Sender: TObject);
-    procedure edPathRetCancNFCeExit(Sender: TObject);
-    procedure edPathRetInutNFCeExit(Sender: TObject);
-    procedure edNFSePathSendExit(Sender: TObject);
-    procedure edNFSePathReturnExit(Sender: TObject);
-    procedure edPathRetEnvNFSeExit(Sender: TObject);
-    procedure edPathRetCancNFSeExit(Sender: TObject);
-    procedure edPathRetInutNFSeExit(Sender: TObject);
+    procedure edNFePathProcessadoExit(Sender: TObject);
+    procedure edNFePathRejeitadoExit(Sender: TObject);
+    procedure edNFePathRetornoLidoExit(Sender: TObject);
+    procedure edNFePathPDFSalvoExit(Sender: TObject);
+    procedure edNFCePathEnvioExit(Sender: TObject);
+    procedure edNFCePathProcessadoExit(Sender: TObject);
+    procedure edNFCePathRejeitadoExit(Sender: TObject);
+    procedure edNFCePathRetornoLidoExit(Sender: TObject);
+    procedure edNFCePathPDFSalvoExit(Sender: TObject);
+    procedure edNFSePathEnvioExit(Sender: TObject);
+    procedure edNFSePathProcessadoExit(Sender: TObject);
+    procedure edNFSePathRejeitadoExit(Sender: TObject);
+    procedure NFSePathRetornoLidoNFSePathRetornoLidoExit(Sender: TObject);
+    procedure edNFSePathPDFSalvoExit(Sender: TObject);
     procedure edExtInutNFeExit(Sender: TObject);
-    procedure edExtAutNFeExit(Sender: TObject);
-    procedure edExtCancNFeExit(Sender: TObject);
-    procedure edExtAutNFCeExit(Sender: TObject);
-    procedure edExtCancNFCeExit(Sender: TObject);
-    procedure edExtInutNFCeExit(Sender: TObject);
-    procedure edExtAutNFSeExit(Sender: TObject);
-    procedure edExtCancNFSeExit(Sender: TObject);
-    procedure edExtInutNFSeExit(Sender: TObject);
     procedure btn1Click(Sender: TObject);
     procedure mniAjustarconfiguraopadro1Click(Sender: TObject);
     procedure btn3Click(Sender: TObject);
+    procedure edNFSePathRetornoLidoExit(Sender: TObject);
   private
     { Private declarations }
     function validacampos(pForm : TForm): boolean;
@@ -283,8 +267,8 @@ procedure TfoConfigPadrao.btnOpen1Click(Sender: TObject);
 begin
  if fOpenPath(wPathAux) then
  begin
-   edNFePathSend.Text := wPathAux;
-   tabConfiguracoes.NFePathSend := wPathAux;
+   edNFePathEnvio.Text := wPathAux;
+   tabConfiguracoes.NFePathEnvio := wPathAux;
  end;
 end;
 
@@ -292,8 +276,8 @@ procedure TfoConfigPadrao.btnOpen2Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edNFePathReturn.Text := wPathAux;
-    tabConfiguracoes.NFePathReturn := wPathAux;
+    edNFePathProcessado.Text := wPathAux;
+    tabConfiguracoes.NFePathProcessado := wPathAux;
   end;
 end;
 
@@ -301,8 +285,8 @@ procedure TfoConfigPadrao.btnOpen3Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetEnvNFe.Text := wPathAux;
-    tabConfiguracoes.PathRetEnvNFe := wPathAux;
+    edNFePathRejeitado.Text := wPathAux;
+    tabConfiguracoes.NFePathRejeitado := wPathAux;
   end;
 end;
 
@@ -310,8 +294,8 @@ procedure TfoConfigPadrao.btnOpen4Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetCancNFe.Text := wPathAux;
-    tabConfiguracoes.PathRetCancNFe := wPathAux;
+    edNFePathRetornoLido.Text := wPathAux;
+    tabConfiguracoes.NFePathRetornoLido := wPathAux;
   end;
 end;
 
@@ -319,8 +303,8 @@ procedure TfoConfigPadrao.btnOpen5Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetInutNFe.Text := wPathAux;
-    tabConfiguracoes.PathRetInutNFe := wPathAux;
+    edNFePathPDFSalvo.Text := wPathAux;
+    tabConfiguracoes.NFePathPDFSalvo := wPathAux;
   end;
 end;
 
@@ -328,8 +312,8 @@ procedure TfoConfigPadrao.btnOpenNFCe1Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edNFCePathSend.Text := wPathAux;
-    tabConfiguracoes.NFCePathSend := wPathAux;
+    edNFCePathEnvio.Text := wPathAux;
+    tabConfiguracoes.NFCePathEnvio := wPathAux;
   end;
 end;
 
@@ -337,8 +321,8 @@ procedure TfoConfigPadrao.btnOpenNFCe2Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edNFCePathReturn.Text := wPathAux;
-    tabConfiguracoes.NFCePathReturn := wPathAux;
+    edNFCePathProcessado.Text := wPathAux;
+    tabConfiguracoes.NFCePathRejeitado := wPathAux;
   end;
 end;
 
@@ -346,8 +330,8 @@ procedure TfoConfigPadrao.btnOpenNFCe3Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetEnvNFCe.Text := wPathAux;
-    tabConfiguracoes.PathRetEnvNFCe := wPathAux;
+    edNFCePathRejeitado.Text := wPathAux;
+    tabConfiguracoes.NFCePathProcessado := wPathAux;
   end;
 end;
 
@@ -355,8 +339,8 @@ procedure TfoConfigPadrao.btnOpenNFCe4Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetCancNFCe.Text := wPathAux;
-    tabConfiguracoes.PathRetCancNFCe := wPathAux;
+    edNFCePathRetornoLido.Text := wPathAux;
+    tabConfiguracoes.NFCePathRetornoLido := wPathAux;
   end;
 end;
 
@@ -364,8 +348,8 @@ procedure TfoConfigPadrao.btnOpenNFCe5Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetInutNFCe.Text := wPathAux;
-    tabConfiguracoes.PathRetInutNFCe := wPathAux;
+    edNFCePathPDFSalvo.Text := wPathAux;
+    tabConfiguracoes.NFCePathPDFSalvo := wPathAux;
   end;
 end;
 
@@ -373,8 +357,8 @@ procedure TfoConfigPadrao.btnOpenNFSe1Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edNFSePathSend.Text := wPathAux;
-    tabConfiguracoes.NFSePathSend:= wPathAux;
+    edNFSePathEnvio.Text := wPathAux;
+    tabConfiguracoes.NFSePathEnvio:= wPathAux;
   end;
 end;
 
@@ -382,8 +366,8 @@ procedure TfoConfigPadrao.btnOpenNFSe2Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edNFSePathReturn.Text := wPathAux;
-    tabConfiguracoes.NFSePathReturn:= wPathAux;
+    edNFSePathProcessado.Text := wPathAux;
+    tabConfiguracoes.NFSePathProcessado:= wPathAux;
   end;
 end;
 
@@ -391,8 +375,8 @@ procedure TfoConfigPadrao.btnOpenNFSe3Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetEnvNFSe.Text := wPathAux;
-    tabConfiguracoes.PathRetEnvNFSe:= wPathAux;
+    edNFSePathRejeitado.Text := wPathAux;
+    tabConfiguracoes.NFSePathRejeitado:= wPathAux;
   end;
 end;
 
@@ -400,8 +384,8 @@ procedure TfoConfigPadrao.btnOpenNFSe4Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetCancNFSe.Text := wPathAux;
-    tabConfiguracoes.PathRetCancNFSe:= wPathAux;
+    edNFSePathRetornoLido.Text := wPathAux;
+    tabConfiguracoes.NFSePathRetornoLido:= wPathAux;
   end;
 end;
 
@@ -409,8 +393,8 @@ procedure TfoConfigPadrao.btnOpenNFSe5Click(Sender: TObject);
 begin
   if fOpenPath(wPathAux) then
   begin
-    edPathRetInutNFSe.Text := wPathAux;
-    tabConfiguracoes.PathRetInutNFSe:= wPathAux;
+    edNFSePathPDFSalvo.Text := wPathAux;
+    tabConfiguracoes.NFSePathPDFSalvo:= wPathAux;
   end;
 end;
 
@@ -486,110 +470,10 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edExtAutNFCeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtAutNFCe <> Text then
-    begin
-      ExtAutNFCe := Trim(Text);
-    end;
-  end;
-end;
-
-procedure TfoConfigPadrao.edExtAutNFeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtAutNFe <> Text then
-    begin
-      ExtAutNFe := Trim(Text);
-    end;
-
-  end;
-end;
-
-procedure TfoConfigPadrao.edExtAutNFSeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtAutNFSe <> Text then
-    begin
-      ExtAutNFSe := Trim(Text);
-    end;
-  end;
-end;
-
-procedure TfoConfigPadrao.edExtCancNFCeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtCancNFCe <> Text then
-    begin
-      ExtCancNFCe := Trim(Text);
-    end;
-  end;
-end;
-
-procedure TfoConfigPadrao.edExtCancNFeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtCancNFe <> Text then
-    begin
-      ExtCancNFe := Trim(Text);
-    end;
-  end;
-end;
-
-procedure TfoConfigPadrao.edExtCancNFSeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtCancNFSe <> Text then
-    begin
-      ExtCancNFSe := Trim(Text);
-    end;
-  end;
-end;
-
-procedure TfoConfigPadrao.edExtInutNFCeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtInutNFCe <> Text then
-    begin
-      ExtInutNFCe := Trim(Text);
-    end;
-  end;
-
-  pgcConfig.TabIndex := 3;
-end;
-
 procedure TfoConfigPadrao.edExtInutNFeExit(Sender: TObject);
 begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtInutNFe <> Text then
-    begin
-      ExtInutNFe := Trim(Text);
-    end;
-  end;
 
   pgcConfig.TabIndex := 2;
-end;
-
-procedure TfoConfigPadrao.edExtInutNFSeExit(Sender: TObject);
-begin
-  with tabConfiguracoes, TLabeledEdit(Sender) do
-  begin
-    if ExtInutNFSe <> Text then
-    begin
-      ExtInutNFSe := Trim(Text);
-    end;
-  end;
-
- pgcConfig.TabIndex := 0;
 end;
 
 procedure TfoConfigPadrao.EditToTabela;
@@ -604,42 +488,35 @@ begin
    PathBD             := ExtractFileDir(edArquivo.Text);
    NameBD            := ExtractFileName(edArquivo.Text);
                          //Aba Configura NFe
-   NFePathSend        := edNFePathSend.Text;
-   NFePathReturn      := edNFePathReturn.Text;
-   PathRetEnvNFe      := edPathRetEnvNFe.Text;
-   PathRetCancNFe     := edPathRetCancNFe.Text;
-   PathRetInutNFe     := edPathRetInutNFe.Text;
-   ExtAutNFe          := edExtAutNFe.Text;
-   ExtCancNFe         := edExtCancNFe.Text;
-   ExtInutNFe         := edExtInutNFe.Text;
+   NFePathEnvio          := edNFePathEnvio.Text;
+   NFePathProcessado      := edNFePathProcessado.Text;
+   NFePathRejeitado      := edNFePathRejeitado.Text;
+   NFePathRetornoLido     := edNFePathRetornoLido.Text;
+   NFePathPDFSalvo       := edNFePathPDFSalvo.Text;
+
                          //Aba Configura NFCe
-   NFCePathSend       := edNFCePathSend.Text;
-   NFCePathReturn     := edNFCePathReturn.Text;
-   PathRetEnvNFCe     := edPathRetEnvNFCe.Text;
-   PathRetCancNFCe    := edPathRetCancNFCe.Text;
-   PathRetInutNFCe    := edPathRetInutNFCe.Text;
-   ExtAutNFCe         := edExtAutNFCe.Text;
-   ExtCancNFCe        := edExtCancNFCe.Text;
-   ExtInutNFCe        := edExtInutNFCe.Text;
+   NFCePathEnvio       := edNFCePathEnvio.Text;
+   NFCePathRejeitado     := edNFCePathRejeitado.Text;
+   NFCePathProcessado     := edNFCePathProcessado.Text;
+   NFCePathRetornoLido    := edNFCePathRetornoLido.Text;
+   NFCePathPDFSalvo    := edNFCePathPDFSalvo.Text;
+
                          //Aba Configura NFSe
-   NFSePathSend       := edNFSePathSend.Text;
-   NFSePathReturn     := edNFSePathReturn.Text;
-   PathRetEnvNFSe     := edPathRetEnvNFSe.Text;
-   PathRetCancNFSe    := edPathRetCancNFSe.Text;
-   PathRetInutNFSe    := edPathRetInutNFSe.Text;
-   ExtAutNFSe         := edExtAutNFSe.Text;
-   ExtCancNFSe        := edExtCancNFSe.Text;
-   ExtInutNFSe        := edExtInutNFSe.Text;
+   NFSePathEnvio       := edNFSePathEnvio.Text;
+   NFSePathProcessado     := edNFSePathProcessado.Text;
+   NFSePathRejeitado     := edNFSePathRejeitado.Text;
+   NFSePathRetornoLido    := edNFSePathRetornoLido.Text;
+   NFSePathPDFSalvo    := edNFSePathPDFSalvo.Text;
   end;
 end;
 
-procedure TfoConfigPadrao.edNFCePathReturnExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFCePathProcessadoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if NFCePathReturn <> Text then
+    if NFCePathRejeitado <> Text then
     begin
-      NFCePathReturn := Trim(Text);
+      NFCePathRejeitado := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -651,13 +528,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edNFCePathSendExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFCePathEnvioExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if NFCePathSend <> Text then
+    if NFCePathEnvio <> Text then
     begin
-      NFCePathSend := Trim(Text);
+      NFCePathEnvio := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -669,13 +546,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edNFePathReturnExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFePathProcessadoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if NFePathReturn <> Text then
+    if NFePathProcessado <> Text then
     begin
-      NFePathReturn := Trim(Text);
+      NFePathProcessado := Trim(Text);
     end;
 
 //    ShowHint := False;
@@ -696,13 +573,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edNFePathSendExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFePathEnvioExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if NFePathSend <> Text then
+    if NFePathEnvio <> Text then
     begin
-      NFePathSend := Trim(Text);
+      NFePathEnvio := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -714,13 +591,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edNFSePathReturnExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFSePathProcessadoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if NFSePathReturn <> Text then
+    if NFSePathProcessado <> Text then
     begin
-      NFSePathReturn := Trim(Text);
+      NFSePathProcessado := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -732,13 +609,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edNFSePathSendExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFSePathEnvioExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if NFSePathSend <> Text then
+    if NFSePathEnvio <> Text then
     begin
-      NFSePathSend := Trim(Text);
+      NFSePathEnvio := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -750,13 +627,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetCancNFCeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFCePathRetornoLidoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetCancNFCe <> Text then
+    if NFCePathRetornoLido <> Text then
     begin
-      PathRetCancNFCe := Trim(Text);
+      NFCePathRetornoLido := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -768,13 +645,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetCancNFeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFePathRetornoLidoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetCancNFe <> Text then
+    if NFePathRetornoLido <> Text then
     begin
-      PathRetCancNFe := Trim(Text);
+      NFePathRetornoLido := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -786,13 +663,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetCancNFSeExit(Sender: TObject);
+procedure TfoConfigPadrao.NFSePathRetornoLidoNFSePathRetornoLidoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetCancNFSe <> Text then
+    if NFSePathRetornoLido <> Text then
     begin
-      PathRetCancNFSe := Trim(Text);
+      NFSePathRetornoLido := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -804,13 +681,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetEnvNFCeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFCePathRejeitadoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetEnvNFCe <> Text then
+    if NFCePathProcessado <> Text then
     begin
-      PathRetEnvNFCe := Trim(Text);
+      NFCePathProcessado := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -822,13 +699,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetEnvNFeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFePathRejeitadoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetEnvNFe <> Text then
+    if NFePathRejeitado <> Text then
     begin
-      PathRetEnvNFe := Trim(Text);
+      NFePathRejeitado := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -840,13 +717,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetEnvNFSeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFSePathRejeitadoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetEnvNFSe <> Text then
+    if NFSePathRejeitado <> Text then
     begin
-      PathRetEnvNFSe := Trim(Text);
+      NFSePathRejeitado := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -858,13 +735,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetInutNFCeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFSePathRetornoLidoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetInutNFCe <> Text then
+    if NFSePathRetornoLido <> Text then
     begin
-      PathRetInutNFCe := Trim(Text);
+      NFSePathRetornoLido := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -876,13 +753,13 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetInutNFeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFCePathPDFSalvoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetInutNFe <> Text then
+    if NFCePathPDFSalvo <> Text then
     begin
-      PathRetInutNFe := Trim(Text);
+      NFCePathPDFSalvo := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -894,13 +771,31 @@ begin
   end;
 end;
 
-procedure TfoConfigPadrao.edPathRetInutNFSeExit(Sender: TObject);
+procedure TfoConfigPadrao.edNFePathPDFSalvoExit(Sender: TObject);
 begin
   with tabConfiguracoes, TLabeledEdit(Sender) do
   begin
-    if PathRetInutNFSe <> Text then
+    if NFePathPDFSalvo <> Text then
     begin
-      PathRetInutNFSe := Trim(Text);
+      NFePathPDFSalvo := Trim(Text);
+    end;
+
+    if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
+    if CanFocus then
+    begin
+      MsgStatus('Diretório informado não existe', clRed);
+      SetFocus;
+    end;
+  end;
+end;
+
+procedure TfoConfigPadrao.edNFSePathPDFSalvoExit(Sender: TObject);
+begin
+  with tabConfiguracoes, TLabeledEdit(Sender) do
+  begin
+    if NFSePathPDFSalvo <> Text then
+    begin
+      NFSePathPDFSalvo := Trim(Text);
     end;
 
     if (Trim(Text) <> '') and not (DirectoryExists(Trim(ExtractFileDir(Text)))) then
@@ -977,41 +872,36 @@ var
    begin
       pgcConfig.TabIndex := tsConfigNFe.TabIndex;
      //Aba Configura NFe
-     ExtAutNFe := 'retsai_*.txt';
-     edExtAutNFe.Text  := ExtAutNFe;
-
-     edExtCancNFe.Text :=  'retcan_*.txt';
-     edExtInutNFe.Text :=  'retinut_*.txt';
 
      dirEnvio := dirAux +'\NFe\Envio';
      if not DirectoryExists(dirEnvio) then
        ForceDirectories(dirEnvio);
 
-     edNFePathSend.Text := dirEnvio;
+     edNFePathEnvio.Text := dirEnvio;
 
      dirRetorno := dirAux +'\NFe\Retorno';
      if not DirectoryExists(dirRetorno) then
        ForceDirectories(dirRetorno);
 
-     edNFePathReturn.Text   := dirRetorno;
+     edNFePathProcessado.Text   := dirRetorno;
 
      dirRetEnv := dirRetorno +'\Enviado';
       if not DirectoryExists(dirRetEnv) then
         ForceDirectories(dirRetEnv);
 
-      edPathRetEnvNFe.Text := dirRetEnv;
+      edNFePathRejeitado.Text := dirRetEnv;
 
      dirRetCan := dirRetorno +'\Cancelado';
      if not DirectoryExists(dirRetCan) then
        ForceDirectories(dirRetCan);
 
-     edPathRetCancNFe.Text := dirRetCan;
+     edNFePathRetornoLido.Text := dirRetCan;
 
      dirRetInu := dirRetorno +'\Inutilizado';
      if not DirectoryExists(dirRetInu) then
        ForceDirectories(dirRetInu);
 
-     edPathRetInutNFe.Text := dirRetInu;
+     edNFePathPDFSalvo.Text := dirRetInu;
    end;
  end;
 
@@ -1019,78 +909,72 @@ var
  begin
     pgcConfig.TabIndex := tsConfigNFCe.TabIndex;
    //Aba Configura NFCe
-   edExtAutNFCe.Text  :=  'retsai_*.txt';
-   edExtCancNFCe.Text :=  'retcan_*.txt';
-   edExtInutNFCe.Text :=  'retinut_*.txt';
 
    dirEnvio := dirAux +'\NFCe\Envio';
    if not DirectoryExists(dirEnvio) then
      ForceDirectories(dirEnvio);
 
-   edNFCePathSend.Text := dirEnvio;
+   edNFCePathEnvio.Text := dirEnvio;
 
    dirRetorno := dirAux +'\NFCe\Retorno';
    if not DirectoryExists(dirRetorno) then
      ForceDirectories(dirRetorno);
 
-   edNFCePathReturn.Text   := dirRetorno;
+   edNFCePathRejeitado.Text   := dirRetorno;
 
    dirRetEnv := dirRetorno +'\Enviado';
     if not DirectoryExists(dirRetEnv) then
      ForceDirectories(dirRetEnv);
 
-   edPathRetEnvNFCe.Text := dirRetEnv;
+   edNFCePathProcessado.Text := dirRetEnv;
 
    dirRetCan := dirRetorno +'\Cancelado';
    if not DirectoryExists(dirRetCan) then
      ForceDirectories(dirRetCan);
 
-   edPathRetCancNFCe.Text := dirRetCan;
+   edNFCePathRetornoLido.Text := dirRetCan;
 
    dirRetInu := dirRetorno +'\Inutilizado';
    if not DirectoryExists(dirRetInu) then
      ForceDirectories(dirRetInu);
 
-   edPathRetInutNFCe.Text := dirRetInu;
+   edNFCePathPDFSalvo.Text := dirRetInu;
  end;
 
  procedure DiretorioNFSE;
  begin
     pgcConfig.TabIndex := tsConfigNFe.TabIndex;
    //Aba Configura NFSe
-   edExtAutNFSe.Text  :=  'retsai_*.txt';
-   edExtCancNFSe.Text :=  'retcan_*.txt';
-   edExtInutNFSe.Text :=  'retinut_*.txt';
 
    dirEnvio := dirAux +'\NFSe\Envio';
    if not DirectoryExists(dirEnvio) then
      ForceDirectories(dirEnvio);
 
-   edNFSePathSend.Text := dirEnvio;
+   edNFSePathEnvio.Text := dirEnvio;
 
    dirRetorno := dirAux +'\NFSe\Retorno';
    if not DirectoryExists(dirRetorno) then
      ForceDirectories(dirRetorno);
 
-   edNFSePathReturn.Text := dirRetorno;
+   edNFSePathProcessado.Text := dirRetorno;
 
    dirRetEnv := dirRetorno +'\Enviado';
     if not DirectoryExists(dirRetEnv) then
      ForceDirectories(dirRetEnv);
 
-   edPathRetEnvNFSe.Text := dirRetEnv;
+   edNFSePathRejeitado.Text := dirRetEnv;
 
    dirRetCan := dirRetorno +'\Cancelado';
    if not DirectoryExists(dirRetCan) then
      ForceDirectories(dirRetCan);
 
-   edPathRetCancNFSe.Text := dirRetCan;
+   edNFSePathRetornoLido.Text := dirRetCan;
 
    dirRetInu := dirRetorno +'\Inutilizado';
    if not DirectoryExists(dirRetInu) then
      ForceDirectories(dirRetInu);
 
-   edPathRetInutNFSe.Text := dirRetInu;
+   edNFSePathPDFSalvo.Text := dirRetInu;
 end;
 
 begin
@@ -1333,32 +1217,23 @@ begin
     edSenhaBD.Text         := SenhaBD;
     edArquivo.Text         := PathBD+'\'+NameBD;
     //Aba Configura NFe
-    edNFePathSend.Text     := NFePathSend;
-    edNFePathReturn.Text   := NFePathReturn;
-    edPathRetEnvNFe.Text   := PathRetEnvNFe;
-    edPathRetCancNFe.Text  := PathRetCancNFe;
-    edPathRetInutNFe.Text  := PathRetInutNFe;
-    edExtAutNFe.Text       := ExtAutNFe;
-    edExtCancNFe.Text      := ExtCancNFe;
-    edExtInutNFe.Text      := ExtInutNFe;
+    edNFePathEnvio.Text     := NFePathEnvio;
+    edNFePathProcessado.Text   := NFePathProcessado;
+    edNFePathRejeitado.Text   := NFePathRejeitado;
+    edNFePathRetornoLido.Text  := NFePathRetornoLido;
+    edNFePathPDFSalvo.Text  := NFePathPDFSalvo;
     //Aba Configura NFCe
-    edNFCePathSend.Text    := NFCePathSend;
-    edNFCePathReturn.Text  := NFCePathReturn;
-    edPathRetEnvNFCe.Text  := PathRetEnvNFCe;
-    edPathRetCancNFCe.Text := PathRetCancNFCe;
-    edPathRetInutNFCe.Text := PathRetInutNFCe;
-    edExtAutNFCe.Text      := ExtAutNFCe;
-    edExtCancNFCe.Text     := ExtCancNFCe;
-    edExtInutNFCe.Text     := ExtInutNFCe;
+    edNFCePathEnvio.Text    := NFCePathEnvio;
+    edNFCePathRejeitado.Text  := NFCePathRejeitado;
+    edNFCePathProcessado.Text  := NFCePathProcessado;
+    edNFCePathRetornoLido.Text := NFCePathRetornoLido;
+    edNFCePathPDFSalvo.Text := NFCePathPDFSalvo;
     //Aba Configura NFSe
-    edNFSePathSend.Text    := NFSePathSend;
-    edNFSePathReturn.Text  := NFSePathReturn;
-    edPathRetEnvNFSe.Text  := PathRetEnvNFSe;
-    edPathRetCancNFSe.Text := PathRetCancNFSe;
-    edPathRetInutNFSe.Text := PathRetInutNFSe;
-    edExtAutNFSe.Text      := ExtAutNFSe;
-    edExtCancNFSe.Text     := ExtCancNFSe;
-    edExtInutNFSe.Text     := ExtInutNFSe;
+    edNFSePathEnvio.Text    := NFSePathEnvio;
+    edNFSePathProcessado.Text  := NFSePathProcessado;
+    edNFSePathRejeitado.Text  := NFSePathRejeitado;
+    edNFSePathRetornoLido.Text := NFSePathRetornoLido;
+    edNFSePathPDFSalvo.Text := NFSePathPDFSalvo;
   end;
 
 end;

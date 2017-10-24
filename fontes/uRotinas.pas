@@ -521,7 +521,7 @@ var
   wArrayObjXML : array of TLm_bkpdfe;
   wNodeXML, wNodeInfNFe, wNodeNfeProc: IXMLNode;
   wFileSource, wFileDest: string;
-  wXmlName, wZipName,wChaveAux,wPathFile, strAUX: string;
+  wXmlName, wZipName,wChaveAux,wPathFile: string;
   wXMLEnvio, wXMLAutorizado,wOK: boolean;
 
  function fGetChaveFilename(pFileName : string): string;
@@ -1376,17 +1376,17 @@ var
     case pTiposXML of
       txNFE_Env, txNFE_EnvLote,txCan_, txCan_Lote:
       begin
-        wPathAux := pObjConfig.NFePathSend;
+        wPathAux := pObjConfig.NFePathEnvio;
       end;
 
       txNFe_EnvExt, txNFe_EnvExtLote, txCan_Ext, txCan_ExtLote:
       begin
-        wPathAux := pObjConfig.NFePathSend+'\Processado' ;
+        wPathAux := pObjConfig.NFePathProcessado;
       end;
 
       txTodos:
       begin
-        wPathAux := pObjConfig.NFePathReturn;
+        wPathAux := pObjConfig.NFePathRetornoLido;
       end;
     end;
 

@@ -20,30 +20,25 @@ type
     FPathbd: string;
     FSenhabd: string;
     FUsuariobd: string;
-    FNfepathsend: string;
-    FNfepathreturn: string;
-    FPathretenvnfe: string;
-    FPathretcancnfe: string;
-    FPathretinutnfe: string;
-    FExtautnfe: string;
-    FExtinutnfe: string;
-    FExtcancnfe: string;
-    FNfcepathsend: string;
-    FNfcepathreturn: string;
-    FPathretenvnfce: string;
-    FPathretcancnfce: string;
-    FPathretinutnfce: string;
-    FExtautnfce: string;
-    FExtinutnfce: string;
-    FExtcancnfce: string;
-    FNfsepathsend: string;
-    FNfsepathreturn: string;
-    FPathretenvnfse: string;
-    FPathretcancnfse: string;
-    FPathretinutnfse: string;
-    FExtautnfse: string;
-    FExtinutnfse: string;
-    FExtcancnfse: string;
+
+    FNFePathEnvio: string;
+    FNFePathProcessado: string;
+    FNFePathRejeitado: string;
+    FNFePathRetornoLido: string;
+    FNFePathPDFSalvo: string;
+
+    FNFCePathEnvio: string;
+    FNFCePathProcessado: string;
+    FNFCePathRejeitado: string;
+    FNFCePathRetornoLido: string;
+    FNFCePathPDFSalvo: string;
+
+    FNFSePathEnvio: string;
+    FNFSePathProcessado: string;
+    FNFSePathRejeitado: string;
+    FNFSePathRetornoLido: string;
+    FNFSePathPDFSalvo: string;
+
   public
     [attPK]
     property Id: Integer read FId write FId;
@@ -53,32 +48,26 @@ type
     property Pathbd: string read FPathbd write FPathbd;
     property Senhabd: string read FSenhabd write FSenhabd;
     property Usuariobd: string read FUsuariobd write FUsuariobd;
-    property Nfepathsend: string read FNfepathsend write FNfepathsend;
-    property Nfepathreturn: string read FNfepathreturn write FNfepathreturn;
-    property Pathretenvnfe: string read FPathretenvnfe write FPathretenvnfe;
-    property Pathretcancnfe: string read FPathretcancnfe write FPathretcancnfe;
-    property Pathretinutnfe: string read FPathretinutnfe write FPathretinutnfe;
-    property Extautnfe: string read FExtautnfe write FExtautnfe;
-    property Extinutnfe: string read FExtinutnfe write FExtinutnfe;
-    property Extcancnfe: string read FExtcancnfe write FExtcancnfe;
-    property Nfcepathsend: string read FNfcepathsend write FNfcepathsend;
-    property Nfcepathreturn: string read FNfcepathreturn write FNfcepathreturn;
-    property Pathretenvnfce: string read FPathretenvnfce write FPathretenvnfce;
-    property Pathretcancnfce: string read FPathretcancnfce write FPathretcancnfce;
-    property Pathretinutnfce: string read FPathretinutnfce write FPathretinutnfce;
-    property Extautnfce: string read FExtautnfce write FExtautnfce;
-    property Extinutnfce: string read FExtinutnfce write FExtinutnfce;
-    property Extcancnfce: string read FExtcancnfce write FExtcancnfce;
-    property Nfsepathsend: string read FNfsepathsend write FNfsepathsend;
-    property Nfsepathreturn: string read FNfsepathreturn write FNfsepathreturn;
-    property Pathretenvnfse: string read FPathretenvnfse write FPathretenvnfse;
-    property Pathretcancnfse: string read FPathretcancnfse write FPathretcancnfse;
-    property Pathretinutnfse: string read FPathretinutnfse write FPathretinutnfse;
-    property Extautnfse: string read FExtautnfse write FExtautnfse;
-    property Extinutnfse: string read FExtinutnfse write FExtinutnfse;
-    property Extcancnfse: string read FExtcancnfse write FExtcancnfse;
-  end;
 
+    property NFePathEnvio: string read FNFePathEnvio write FNFePathEnvio;
+    property NFePathProcessado: string read FNFePathProcessado write FNFePathProcessado;
+    property NFePathRejeitado: string read FNFePathRejeitado write FNFePathRejeitado;
+    property NFePathRetornoLido: string read FNFePathRetornoLido write FNFePathRetornoLido;
+    property NFePathPDFSalvo: string read FNFePathPDFSalvo write FNFePathPDFSalvo;
+
+    property NFCePathEnvio:       string read FNFCePathEnvio       write FNFCePathEnvio;
+    property NFCePathProcessado:  string read FNFCePathProcessado  write FNFCePathProcessado;
+    property NFCePathRejeitado:   string read FNFCePathRejeitado   write FNFCePathRejeitado;
+    property NFCePathRetornoLido: string read FNFCePathRetornoLido write FNFCePathRetornoLido;
+    property NFCePathPDFSalvo:    string read FNFCePathPDFSalvo    write FNFCePathPDFSalvo;
+
+    property NFSePathEnvio:       string read FNFSePathEnvio       write FNFSePathEnvio;
+    property NFSePathProcessado:  string read FNFSePathProcessado  write FNFSePathProcessado;
+    property NFSePathRejeitado:   string read FNFSePathRejeitado   write FNFSePathRejeitado;
+    property NFSePathRetornoLido: string read FNFSePathRetornoLido write FNFSePathRetornoLido;
+    property NFSePathPDFSalvo:    string read FNFSePathPDFSalvo    write FNFSePathPDFSalvo;
+
+  end;
 
   TDaoConfigPadrao = class(TObject)
     private
@@ -197,30 +186,24 @@ begin
         FSenhaBD := DatSet.FieldByName('SenhaBD').AsString;
         FPathBD := DatSet.FieldByName('PathBD').AsString;
         FNameBD := DatSet.FieldByName('NameBD').AsString;
-        FNFePathSend := DatSet.FieldByName('NFePathSend').AsString;
-        FNFePathReturn := DatSet.FieldByName('NFePathReturn').AsString;
-        FPathRetEnvNFe := DatSet.FieldByName('PathRetEnvNFe').AsString;
-        FPathRetCancNFe := DatSet.FieldByName('PathRetCancNFe').AsString;
-        FPathRetInutNFe := DatSet.FieldByName('PathRetInutNFe').AsString;
-        FExtAutNFe := DatSet.FieldByName('ExtAutNFe').AsString;
-        FExtCancNFe := DatSet.FieldByName('ExtCancNFe').AsString;
-        FExtInutNFe := DatSet.FieldByName('ExtInutNFe').AsString;
-        FNFCePathSend := DatSet.FieldByName('NFCePathSend').AsString;
-        FNFCePathReturn := DatSet.FieldByName('NFCePathReturn').AsString;
-        FPathRetEnvNFCe := DatSet.FieldByName('PathRetEnvNFCe').AsString;
-        FPathRetCancNFCe := DatSet.FieldByName('PathRetCancNFCe').AsString;
-        FPathRetInutNFCe := DatSet.FieldByName('PathRetInutNFCe').AsString;
-        FExtAutNFCe := DatSet.FieldByName('ExtAutNFCe').AsString;
-        FExtCancNFCe := DatSet.FieldByName('ExtCancNFCe').AsString;
-        FExtInutNFCe := DatSet.FieldByName('ExtInutNFCe').AsString;
-        FNFSePathSend := DatSet.FieldByName('NFSePathSend').AsString;
-        FNFSePathReturn := DatSet.FieldByName('NFSePathReturn').AsString;
-        FPathRetEnvNFSe := DatSet.FieldByName('PathRetEnvNFSe').AsString;
-        FPathRetCancNFSe := DatSet.FieldByName('PathRetCancNFSe').AsString;
-        FPathRetInutNFSe := DatSet.FieldByName('PathRetInutNFSe').AsString;
-        FExtAutNFSe := DatSet.FieldByName('ExtAutNFSe').AsString;
-        FExtCancNFSe := DatSet.FieldByName('ExtCancNFSe').AsString;
-        FExtInutNFSe := DatSet.FieldByName('ExtInutNFSe').AsString;
+        FNFePathEnvio := DatSet.FieldByName('NFePathSend').AsString;
+        NFePathProcessado := DatSet.FieldByName('NFePathReturn').AsString;
+        FNFePathRejeitado := DatSet.FieldByName('PathRetEnvNFe').AsString;
+        FNFePathRetornoLido := DatSet.FieldByName('PathRetCancNFe').AsString;
+        FNFePathPDFSalvo := DatSet.FieldByName('PathRetInutNFe').AsString;
+
+        FNFCePathEnvio := DatSet.FieldByName('NFCePathSend').AsString;
+        FNFCePathProcessado := DatSet.FieldByName('NFCePathReturn').AsString;
+        FNFCePathRejeitado := DatSet.FieldByName('PathRetEnvNFCe').AsString;
+        FNFCePathRetornoLido := DatSet.FieldByName('PathRetCancNFCe').AsString;
+        FNFCePathPDFSalvo := DatSet.FieldByName('PathRetInutNFCe').AsString;
+
+        FNFSePathEnvio := DatSet.FieldByName('NFSePathSend').AsString;
+        FNFSePathProcessado := DatSet.FieldByName('NFSePathReturn').AsString;
+        FNFSePathRejeitado := DatSet.FieldByName('PathRetEnvNFSe').AsString;
+        FNFSePathRetornoLido := DatSet.FieldByName('PathRetCancNFSe').AsString;
+        FNFSePathPDFSalvo := DatSet.FieldByName('PathRetInutNFSe').AsString;
+
         result := DatSet;
       end
       else

@@ -8,9 +8,10 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      '|Database=D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'
-      'Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
+      'Database=D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'
+      '|Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
       'DriverID=FBEmbed')
+    Connected = True
     LoginPrompt = False
     Left = 20
     Top = 26
@@ -308,163 +309,96 @@ object DM_NFEDFE: TDM_NFEDFE
     ProviderName = 'provConfiguracoes'
     Left = 248
     Top = 72
-    object cdsConfiguracoesID: TIntegerField
+    object intgrfldConfiguracoesID: TIntegerField
       FieldName = 'ID'
-      Origin = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
-    object cdsConfiguracoesNAMEBD: TStringField
+    object intgrfldConfiguracoesIDUSUARIO: TIntegerField
+      FieldName = 'IDUSUARIO'
+    end
+    object strngfldConfiguracoesDESCRICONFIG: TStringField
+      FieldName = 'DESCRICONFIG'
+      Required = True
+    end
+    object strngfldConfiguracoesNAMEBD: TStringField
       FieldName = 'NAMEBD'
-      Origin = 'NAMEBD'
       Required = True
       Size = 50
     end
-    object cdsConfiguracoesPATHBD: TStringField
+    object strngfldConfiguracoesPATHBD: TStringField
       FieldName = 'PATHBD'
-      Origin = 'PATHBD'
       Required = True
       Size = 255
     end
-    object cdsConfiguracoesSENHABD: TStringField
+    object strngfldConfiguracoesSENHABD: TStringField
       FieldName = 'SENHABD'
-      Origin = 'SENHABD'
       Required = True
       Size = 10
     end
-    object cdsConfiguracoesUSUARIOBD: TStringField
+    object strngfldConfiguracoesUSUARIOBD: TStringField
       FieldName = 'USUARIOBD'
-      Origin = 'USUARIOBD'
       Required = True
       Size = 15
     end
-    object cdsConfiguracoesNFEPATHSEND: TStringField
-      FieldName = 'NFEPATHSEND'
-      Origin = 'NFEPATHSEND'
+    object strngfldConfiguracoesNFEPATHENVIO: TStringField
+      FieldName = 'NFEPATHENVIO'
       Size = 255
     end
-    object cdsConfiguracoesNFEPATHRETURN: TStringField
-      FieldName = 'NFEPATHRETURN'
-      Origin = 'NFEPATHRETURN'
+    object strngfldConfiguracoesNFEPATHPROCESSADO: TStringField
+      FieldName = 'NFEPATHPROCESSADO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETENVNFE: TStringField
-      FieldName = 'PATHRETENVNFE'
-      Origin = 'PATHRETENVNFE'
+    object strngfldConfiguracoesNFEPATHREJEITADO: TStringField
+      FieldName = 'NFEPATHREJEITADO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETCANCNFE: TStringField
-      FieldName = 'PATHRETCANCNFE'
-      Origin = 'PATHRETCANCNFE'
+    object strngfldConfiguracoesNFEPATHRETORNOLIDO: TStringField
+      FieldName = 'NFEPATHRETORNOLIDO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETINUTNFE: TStringField
-      FieldName = 'PATHRETINUTNFE'
-      Origin = 'PATHRETINUTNFE'
+    object strngfldConfiguracoesNFEPATHPDFSALVO: TStringField
+      FieldName = 'NFEPATHPDFSALVO'
       Size = 255
     end
-    object cdsConfiguracoesEXTAUTNFE: TStringField
-      FieldName = 'EXTAUTNFE'
-      Origin = 'EXTAUTNFE'
-      Size = 50
-    end
-    object cdsConfiguracoesEXTINUTNFE: TStringField
-      FieldName = 'EXTINUTNFE'
-      Origin = 'EXTINUTNFE'
-      Size = 50
-    end
-    object cdsConfiguracoesEXTCANCNFE: TStringField
-      FieldName = 'EXTCANCNFE'
-      Origin = 'EXTCANCNFE'
-      Size = 50
-    end
-    object cdsConfiguracoesNFCEPATHSEND: TStringField
-      FieldName = 'NFCEPATHSEND'
-      Origin = 'NFCEPATHSEND'
+    object strngfldConfiguracoesNFCEPATHENVIO: TStringField
+      FieldName = 'NFCEPATHENVIO'
       Size = 255
     end
-    object cdsConfiguracoesNFCEPATHRETURN: TStringField
-      FieldName = 'NFCEPATHRETURN'
-      Origin = 'NFCEPATHRETURN'
+    object strngfldConfiguracoesNFCEPATHPROCESSADO: TStringField
+      FieldName = 'NFCEPATHPROCESSADO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETENVNFCE: TStringField
-      FieldName = 'PATHRETENVNFCE'
-      Origin = 'PATHRETENVNFCE'
+    object strngfldConfiguracoesNFCEPATHREJEITADO: TStringField
+      FieldName = 'NFCEPATHREJEITADO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETCANCNFCE: TStringField
-      FieldName = 'PATHRETCANCNFCE'
-      Origin = 'PATHRETCANCNFCE'
+    object strngfldConfiguracoesNFCEPATHRETORNOLIDO: TStringField
+      FieldName = 'NFCEPATHRETORNOLIDO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETINUTNFCE: TStringField
-      FieldName = 'PATHRETINUTNFCE'
-      Origin = 'PATHRETINUTNFCE'
+    object strngfldConfiguracoesNFCEPATHPDFSALVO: TStringField
+      FieldName = 'NFCEPATHPDFSALVO'
       Size = 255
     end
-    object cdsConfiguracoesEXTAUTNFCE: TStringField
-      FieldName = 'EXTAUTNFCE'
-      Origin = 'EXTAUTNFCE'
-      Size = 50
-    end
-    object cdsConfiguracoesEXTINUTNFCE: TStringField
-      FieldName = 'EXTINUTNFCE'
-      Origin = 'EXTINUTNFCE'
-      Size = 50
-    end
-    object cdsConfiguracoesEXTCANCNFCE: TStringField
-      FieldName = 'EXTCANCNFCE'
-      Origin = 'EXTCANCNFCE'
-      Size = 50
-    end
-    object cdsConfiguracoesNFSEPATHSEND: TStringField
-      FieldName = 'NFSEPATHSEND'
-      Origin = 'NFSEPATHSEND'
+    object strngfldConfiguracoesNFSEPATHENVIO: TStringField
+      FieldName = 'NFSEPATHENVIO'
       Size = 255
     end
-    object cdsConfiguracoesNFSEPATHRETURN: TStringField
-      FieldName = 'NFSEPATHRETURN'
-      Origin = 'NFSEPATHRETURN'
+    object strngfldConfiguracoesNFSEPATHPROCESSADO: TStringField
+      FieldName = 'NFSEPATHPROCESSADO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETENVNFSE: TStringField
-      FieldName = 'PATHRETENVNFSE'
-      Origin = 'PATHRETENVNFSE'
+    object strngfldConfiguracoesNFSEPATHREJEITADO: TStringField
+      FieldName = 'NFSEPATHREJEITADO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETCANCNFSE: TStringField
-      FieldName = 'PATHRETCANCNFSE'
-      Origin = 'PATHRETCANCNFSE'
+    object strngfldConfiguracoesNFSEPATHRETORNOLIDO: TStringField
+      FieldName = 'NFSEPATHRETORNOLIDO'
       Size = 255
     end
-    object cdsConfiguracoesPATHRETINUTNFSE: TStringField
-      FieldName = 'PATHRETINUTNFSE'
-      Origin = 'PATHRETINUTNFSE'
+    object strngfldConfiguracoesNFSEPATHPDFSALVO: TStringField
+      FieldName = 'NFSEPATHPDFSALVO'
       Size = 255
-    end
-    object cdsConfiguracoesEXTAUTNFSE: TStringField
-      FieldName = 'EXTAUTNFSE'
-      Origin = 'EXTAUTNFSE'
-      Size = 50
-    end
-    object cdsConfiguracoesEXTINUTNFSE: TStringField
-      FieldName = 'EXTINUTNFSE'
-      Origin = 'EXTINUTNFSE'
-      Size = 50
-    end
-    object cdsConfiguracoesEXTCANCNFSE: TStringField
-      FieldName = 'EXTCANCNFSE'
-      Origin = 'EXTCANCNFSE'
-      Size = 50
-    end
-    object cdsConfiguracoesDESCRICONFIG: TStringField
-      FieldName = 'DESCRICONFIG'
-      Origin = 'DESCRICONFIG'
-    end
-    object cdsConfiguracoesIDUSUARIO: TIntegerField
-      FieldName = 'IDUSUARIO'
-      Origin = 'IDUSUARIO'
     end
   end
   object provConfiguracoes: TDataSetProvider

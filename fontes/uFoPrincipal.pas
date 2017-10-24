@@ -193,11 +193,17 @@ end;
 procedure TfoPrincipal.btnCanEnvioLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txCan_Lote, True);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+
 end;
 
 procedure TfoPrincipal.btnCanExetendLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txCan_ExtLote, True);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+
 end;
 
 procedure TfoPrincipal.btnEnvioArqClick(Sender: TObject);
@@ -223,6 +229,8 @@ end;
 procedure TfoPrincipal.btnEnvioLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txNFE_EnvLote, True);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnInserirClick(Sender: TObject);
@@ -261,6 +269,9 @@ end;
 procedure TfoPrincipal.btnXMLEnvioExtLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExtLote, True);
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+
 end;
 
 procedure TfoPrincipal.pCarregaConfigUsuario(pIDConfig: Integer);
@@ -755,7 +766,7 @@ begin
     statPrincipal.Panels[1].Text := 'Linhas Selecionadas: '+ IntToStr(dbgNfebkp.SelectedRows.Count);
   end;
 //   if LoadXML(wLoadXML,tabConfiguracoes.NFePathSend) then
-  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+//  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -813,12 +824,12 @@ end;
 
 procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
-  if DirectoryExists(tabConfiguracoes.NFePathSend) then
+  if DirectoryExists(tabConfiguracoes.NFePathEnvio) then
   begin
     mmGeraclasse.Visible := tabUsuarios.Id = 0;
     mmGeraclasse.Enabled := tabUsuarios.Id = 0;
     pDataFiltro;
-//    DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
     //     OpenTabela;
   end;
 end;
