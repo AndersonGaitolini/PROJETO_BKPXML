@@ -28,20 +28,21 @@ uses
   ConfigPadrao in 'J:\fontes\classes\ConfigPadrao.pas',
   uFoConfigPadrao in 'J:\fontes\uFoConfigPadrao.pas' {foConfigPadrao},
   uFoConfiguracao in 'J:\fontes\uFoConfiguracao.pas' {foConfiguracao},
-  uRotinas in 'J:\fontes\uRotinas.pas';
+  uRotinas in 'J:\fontes\uRotinas.pas',
+  uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao};
 
 var
  ShowResult : Byte;
- wMsg : string;
+ wMsg, wFileName : string;
  SoapUsuario : TUsuarios;
+ wTeste : Boolean;
 {$R *.res}
 begin
+  wTeste := true;
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
-
-  Vcl.Dialogs.ShowMessage('')
-  if ParamCount = 0 then
+  if (ParamCount = 0) and not (wTeste) then
   begin
     Application.CreateForm(TfoLogin, foLogin);
     ShowResult := foLogin.ShowModal;
@@ -62,7 +63,7 @@ begin
     if ShowResult = mrCAncel then //Caso o retorno da tela de Login seja mrCancel então
       Application.Terminate; //Encerra a aplicação  end
 
-   end
+  end
   else
   if ParamCount = 2 then
   begin
@@ -80,20 +81,30 @@ begin
 
   end
   else
-  if ParamCount >= 3 then
+  if (ParamCount >= 4) or (wTeste) then
   begin
 //    if not FileExists(DM_NFEDFE.fddrfbDriver.VendorLib) then
 //    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver)  then
-    tabUsuarios.Usuario := Trim(ParamStr(1));
-    tabUsuarios.Senha    := Trim(ParamStr(2));
+    if not wTeste then
+    begin
+      tabUsuarios.Usuario := Trim(ParamStr(1));
+      tabUsuarios.Senha    := Trim(ParamStr(2));
+    end
+    else
+    begin
+      tabUsuarios.Usuario := 'PARCE';
+      tabUsuarios.Senha    := '0';
+    end;
 
-
-   if daoLogin.fLogar(tabUsuarios) then
+   if (daoLogin.fLogar(tabUsuarios)) then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
 
-     uRotinas.fLoadXMLNFe(tabConfiguracoes, uMetodosUteis.TConvert<TTipoXML>.StrConvertEnum(ParamStr(3)) , false,ParamStr(4),ParamStr(5));
+//     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3),ParamStr(4));
+
+     uMetodosUteis.fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML');
+     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false, wFilename, 'gaitolini@is.com');
    end;
 
    Application.Terminate;

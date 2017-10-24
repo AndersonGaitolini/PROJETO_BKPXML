@@ -28,19 +28,20 @@ uses
   ConfigPadrao in 'J:\fontes\classes\ConfigPadrao.pas',
   uFoConfigPadrao in 'J:\fontes\uFoConfigPadrao.pas' {foConfigPadrao},
   uFoConfiguracao in 'J:\fontes\uFoConfiguracao.pas' {foConfiguracao},
-  uRotinas in 'J:\fontes\uRotinas.pas';
+  uRotinas in 'J:\fontes\uRotinas.pas',
+  uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao};
 
 var
  ShowResult : Byte;
- wMsg, wUsuario, wSenha, wChave : string;
+ wMsg, wFileName : string;
  SoapUsuario : TUsuarios;
+ i : integer;
 {$R *.res}
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
-
-  if ParamCount = 0 then
+  if (ParamCount = 0) then
   begin
     Application.CreateForm(TfoLogin, foLogin);
     ShowResult := foLogin.ShowModal;
@@ -60,11 +61,13 @@ begin
     else
     if ShowResult = mrCAncel then //Caso o retorno da tela de Login seja mrCancel então
       Application.Terminate; //Encerra a aplicação  end
-
-   end
+  end
   else
   if ParamCount = 2 then
   begin
+    for I := 0 to ParamCount do
+      uMetodosUteis.AddLog('LOGPARAMSTR','E:\', ParamStr(i));
+
    tabUsuarios.Usuario := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
 
@@ -76,27 +79,25 @@ begin
    end;
 
    Application.Terminate;
-
   end
   else
-  if ParamCount >= 3 then
+  if (ParamCount >= 4) then
   begin
-//    if not FileExists(DM_NFEDFE.fddrfbDriver.VendorLib) then
-//    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver)  then
-    tabUsuarios.Usuario := Trim(ParamStr(1));
-    tabUsuarios.Senha    := Trim(ParamStr(2));
+    for I := 0 to ParamCount do
+      uMetodosUteis.AddLog('LOGPARAMSTR.log','C:\', ParamStr(i));
 
+      tabUsuarios.Usuario := Trim(ParamStr(1));
+      tabUsuarios.Senha    := Trim(ParamStr(2));
 
-   if daoLogin.fLogar(tabUsuarios) then
+   if (daoLogin.fLogar(tabUsuarios)) then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
-     uRotinas.fLoadXMLNFe(txXMLChave, tabConfiguracoes, ParamStr(3));
 
+     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3),ParamStr(4));
    end;
 
    Application.Terminate;
-
   end;
 
     //by Anderson Gaitolini

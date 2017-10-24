@@ -35,7 +35,7 @@ var
  ShowResult : Byte;
  wMsg, wFileName : string;
  SoapUsuario : TUsuarios;
- i : integer;
+ wTeste : Boolean;
 {$R *.res}
 begin
   Application.Initialize;
@@ -43,12 +43,6 @@ begin
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
   if (ParamCount = 0) then
   begin
-    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver) then
-    begin
-      Application.Terminate;
-      exit;
-    end;
-
     Application.CreateForm(TfoLogin, foLogin);
     ShowResult := foLogin.ShowModal;
 
@@ -71,11 +65,6 @@ begin
   else
   if ParamCount = 2 then
   begin
-    if ParamCount > 0 then
-    for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR','E:', ParamStr(i));
-
-
    tabUsuarios.Usuario := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
 
@@ -89,28 +78,20 @@ begin
    Application.Terminate;
   end
   else
-  if (ParamCount >= 3) then
+  if (ParamCount >= 4) then
   begin
-
-    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver) then
-    begin
-      Application.Terminate;
-      exit;
-    end;
-
-    if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR','E:', ParamStr(i));
+      uMetodosUteis.AddLog('LOGPARAMSTR.log','C:\', ParamStr(i));
 
-    tabUsuarios.Usuario := Trim(ParamStr(1));
-    tabUsuarios.Senha    := Trim(ParamStr(2));
+      tabUsuarios.Usuario := Trim(ParamStr(1));
+      tabUsuarios.Senha    := Trim(ParamStr(2));
 
    if (daoLogin.fLogar(tabUsuarios)) then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
 
-     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3));
+     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3),ParamStr(4));
    end;
 
    Application.Terminate;

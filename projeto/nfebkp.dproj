@@ -71,10 +71,11 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <Icon_MainIcon>nfebkp_Icon1.ico</Icon_MainIcon>
         <DCC_DcuOutput>J:\dcu\</DCC_DcuOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <DCC_BplOutput>J:\projeto\</DCC_BplOutput>
-        <DCC_ExeOutput>D:\Programacao\DELPHI\BASE\7357\BKP\</DCC_ExeOutput>
+        <DCC_ExeOutput>E:\BT\7.0\MaxWin\7357\BKP\</DCC_ExeOutput>
         <DCC_DcpOutput>J:\projeto\</DCC_DcpOutput>
         <VerInfo_Build>1</VerInfo_Build>
         <DCC_UnitSearchPath>J:\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
@@ -144,6 +145,10 @@
             <FormType>dfm</FormType>
         </DCCReference>
         <DCCReference Include="J:\fontes\uRotinas.pas"/>
+        <DCCReference Include="J:\fontes\uFoXMLSimulacao.pas">
+            <Form>foXMLSimulcao</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <None Include="ModelSupport_nfebkp\default.txaPackage"/>
         <None Include="ModelSupport_nfebkp\default.txvpck"/>
         <None Include="ModelSupport_nfebkp\uPadraoCons\default.txvpck"/>
@@ -204,7 +209,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="J:\exe\nfebkp.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="E:\BT\7.0\MaxWin\7357\BKP\nfebkp.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>nfebkp.exe</RemoteName>
                         <Overwrite>true</Overwrite>
@@ -306,13 +311,13 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\ufoGerarClasse\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_nfebkp\Configuracoes\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\Configuracoes\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_nfebkp\ufoGerarClasse\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -699,8 +704,8 @@
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

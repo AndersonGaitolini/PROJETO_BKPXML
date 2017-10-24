@@ -113,7 +113,7 @@ begin
   ObjetoXML := TLm_bkpdfe.Create;
   DaoObjetoXML := TDaoBkpdfe.Create;
 
-  ConexaoBD(DM_NFEDFE.conConexaoFD, fddrfbDriver);
+//  ConexaoBD(DM_NFEDFE.conConexaoFD, fddrfbDriver);
 
 end;
 

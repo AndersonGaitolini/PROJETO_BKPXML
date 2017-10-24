@@ -12,7 +12,7 @@ uses
   JvTrayIcon, IPPeerClient, REST.Backend.PushTypes, System.JSON,
   System.PushNotification, Data.Bind.Components, Data.Bind.ObjectScope,
   REST.Backend.BindSource, REST.Backend.PushDevice,System.TypInfo, Vcl.Buttons,uRotinas,
-  Vcl.DBCtrls;
+  Vcl.DBCtrls, Vcl.AppEvnts;
 
 type
   TOrdena = (ordCodigo, ordData, ordChave);
@@ -66,6 +66,9 @@ type
     btnCanEnvioArq: TButton;
     btnCanEnvioExt: TButton;
     btnCanExetendLote: TButton;
+    btnSIMULACAO: TButton;
+    TrayIconBkpNfe: TTrayIcon;
+    appEventBKPNFE: TApplicationEvents;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -115,6 +118,9 @@ type
     procedure btnCanEnvioLoteClick(Sender: TObject);
     procedure btnCanEnvioExtClick(Sender: TObject);
     procedure btnCanExetendLoteClick(Sender: TObject);
+    procedure btnSIMULACAOClick(Sender: TObject);
+    procedure appEventBKPNFEMinimize(Sender: TObject);
+    procedure TrayIconBkpNfeDblClick(Sender: TObject);
   private
     { Private declarations }
     procedure fOrdenaGrid(prOrder: Integer);  overload;
@@ -149,9 +155,18 @@ implementation
 
 uses
 
-uFoConsConfiguracao, uFoConfiguracao, Configuracoes;
+uFoConsConfiguracao, uFoConfiguracao, Configuracoes, uFoXMLSimulacao;
 
 {$R *.dfm}
+
+procedure TfoPrincipal.appEventBKPNFEMinimize(Sender: TObject);
+begin
+  Self.Hide;
+  Self.WindowState := wsMinimized;
+  TrayIconBkpNfe.Visible := TRUE;
+  TrayIconBkpNfe.Animate := True;
+
+end;
 
 procedure TfoPrincipal.btn1Click(Sender: TObject);
 begin
@@ -266,6 +281,21 @@ begin
   end;
 end;
 
+procedure TfoPrincipal.btnSIMULACAOClick(Sender: TObject);
+var wProcess: integer;
+begin
+  foXMLSimulcao := TfoXMLSimulcao.Create(Application);
+  try
+    wProcess:= fNumProcessThreads;
+    foXMLSimulcao.ShowModal;
+    pDataFiltro;
+    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    LastColunm := dbgNfebkp.SelectedIndex;
+  finally
+    foXMLSimulcao.Free;
+  end;
+end;
+
 procedure TfoPrincipal.btnXMLEnvioExtLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExtLote, True);
@@ -300,17 +330,20 @@ procedure TfoPrincipal.pDeleteRowsSelectGrid;
   end;
 
 begin
-    pSelecaoChave(wSLSeleconados);
+
     if dbgNfebkp.SelectedRows.Count > 1 then
     begin
+      pSelecaoChave(wSLSeleconados);
       if MessageDlg('Você está prestes a deletar '+ IntToStr(wSLSeleconados.Count) +' arquivos.',
          mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
         if fDeleteObjetoXML(wSLSeleconados) then
+
           pRefreshCDS;
     end
     else
     if dbgNfebkp.SelectedRows.Count = 1 then
     begin
+      pSelecaoChave(wSLSeleconados);
       if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
         if fDeleteObjetoXML(wSLSeleconados) then
           pRefreshCDS;
@@ -612,24 +645,41 @@ procedure TfoPrincipal.dbgNfebkpDrawColumnCell(Sender: TObject;
 var wStream : TStream;
     wFileName : String;
 
-   DrawState, Check: Integer;
-   DrawRect, R: TRect;
-begin
-  with (Sender as TDBGrid).Canvas do
+  procedure pColor(pColorCanc : TColor = clRed);
   begin
-    if (gdSelected in State) then
+    with (Sender as TDBGrid) do
     begin
-     Brush.Color := cl3DLight;
-     FillRect(Rect);
-     Font.Color:= clBlue;
-     TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
+      if DataSource.DataSet.FieldByName('Protocolocanc').AsString <> ''   then
+      begin
+       Canvas.Font.Color := pColorCanc;
+//       Canvas.Font.Style:= [];
+      end
+      else
+      begin
+       Canvas.Font.Color := clBlack;
+//       Canvas.Font.Style:= [];
+      end;
+
+      if (gdSelected in State) then
+      begin
+       Canvas.Brush.Color := cl3DLight;
+       Canvas.FillRect(Rect);
+       Canvas.Font.Color:= clBlue;
+       Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
+      end;
+
+     Canvas.FillRect(Rect);
+//     DefaultDrawDataCell(Rect, (Sender as   TDBGrid).columns[datacol].field, State);
+     DefaultDrawColumnCell(Rect, DataCol, Column, State);
     end;
   end;
-  dbgNfebkp.DefaultDrawColumnCell(Rect, DataCol, Column, State);
 
-
-   if (gdFocused in State) then
-   begin
+  procedure pDesenhaCheckBox;
+  var    DrawState, Check: Integer;
+         DrawRect, R: TRect;
+  begin
+    if (gdFocused in State) then
+    begin
      if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
      begin
       dbchkCHECKBOX.Left := Rect.Left + dbgNfebkp.Left + 2;
@@ -638,9 +688,9 @@ begin
       dbchkCHECKBOX.Height := Rect.Bottom - Rect.Top;
       dbchkCHECKBOX.Visible := True;
      end
-   end
-   else
-   begin
+    end
+    else
+    begin
      if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
      begin
        DrawRect:=Rect;
@@ -650,21 +700,12 @@ begin
        DrawFrameControl(dbgNfebkp.Canvas.Handle, DrawRect,
          DFC_BUTTON, DrawState);
      end;
-   end;
+    end;
+  end;
 
-{
-  //Desenha um checkbox no dbgrid
-  if Column.FieldName = 'SELECAO' then
-   begin
-    dbgNfebkp.Canvas.FillRect(Rect);
-    Check := 0;
-    if DM_NFEDFE.cdsBkpdfeSELECAO.AsString = 'X' then
-      Check := DFCS_CHECKED
-    else Check := 0;
-    R:=Rect;
-    InflateRect(R,-2,-2); //Diminue o tamanho do CheckBox
-    DrawFrameControl(dbgNfebkp.Canvas.Handle,R,DFC_BUTTON, DFCS_BUTTONCHECK or Check);
-   end;}
+begin
+  pColor(clRed);
+  pDesenhaCheckBox;
 end;
 
 procedure TfoPrincipal.dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
@@ -882,7 +923,7 @@ begin
           pLista.AddObject(wObjXML.Chave, wObjXML);
         end;
       end;
-      dbgNfebkp.Refresh;
+//      dbgNfebkp.Refresh;
     end;
   end;
 end;
@@ -1038,6 +1079,16 @@ procedure TfoPrincipal.ToolButton1Click(Sender: TObject);
 begin
    //carregarDocumetos
    ShowMessage('usuario: '+ tabUsuarios.Usuario);
+end;
+
+procedure TfoPrincipal.TrayIconBkpNfeDblClick(Sender: TObject);
+begin
+  Self.Visible := True;
+  Self.WindowState := wsNormal;
+  Self.Resizing(wsNormal);
+  Self.BringToFront;
+  TrayIconBkpNfe.Visible := false;
+  TrayIconBkpNfe.Animate := false;;
 end;
 
 end.

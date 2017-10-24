@@ -569,7 +569,7 @@ var
       Result := xmlNTag.ChildNodes.First.Text;
   end;
 
-  procedure pXMLChave(pChave: string);
+  procedure pXMLChave;
   var SLCannotRead : TStringList;
   auxS : TStream;
   begin
@@ -1418,20 +1418,21 @@ begin
   XMLArq     := TXMLDocument.Create(Application);
   wDaoXML    := TDaoBkpdfe.Create;
   wDataSet   := TDataSet.Create(Application);
-  fCarregaPath;
+  if pLote then
+    fCarregaPath;
 
   try
     try
-      if ParamCount > 0 then
-      ShowMessage(
-      IntToStr(ParamCount)+#10#13+
-      ParamStr(0)+#10#13+
-      ParamStr(1)+#10#13+
-      ParamStr(2)+#10#13+
-      ParamStr(3)+#10#13+
-      ParamStr(4)+#10#13
-      );
-      pXMLChave(pChave);
+//      if ParamCount > 0 then
+//      ShowMessage(
+//      'ParamCount '+IntToStr(ParamCount)+#10#13+
+//      'ParamStr(0) '+#10#13+
+//      'ParamStr(1) '+ParamStr(1)+#10#13+
+//      'ParamStr(2) '+ParamStr(2)+#10#13+
+//      'ParamStr(3) '+ParamStr(3)+#10#13+
+//      'ParamStr(4) '+ParamStr(4)+#10#13
+//      );
+      pXMLChave;
       Result := fGravaXML;
     except on E: Exception do
       ShowMessage('Erro na leitura '+TConvert<TTipoXML>.EnumConvertStr(pTiposXML) + #10#13+
