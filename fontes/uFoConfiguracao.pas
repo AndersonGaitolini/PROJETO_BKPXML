@@ -1008,29 +1008,12 @@ end;
 
 procedure TfoConfiguracao.FormKeyPress(Sender: TObject; var Key: Char);
 begin
-{//Key press
-if (key = #10) then
-ShowMessage('Voce apertou Crtl + Enter');
-}
+
   if key = #13 then  //Enter
   begin
     key := #0;
     perform(wm_nextdlgctl,0,0);
   end;
-
-
-//  if Key = #27 then    //ESC
-//  begin
-//    case wOpe of
-//      opExcluir,
-//      opAlterar,
-//      opInserir: begin
-//                   if (MessageDlg('Deseja canselar a operação?', mtConfirmation, mbYesNo,0) = mrYes) then
-//                     daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
-//                 end;
-//
-//    end;
-//  end;
 end;
 
 procedure TfoConfiguracao.FormKeyUp(Sender: TObject; var Key: Word;

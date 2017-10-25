@@ -8,9 +8,10 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      'Database=D:\Programacao\DELPHI\BASE\7357\BKP\BACKUPXML.FDB'
-      '|Database=E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'
+      '|Database=D:\Programacao\DELPHI\BASE\7357\BKP\BACKUPXML.FDB'
+      'Database=E:\BT\7.0\MaxWin\7357\BKP\BACKUPXML.FDB'
       'DriverID=FBEmbed')
+    Connected = True
     LoginPrompt = False
     Left = 20
     Top = 26
@@ -58,6 +59,10 @@ object DM_NFEDFE: TDM_NFEDFE
         Name = 'ID'
         Attributes = [faRequired]
         DataType = ftInteger
+      end
+      item
+        Name = 'STATUS'
+        DataType = ftSmallint
       end
       item
         Name = 'CHAVE'
@@ -163,6 +168,10 @@ object DM_NFEDFE: TDM_NFEDFE
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
     end
+    object cdsBkpdfeSTATUS: TSmallintField
+      FieldName = 'STATUS'
+      Origin = 'STATUS'
+    end
     object cdsBkpdfeCHAVE: TStringField
       FieldName = 'CHAVE'
       Origin = 'CHAVE'
@@ -246,6 +255,7 @@ object DM_NFEDFE: TDM_NFEDFE
     end
     object cdsBkpdfeCHECKBOX: TSmallintField
       FieldName = 'CHECKBOX'
+      Origin = 'CHECKBOX'
     end
   end
   object provBkpdfe: TDataSetProvider
@@ -254,6 +264,7 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 148
   end
   object sqlBkpDfe: TFDQuery
+    Active = True
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (

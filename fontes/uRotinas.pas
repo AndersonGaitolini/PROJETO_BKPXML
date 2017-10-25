@@ -51,6 +51,14 @@ const
   cInut_= 'Inut_.xml';
   cRetsai_ = 'Retsai_*.xml';
   cRetEven = 'RetEven_*.xml';
+
+  stEnvioProc = 0;
+  stEnvio     = 1;
+  stCanProc   = 2;
+  stCanEnvio  = 3;
+  stDenegada  = 4;
+  stInut      = 5;
+  stNada      = 6;
 implementation
 
 uses
@@ -592,6 +600,7 @@ var
       while wOK do
       begin
         ObjetoXML := TLm_bkpdfe.Create;
+        Status := stNada;
         wXmlName := ExtractFileName(wFileSource);
         wChaveAux := fGetChaveFilename(wXmlName);
 
@@ -633,10 +642,13 @@ var
                 else
                   Tipoambiente := 'Homologação';
               end;
+
+              Status := stEnvio;
             end;
 
             if (wXMLAutorizado) and (Assigned(wNodeNfeProc)) then
             begin
+              Status := stEnvioProc;
               wNodeNfeProc := wNodeNfeProc.ChildNodes.First.NextSibling;
               if Assigned(wNodeNfeProc) and (wNodeNfeProc.NodeName = 'protNFe') or (wNodeNfeProc.NodeName = 'infProt') then
               begin
@@ -706,6 +718,7 @@ var
         SetLength(wArrayObjXML, J);
         wXmlName := ExtractFileName(wFileSource);
         ObjetoXML := TLm_bkpdfe.Create;
+        Status := stNada;
         Chave := fGetChaveFilename(wXmlName);
         Idf_documento := fGetIdf_DocPelaChave(Chave);
         Tipo := '1';
@@ -738,6 +751,7 @@ var
               if pEmail <> '' then
                 Emailsnotificados := pEmail;
 
+              Status := stCanEnvio;
               Dataalteracao := Today;
               FileClose(wFileStream.Handle);
               pCompress(wFileSource,wStream,false);
@@ -772,6 +786,7 @@ var
                   Emailsnotificados := pEmail;
 
                 Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
+                Status := stCanProc;
                 Dataalteracao := Today;
                 FileClose(wFileStream.Handle);
                 pCompress(wFileSource,wStream,false);
@@ -813,7 +828,8 @@ var
         Inc(J,1);
         SetLength(wArrayObjXML, J);
         ObjetoXML := TLm_bkpdfe.Create;
-        tIPO := '1';
+        Tipo := '1';
+        Status := stNada;
         Chave := fGetChaveFilename(wXmlName);
         wStream := TMemoryStream.Create;
         wFileStream := TFileStream.Create(wFileSource,0);
@@ -839,6 +855,7 @@ var
             if Length(Motivo) > 20 then
             Motivo := Copy(Motivo,1,20);
             Dataalteracao := Today;
+            Status := stNada;
           end;
         end;
 

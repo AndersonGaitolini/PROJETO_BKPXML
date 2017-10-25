@@ -648,6 +648,8 @@ begin
       wFBClient0 := getINI(fArqIni, 'BD', 'FBCLIENT0', '');
       wFBClient1 := getINI(fArqIni, 'BD', 'FBCLIENT1', '');
 
+      AddLog('CARREGA_INI','E:','[INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient0 +'] ['+wFBClient1+']');
+
       if not FileExists(wDataBase) then
         if pTryConexao then
         begin

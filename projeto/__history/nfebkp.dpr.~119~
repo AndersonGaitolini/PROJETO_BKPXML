@@ -33,16 +33,23 @@ uses
 
 var
  ShowResult : Byte;
- wMsg, wFileName : string;
+ wMsg : string;
  SoapUsuario : TUsuarios;
- wTeste : Boolean;
+ i : integer;
 {$R *.res}
 begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
-  if (ParamCount = 0) and not (wTeste) then
+
+  if (ParamCount = 0) then
   begin
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, true) then
+    begin
+      Application.Terminate;
+      exit;
+    end;
+
     Application.CreateForm(TfoLogin, foLogin);
     ShowResult := foLogin.ShowModal;
 
@@ -61,12 +68,21 @@ begin
     else
     if ShowResult = mrCAncel then //Caso o retorno da tela de Login seja mrCancel então
       Application.Terminate; //Encerra a aplicação  end
-
   end
   else
   if ParamCount = 2 then
   begin
-   tabUsuarios.Usuario := Trim(ParamStr(1));
+    if ParamCount > 0 then
+    for I := 0 to ParamCount do
+      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
+
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
+    begin
+      Application.Terminate;
+      exit;
+    end;
+
+   tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
 
    if daoLogin.fLogar(tabUsuarios) then
@@ -79,17 +95,27 @@ begin
    Application.Terminate;
   end
   else
-  if (ParamCount >= 4) then
+  if (ParamCount >= 3) then
   begin
-      tabUsuarios.Usuario := Trim(ParamStr(1));
-      tabUsuarios.Senha    := Trim(ParamStr(2));
+    if ParamCount > 0 then
+    for I := 0 to ParamCount do
+      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
+
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver) then
+    begin
+      Application.Terminate;
+      exit;
+    end;
+
+    tabUsuarios.Usuario := Trim(ParamStr(1));
+    tabUsuarios.Senha    := Trim(ParamStr(2));
 
    if (daoLogin.fLogar(tabUsuarios)) then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
 
-     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3),ParamStr(4));
+     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3));
    end;
 
    Application.Terminate;

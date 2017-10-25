@@ -17,21 +17,22 @@ uses
 type
   TOrdena = (ordCodigo, ordData, ordChave);
 
+//type
+//  TDBGrid = class(Vcl.DBGrids.TDBGrid)
+//  private
+//    procedure WMVScroll(var Message: TWMVScroll); message WM_VSCROLL;
+//  end;
+
   TfoPrincipal = class(TForm)
     mmPrincipal: TMainMenu;
-    mmArquivo: TMenuItem;
-    mmNovo: TMenuItem;
-    mniN1: TMenuItem;
-    mmSair: TMenuItem;
     mmFerrametas: TMenuItem;
-    mmAjuda: TMenuItem;
     mmConfiguracoes: TMenuItem;
     ilPrincipal: TImageList;
     statPrincipal: TStatusBar;
     tmrHora: TTimer;
     dbgNfebkp: TDBGrid;
     pmExporta: TPopupMenu;
-    mmExportaTodos: TMenuItem;
+    mmExpSelecao: TMenuItem;
     mmGeraclasse: TMenuItem;
     ilMenu: TImageList;
     mmConfiguraoconsulta: TMenuItem;
@@ -39,12 +40,10 @@ type
     edConfiguracao: TEdit;
     EvaAlertas: TFDEventAlerter;
     tiTryIcon: TJvTrayIcon;
-    pshEventosPush: TPushEvents;
     ProgressBar1: TProgressBar;
-    tmrVerifica: TTimer;
     btn1: TSpeedButton;
     dlgSaveXML: TSaveDialog;
-    mmExportaSelecao: TMenuItem;
+    mmExpTodos: TMenuItem;
     dbchkCHECKBOX: TDBCheckBox;
     lbDataIni: TLabel;
     dtpDataFiltroINI: TDateTimePicker;
@@ -56,7 +55,7 @@ type
     mmSelTodosExportar: TMenuItem;
     mmDeletarTodos: TMenuItem;
     mmDelTodosSelecionados: TMenuItem;
-    mmRemoveSelTodos: TMenuItem;
+    mmDescmarcarSelTodos: TMenuItem;
     pnlControles: TPanel;
     btnEnvioArq: TButton;
     btnEnvioLote: TButton;
@@ -70,6 +69,36 @@ type
     TrayIconBkpNfe: TTrayIcon;
     appEventBKPNFE: TApplicationEvents;
     FDEventAlerter1: TFDEventAlerter;
+    pnlLegenda: TPanel;
+    Shape1: TShape;
+    Shape2: TShape;
+    Shape3: TShape;
+    Shape13: TShape;
+    Shape14: TShape;
+    Shape15: TShape;
+    Shape17: TShape;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label16: TLabel;
+    Label17: TLabel;
+    Label18: TLabel;
+    Label20: TLabel;
+    Shape4: TShape;
+    Label1: TLabel;
+    btnFiltrar: TButton;
+    Aes1: TMenuItem;
+    mmExpXMLPDFSelecao: TMenuItem;
+    mmRefazAutorizacaoSelecao: TMenuItem;
+    mmRefazAutorizacaoTodos: TMenuItem;
+    mmN1: TMenuItem;
+    mmN2: TMenuItem;
+    mmN3: TMenuItem;
+    mmMarcarTodos: TMenuItem;
+    mmExpPDFSelecao: TMenuItem;
+    mmExpPDFTodos: TMenuItem;
+    mmN4: TMenuItem;
+    mmExpXMLPDFTodos: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -79,21 +108,17 @@ type
     procedure mmGeraclasseClick(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
     procedure dbgNfebkpTitleClick(Column: TColumn);
-    procedure cbTipoNFChange(Sender: TObject);
     procedure mmConfiguraoconsultaClick(Sender: TObject);
     procedure btnInserirClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure btnProcRetornoClick(Sender: TObject);
     procedure btnProcessaEnvioClick(Sender: TObject);
     procedure btn1Click(Sender: TObject);
-    procedure dtpDataFiltroINICloseUp(Sender: TObject);
-    procedure dtpDataFiltroFinCloseUp(Sender: TObject);
-    procedure dtpDataFiltroINIExit(Sender: TObject);
     procedure statPrincipalDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
       const Rect: TRect);
     procedure dbgNfebkpDblClick(Sender: TObject);
     procedure btnPelaChaveClick(Sender: TObject);
-    procedure mmExportaSelecaoClick(Sender: TObject);
+    procedure mmExpTodosClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure dbgNfebkpColExit(Sender: TObject);
     procedure dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
@@ -102,8 +127,8 @@ type
       Shift: TShiftState);
     procedure mmSelTodosClick(Sender: TObject);
     procedure mmSelTodosExportarClick(Sender: TObject);
-    procedure mmExportaTodosClick(Sender: TObject);
-    procedure mmRemoveSelTodosClick(Sender: TObject);
+    procedure mmExpSelecaoClick(Sender: TObject);
+    procedure mmDescmarcarSelTodosClick(Sender: TObject);
     procedure pmExportaPopup(Sender: TObject);
     procedure dbgNfebkpMouseActivate(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y, HitTest: Integer;
@@ -124,20 +149,22 @@ type
     procedure TrayIconBkpNfeDblClick(Sender: TObject);
     procedure FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
       const AEventName: string; const AArgument: Variant);
+    procedure btnFiltrarClick(Sender: TObject);
+    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure mmMarcarTodosClick(Sender: TObject);
+    procedure mmRefazAutorizacaoTodosClick(Sender: TObject);
   private
     { Private declarations }
-    procedure fOrdenaGrid(prOrder: Integer);  overload;
-    procedure fOrdenaGrid(fieldbyname : string); overload;
     procedure pCarregaConfigUsuario(pIDConfig: Integer);
     procedure fFiltroEmissaoXML;
     procedure pDataFiltro;
-    procedure pRetornaFieldFiltros(var pFieldName: String; ffFiltro: TFieldFiltros);
-    procedure StatusBarProgress;
+    procedure pStatusBarProgress;
     procedure pSalveName(pFieldName: string; var wFileName: string);
     procedure pSelecaoChave(var pLista: TStringList);
     procedure pSelTodasLinhas;
     procedure pDeleteRowsSelectGrid;
     procedure pRemoveSelTodasLinhas;
+    procedure pIniciaGrid;
   public
     { Public declarations }
 
@@ -152,7 +179,7 @@ var
   wLastOrderBy: TOrdenaBy;
   wLoadXML : TLoadXML;
   SLXMLEnv :TStringList;
-  wSLSeleconados : TStringList;
+  wListaSelecionados : TStringList;
 
 implementation
 
@@ -164,11 +191,10 @@ uFoConsConfiguracao, uFoConfiguracao, Configuracoes, uFoXMLSimulacao;
 
 procedure TfoPrincipal.appEventBKPNFEMinimize(Sender: TObject);
 begin
-  Self.Hide;
-  Self.WindowState := wsMinimized;
-  TrayIconBkpNfe.Visible := TRUE;
-  TrayIconBkpNfe.Animate := True;
-
+//  Self.Hide;
+//  Self.WindowState := wsMinimized;
+//  TrayIconBkpNfe.Visible := TRUE;
+//  TrayIconBkpNfe.Animate := True;
 end;
 
 procedure TfoPrincipal.btn1Click(Sender: TObject);
@@ -249,6 +275,11 @@ begin
   fLoadXMLNFe(tabConfiguracoes,txNFE_EnvLote, True);
   pDataFiltro;
   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+end;
+
+procedure TfoPrincipal.btnFiltrarClick(Sender: TObject);
+begin
+  fFiltroEmissaoXML;
 end;
 
 procedure TfoPrincipal.btnInserirClick(Sender: TObject);
@@ -333,24 +364,36 @@ procedure TfoPrincipal.pDeleteRowsSelectGrid;
   end;
 
 begin
+  if dbgNfebkp.SelectedRows.Count > 1 then
+  begin
+    if wListaSelecionados.Count = 0 then
+      pSelecaoChave(wListaSelecionados);
 
-    if dbgNfebkp.SelectedRows.Count > 1 then
-    begin
-      pSelecaoChave(wSLSeleconados);
-      if MessageDlg('Você está prestes a deletar '+ IntToStr(wSLSeleconados.Count) +' arquivos.',
-         mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-        if fDeleteObjetoXML(wSLSeleconados) then
+    if MessageDlg('Você está prestes a deletar '+ IntToStr(wListaSelecionados.Count) +' arquivos.'+#10#13+
+                   'Confirma ?',
+       mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
+      if fDeleteObjetoXML(wListaSelecionados) then
+        pRefreshCDS;
+  end
+  else
+  if dbgNfebkp.SelectedRows.Count = 1 then
+  begin
+    if MessageDlg('Deseja excluir o XML selecionado ?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
+      if fDeleteObjetoXML(wListaSelecionados) then
+        pRefreshCDS;
+  end;
+end;
 
-          pRefreshCDS;
-    end
-    else
-    if dbgNfebkp.SelectedRows.Count = 1 then
-    begin
-      pSelecaoChave(wSLSeleconados);
-      if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
-        if fDeleteObjetoXML(wSLSeleconados) then
-          pRefreshCDS;
-    end;
+procedure TfoPrincipal.pIniciaGrid;
+begin
+  with dbgNfebkp do
+  begin
+    Columns[i].Title.Color := 15391680; //clInfoBk;
+    Columns[i].Title.Font.Color := clBlack;
+    Columns[i].Title.Font.Name := 'Arial';
+    Columns[i].Title.Font.Size  := 9;
+    Columns[i].Title.Font.Style := [];
+  end;
 end;
 
 procedure TfoPrincipal.pmExportaPopup(Sender: TObject);
@@ -358,45 +401,30 @@ procedure TfoPrincipal.pmExportaPopup(Sender: TObject);
       wSTR1,wSTR2 : String;
 begin
   wI := dbgNfebkp.SelectedRows.Count;
-  wJ := dbgNfebkp.DataSource.DataSet.RecordCount;
-  wSTR1 := IntToStr(wI);
-  wSTR2 := IntToStr(wJ);
+  pSelecaoChave(wListaSelecionados);
+//  wJ := dbgNfebkp.DataSource.DataSet.RecordCount;
+//  wSTR1 := IntToStr(wI);
+//  wSTR2 := IntToStr(wJ);
   if wI > 0 then
   begin
-    if wI = 1 then
-      mmExportaSelecao.Caption :=  'Exporta o XML'
-    else
-      mmExportaSelecao.Caption :=  'Exporta '+wSTR1+' XML selecionados';
 
-    mmExportaTodos.Caption := 'Exporta todos os XML('+wSTR2+')';
-
-    mmDeletarTodos.Caption := '&Deletar todos('+wSTR2+')';
-    mmDelTodosSelecionados.Caption := 'D&eletar todos os selecionados ('+wSTR1+')';
-
-    mmRemoveSelTodos.Caption := '&Remove a seleção ('+ wSTR1 + ')';
   end
 end;
 
 procedure TfoPrincipal.pmSelecionarPopup(Sender: TObject);
-  var wI,wJ : Integer;
-      wSTR1,wSTR2 : String;
+//  var wI,wJ : Integer;
+//      wSTR1,wSTR2 : String;
 begin
-  wI := dbgNfebkp.SelectedRows.Count;
-  wJ := dbgNfebkp.DataSource.DataSet.RecordCount;
-  wSTR1 := IntToStr(wI);
-  wSTR2 := IntToStr(wJ);
-
-  if wI < 0 then
-  begin
-//    dbgNfebkp.PopupMenu := pmSelecionar;
-    mmSelTodos.Caption := 'Selecionar &todos ('+wSTR2+')';
-    mmSelTodosExportar.Caption := 'Selecionar todos e &exportar ('+wSTR2+')';
-  end;
-end;
-
-procedure TfoPrincipal.cbTipoNFChange(Sender: TObject);
-begin
-   //
+//  wI := dbgNfebkp.SelectedRows.Count;
+//  wJ := dbgNfebkp.DataSource.DataSet.RecordCount;
+//  wSTR1 := IntToStr(wI);
+//  wSTR2 := IntToStr(wJ);
+//
+//  if wI < 0 then
+//  begin
+//    mmSelTodos.Caption := 'Selecionar &todos ('+wSTR2+')';
+//    mmSelTodosExportar.Caption := 'Selecionar todos e &exportar ('+wSTR2+')';
+//  end;
 end;
 
 procedure TfoPrincipal.dbchkCHECKBOXClick(Sender: TObject);
@@ -423,12 +451,12 @@ end;
 procedure TfoPrincipal.mmDeletarTodosClick(Sender: TObject);
 begin
   pSelTodasLinhas;
-  pSelecaoChave(wSLSeleconados);
-  if wSLSeleconados.Count > 1 then
+  pSelecaoChave(wListaSelecionados);
+  if wListaSelecionados.Count > 1 then
   begin
-    if MessageDlg('Você está prestes a deletar todos'+ IntToStr(wSLSeleconados.Count) +' arquivos.',
+    if MessageDlg('Você está prestes a deletar todos'+ IntToStr(wListaSelecionados.Count) +' arquivos.',
        mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-      fDeleteObjetoXML(wSLSeleconados);
+      fDeleteObjetoXML(wListaSelecionados);
   end;
 
   DM_NFEDFE.cdsBkpdfe.Close;
@@ -437,35 +465,38 @@ end;
 
 procedure TfoPrincipal.mmDelTodosSelecionadosClick(Sender: TObject);
 begin
-  pSelecaoChave(wSLSeleconados);
-  if wSLSeleconados.Count > 1 then
+  if wListaSelecionados.Count <> dbgNfebkp.SelectedRows.Count then
+    pSelecaoChave(wListaSelecionados);
+
+  if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
   begin
-    if MessageDlg('Você está prestes a deletar '+ IntToStr(wSLSeleconados.Count) +' arquivos.',
+    if MessageDlg('Você está prestes a deletar '+ IntToStr(wListaSelecionados.Count) +' arquivos.',
        mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-      fDeleteObjetoXML(wSLSeleconados);
+      fDeleteObjetoXML(wListaSelecionados);
   end
   else
-  if wSLSeleconados.Count = 1 then
+  if wListaSelecionados.Count = 1 then
   begin
-    if MessageDlg('Deseja excluir o  XML '+wSLSeleconados.Strings[0] +'?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
-      fDeleteObjetoXML(wSLSeleconados);
+    if MessageDlg('Deseja excluir o arquivo XML ?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
+      fDeleteObjetoXML(wListaSelecionados);
   end;
 
   DM_NFEDFE.cdsBkpdfe.Close;
   DM_NFEDFE.cdsBkpdfe.Open;
 end;
 
-procedure TfoPrincipal.mmExportaSelecaoClick(Sender: TObject);
-begin
-  pSelecaoChave(wSLSeleconados);
-  fExportaLoteXML(wSLSeleconados);
-end;
-
-procedure TfoPrincipal.mmExportaTodosClick(Sender: TObject);
+procedure TfoPrincipal.mmExpTodosClick(Sender: TObject);
 begin
   pSelTodasLinhas;
-  pSelecaoChave(wSLSeleconados);
-  fExportaLoteXML(wSLSeleconados);
+  pSelecaoChave(wListaSelecionados);
+  if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
+    fExportaLoteXML(wListaSelecionados);
+end;
+
+procedure TfoPrincipal.mmExpSelecaoClick(Sender: TObject);
+begin
+  if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
+    fExportaLoteXML(wListaSelecionados);
 end;
 
 procedure TfoPrincipal.dbgNfebkpTitleClick(Column: TColumn);
@@ -482,7 +513,6 @@ begin
   wDataFIN := dtpDataFiltroFIN.Date;
 
  wFieldFiltro := TConvert<TFieldFiltros>.StrConvertEnum('ff'+dbgNfebkp.Columns[Column.Index].FieldName);
-
 
   case wFieldFiltro of
 
@@ -577,33 +607,20 @@ begin
 
   dbgNfebkp.Columns[Column.Index].Title.Font.Style := [fsBold];
   wLastColunm := Column.Index;
-
 end;
-
-procedure TfoPrincipal.dtpDataFiltroFinCloseUp(Sender: TObject);
-begin
-  fFiltroEmissaoXML;
-end;
-
-procedure TfoPrincipal.dtpDataFiltroINICloseUp(Sender: TObject);
-begin
-  fFiltroEmissaoXML;
-end;
-
-procedure TfoPrincipal.dtpDataFiltroINIExit(Sender: TObject);
-begin
-  fFiltroEmissaoXML;
-end;
-
 
 procedure TfoPrincipal.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
   const AEventName: string; const AArgument: Variant);
 begin
   If (UpperCase(AEventName) = 'NOVO_XML') then
-  Begin
+  begin
   //<Executa tratamento para novo cliente cadastrado>
-    ShowMessage('Um novo XML foi cadastrado');
-  End
+
+    if Self.WindowState = wsMinimized then
+      Self.WindowState := wsNormal;
+
+    self.BringToFront;
+  end
 end;
 
 procedure TfoPrincipal.fFiltroEmissaoXML;
@@ -617,8 +634,8 @@ end;
 
 procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
 begin
-   if dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField then
-     dbchkCHECKBOX.Visible := False
+//   if dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField then
+//     dbchkCHECKBOX.Visible := False
 end;
 
 procedure TfoPrincipal.dbgNfebkpDblClick(Sender: TObject);
@@ -630,11 +647,7 @@ begin
    begin
      if (MessageDlg('Deseja salvar o XML?', mtConfirmation, [mbYes, mbNo],0)= mrNo) then
        exit;
-//     else
-//     if TFileStream(wStream).Size > 0 then
-//       ShowMessage('Campo vazio!');
 
-//       ShowMessage('TFileStream(wStream).Size: '+inttostr(TFileStream(wStream).Size));
      SelectedField.DataSet.Edit;
      wStream := TMemoryStream.Create;
      wStream := SelectedField.DataSet.CreateBlobStream(SelectedField, bmReadWrite);
@@ -654,35 +667,48 @@ end;
 procedure TfoPrincipal.dbgNfebkpDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
   const IsChecked : array[Boolean] of Integer = (DFCS_BUTTONCHECK, DFCS_BUTTONCHECK or DFCS_CHECKED);
-//   const IsChecked1 : array[smallint] of Integer = (DFCS_BUTTONCHECK, DFCS_BUTTONCHECK or DFCS_CHECKED);
 var wStream : TStream;
     wFileName : String;
-
-  procedure pColor(pColorCanc : TColor = clRed);
+    wRow: integer;
+  procedure pSetColorLinhas;
+  var wStatus : Integer;
   begin
     with (Sender as TDBGrid) do
     begin
-      if DataSource.DataSet.FieldByName('Protocolocanc').AsString <> ''   then
-      begin
-       Canvas.Font.Color := pColorCanc;
-//       Canvas.Font.Style:= [];
-      end
+      Canvas.Font.Style := [];
+      wStatus := DataSource.DataSet.FieldByName('STATUS').AsInteger;
+      case wStatus of
+        0: Canvas.Font.Color := clBlack;    //XML Envio Processado
+        1: Canvas.Font.Color := clNavy;     //XML Envio
+        2: Canvas.Font.Color := clRed;      //XML Cancel. Processado
+        3: Canvas.Font.Color := clPurple;    //XML Envio Cancelamento
+        4: Canvas.Font.Color := clBlue;     //Denegada
+        5: Canvas.Font.Color := clFuchsia;  //Inutilizada
       else
+        Canvas.Font.Color := clGray;
+      end;
+
+      if (gdFocused in State) then
       begin
-       Canvas.Font.Color := clBlack;
-//       Canvas.Font.Style:= [];
+       Canvas.Brush.Color := clSilver;
+       Canvas.Font.Style := [];
+       Canvas.FillRect(Rect);
+       Canvas.Font.Color:= clBlack;
+       Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
+       Canvas.FillRect(Rect);
       end;
 
       if (gdSelected in State) then
       begin
-       Canvas.Brush.Color := cl3DLight;
+       Canvas.Brush.Color := clMedGray;
+       Canvas.Font.Style := [];
        Canvas.FillRect(Rect);
-       Canvas.Font.Color:= clBlue;
+       Canvas.Font.Color:= clWhite;
        Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
+       Canvas.FillRect(Rect);
       end;
 
      Canvas.FillRect(Rect);
-//     DefaultDrawDataCell(Rect, (Sender as   TDBGrid).columns[datacol].field, State);
      DefaultDrawColumnCell(Rect, DataCol, Column, State);
     end;
   end;
@@ -711,14 +737,14 @@ var wStream : TStream;
        DrawState := Column.Field.AsINTEGER;
        dbgNfebkp.Canvas.FillRect(Rect);
        DrawFrameControl(dbgNfebkp.Canvas.Handle, DrawRect,
-         DFC_BUTTON, DrawState);
+       DFC_BUTTON, DrawState);
      end;
     end;
   end;
 
 begin
-  pColor(clRed);
-  pDesenhaCheckBox;
+  pSetColorLinhas;
+//  pDesenhaCheckBox;
 end;
 
 procedure TfoPrincipal.dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
@@ -727,11 +753,12 @@ var wOK : Boolean;
 begin
   if (key = Chr(9)) then
    Exit;
-  if (dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField) then
-  begin
-   dbchkCHECKBOX.SetFocus;
-   SendMessage(dbchkCHECKBOX.Handle, WM_Char, word(Key), 0);
-  end;
+
+//  if (dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField) then
+//  begin
+//    dbchkCHECKBOX.SetFocus;
+//    SendMessage(dbchkCHECKBOX.Handle, WM_Char, word(Key), 0);
+//  end;
 end;
 
 procedure TfoPrincipal.dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
@@ -746,71 +773,23 @@ end;
 procedure TfoPrincipal.dbgNfebkpMouseActivate(Sender: TObject;
   Button: TMouseButton; Shift: TShiftState; X, Y, HitTest: Integer;
   var MouseActivate: TMouseActivate);
-  var wI: Integer;
+//  var wI: Integer;
 begin
-  if Button = mbRight then
-  begin
-    wI := dbgNfebkp.SelectedRows.Count;
-    if wI > 0 then
-    begin
-      dbgNfebkp.PopupMenu := pmExporta;
-    end
-    else
-    begin
-      dbgNfebkp.PopupMenu := pmSelecionar;
-    end;
-  end;
-end;
-
-procedure TfoPrincipal.fOrdenaGrid(fieldbyname: string);
-var
-wSQL :string;
-begin
-  try
-     with DM_NFEDFE do
-    begin
-       wSql := 'Select * from lm_bkpdfe ';
-       wSql := wSql + 'order by ' + fieldbyname;
-       dsBkpdfe.DataSet := dao.ConsultaSql(wSql);
-    end;
-
-  except
-  on E: Exception do
-  begin
-    showmessage(E.Message + 'Houve um problema na rotina fOrdenaGrid(fieldbyname)');
-  end;
-  end;
-end;
-
-procedure TfoPrincipal.fOrdenaGrid(prOrder: Integer);
-var wOrdem :String;
-    wSql : string;
-begin
-  try
-    case prOrder of
-     0 : wOrdem := 'ID';
-     1 : wOrdem := 'DATAEMISSAO';
-     2 : wOrdem := 'CHAVE';
-    else
-     wOrdem := 'ID';
-    end;
-
-     with DM_NFEDFE do
-    begin
-       wSql := 'Select * from lm_bkpdfe ';
-       wSql := wSql + 'order by ' + wOrdem;
-       dsBkpdfe.DataSet := dao.ConsultaSql(wSql);
-    end;
-  except
-  on E: Exception do
-  begin
-    showmessage(E.Message + 'Houve um problema na rotina fOrdenaGrid da tabela M3_DFE');
-  end;
-  end;
+//  if Button = mbRight then
+//  begin
+//    wI := dbgNfebkp.SelectedRows.Count;
+//    if wI > 0 then
+//    begin
+//      dbgNfebkp.PopupMenu := pmExporta;
+//    end
+//    else
+//    begin
+//      dbgNfebkp.PopupMenu := pmSelecionar;
+//    end;
+//  end;
 end;
 
 procedure TfoPrincipal.FormActivate(Sender: TObject);
-//var wBotãoDir : TNotifyEvent;
 begin
   if DM_NFEDFE.cdsBkpdfe.Active then;
   begin
@@ -819,13 +798,12 @@ begin
     statPrincipal.Panels[0].Text := 'Total de Linhas: '+ IntToStr(DM_NFEDFE.cdsBkpdfe.RecordCount);
     statPrincipal.Panels[1].Text := 'Linhas Selecionadas: '+ IntToStr(dbgNfebkp.SelectedRows.Count);
   end;
-//   if LoadXML(wLoadXML,tabConfiguracoes.NFePathSend) then
-//  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-  FreeAndNil(wSLSeleconados);
+  FreeAndNil(wListaSelecionados);
+  DM_NFEDFE.conConexaoFD.Connected := false;
 end;
 
 procedure TfoPrincipal.FormCreate(Sender: TObject);
@@ -839,14 +817,13 @@ var i:Integer;
     dbchkCHECKBOX.Visible := False;
     dbchkCHECKBOX.Color := dbgNfebkp.Color;
     dbchkCHECKBOX.Caption := '';
-    //explicado mais adiante no artigo
-  //  dbckCHECKBOX.ValueChecked := 'Yes a Winner!';
-  //  dbckCHECKBOX.ValueUnChecked := 'Not this time.';
-
   end;
 
 begin
-  StatusBarProgress;
+  foPrincipal.Caption := 'SOUIS MAX XML';
+
+  pStatusBarProgress;
+  pIniciaGrid;
 
   if not Assigned(DaoObjetoXML) then
     DaoObjetoXML := TDaoBkpdfe.create;
@@ -870,10 +847,17 @@ begin
   wLastOrderBy := obyNone;
 
   pIniciaDBCheckBox;
-  wSLSeleconados := TStringList.Create;
+  wListaSelecionados := TStringList.Create;
+end;
 
-//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
-
+procedure TfoPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_ESCAPE then
+  begin
+    if MessageDlg('Deseja sair?', mtConfirmation, mbYesNo,0) = mrYes then
+     Close;
+  end
 end;
 
 procedure TfoPrincipal.FormShow(Sender: TObject);
@@ -884,17 +868,7 @@ begin
     mmGeraclasse.Enabled := tabUsuarios.Id = 0;
     pDataFiltro;
     DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
-    //     OpenTabela;
   end;
-end;
-
-procedure TfoPrincipal.pRetornaFieldFiltros(var pFieldName: String; ffFiltro: TFieldFiltros);
-begin
-//  if LastColunm > 0 then
-//    dbgNfebkp.Columns[LastColunm].Title.Font.Style := [];
-//
-//  dbgNfebkp.Columns[Column.Index].Title.Font.Style := [fsBold];
-//  LastColunm := Column.Index;
 end;
 
 procedure TfoPrincipal.pSalveName(pFieldName: string; var wFileName: string);
@@ -904,7 +878,6 @@ begin
 
   if (pFieldName = 'XMLENVIOCANC') or (pFieldName = 'XMLEXTENDCANC' ) then
    wFileName := 'Can_'+dbgNfebkp.Fields[1].AsString + '.xml';
-
 end;
 
 procedure TfoPrincipal.pSelecaoChave(var pLista: TStringList);
@@ -936,7 +909,6 @@ begin
           pLista.AddObject(wObjXML.Chave, wObjXML);
         end;
       end;
-//      dbgNfebkp.Refresh;
     end;
   end;
 end;
@@ -987,21 +959,17 @@ begin
     Width := Rect.Right - Rect.Left - 15;
     Height := Rect.Bottom - Rect.Top;
   end;
-
 end;
 
-procedure TfoPrincipal.StatusBarProgress;
+procedure TfoPrincipal.pStatusBarProgress;
 var
  ProgressBarStyle: integer;
-
 begin
-    statPrincipal.Panels[3].Style := psOwnerDraw;
-
+  statPrincipal.Panels[3].Style := psOwnerDraw;
   ProgressBar1.Parent := statPrincipal;
   ProgressBarStyle := GetWindowLong(ProgressBar1.Handle,GWL_EXSTYLE);
   ProgressBarStyle := ProgressBarStyle - WS_EX_STATICEDGE;
   SetWindowLong(ProgressBar1.Handle, GWL_EXSTYLE, ProgressBarStyle);
-
   ProgressBar1.Position := 0;
   ProgressBar1.Max := 100;
 end;
@@ -1016,14 +984,29 @@ begin
  end;
 end;
 
-procedure TfoPrincipal.mmRemoveSelTodosClick(Sender: TObject);
+procedure TfoPrincipal.mmMarcarTodosClick(Sender: TObject);
+begin
+  pSelTodasLinhas;
+end;
+
+procedure TfoPrincipal.mmRefazAutorizacaoTodosClick(Sender: TObject);
+begin
+  pSelTodasLinhas;
+  if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
+  begin
+    DM_NFEDFE.cdsBkpdfe.Close;
+    DM_NFEDFE.cdsBkpdfe.Open;
+  end;
+
+end;
+
+procedure TfoPrincipal.mmDescmarcarSelTodosClick(Sender: TObject);
 begin
   pRemoveSelTodasLinhas;
 end;
 
 procedure TfoPrincipal.mmSelTodosClick(Sender: TObject);
 var wI: Integer;
-
 begin
   pSelTodasLinhas;
 end;
@@ -1031,8 +1014,8 @@ end;
 procedure TfoPrincipal.mmSelTodosExportarClick(Sender: TObject);
 begin
   pSelTodasLinhas;
-  pSelecaoChave(wSLSeleconados);
-  fExportaLoteXML(wSLSeleconados);
+  pSelecaoChave(wListaSelecionados);
+  fExportaLoteXML(wListaSelecionados);
 end;
 
 procedure TfoPrincipal.mniConfigBDClick(Sender: TObject);
@@ -1085,7 +1068,6 @@ begin
   finally
 
   end;
-
 end;
 
 procedure TfoPrincipal.ToolButton1Click(Sender: TObject);
@@ -1096,12 +1078,22 @@ end;
 
 procedure TfoPrincipal.TrayIconBkpNfeDblClick(Sender: TObject);
 begin
-  Self.Visible := True;
-  Self.WindowState := wsNormal;
-  Self.Resizing(wsNormal);
-  Self.BringToFront;
-  TrayIconBkpNfe.Visible := false;
-  TrayIconBkpNfe.Animate := false;;
+//  Self.Visible := True;
+//  Self.WindowState := wsNormal;
+//  Self.Resizing(wsNormal);
+//  Self.BringToFront;
+//  TrayIconBkpNfe.Visible := false;
+//  TrayIconBkpNfe.Animate := false;;
 end;
+
+{ TDBGrid }
+
+//procedure TDBGrid.WMVScroll(var Message: TWMVScroll);
+//begin
+//  if Message.ScrollCode = SB_THUMBTRACK then
+//    Message.ScrollCode := SB_THUMBPOSITION;
+//
+//  inherited;
+//end;
 
 end.

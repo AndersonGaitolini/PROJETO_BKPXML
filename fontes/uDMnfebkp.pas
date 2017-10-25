@@ -76,6 +76,7 @@ type
     strngfldConfiguracoesNFSEPATHREJEITADO: TStringField;
     strngfldConfiguracoesNFSEPATHRETORNOLIDO: TStringField;
     strngfldConfiguracoesNFSEPATHPDFSALVO: TStringField;
+    cdsBkpdfeSTATUS: TSmallintField;
 
     procedure DataModuleCreate(Sender: TObject);
   private

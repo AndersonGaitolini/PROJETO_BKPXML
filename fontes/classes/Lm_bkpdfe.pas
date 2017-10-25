@@ -14,6 +14,7 @@ type
   TLm_bkpdfe = class(TTabela)
   private
     FId: Integer;
+    FStatus : Integer;
     FChave: string;
     FIdf_documento: Integer;
     FDataemissao: TDate;
@@ -37,6 +38,7 @@ type
   public
     [attPK]
     property Id: Integer read FId write FId;
+    property Status : Integer read FStatus write FStatus;
     property Chave: string read FChave write FChave;
     property Idf_documento: Integer read FIdf_documento write FIdf_documento;
     property Dataemissao: TDate read FDataemissao write FDataemissao;
@@ -61,6 +63,7 @@ type
 
 type
   TFieldFiltros  = (ffID,
+                    ffStatus,
                     ffCHAVE,
                     ffIDF_DOCUMENTO,
                     ffDATAEMISSAO,
@@ -240,6 +243,9 @@ begin
         begin
           if (pObjXML.Id < 1) then
             pObjXML.Id := FieldByName('id').AsInteger;
+
+          if (pObjXML.Status = 0) then
+            pObjXML.Status := FieldByName('Status').AsInteger;
 
           if (pObjXML.Chave = '') then
             pObjXML.Chave := FieldByName('chave').AsString;
@@ -561,6 +567,7 @@ begin
   begin
     id := 0;
     Chave := '';
+    Status := 0;
     Idf_documento := 0;
     Dataemissao := 0;
     Datarecto := 0;

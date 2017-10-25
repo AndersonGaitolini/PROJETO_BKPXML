@@ -3,7 +3,7 @@
         <ProjectGuid>{CC8330D8-A2E9-44EF-AD75-B20A2E8B2AE3}</ProjectGuid>
         <ProjectVersion>17.2</ProjectVersion>
         <FrameworkType>VCL</FrameworkType>
-        <MainSource>nfebkp.dpr</MainSource>
+        <MainSource>MaxXML.dpr</MainSource>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
@@ -40,7 +40,7 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <SanitizedProjectName>nfebkp</SanitizedProjectName>
+        <SanitizedProjectName>MaxXML</SanitizedProjectName>
         <Icon_MainIcon>$(BDS)\bin\delphi_PROJECTICON.ico</Icon_MainIcon>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <DCC_DcuOutput>.\$(Platform)\$(Config)</DCC_DcuOutput>
@@ -75,7 +75,7 @@
         <DCC_DcuOutput>J:\dcu\</DCC_DcuOutput>
         <VerInfo_Locale>1046</VerInfo_Locale>
         <DCC_BplOutput>J:\projeto\</DCC_BplOutput>
-        <DCC_ExeOutput>D:\Programacao\DELPHI\BASE\7357\BKP\</DCC_ExeOutput>
+        <DCC_ExeOutput>E:\BT\7.0\MaxWin\7357\BKP\</DCC_ExeOutput>
         <DCC_DcpOutput>J:\projeto\</DCC_DcpOutput>
         <VerInfo_Build>1</VerInfo_Build>
         <DCC_UnitSearchPath>J:\;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
@@ -149,26 +149,46 @@
             <Form>foXMLSimulcao</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <None Include="ModelSupport_nfebkp\default.txaPackage"/>
-        <None Include="ModelSupport_nfebkp\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\uPadraoCons\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\GerarClasseFireDac\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\ufoGerarClasse\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\Base\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\uPadraoEdicao\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\uFoPrincipal\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\uFoConfiguracao\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\uLoadXML\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\Atributos\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\Lm_bkpdfe\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\nfebkp\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\GerarClasse\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\uMetodosUteis\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\Configuracoes\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\DaoFD\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\uDMnfebkp\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\GerarClasse\BancoFirebird\default.txvpck"/>
-        <None Include="ModelSupport_nfebkp\GerarClasse\BancoMySQL\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uPadraoEdicao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uPadraoCons\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uMetodosUteis\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uLoadXML\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uFoPrincipal\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\ufoGerarClasse\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uFoConfiguracao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uDMnfebkp\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\nfebkp\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\Lm_bkpdfe\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\GerarClasseFireDac\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\GerarClasse\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\GerarClasse\BancoMySQL\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\GerarClasse\BancoFirebird\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\DaoFD\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\Configuracoes\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\Base\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\Atributos\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uFoConsConfiguracao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uFoXMLSimulacao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uFoConfigPadrao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\Usuarios\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uRotinas\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uFoConsultaPadrao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\MaxXML\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\Configpadrao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\ufoLogin\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\ufoLoginPadrao\default.txvpck"/>
+        <None Include="ModelSupport_MaxXML\uFoConfigPadrao\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\Configpadrao\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\Usuarios\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\uRotinas\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\ufoLoginPadrao\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\uFoConsultaPadrao\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\uFoConsConfiguracao\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\ufoLogin\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\MaxXML\default.txaPackage"/>
+        <None Include="ModelSupport_MaxXML\uFoXMLSimulacao\default.txaPackage"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -187,7 +207,7 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">nfebkp.dpr</Source>
+                    <Source Name="MainSource">MaxXML.dpr</Source>
                 </Source>
                 <Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k220.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
@@ -197,127 +217,247 @@
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="1">
-                <DeployFile LocalName="ModelSupport_nfebkp\uLoadXML\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoConfiguracao\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\GerarClasse\BancoFirebird\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\Configpadrao\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="E:\BT\7.0\MaxWin\7357\BKP\nfebkp.exe" Configuration="Debug" Class="ProjectOutput">
-                    <Platform Name="Win32">
-                        <RemoteName>nfebkp.exe</RemoteName>
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\GerarClasse\BancoMySQL\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\Lm_bkpdfe\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\uRotinas\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\Base\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="E:\BT\7.0\MaxWin\7357\BKP\MaxXML.exe" Configuration="Debug" Class="ProjectOutput">
+                    <Platform Name="Win32">
+                        <RemoteName>MaxXML.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\MaxXML\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\uPadraoEdicao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\ufoLogin\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\nfebkp\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\Configpadrao\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\DaoFD\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\ufoGerarClasse\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\uFoPrincipal\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\Usuarios\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\Atributos\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\uLoadXML\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\uFoConfiguracao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\uRotinas\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\uDMnfebkp\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\GerarClasseFireDac\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\uMetodosUteis\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\GerarClasseFireDac\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\GerarClasse\BancoFirebird\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\uMetodosUteis\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\DaoFD\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\uPadraoCons\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\Atributos\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\GerarClasse\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\ufoLoginPadrao\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\GerarClasse\BancoMySQL\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\default.txvpck" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\ufoGerarClasse\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoConfigPadrao\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="ModelSupport_nfebkp\Configuracoes\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoConsConfiguracao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uDMnfebkp\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\Base\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoConsultaPadrao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uPadraoEdicao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoConsConfiguracao\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\Lm_bkpdfe\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\Usuarios\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\Configuracoes\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\ufoLoginPadrao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoConsultaPadrao\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\MaxXML\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uPadraoCons\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\GerarClasse\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoConfigPadrao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoXMLSimulacao\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoPrincipal\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\nfebkp\default.txvpck" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\uFoXMLSimulacao\default.txaPackage" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="ModelSupport_MaxXML\ufoLogin\default.txaPackage" Configuration="Debug" Class="ProjectFile">
                     <Platform Name="Win32">
                         <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
@@ -703,9 +843,9 @@
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

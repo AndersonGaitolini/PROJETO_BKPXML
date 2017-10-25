@@ -1,13 +1,16 @@
 object foPrincipal: TfoPrincipal
   Left = 0
   Top = 0
-  Caption = 'Sistema backup XML'
-  ClientHeight = 578
-  ClientWidth = 1251
+  Width = 1050
+  Height = 507
+  Align = alClient
+  AutoScroll = True
+  BorderWidth = 1
+  Caption = 'SOUIS MAX XML'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
+  Font.Height = -10
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -17,14 +20,262 @@ object foPrincipal: TfoPrincipal
   OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
+  OnKeyUp = FormKeyUp
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 12
+  object pnlControles: TPanel
+    Left = 208
+    Top = 314
+    Width = 1033
+    Height = 68
+    Enabled = False
+    TabOrder = 2
+    Visible = False
+    object btnEnvioArq: TButton
+      Left = 9
+      Top = 7
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio'
+      TabOrder = 0
+      OnClick = btnEnvioArqClick
+    end
+    object btnEnvioLote: TButton
+      Left = 11
+      Top = 36
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio Lote'
+      TabOrder = 4
+      OnClick = btnEnvioLoteClick
+    end
+    object btnEnvioExt: TButton
+      Left = 125
+      Top = 7
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio Extend'
+      TabOrder = 1
+      OnClick = btnEnvioExtClick
+    end
+    object btnXMLEnvioExtLote: TButton
+      Left = 125
+      Top = 36
+      Width = 110
+      Height = 25
+      Caption = 'XML Envio Ext. Lote'
+      TabOrder = 5
+      OnClick = btnXMLEnvioExtLoteClick
+    end
+    object btnCanEnvioLote: TButton
+      Left = 239
+      Top = 36
+      Width = 110
+      Height = 25
+      Caption = 'XML Cancel. Lote'
+      TabOrder = 6
+      OnClick = btnCanEnvioLoteClick
+    end
+    object btnCanEnvioArq: TButton
+      Left = 239
+      Top = 7
+      Width = 110
+      Height = 25
+      Caption = 'XML Cancelamento'
+      TabOrder = 2
+      OnClick = btnCanEnvioArqClick
+    end
+    object btnCanEnvioExt: TButton
+      Left = 353
+      Top = 7
+      Width = 110
+      Height = 25
+      Caption = 'XML Canc. Extend'
+      TabOrder = 3
+      OnClick = btnCanEnvioExtClick
+    end
+    object btnCanExetendLote: TButton
+      Left = 354
+      Top = 36
+      Width = 110
+      Height = 25
+      Caption = 'XML Can Ext. Lote'
+      TabOrder = 7
+      OnClick = btnCanExetendLoteClick
+    end
+    object btnSIMULACAO: TButton
+      Left = 468
+      Top = 36
+      Width = 110
+      Height = 25
+      Caption = 'XML Simula'#231#227'o '
+      TabOrder = 8
+      Visible = False
+      OnClick = btnSIMULACAOClick
+    end
+    object pnlLegenda: TPanel
+      Left = 808
+      Top = 1
+      Width = 224
+      Height = 66
+      Align = alRight
+      Anchors = [akTop, akRight]
+      BevelInner = bvRaised
+      BevelKind = bkFlat
+      TabOrder = 9
+      DesignSize = (
+        220
+        62)
+      object Shape1: TShape
+        Left = 8
+        Top = 3
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clBlack
+        Pen.Color = clGray
+      end
+      object Shape2: TShape
+        Left = 125
+        Top = 31
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clRed
+        Pen.Color = clGray
+      end
+      object Shape3: TShape
+        Left = 8
+        Top = 31
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clFuchsia
+        Pen.Color = clGray
+      end
+      object Shape13: TShape
+        Left = 125
+        Top = 45
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clGray
+        Pen.Color = clGray
+        Visible = False
+      end
+      object Shape14: TShape
+        Left = 8
+        Top = 45
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clBlue
+        Pen.Color = clGray
+      end
+      object Shape15: TShape
+        Left = 125
+        Top = 4
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clNavy
+        Pen.Color = clGray
+      end
+      object Shape17: TShape
+        Left = 8
+        Top = 17
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clGreen
+        Pen.Color = clGray
+      end
+      object Label3: TLabel
+        Left = 24
+        Top = 3
+        Width = 51
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'Processado'
+      end
+      object Label4: TLabel
+        Left = 139
+        Top = 30
+        Width = 41
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'Rejeitado'
+      end
+      object Label5: TLabel
+        Left = 24
+        Top = 31
+        Width = 45
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'Inutilizada'
+      end
+      object Label16: TLabel
+        Left = 139
+        Top = 44
+        Width = 57
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'N'#227'o definido'
+        Visible = False
+      end
+      object Label17: TLabel
+        Left = 24
+        Top = 45
+        Width = 45
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'Denegada'
+      end
+      object Label18: TLabel
+        Left = 24
+        Top = 17
+        Width = 87
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'Cancel. Processado'
+      end
+      object Label20: TLabel
+        Left = 139
+        Top = 3
+        Width = 67
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'Envio aguard. '
+      end
+      object Shape4: TShape
+        Left = 125
+        Top = 17
+        Width = 10
+        Height = 10
+        Anchors = [akRight, akBottom]
+        Brush.Color = clOlive
+        Pen.Color = clGray
+      end
+      object Label1: TLabel
+        Left = 139
+        Top = 16
+        Width = 62
+        Height = 12
+        Anchors = [akRight, akBottom]
+        Caption = 'Envio Cancel.'
+      end
+    end
+  end
   object statPrincipal: TStatusBar
     Left = 0
-    Top = 559
-    Width = 1251
+    Top = 427
+    Width = 1032
     Height = 19
+    Margins.Left = 2
+    Margins.Top = 2
+    Margins.Right = 2
+    Margins.Bottom = 2
     Panels = <
       item
         Text = 'Total de Linhas..'
@@ -43,28 +294,32 @@ object foPrincipal: TfoPrincipal
         Width = 80
       end>
     OnDrawPanel = statPrincipalDrawPanel
+    ExplicitTop = 421
+    ExplicitWidth = 1033
   end
   object dbgNfebkp: TDBGrid
     Left = 0
-    Top = 51
-    Width = 1251
-    Height = 414
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 25
+    Width = 1032
+    Height = 385
     Align = alClient
+    Color = clBtnFace
+    Ctl3D = True
     DataSource = DM_NFEDFE.dsBkpdfe
-    Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
+    DrawingStyle = gdsGradient
+    FixedColor = clHighlightText
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
+    ParentCtl3D = False
+    PopupMenu = pmExporta
     ReadOnly = True
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -13
+    TitleFont.Height = -10
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
     Touch.ParentTabletOptions = False
-    Touch.TabletOptions = [toPressAndHold, toPenBarrelFeedback]
+    Touch.TabletOptions = [toPenBarrelFeedback]
     OnColExit = dbgNfebkpColExit
     OnDrawColumnCell = dbgNfebkpDrawColumnCell
     OnDblClick = dbgNfebkpDblClick
@@ -74,431 +329,264 @@ object foPrincipal: TfoPrincipal
     OnTitleClick = dbgNfebkpTitleClick
     Columns = <
       item
-        Alignment = taCenter
+        Alignment = taLeftJustify
         Expanded = False
         FieldName = 'ID'
-        Title.Alignment = taCenter
+        Title.Color = clInfoBk
         Visible = False
       end
       item
-        Alignment = taCenter
+        Alignment = taLeftJustify
+        Expanded = False
+        FieldName = 'STATUS'
+        Title.Color = clInfoBk
+        Visible = False
+      end
+      item
         Expanded = False
         FieldName = 'DATAALTERACAO'
-        Title.Alignment = taCenter
-        Title.Caption = 'Data Altera'#231#227'o'
-        Width = 102
+        Title.Caption = 'Data altera'#231#227'o'
+        Title.Color = clInfoBk
         Visible = True
       end
       item
-        Alignment = taCenter
         Expanded = False
         FieldName = 'CHAVE'
-        Title.Alignment = taCenter
-        Title.Caption = 'Chave'
-        Width = 300
+        Title.Caption = 'Chave XML'
+        Title.Color = clInfoBk
+        Width = 250
         Visible = True
       end
       item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'DATAEMISSAO'
-        Title.Alignment = taCenter
-        Title.Caption = 'Emiss'#227'o'
-        Width = 70
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'DATARECTO'
-        Title.Alignment = taCenter
-        Title.Caption = 'Recebimento'
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'IDF_DOCUMENTO'
-        Title.Alignment = taCenter
-        Title.Caption = 'N'#186' Nota fiscal'
-        Width = 70
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'MOTIVO'
-        Title.Alignment = taCenter
-        Title.Caption = 'Motivo'
-        Width = 95
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'PROTOCOLOCANC'
-        Title.Alignment = taCenter
-        Title.Caption = 'Prot. Cancelamento'
-        Width = 140
-        Visible = True
-      end
-      item
-        Alignment = taCenter
-        Expanded = False
-        FieldName = 'PROTOCOLORECTO'
-        Title.Alignment = taCenter
-        Title.Caption = 'Prot. Recebimento'
-        Width = 140
-        Visible = True
-      end
-      item
-        Alignment = taCenter
         Expanded = False
         FieldName = 'TIPO'
-        Title.Alignment = taCenter
-        Title.Caption = 'Tipo doc.'
-        Width = 64
+        Title.Caption = 'Tipo NF'
+        Title.Color = clInfoBk
         Visible = True
       end
       item
-        Alignment = taCenter
+        Alignment = taLeftJustify
         Expanded = False
-        FieldName = 'TIPOAMBIENTE'
-        Title.Alignment = taCenter
-        Title.Caption = 'Ambiente'
+        FieldName = 'IDF_DOCUMENTO'
+        Title.Caption = 'N'#186' Nota'
+        Title.Color = clInfoBk
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATAEMISSAO'
+        Title.Caption = 'Emiss'#227'o'
+        Title.Color = clInfoBk
         Width = 80
         Visible = True
       end
       item
-        Alignment = taCenter
         Expanded = False
         FieldName = 'PROTOCOLOAUT'
-        Title.Alignment = taCenter
-        Title.Caption = 'Prot. Atoriza'#231#227'o'
-        Width = 140
+        Title.Caption = 'Protoc. autoriza'#231#227'o'
+        Title.Color = clInfoBk
+        Width = 100
         Visible = True
       end
       item
-        Alignment = taCenter
         Expanded = False
-        FieldName = 'XMLEXTEND'
-        Title.Alignment = taCenter
-        Title.Caption = 'XML Autorizado'
-        Width = 64
+        FieldName = 'MOTIVO'
+        Title.Caption = 'Motivo'
+        Title.Color = clInfoBk
+        Width = 100
         Visible = True
       end
       item
-        Alignment = taCenter
         Expanded = False
-        FieldName = 'XMLEXTENDCANC'
-        Title.Alignment = taCenter
-        Title.Caption = 'XML Cancelado'
-        Width = 64
+        FieldName = 'PROTOCOLOCANC'
+        Title.Caption = 'Protoc. Cancelamento'
+        Title.Color = clInfoBk
+        Width = 100
         Visible = True
       end
       item
-        Alignment = taCenter
         Expanded = False
         FieldName = 'MOTIVOCANC'
-        Title.Alignment = taCenter
-        Width = 130
+        Title.Caption = 'Motivo cancelamento'
+        Title.Color = clInfoBk
+        Width = 100
         Visible = True
       end
       item
-        Alignment = taCenter
+        Expanded = False
+        FieldName = 'PROTOCOLORECTO'
+        Title.Caption = 'Protoc. Recebimento'
+        Title.Color = clInfoBk
+        Width = 100
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DATARECTO'
+        Title.Caption = 'Recebimento'
+        Title.Color = clInfoBk
+        Width = 90
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TIPOAMBIENTE'
+        Title.Caption = 'Ambiente'
+        Title.Color = clInfoBk
+        Width = 100
+        Visible = True
+      end
+      item
         Expanded = False
         FieldName = 'EMAILSNOTIFICADOS'
-        Title.Alignment = taCenter
-        Title.Caption = 'E-Mail Notif.'
-        Width = 260
+        Title.Caption = 'E-Mail'
+        Title.Color = clInfoBk
+        Width = 100
         Visible = True
       end
       item
-        Alignment = taCenter
         Expanded = False
         FieldName = 'XMLENVIO'
-        Title.Alignment = taCenter
-        Visible = False
+        Title.Color = clInfoBk
+        Visible = True
       end
       item
-        Alignment = taCenter
+        Expanded = False
+        FieldName = 'XMLEXTEND'
+        Title.Color = clInfoBk
+        Visible = True
+      end
+      item
         Expanded = False
         FieldName = 'XMLENVIOCANC'
-        Title.Alignment = taCenter
-        Visible = False
+        Title.Color = clInfoBk
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'XMLEXTENDCANC'
+        Title.Color = clInfoBk
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CAMPOSTREAM'
+        Title.Color = clInfoBk
+        Visible = True
+      end
+      item
+        Alignment = taLeftJustify
+        Expanded = False
+        FieldName = 'CHECKBOX'
+        Title.Color = clInfoBk
+        Visible = True
       end>
   end
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 1251
-    Height = 51
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 1032
+    Height = 25
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 1034
     object btn1: TSpeedButton
-      Left = 703
-      Top = 8
-      Width = 22
-      Height = 22
+      Left = 754
+      Top = 0
+      Width = 18
+      Height = 18
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
       Caption = '...'
       Flat = True
       OnClick = btn1Click
     end
     object lbDataIni: TLabel
-      Left = 13
-      Top = 15
-      Width = 30
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 10
+      Top = 4
+      Width = 25
+      Height = 12
       Caption = 'Inicio'
     end
     object lbDataFIm: TLabel
-      Left = 185
-      Top = 14
-      Width = 21
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 148
+      Top = 4
+      Width = 16
+      Height = 12
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 396
-      Top = 10
-      Width = 75
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'Configura'#231#227'o'
+      Left = 507
+      Top = 3
+      Width = 65
+      Height = 12
+      Caption = 'Configura'#231#245'es'
     end
     object edConfiguracao: TEdit
-      Left = 478
-      Top = 6
-      Width = 225
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 574
+      Top = -1
+      Width = 180
+      Height = 20
       TabOrder = 0
     end
     object dbchkCHECKBOX: TDBCheckBox
-      Left = 349
-      Top = 9
-      Width = 121
-      Height = 21
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 383
+      Top = -2
+      Width = 97
+      Height = 17
       DataField = 'CHECKBOX'
       DataSource = DM_NFEDFE.dsBkpdfe
-      TabOrder = 3
+      TabOrder = 4
       ValueChecked = '0'
       ValueUnchecked = '-1'
       Visible = False
       OnClick = dbchkCHECKBOXClick
     end
     object dtpDataFiltroINI: TDateTimePicker
-      Left = 49
-      Top = 9
-      Width = 131
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 39
+      Top = 0
+      Width = 105
+      Height = 20
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 1
-      OnCloseUp = dtpDataFiltroINICloseUp
-      OnExit = dtpDataFiltroINIExit
     end
     object dtpDataFiltroFin: TDateTimePicker
-      Left = 210
-      Top = 9
-      Width = 131
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 168
+      Top = 0
+      Width = 105
+      Height = 20
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 2
-      OnCloseUp = dtpDataFiltroFinCloseUp
+    end
+    object btnFiltrar: TButton
+      Left = 277
+      Top = 0
+      Width = 75
+      Height = 20
+      Caption = '&Filtrar'
+      TabOrder = 3
+      OnClick = btnFiltrarClick
     end
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 538
-    Width = 1251
-    Height = 21
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 410
+    Width = 1032
+    Height = 17
     Align = alBottom
     TabOrder = 3
-  end
-  object pnlControles: TPanel
-    Left = 0
-    Top = 465
-    Width = 1251
-    Height = 73
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
-    Align = alBottom
-    TabOrder = 2
-    object btnEnvioArq: TButton
-      Left = 11
-      Top = 3
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Envio'
-      TabOrder = 0
-      OnClick = btnEnvioArqClick
-    end
-    object btnEnvioLote: TButton
-      Left = 14
-      Top = 39
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Envio Lote'
-      TabOrder = 4
-      OnClick = btnEnvioLoteClick
-    end
-    object btnEnvioExt: TButton
-      Left = 156
-      Top = 3
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Envio Extend'
-      TabOrder = 1
-      OnClick = btnEnvioExtClick
-    end
-    object btnXMLEnvioExtLote: TButton
-      Left = 156
-      Top = 39
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Envio Ext. Lote'
-      TabOrder = 5
-      OnClick = btnXMLEnvioExtLoteClick
-    end
-    object btnCanEnvioLote: TButton
-      Left = 299
-      Top = 39
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Cancel. Lote'
-      TabOrder = 6
-      OnClick = btnCanEnvioLoteClick
-    end
-    object btnCanEnvioArq: TButton
-      Left = 299
-      Top = 3
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Cancelamento'
-      TabOrder = 2
-      OnClick = btnCanEnvioArqClick
-    end
-    object btnCanEnvioExt: TButton
-      Left = 441
-      Top = 3
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Canc. Extend'
-      TabOrder = 3
-      OnClick = btnCanEnvioExtClick
-    end
-    object btnCanExetendLote: TButton
-      Left = 443
-      Top = 39
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Can Ext. Lote'
-      TabOrder = 7
-      OnClick = btnCanExetendLoteClick
-    end
-    object btnSIMULACAO: TButton
-      Left = 585
-      Top = 39
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'XML Simula'#231#227'o '
-      TabOrder = 8
-      Visible = False
-      OnClick = btnSIMULACAOClick
-    end
+    ExplicitTop = 404
+    ExplicitWidth = 1033
   end
   object mmPrincipal: TMainMenu
     Images = ilPrincipal
-    Left = 655
-    Top = 385
-    object mmArquivo: TMenuItem
-      Caption = '&Arquivo'
-      object mmNovo: TMenuItem
-        Caption = '&Novo'
-        ImageIndex = 43
-      end
-      object mniN1: TMenuItem
-        Caption = '-'
-      end
-      object mmSair: TMenuItem
-        Caption = '&Sair'
-        ImageIndex = 26
-      end
-    end
+    Left = 622
+    Top = 155
     object mmFerrametas: TMenuItem
       Caption = '&Ferramentas'
       object mmConfiguracoes: TMenuItem
@@ -517,17 +605,14 @@ object foPrincipal: TfoPrincipal
         end
       end
     end
-    object mmAjuda: TMenuItem
-      Caption = 'A&juda'
-    end
   end
   object ilPrincipal: TImageList
     Height = 32
     Width = 32
-    Left = 579
-    Top = 293
+    Left = 470
+    Top = 247
     Bitmap = {
-      494C01012C003C00C80120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00D00120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6871,39 +6956,83 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object tmrHora: TTimer
-    Left = 883
-    Top = 293
+    Left = 774
+    Top = 155
   end
   object pmExporta: TPopupMenu
     OnPopup = pmExportaPopup
-    Left = 731
-    Top = 385
-    object mmExportaTodos: TMenuItem
-      Caption = 'Exporta todos os XML'
-      OnClick = mmExportaTodosClick
+    Left = 622
+    Top = 247
+    object Aes1: TMenuItem
+      Caption = '&A'#231#245'es'
+      object mmExpTodos: TMenuItem
+        Caption = 'Exporta  XML'#39's (todos)'
+        OnClick = mmExpTodosClick
+      end
+      object mmExpSelecao: TMenuItem
+        Caption = 'Exporta XML'#39' (sele'#231#227'o) '
+        OnClick = mmExpSelecaoClick
+      end
+      object mmN4: TMenuItem
+        Caption = '-'
+      end
+      object mmExpPDFTodos: TMenuItem
+        Caption = 'Exporta PDF'#39's (todos)'
+        Visible = False
+      end
+      object mmExpPDFSelecao: TMenuItem
+        Caption = 'Exporta PDF'#39's (sele'#231#227'o) '
+        Visible = False
+      end
+      object mmExpXMLPDFTodos: TMenuItem
+        Caption = 'Exporta XML'#39's + PDF'#39's (todos) '
+        Visible = False
+      end
+      object mmExpXMLPDFSelecao: TMenuItem
+        Caption = 'Exporta XML'#39's + PDF'#39's (sele'#231#227'o)  '
+        Visible = False
+      end
+      object mmN2: TMenuItem
+        Caption = '-'
+        Visible = False
+      end
+      object mmDeletarTodos: TMenuItem
+        Caption = '&Deletar (todos)'
+        OnClick = mmDeletarTodosClick
+      end
+      object mmDelTodosSelecionados: TMenuItem
+        Caption = 'D&eletar (sele'#231#227'o)'
+        OnClick = mmDelTodosSelecionadosClick
+      end
+      object mmN1: TMenuItem
+        Caption = '-'
+      end
+      object mmRefazAutorizacaoTodos: TMenuItem
+        Caption = 'Refazer autoriza'#231#245'es (Todos)'
+        OnClick = mmRefazAutorizacaoTodosClick
+      end
+      object mmRefazAutorizacaoSelecao: TMenuItem
+        Caption = 'Refazer autoriza'#231#245'es (Sele'#231#227'o)'
+        Enabled = False
+      end
+      object mmN3: TMenuItem
+        Caption = '-'
+      end
     end
-    object mmExportaSelecao: TMenuItem
-      Caption = 'Exporta  XML selecionados'
-      OnClick = mmExportaSelecaoClick
+    object mmDescmarcarSelTodos: TMenuItem
+      Caption = '&Desmarcar'
+      OnClick = mmDescmarcarSelTodosClick
     end
-    object mmDeletarTodos: TMenuItem
-      Caption = '&Deletar todos'
-      OnClick = mmDeletarTodosClick
-    end
-    object mmDelTodosSelecionados: TMenuItem
-      Caption = 'D&eletar todos selecionados'
-      OnClick = mmDelTodosSelecionadosClick
-    end
-    object mmRemoveSelTodos: TMenuItem
-      Caption = '&Remove sele'#231#227'o '
-      OnClick = mmRemoveSelTodosClick
+    object mmMarcarTodos: TMenuItem
+      Caption = '&Marcar (todos)'
+      OnClick = mmMarcarTodosClick
     end
   end
   object ilMenu: TImageList
-    Left = 579
-    Top = 385
+    Left = 546
+    Top = 155
     Bitmap = {
-      494C010103000C00700110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00780110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF
@@ -7043,32 +7172,24 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object EvaAlertas: TFDEventAlerter
-    Left = 503
-    Top = 385
+    Left = 394
+    Top = 247
   end
   object tiTryIcon: TJvTrayIcon
     IconIndex = 0
-    Left = 655
-    Top = 293
-  end
-  object pshEventosPush: TPushEvents
-    Left = 807
-    Top = 293
-  end
-  object tmrVerifica: TTimer
-    Left = 883
-    Top = 385
+    Left = 546
+    Top = 247
   end
   object dlgSaveXML: TSaveDialog
     Filter = 'XML|*.XML'
     Title = 'Salvando oXML zipado'
-    Left = 807
-    Top = 385
+    Left = 698
+    Top = 247
   end
   object pmSelecionar: TPopupMenu
     OnPopup = pmSelecionarPopup
-    Left = 731
-    Top = 293
+    Left = 698
+    Top = 155
     object mmSelTodos: TMenuItem
       Caption = 'Selecionar &todos'
       OnClick = mmSelTodosClick
@@ -7218,20 +7339,20 @@ object foPrincipal: TfoPrincipal
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     PopupMenu = pmExporta
     OnDblClick = TrayIconBkpNfeDblClick
-    Left = 959
-    Top = 293
+    Left = 774
+    Top = 247
   end
   object appEventBKPNFE: TApplicationEvents
     OnMinimize = appEventBKPNFEMinimize
-    Left = 503
-    Top = 293
+    Left = 394
+    Top = 155
   end
   object FDEventAlerter1: TFDEventAlerter
     Connection = DM_NFEDFE.conConexaoFD
     Names.Strings = (
       'NOVO_XML')
     OnAlert = FDEventAlerter1Alert
-    Left = 968
-    Top = 384
+    Left = 470
+    Top = 155
   end
 end
