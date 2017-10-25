@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>2017/09/11 10:59:51.000.832,C:\Users\anderson\Documents\Embarcadero\Studio\Projects\Project1.dproj=E:\Arquivos\2_Dev\Projetos\NFEBKP\projeto\nfebkp.dproj</Transaction>
-    <Transaction>2017/09/11 16:54:48.000.352,E:\Arquivos\2_Dev\Projetos\NFEBKP\fontes\uFrmListaXML.dfm=E:\Arquivos\2_Dev\Projetos\NFEBKP\projeto\Unit1.dfm</Transaction>
-    <Transaction>2017/09/24 12:13:44.000.829,J:\fontes\uFoConfiguracao.dfm=J:\fontes\uFoConfigPadrao.dfm</Transaction>
+    <Transaction>2017/09/11 10:59:51.000.832,E:\Arquivos\2_Dev\Projetos\NFEBKP\projeto\nfebkp.dproj=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2017/09/11 16:54:48.000.352,E:\Arquivos\2_Dev\Projetos\NFEBKP\projeto\Unit1.dfm=E:\Arquivos\2_Dev\Projetos\NFEBKP\fontes\uFrmListaXML.dfm</Transaction>
+    <Transaction>2017/09/24 12:13:44.000.829,J:\fontes\uFoConfigPadrao.dfm=J:\fontes\uFoConfiguracao.dfm</Transaction>
     <Transaction>2017/10/24 11:45:08.000.325,=J:\projeto\Unit1.pas</Transaction>
-    <Transaction>2017/10/24 11:48:09.000.196,J:\fontes\uFoXMLSimulacao.dfm=J:\projeto\Unit1.dfm</Transaction>
-    <Transaction>2017/10/24 11:48:09.000.196,J:\fontes\uFoXMLSimulacao.pas=J:\projeto\Unit1.pas</Transaction>
+    <Transaction>2017/10/24 11:48:09.000.196,J:\projeto\Unit1.dfm=J:\fontes\uFoXMLSimulacao.dfm</Transaction>
+    <Transaction>2017/10/24 11:48:09.000.196,J:\projeto\Unit1.pas=J:\fontes\uFoXMLSimulacao.pas</Transaction>
   </Transactions>
 </BorlandProject>

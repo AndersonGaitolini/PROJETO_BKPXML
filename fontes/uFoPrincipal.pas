@@ -69,6 +69,7 @@ type
     btnSIMULACAO: TButton;
     TrayIconBkpNfe: TTrayIcon;
     appEventBKPNFE: TApplicationEvents;
+    FDEventAlerter1: TFDEventAlerter;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -121,6 +122,8 @@ type
     procedure btnSIMULACAOClick(Sender: TObject);
     procedure appEventBKPNFEMinimize(Sender: TObject);
     procedure TrayIconBkpNfeDblClick(Sender: TObject);
+    procedure FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
+      const AEventName: string; const AArgument: Variant);
   private
     { Private declarations }
     procedure fOrdenaGrid(prOrder: Integer);  overload;
@@ -592,6 +595,16 @@ begin
   fFiltroEmissaoXML;
 end;
 
+
+procedure TfoPrincipal.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
+  const AEventName: string; const AArgument: Variant);
+begin
+  If (UpperCase(AEventName) = 'NOVO_XML') then
+  Begin
+  //<Executa tratamento para novo cliente cadastrado>
+    ShowMessage('Um novo XML foi cadastrado');
+  End
+end;
 
 procedure TfoPrincipal.fFiltroEmissaoXML;
 begin

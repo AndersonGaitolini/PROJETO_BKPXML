@@ -4,7 +4,7 @@ object foConfiguracao: TfoConfiguracao
   BorderStyle = bsDialog
   Caption = 'Configura'#231#245'es do banco de dados'
   ClientHeight = 583
-  ClientWidth = 529
+  ClientWidth = 396
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -27,7 +27,7 @@ object foConfiguracao: TfoConfiguracao
   object pnlConfig: TPanel
     Left = 0
     Top = 37
-    Width = 529
+    Width = 396
     Height = 474
     Margins.Left = 4
     Margins.Top = 4
@@ -35,32 +35,34 @@ object foConfiguracao: TfoConfiguracao
     Margins.Bottom = 4
     Align = alClient
     TabOrder = 2
+    ExplicitWidth = 529
     object pgcConfig: TPageControl
       Left = 1
       Top = 1
-      Width = 527
+      Width = 394
       Height = 472
       Hint = 'Configura par'#226'metros do banco de dados'
       Margins.Left = 4
       Margins.Top = 4
       Margins.Right = 4
       Margins.Bottom = 4
-      ActivePage = tsConfigNFe
+      ActivePage = tsConfigBD
       Align = alClient
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
       OnChange = pgcConfigChange
-      ExplicitLeft = -15
-      ExplicitTop = 17
+      ExplicitWidth = 527
       object tsConfigBD: TTabSheet
         Margins.Left = 4
         Margins.Top = 4
         Margins.Right = 4
         Margins.Bottom = 4
         Caption = 'Configura BD'
+        ExplicitWidth = 519
         object btnGetDirBanco: TSpeedButton
-          Left = 406
+          AlignWithMargins = True
+          Left = 341
           Top = 255
           Width = 42
           Height = 25
@@ -70,7 +72,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnGetDirBancoClick
         end
         object edUsuarioBD: TLabeledEdit
-          Left = 69
+          AlignWithMargins = True
+          Left = 4
           Top = 176
           Width = 194
           Height = 24
@@ -81,7 +84,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edUsuarioBDExit
         end
         object edSenhaBD: TLabeledEdit
-          Left = 69
+          AlignWithMargins = True
+          Left = 4
           Top = 221
           Width = 194
           Height = 24
@@ -92,7 +96,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edSenhaBDExit
         end
         object edArquivo: TLabeledEdit
-          Left = 69
+          AlignWithMargins = True
+          Left = 4
           Top = 266
           Width = 332
           Height = 24
@@ -103,7 +108,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edArquivoExit
         end
         object edDescriConfig: TLabeledEdit
-          Left = 69
+          AlignWithMargins = True
+          Left = 4
           Top = 131
           Width = 332
           Height = 24
@@ -122,8 +128,10 @@ object foConfiguracao: TfoConfiguracao
         Margins.Bottom = 4
         Caption = 'Configura NFCe'
         ImageIndex = 2
+        ExplicitWidth = 519
         object edNFCePathEnvio: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 118
           Width = 312
           Height = 24
@@ -142,7 +150,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFCePathEnvioExit
         end
         object edNFCePathProcessado: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 163
           Width = 312
           Height = 24
@@ -161,7 +170,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFCePathProcessadoExit
         end
         object edNFCePathRejeitado: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 208
           Width = 312
           Height = 24
@@ -180,7 +190,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFCePathRejeitadoExit
         end
         object edNFCePathRetornoLido: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 253
           Width = 312
           Height = 24
@@ -199,7 +210,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFCePathRetornoLidoExit
         end
         object edNFCePathPDFSalvo: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 296
           Width = 312
           Height = 24
@@ -218,7 +230,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFCePathPDFSalvoExit
         end
         object btnOpenNFCe1: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 116
           Width = 31
           Height = 28
@@ -231,7 +244,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFCe1Click
         end
         object btnOpenNFCe2: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 161
           Width = 31
           Height = 28
@@ -244,7 +258,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFCe2Click
         end
         object btnOpenNFCe3: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 206
           Width = 31
           Height = 28
@@ -257,7 +272,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFCe3Click
         end
         object btnOpenNFCe4: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 251
           Width = 31
           Height = 28
@@ -270,7 +286,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFCe4Click
         end
         object btnOpenNFCe5: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 296
           Width = 31
           Height = 28
@@ -292,8 +309,10 @@ object foConfiguracao: TfoConfiguracao
         ImageIndex = 3
         ParentShowHint = False
         ShowHint = True
+        ExplicitWidth = 519
         object edNFSePathEnvio: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 118
           Width = 312
           Height = 24
@@ -312,7 +331,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFSePathEnvioExit
         end
         object edNFSePathProcessado: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 163
           Width = 312
           Height = 24
@@ -331,7 +351,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFSePathProcessadoExit
         end
         object edNFSePathRejeitado: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 208
           Width = 312
           Height = 24
@@ -350,7 +371,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFSePathRejeitadoExit
         end
         object edNFSePathRetornoLido: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 253
           Width = 312
           Height = 24
@@ -369,7 +391,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFSePathRetornoLidoExit
         end
         object edNFSePathPDFSalvo: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 17
           Top = 298
           Width = 312
           Height = 24
@@ -388,7 +411,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFSePathPDFSalvoExit
         end
         object btnOpenNFSe1: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 116
           Width = 31
           Height = 28
@@ -401,7 +425,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFSe1Click
         end
         object btnOpenNFSe2: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 161
           Width = 31
           Height = 28
@@ -414,7 +439,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFSe2Click
         end
         object btnOpenNFSe3: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 206
           Width = 31
           Height = 28
@@ -427,7 +453,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFSe3Click
         end
         object btnOpenNFSe4: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 251
           Width = 31
           Height = 28
@@ -440,7 +467,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFSe4Click
         end
         object btnOpenNFSe5: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 337
           Top = 296
           Width = 31
           Height = 28
@@ -463,10 +491,10 @@ object foConfiguracao: TfoConfiguracao
         ImageIndex = 1
         ParentShowHint = False
         ShowHint = True
-        ExplicitLeft = -244
-        ExplicitTop = -5
+        ExplicitWidth = 519
         object edNFePathEnvio: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 18
           Top = 119
           Width = 312
           Height = 24
@@ -485,7 +513,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFePathEnvioExit
         end
         object edNFePathProcessado: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 18
           Top = 161
           Width = 312
           Height = 24
@@ -504,7 +533,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFePathProcessadoExit
         end
         object edNFePathRejeitado: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 18
           Top = 209
           Width = 312
           Height = 24
@@ -523,7 +553,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFePathRejeitadoExit
         end
         object edNFePathRetornoLido: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 18
           Top = 254
           Width = 312
           Height = 24
@@ -542,7 +573,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFePathRetornoLidoExit
         end
         object edNFePathPDFSalvo: TLabeledEdit
-          Left = 84
+          AlignWithMargins = True
+          Left = 18
           Top = 299
           Width = 312
           Height = 24
@@ -561,7 +593,8 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edNFePathPDFSalvoExit
         end
         object btnOpen1: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 338
           Top = 117
           Width = 31
           Height = 28
@@ -574,7 +607,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpen1Click
         end
         object btnOpen2: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 338
           Top = 162
           Width = 31
           Height = 28
@@ -587,7 +621,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpen2Click
         end
         object btnOpen3: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 338
           Top = 207
           Width = 31
           Height = 28
@@ -600,7 +635,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpen3Click
         end
         object btnOpen4: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 338
           Top = 252
           Width = 31
           Height = 28
@@ -613,7 +649,8 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpen4Click
         end
         object btnOpen5: TBitBtn
-          Left = 404
+          AlignWithMargins = True
+          Left = 338
           Top = 297
           Width = 31
           Height = 28
@@ -631,7 +668,7 @@ object foConfiguracao: TfoConfiguracao
   object statMSg: TStatusBar
     Left = 0
     Top = 564
-    Width = 529
+    Width = 396
     Height = 19
     Margins.Left = 4
     Margins.Top = 4
@@ -646,11 +683,12 @@ object foConfiguracao: TfoConfiguracao
         Text = 'Nenhuma'
         Width = 50
       end>
+    ExplicitWidth = 529
   end
   object pnlRodape: TPanel
     Left = 0
     Top = 511
-    Width = 529
+    Width = 396
     Height = 53
     Margins.Left = 4
     Margins.Top = 4
@@ -658,11 +696,12 @@ object foConfiguracao: TfoConfiguracao
     Margins.Bottom = 4
     Align = alBottom
     TabOrder = 3
+    ExplicitWidth = 529
     DesignSize = (
-      529
+      396
       53)
     object btn2: TBitBtn
-      Left = 326
+      Left = 193
       Top = 14
       Width = 114
       Height = 25
@@ -689,9 +728,10 @@ object foConfiguracao: TfoConfiguracao
       NumGlyphs = 2
       TabOrder = 2
       OnClick = btn2Click
+      ExplicitLeft = 326
     end
     object btnOK: TBitBtn
-      Left = 89
+      Left = -44
       Top = 6
       Width = 114
       Height = 25
@@ -718,9 +758,10 @@ object foConfiguracao: TfoConfiguracao
       NumGlyphs = 2
       TabOrder = 0
       OnClick = btnOKClick
+      ExplicitLeft = 89
     end
     object btnAplicar: TBitBtn
-      Left = 208
+      Left = 75
       Top = 14
       Width = 113
       Height = 25
@@ -746,12 +787,13 @@ object foConfiguracao: TfoConfiguracao
       NumGlyphs = 2
       TabOrder = 1
       OnClick = btnAplicarClick
+      ExplicitLeft = 208
     end
   end
   object pnlMenu: TPanel
     Left = 0
     Top = 36
-    Width = 529
+    Width = 396
     Height = 1
     Margins.Left = 4
     Margins.Top = 4
@@ -759,11 +801,12 @@ object foConfiguracao: TfoConfiguracao
     Margins.Bottom = 4
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 529
   end
   object jtobMenuConfig: TJvToolBar
     Left = 0
     Top = 0
-    Width = 529
+    Width = 396
     Height = 36
     ButtonHeight = 39
     ButtonWidth = 70
@@ -771,6 +814,7 @@ object foConfiguracao: TfoConfiguracao
     Images = ilCadastro
     ShowCaptions = True
     TabOrder = 0
+    ExplicitTop = 8
     object btn1: TToolButton
       Left = 0
       Top = 0
@@ -787,18 +831,18 @@ object foConfiguracao: TfoConfiguracao
     end
   end
   object jopdOpenDir: TJvSelectDirectory
-    Left = 448
+    Left = 24
     Top = 464
   end
   object dlgOpenDir: TOpenDialog
-    Left = 389
-    Top = 456
+    Left = 149
+    Top = 464
   end
   object ilCadastro: TImageList
-    Left = 340
+    Left = 108
     Top = 464
     Bitmap = {
-      494C010104000C00000110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C00040110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -1070,7 +1114,7 @@ object foConfiguracao: TfoConfiguracao
       000000000000}
   end
   object mm1: TMainMenu
-    Left = 285
+    Left = 69
     Top = 465
     object mniAjuste1: TMenuItem
       Caption = 'Ajuste'

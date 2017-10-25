@@ -41,8 +41,8 @@ Const
   procedure AddLog(pNameLog,pDirLog, aStr: string);
   procedure setINI(pIniFilePath, prSessao, prSubSessao, prValor:string);
   function getINI(pIniFilePath, prSessao, prSubSessao, prValor:string): string;
-  function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink):Boolean;
-  function fArqIni(prDir : Boolean= true): string;
+  function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink; pTryConexao: boolean = false):Boolean;
+  function fArqIni: string;
   procedure pAtivaCamposForm(pForm: TForm; pEnable: boolean; pLista : array of TTipoClass);
   function fNomePC: string;
   function ExtractName(const Filename: String): String;
@@ -627,62 +627,91 @@ begin
   end;
 end;
 
-function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink):Boolean;
+function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink; pTryConexao: boolean = false):Boolean;
 var
-wPath : string;
-wBanco: string;
-wFBClient : string;
+wMSg : string;
+wDataBase: string;
+wFBClient0,wFBClient1  : string;
 wUser : string;
 wSenha: string;
-
+wOk, wTryFbClient :Boolean;
+wHandle : THandle;
 begin
   try
-    Result := False;
-//    wUser     := getINI(fArqIni, 'BD', 'USUARIO', '');
-//    wSenha    := getINI(fArqIni, 'BD', 'SENHA', '');
-//    wPath     := ExtractFileDir(getINI(fArqIni, 'BD', 'ARQUIVO', ''));
-//    wFBClient := getINI(fArqIni, 'BD', 'FBCLIENT', '');
-//    wBanco    := getINI(fArqIni, 'BD', 'ARQUIVO', '');
+    try
+      Result := False;
+      prCon.Connected := Result;
+      prCon.Close;
+  //    wUser     := getINI(fArqIni, 'BD', 'USUARIO', '');
+  //    wSenha    := getINI(fArqIni, 'BD', 'SENHA', '');
+      wDataBase   := getINI(fArqIni, 'BD', 'ARQUIVO', '');
+      wFBClient0 := getINI(fArqIni, 'BD', 'FBCLIENT0', '');
+      wFBClient1 := getINI(fArqIni, 'BD', 'FBCLIENT1', '');
 
-//    if not DirectoryExists(wPath) then
-//    begin
-//      ShowMessage('Diretório informado para conexao com o seu banco de dados, Não Existe'+#10#13+
-//                  wPath);
-//      Application.Terminate;
-//    end;
-//
-//    if not(FileExists(wFBClient)) then
-//    begin
-//      ShowMessage('Arquivo FBClient.dll não exite!');
-//      Application.Terminate;
-//    end;
-//
-//    if not(FileExists(wBanco)) then
-//    begin
-//      ShowMessage('Banco de dados: '+ExtractFilePath(wBanco)+ ' não exite!');
-//      Application.Terminate;
-//    end;
+      if not FileExists(wDataBase) then
+        if pTryConexao then
+        begin
+          wMSg := 'Base de dados não encontrada! Infome o caminho do arquivo.fbd)';
+          repeat
+            begin
 
-    prCon.Connected := False;
-    prCon.Close;
+              wDataBase := inputbox('Diretório do Banco de dados ou "S" para sair!', wMSg,'C:\[Arquivo.fbd]');
+              if Trim(UpperCase(wDataBase)) = 'S' then
+               Exit;
 
-    prDriver.VendorLib := 'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll';
-//    prDriver.VendorLib := 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll';
-    prCon.Params.Values['User_Name'] := 'sysdba';//wUser;
-    prCon.Params.Values['Password']  := 'masterkey';//wSenha;
-    prCon.Params.Values['Database']  := 'E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
-//    prCon.Params.Values['Database']  := 'D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
-    prCon.Params.Values['SQLDialect'] := '3';
+              wOk := FileExists(wDataBase);
+              if wOk then
+              begin
 
-    prCon.Open;
-    Result := prCon.Connected;
+                try
+                  setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
+                except
+                  wMSg := fArqIni;
+                  wHandle := FindWindow( 0,pWideChar(wMSg));
+                  FileClose(wHandle);
+                  setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
+                end;
+              end
+              else
+                wMSg := 'Arquivo inválido! ou "S" para Sair';
+
+            end;
+          until wOk;
+        end;
 
 
-  except
-    on E: Exception do
-       begin
-         ShowMessage('Erro na rotina ConexaoBD: '+ E.Message);
-       end;
+      if not wTryFbClient then
+        prDriver.VendorLib := wFBClient1  //'E:\BT\7.0\MaxWin\7357\BKP\fb\fbClient.dll';
+      else
+       prDriver.VendorLib := wFBClient0;
+
+  //    prDriver.VendorLib := 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll';
+      prCon.Params.Values['User_Name'] := 'sysdba';//wUser;
+      prCon.Params.Values['Password']  := 'masterkey';//wSenha;
+      prCon.Params.Values['Database'] := wDataBase;
+      prCon.Params.Values['SQLDialect'] := '3';
+
+  //    prCon.Params.Values['Database']  := 'E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
+  //    prCon.Params.Values['Database']  := 'D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
+
+      prCon.Open;
+      Result := prCon.Connected;
+
+    except
+//      on E: Exception do
+         begin
+           exit;
+  //         ShowMessage('Erro na rotina ConexaoBD: '+ E.Message);
+         end;
+    end;
+  finally
+
+    if not Result and pTryConexao then
+    begin
+      wTryFbClient := true;
+      if not ConexaoBD(prCon, prDriver) then
+        Application.Terminate;
+    end;
   end;
 end;
 
@@ -710,12 +739,10 @@ begin
   end;
 end;
 
-function fArqIni(prDir : Boolean= true): string;
+function fArqIni: string;
 begin
-
   Result := ExtractFileName(ChangeFileExt(Application.ExeName, '.INI'));
-  if prDir then
-    Result := GetCurrentDir +'\'+Result;
+  Result := GetCurrentDir +'\'+Result;
 
   if not FileExists(Result) then
     setINI(Result,'','','');

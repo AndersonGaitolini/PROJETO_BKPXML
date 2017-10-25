@@ -33,7 +33,7 @@ uses
 
 var
  ShowResult : Byte;
- wMsg, wFileName : string;
+ wMsg : string;
  SoapUsuario : TUsuarios;
  i : integer;
 {$R *.res}
@@ -41,9 +41,10 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
+
   if (ParamCount = 0) then
   begin
-    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver) then
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, true) then
     begin
       Application.Terminate;
       exit;
@@ -74,7 +75,6 @@ begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
       uMetodosUteis.AddLog('LOGPARAMSTR','E:', ParamStr(i));
-
 
    tabUsuarios.Usuario := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));

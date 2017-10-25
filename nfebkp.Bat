@@ -1,7 +1,6 @@
 @subst J: /d > nul
-@net use H: /delete > nul
+@net use J: /delete > nul
 subst J: /d
-
 net use J: /delete > nul
 
-subst J: E:\projeto2\PROJETO_BKPXML
+subst J: D:\Programacao\DELPHI\BackupXML\PROJETO_BKPXML_GITHUB

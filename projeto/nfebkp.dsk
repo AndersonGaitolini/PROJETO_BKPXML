@@ -1,43 +1,24 @@
 ﻿[Closed Files]
-File_0=TSourceModule,'d:\arquivos de programas\embarcadero\studio\16.0\source\data\Data.DB.pas',0,1,3249,1,3266,0,0,,
-File_1=TSourceModule,'J:\fontes\classes\Usuarios.pas',0,1,16,20,37,0,0,,{1,146,1}
-File_2=TSourceModule,'J:\fontes\uMetodosUteis.pas',0,1,654,24,676,0,0,,
-File_3=TSourceModule,'J:\fontes\ORM\DaoFD.pas',0,1,843,1,865,0,0,,
-File_4=TSourceModule,'d:\arquivos de programas\embarcadero\studio\16.0\SOURCE\VCL\Vcl.Forms.pas',0,1,10454,1,10471,0,0,{{1716,4}
-File_5=TSourceModule,'d:\arquivos de programas\embarcadero\studio\16.0\SOURCE\VCL\Vcl.ComCtrls.pas',0,1,27317,1,27333,0,0,{{17077,0}
-File_6=TSourceModule,'J:\fontes\ufoLogin.pas',0,1,39,38,69,0,0,,
-File_7=TSourceModule,'d:\arquivos de programas\embarcadero\studio\16.0\SOURCE\RTL\SYS\System.pas',0,1,24723,1,24738,0,0,,
-File_8=TSourceModule,'J:\fontes\ORM\Base.pas',0,1,233,1,259,0,0,,
-File_9=TSourceModule,'J:\fontes\ORM\Atributos.pas',0,1,248,1,264,0,0,,
+File_0=TSourceModule,'J:\fontes\classes\Configuracoes.pas',0,1,87,1,109,0,0,,
+File_1=TSourceModule,'J:\fontes\uFoConsConfiguracao.pas',0,1,94,15,115,0,0,,
+File_2=TSourceModule,'J:\fontes\uFoConfigPadrao.pas',0,1,1207,1,1237,0,0,,
+File_3=TSourceModule,'J:\fontes\classes\ConfigPadrao.pas',0,1,191,1,206,0,0,,
+File_4=TSourceModule,'J:\fontes\classes\Lm_bkpdfe.pas',0,1,113,1,130,0,0,,{1,130,1}
+File_5=TSourceModule,'d:\arquivos de programas\embarcadero\studio\16.0\source\data\Data.DB.pas',0,1,3249,1,3266,0,0,,
+File_6=TSourceModule,'J:\fontes\classes\Usuarios.pas',0,1,16,20,37,0,0,,{1
+File_7=TSourceModule,'J:\fontes\ORM\DaoFD.pas',0,1,843,1,865,0,0,,
+File_8=TSourceModule,'d:\arquivos de programas\embarcadero\studio\16.0\SOURCE\VCL\Vcl.Forms.pas',0,1,10454,1,10471,0,0,{{1716,4}
+File_9=TSourceModule,'d:\arquivos de programas\embarcadero\studio\16.0\SOURCE\VCL\Vcl.ComCtrls.pas',0,1,27317,1,27333,0,0,{{17077,0}
+File_10=TSourceModule,'J:\fontes\ufoLogin.pas',0,1,39,38,69,0,0,,
 
 [Modules]
-Module0=J:\fontes\classes\Configuracoes.pas
-Module1=J:\fontes\uFoConfiguracao.pas
-Module2=J:\fontes\uDMnfebkp.pas
-Module3=J:\fontes\uRotinas.pas
-Module4=J:\fontes\uFoPrincipal.pas
-Module5=J:\fontes\uFoConfigPadrao.pas
-Module6=J:\fontes\classes\ConfigPadrao.pas
-Module7=J:\fontes\uFoConsConfiguracao.pas
-Module8=J:\fontes\classes\Lm_bkpdfe.pas
-Module9=J:\projeto\nfebkp.dproj
-Count=10
+Module0=J:\fontes\uRotinas.pas
+Module1=J:\fontes\uFoPrincipal.pas
+Module2=J:\fontes\uMetodosUteis.pas
+Module3=J:\fontes\uFoConfiguracao.pas
+Module4=J:\projeto\nfebkp.dproj
+Count=5
 EditWindowCount=1
-
-[J:\fontes\classes\Configuracoes.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
-
-[J:\fontes\uFoConfiguracao.pas]
-ModuleType=TSourceModule
-FormState=1
-FormOnTop=0
-
-[J:\fontes\uDMnfebkp.pas]
-ModuleType=TSourceModule
-FormState=1
-FormOnTop=1
 
 [J:\fontes\uRotinas.pas]
 ModuleType=TSourceModule
@@ -49,25 +30,15 @@ ModuleType=TSourceModule
 FormState=1
 FormOnTop=0
 
-[J:\fontes\uFoConfigPadrao.pas]
-ModuleType=TSourceModule
-FormState=1
-FormOnTop=0
-
-[J:\fontes\classes\ConfigPadrao.pas]
+[J:\fontes\uMetodosUteis.pas]
 ModuleType=TSourceModule
 FormState=0
 FormOnTop=0
 
-[J:\fontes\uFoConsConfiguracao.pas]
+[J:\fontes\uFoConfiguracao.pas]
 ModuleType=TSourceModule
 FormState=1
-FormOnTop=0
-
-[J:\fontes\classes\Lm_bkpdfe.pas]
-ModuleType=TSourceModule
-FormState=0
-FormOnTop=0
+FormOnTop=1
 
 [J:\projeto\nfebkp.dproj]
 ModuleType=TBaseProject
@@ -76,19 +47,18 @@ ModuleType=TBaseProject
 FormState=1
 FormOnTop=0
 
+[J:\fontes\uDMnfebkp.pas]
+FormState=1
+FormOnTop=0
+
 [EditWindow0]
-ViewCount=10
-CurrentEditView=J:\fontes\classes\Configuracoes.pas
+ViewCount=5
+CurrentEditView=J:\fontes\uRotinas.pas
 View0=0
 View1=1
 View2=2
 View3=3
 View4=4
-View5=5
-View6=6
-View7=7
-View8=8
-View9=9
 PercentageSizes=1
 Create=1
 Visible=1
@@ -120,49 +90,16 @@ BottomMiddelPanelData=0000080001020200000009000000446F636B5369746530100000004772
 
 [View0]
 CustomEditViewType=TEditView
-Module=J:\fontes\uFoPrincipal.pas
-CursorX=51
-CursorY=827
-TopLine=809
+Module=J:\fontes\uRotinas.pas
+CursorX=1
+CursorY=1414
+TopLine=1397
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=J:\fontes\uFoPrincipal.pas
+EditViewName=J:\fontes\uRotinas.pas
 
 [View1]
-CustomEditViewType=TEditView
-Module=J:\projeto\nfebkp.dpr
-CursorX=40
-CursorY=52
-TopLine=38
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=J:\projeto\nfebkp.dpr
-
-[View2]
-CustomEditViewType=TEditView
-Module=J:\fontes\uDMnfebkp.pas
-CursorX=10
-CursorY=116
-TopLine=100
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=Borland.FormDesignerView
-
-[View3]
-CustomEditViewType=TEditView
-Module=J:\fontes\uFoConsConfiguracao.pas
-CursorX=15
-CursorY=115
-TopLine=94
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=J:\fontes\uFoConsConfiguracao.pas
-
-[View4]
 CustomEditViewType=TEditView
 Module=J:\fontes\uFoConfiguracao.pas
 CursorX=1
@@ -171,62 +108,40 @@ TopLine=174
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=J:\fontes\uFoConfiguracao.pas
+EditViewName=Borland.FormDesignerView
 
-[View5]
+[View2]
 CustomEditViewType=TEditView
-Module=J:\fontes\classes\Configuracoes.pas
+Module=J:\fontes\uFoPrincipal.pas
 CursorX=1
-CursorY=110
-TopLine=84
+CursorY=601
+TopLine=587
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=J:\fontes\classes\Configuracoes.pas
+EditViewName=J:\fontes\uFoPrincipal.pas
 
-[View6]
+[View3]
 CustomEditViewType=TEditView
-Module=J:\fontes\uFoConfigPadrao.pas
+Module=J:\fontes\uMetodosUteis.pas
 CursorX=1
-CursorY=1237
-TopLine=1207
+CursorY=639
+TopLine=622
+LeftCol=1
+Elisions=
+Bookmarks={1,667,19}
+EditViewName=J:\fontes\uMetodosUteis.pas
+
+[View4]
+CustomEditViewType=TEditView
+Module=J:\projeto\nfebkp.dpr
+CursorX=36
+CursorY=50
+TopLine=38
 LeftCol=1
 Elisions=
 Bookmarks=
-EditViewName=J:\fontes\uFoConfigPadrao.pas
-
-[View7]
-CustomEditViewType=TEditView
-Module=J:\fontes\classes\ConfigPadrao.pas
-CursorX=1
-CursorY=206
-TopLine=191
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=J:\fontes\classes\ConfigPadrao.pas
-
-[View8]
-CustomEditViewType=TEditView
-Module=J:\fontes\uRotinas.pas
-CursorX=49
-CursorY=1384
-TopLine=1364
-LeftCol=1
-Elisions=
-Bookmarks=
-EditViewName=J:\fontes\uRotinas.pas
-
-[View9]
-CustomEditViewType=TEditView
-Module=J:\fontes\classes\Lm_bkpdfe.pas
-CursorX=1
-CursorY=130
-TopLine=113
-LeftCol=1
-Elisions=
-Bookmarks={1,130,1}
-EditViewName=J:\fontes\classes\Lm_bkpdfe.pas
+EditViewName=J:\projeto\nfebkp.dpr
 
 [Watches]
 Count=4
@@ -257,7 +172,7 @@ Dockable=1
 StayOnTop=0
 
 [Breakpoints]
-Count=12
+Count=17
 Breakpoint0='J:\fontes\uFoConfiguracao.pas',191,'',0,1,'',1,0,0,'',1,'','','',0,''
 Breakpoint1='J:\fontes\ORM\DaoFD.pas',844,'',0,1,'',1,0,0,'',1,'','','',0,''
 Breakpoint2='J:\fontes\uFoConfiguracao.pas',267,'',0,1,'',1,0,0,'',1,'','','',0,''
@@ -265,11 +180,16 @@ Breakpoint3='J:\fontes\uFoConfiguracao.pas',189,'',0,1,'',1,0,0,'',1,'','','',0,
 Breakpoint4='J:\fontes\uRotinas.pas',362,'',0,1,'',1,0,0,'',1,'','','',0,''
 Breakpoint5='J:\fontes\uRotinas.pas',372,'',0,1,'',1,0,0,'',1,'','','',0,''
 Breakpoint6='J:\fontes\uRotinas.pas',353,'',0,1,'',1,0,0,'',1,'','','',0,''
-Breakpoint7='J:\fontes\uFoPrincipal.pas',475,'',0,1,'',1,0,0,'',1,'','','',0,''
-Breakpoint8='J:\fontes\uFoPrincipal.pas',523,'',0,1,'',1,0,0,'',1,'','','',0,''
-Breakpoint9='J:\fontes\uRotinas.pas',403,'',0,1,'',1,0,0,'',1,'','','',0,''
-Breakpoint10='J:\fontes\uRotinas.pas',1414,'',0,1,'',1,0,0,'',1,'','','',0,''
-Breakpoint11='J:\fontes\uFoPrincipal.pas',831,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint7='J:\fontes\uFoPrincipal.pas',526,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint8='J:\fontes\uRotinas.pas',403,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint9='J:\fontes\uRotinas.pas',1414,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint10='J:\fontes\uFoPrincipal.pas',844,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint11='J:\fontes\uMetodosUteis.pas',669,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint12='J:\fontes\uMetodosUteis.pas',639,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint13='J:\fontes\uMetodosUteis.pas',712,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint14='J:\fontes\uMetodosUteis.pas',659,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint15='J:\fontes\uFoPrincipal.pas',602,'',0,1,'',1,0,0,'',1,'','','',0,''
+Breakpoint16='J:\fontes\uFoPrincipal.pas',601,'',0,1,'',1,0,0,'',1,'','','',0,''
 
 [EmbarcaderoWin32Debugger_AddressBreakpoints]
 Count=0
@@ -388,8 +308,8 @@ SplitPos=115
 
 [PropInspDesignerSelection]
 ArrangeBy=Name
-SelectedItem=Active,CustomHint
-ExpandedItems="LiveBindings Designer=0",ConnectedStoredUsage=0,FetchOptions=0,FormatOptions=0,Params=0,ResourceOptions=0,TxOptions=0,UpdateOptions=0,LiveBindings=0,Menu=0,EditLabel=1,Anchors=0,BevelEdges=0,Constraints=0,Font=0,EditLabel.Font=0,EditLabel.LiveBindings=0,"EditLabel.LiveBindings Designer=0",EditLabel.Margins=0,Margins=0,StyleElements=0,Touch=0,Padding=0,EditLabel.Touch=0,ActiveStoredUsage=0,Connection=0,FieldOptions=0
+SelectedItem=Names,OnTimeout
+ExpandedItems="LiveBindings Designer=0",Anchors=0,Font=0,Margins=0,Options=0,Connection=0
 
 [ModelViewTool]
 PercentageSizes=1
