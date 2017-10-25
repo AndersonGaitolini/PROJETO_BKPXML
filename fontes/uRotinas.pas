@@ -353,7 +353,6 @@ begin
         for I := 0 to pLista.Count - 1 do
         begin
           ObjetoXML:= TLm_bkpdfe.Create;
-//          pLimpaObjetoXML(ObjetoXML);
           ObjetoXML.Chave := pLista.Strings[i];
 
           if fConsultaObjXML(ObjetoXML, ['chave']) then
@@ -364,23 +363,15 @@ begin
               pSalveName('xmlextendcanc','xml', wXMLFilename);
               wStream := objetoXML.Xmlextendcanc;
               pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-              wZipFilename := ObjetoXML.Chave;
-              pSalveName('xmlextendcanc','zip', wZipFilename);
-              if fZipFile(wDirTemp+'\'+wZipFilename, wDirTemp+'\'+wXMLFilename) then
-//              pShellZip(wDirTemp+'\'+wXMLFilename, wDirTemp+'\'+wZipFilename,'');
-                if DeleteFile(wDirTemp+'\'+wXMLFilename) then
-  //                fZipFile(wPathZIP, wDirTemp+'\'+wZipFilename);
+              if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
+                DeleteFile(wDirTemp+'\'+wXMLFilename);
 
               wStream := objetoXML.Xmlextend;
               wXMLFilename := ObjetoXML.Chave;
               pSalveName('xmlextend','xml', wXMLFilename );
               pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-              if fZipFile(wDirTemp+'\'+wZipFilename, wDirTemp+'\'+wXMLFilename)then
-//              pShellZip(wDirTemp+'\'+wXMLFilename, wDirTemp+'\'+wZipFilename,'');
-                if DeleteFile(wDirTemp+'\'+wXMLFilename) then
-                  if fZipFile(wPathZIP, wDirTemp+'\'+wZipFilename) then
-//                  pShellZip(wDirTemp+'\'+wZipFilename, wPathZIP,'');
-                     DeleteFile(wDirTemp+'\'+wZipFilename);
+              if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
+                DeleteFile(wDirTemp+'\'+wXMLFilename)
             end
             else
             begin
@@ -389,8 +380,7 @@ begin
               pSalveName('xmlextend','xml',wXMLFilename);
               pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
               if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
-//              pShellZip(wDirTemp+'\'+wXMLFilename, wPathZIP,'');
-                if DeleteFile(wDirTemp+'\'+wXMLFilename) then
+                DeleteFile(wDirTemp+'\'+wXMLFilename);
             end;
           end;
         end;
