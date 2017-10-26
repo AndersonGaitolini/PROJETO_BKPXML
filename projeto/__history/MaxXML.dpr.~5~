@@ -73,7 +73,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
+      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, TRUE) then
     begin
@@ -85,7 +85,7 @@ begin
    tabUsuarios.Senha    := Trim(ParamStr(2));
    wSenhaAtual := uMetodosUteis.fSenhaAtual('');
 
-   if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
+   if daoLogin.fLogar(tabUsuarios) then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
@@ -99,7 +99,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
+      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin

@@ -20,6 +20,7 @@ function fExportaLoteXML(pLista: TStringList):Boolean;
 function fDeleteObjetoXML(pLista: TStringList):Boolean;
 //function fLoadXMLNFe(pTipoXML: TTipoXML; ; pChaveNFE: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFe(pObjConfig : TConfiguracoes; pTiposXML: TTipoXML; pLote: boolean = false; pChave: string = ''; pEmail : string = ''): Boolean;
+function fLoadXMLNFeLista(pLista : TStringList): Boolean;
 //Métodos de Compressão
 function fCompactar(pPath: string): TFileStream;
 function fDescompacartar(pPath: string): boolean;
@@ -64,6 +65,8 @@ implementation
 uses
   uFoPrincipal, Base;
 
+var
+wChaveErro : TStringList;
 
 procedure pDecompressFiles(const Filename, DestDirectory : String);
 var
@@ -346,7 +349,6 @@ begin
             end;
 
         wPathZIP := FileName;
-
         if not Assigned(ObjetoXML) then
           ObjetoXML := TLm_bkpdfe.Create;
 
@@ -357,30 +359,40 @@ begin
 
           if fConsultaObjXML(ObjetoXML, ['chave']) then
           begin
-            if ObjetoXML.Protocolocanc <> '' then
+            if (ObjetoXML.Protocolocanc <> '') and (ObjetoXML.Protocoloaut <> '') then
             begin
-              wXMLFilename := ObjetoXML.Chave;
-              pSalveName('xmlextendcanc','xml', wXMLFilename);
               wStream := objetoXML.Xmlextendcanc;
-              pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-              if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
-                DeleteFile(wDirTemp+'\'+wXMLFilename);
+              if wStream.Size > 0 then
+              begin
+                wXMLFilename := ObjetoXML.Chave;
+                pSalveName('xmlextendcanc','xml', wXMLFilename);
+                wStream := objetoXML.Xmlextendcanc;
+                pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
+                if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
+                  DeleteFile(wDirTemp+'\'+wXMLFilename);
+              end;
 
               wStream := objetoXML.Xmlextend;
-              wXMLFilename := ObjetoXML.Chave;
-              pSalveName('xmlextend','xml', wXMLFilename );
-              pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-              if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
-                DeleteFile(wDirTemp+'\'+wXMLFilename)
+              if wStream.Size > 0 then
+              begin
+                wXMLFilename := ObjetoXML.Chave;
+                pSalveName('xmlextend','xml', wXMLFilename );
+                pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
+                if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
+                  DeleteFile(wDirTemp+'\'+wXMLFilename);
+              end;
             end
             else
             begin
               wStream := objetoXML.Xmlextend;
-              wXMLFilename := ObjetoXML.Chave;
-              pSalveName('xmlextend','xml',wXMLFilename);
-              pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
-              if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
-                DeleteFile(wDirTemp+'\'+wXMLFilename);
+              if wStream.Size > 0 then
+              begin
+                wXMLFilename := ObjetoXML.Chave;
+                pSalveName('xmlextend','xml',wXMLFilename);
+                pDecompress(wStream, wDirTemp+'\'+wXMLFilename);
+                if fZipFile(wPathZIP, wDirTemp+'\'+wXMLFilename) then
+                  DeleteFile(wDirTemp+'\'+wXMLFilename);
+              end;
             end;
           end;
         end;
@@ -520,7 +532,7 @@ var
   wNodeXML, wNodeInfNFe, wNodeNfeProc: IXMLNode;
   wFileSource, wFileDest: string;
   wXmlName, wZipName,wChaveAux,wPathFile: string;
-  wXMLEnvio, wXMLAutorizado,wOK: boolean;
+  wXMLEnvio, wXMLAutorizado,wOK, wYesAll: boolean;
 
  function fGetChaveFilename(pFileName : string): string;
   var wPos :Integer;
@@ -568,8 +580,6 @@ var
   end;
 
   procedure pXMLChave;
-  var SLCannotRead : TStringList;
-  auxS : TStream;
   begin
     J := 0;
     if not pLote then
@@ -599,9 +609,22 @@ var
         SetLength(wArrayObjXML, J);
         wXMLAutorizado := False;
         wStream := TMemoryStream.Create;
-        wFileStream := TFileStream.Create(wFileSource,0);
 
+        if wChaveErro.IndexOf(wChaveAux) >= 0 then
+        begin
+          pCopyFiles(wFileSource, tabConfiguracoes.NFePathRejeitado,false);
+          FileClose(FindWindow( 0,pWideChar(wFileSource)));
+          if DeleteFile(wFileSource) then
+            AddLog('LOGMAXXML',GetCurrentDir,'['+ wXmlName+']');
+
+          wErro := FindNext(wFRec);
+          wFileSource := wPathFile+'\'+wFRec.Name;
+          wOK := (wErro = 0);
+          Continue;
+        end;
+        wFileStream := TFileStream.Create(wFileSource,0);
         XMLArq.LoadFromStream(wFileStream,xetUTF_8);
+
         wNodeXML := XMLArq.documentElement;
         //Nesse momento verifica se o xml é autorizado (nfeProc = Autorizado) (NFe = XML de Envio)
         if Assigned(wNodeXML) and (wNodeXML.NodeName = 'nfeProc') or (wNodeXML.NodeName = 'NFe') then
@@ -653,7 +676,7 @@ var
                   else
                   Tipoambiente := 'Homologação';
 
-                  wChaveAux := funcvarXML(wNodeNfeProc.ChildNodes['chNFe']);
+                  Chave := funcvarXML(wNodeNfeProc.ChildNodes['chNFe']);
                   if Chave <> wChaveAux then
                      exit;
 
@@ -709,10 +732,23 @@ var
         wXmlName := ExtractFileName(wFileSource);
         ObjetoXML := TLm_bkpdfe.Create;
         Status := stNada;
-        Chave := fGetChaveFilename(wXmlName);
-        Idf_documento := fGetIdf_DocPelaChave(Chave);
+        wChaveAux := fGetChaveFilename(wXmlName);
+        Idf_documento := fGetIdf_DocPelaChave(wChaveAux);
         Tipo := '1';
         wStream := TMemoryStream.Create;
+
+        if wChaveErro.IndexOf(wChaveAux) >= 0 then
+        begin
+          pCopyFiles(wFileSource, tabConfiguracoes.NFePathRejeitado,false);
+          FileClose(FindWindow( 0,pWideChar(wFileSource)));
+          if DeleteFile(wFileSource) then
+            AddLog('LOGMAXXML', GetCurrentDir,'['+ wXmlName+']');
+
+          wErro := FindNext(wFRec);
+          wFileSource := wPathFile+'\'+wFRec.Name;
+          wOK := (wErro = 0);
+          Continue;
+        end;
         wFileStream := TFileStream.Create(wFileSource,0);
         XMLArq.LoadFromStream(wFileStream);
         wNodeXML := XMLArq.documentElement;
@@ -731,13 +767,14 @@ var
                 Tipoambiente := 'Produção'
               else
                 Tipoambiente := 'Homologação';
-              wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
+              chave := funcvarXML(wNodeXML.ChildNodes['chNFe']);
               if wChaveAux <> Chave then
                 exit;
               Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
-  //            Motivocanc := funcvarXML(wNodeXML.ChildNodes['xJust']);
-  //            if Length(Motivocanc)>20 then
-  //              Motivocanc := copy(Motivocanc,1,20);
+              Motivocanc := funcvarXML(wNodeXML.ChildNodes['xJust']);
+              if Length(Motivocanc)>20 then
+                Motivocanc := copy(Motivocanc,1,20);
+
               if pEmail <> '' then
                 Emailsnotificados := pEmail;
 
@@ -768,7 +805,7 @@ var
                 if Length(Motivocanc)> 20 then
                   Motivocanc := copy(Motivocanc,1,20);
 
-                wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
+                Chave := funcvarXML(wNodeXML.ChildNodes['chNFe']);
                 if wChaveAux <> Chave then
                   exit;
 
@@ -1409,40 +1446,374 @@ var
    try
    for I := Low(wArrayObjXML) to High(wArrayObjXML) do
    begin
-     if wDaoXML.fCarregaXMLEnvio(wArrayObjXML[I]) then
-        wArrayObjXML[i].Free;
+     if Assigned(wArrayObjXML[I]) then
+     begin
+       if wDaoXML.fCarregaXMLEnvio(wArrayObjXML[I]) then
+          wArrayObjXML[i].Free;
+     end
+     else
+       wArrayObjXML[i].Free;
    end;
    finally
      Result := True;
-//     pZapFiles(wPathFile+'\~*.zip')
+     FreeAndNil(wChaveErro);
    end;
  end;
 
 begin
+  if not Assigned(wChaveErro) then
+     wChaveErro := TStringList.Create;
+
   if not Assigned(pObjConfig) then
     exit;
 
   XMLArq     := TXMLDocument.Create(Application);
   wDaoXML    := TDaoBkpdfe.Create;
   wDataSet   := TDataSet.Create(Application);
+
   if pLote then
     fCarregaPath;
 
   try
     try
-//      if ParamCount > 0 then
-//      ShowMessage(
-//      'ParamCount '+IntToStr(ParamCount)+#10#13+
-//      'ParamStr(0) '+#10#13+
-//      'ParamStr(1) '+ParamStr(1)+#10#13+
-//      'ParamStr(2) '+ParamStr(2)+#10#13+
-//      'ParamStr(3) '+ParamStr(3)+#10#13+
-//      'ParamStr(4) '+ParamStr(4)+#10#13
-//      );
       pXMLChave;
       Result := fGravaXML;
     except on E: Exception do
-      ShowMessage('Erro na leitura '+TConvert<TTipoXML>.EnumConvertStr(pTiposXML) + #10#13+
+           begin
+              if wChaveErro.IndexOf(wChaveAux) < 0 then
+                wChaveErro.Add(wChaveAux);
+
+             if (not wYesAll) then
+             begin
+              wYesAll :=  MessageDlg('Erro na leitura do arquivo: '+ wChaveAux+ #10#13+
+                    'Deseja refazer o processo? '+#10#13+
+                     E.Message, mtError, [mbYes, mbYesToAll, mbNo],0) = mrYesToAll;
+
+                fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','');
+             end;
+
+             if wYesAll then
+                 fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','')
+             else
+               exit;
+
+           end;
+
+    end;
+  finally
+    FreeAndNil(XMLArq);
+    FreeAndNil(wDaoXML);
+    FreeAndNil(wDataSet);
+  end;
+
+end;
+
+function fLoadXMLNFeLista(pLista : TStringList): Boolean;
+var
+  wDaoXML    : TDaoBkpdfe;
+  wObjConfig : TConfiguracoes;
+  wDaoConfig : TDaoConfiguracoes;
+  wObjetoXML : TLm_bkpdfe;
+  wStream    : TStream;
+  wFileStream : TFileStream;
+  wFRec      : TSearchRec;
+  wErro, wI, wJ: integer;
+  XMLArq     : TXMLDocument;
+  wArrayObjXML : array of TLm_bkpdfe;
+  wNodeXML, wNodeInfNFe, wNodeNfeProc: IXMLNode;
+  wFileSource, wFileDest: string;
+  wXmlName, wZipName,wChaveAux,wPathFile: string;
+  wXMLEnvio, wXMLAutorizado,wOK: boolean;
+
+ function fGetChaveFilename(pFileName : string): string;
+  var wPos :Integer;
+  begin
+    Result := '';
+    if (pFileName = '') then
+     Exit;
+
+    Result := ExtractFileName(pFileName);
+
+    wPos := Pos('Env_NFe',Result);
+    if wPos > 0 then
+    begin
+      Result := Copy(Result,8,44);
+      exit;
+    end;
+
+    wPos := Pos('Can_',Result);
+    if wPos > 0 then
+    begin
+      Result := Copy(Result,5,44);
+      exit;
+    end;
+
+    wPos := Pos('Inut_',Result);
+    if wPos > 0 then
+    begin
+      Result := Copy(Result,6,44);
+      Exit;
+    end;
+
+    wPos := Pos('retsai_NFe',Result);
+    if wPos > 0 then
+    begin
+      Result := Copy(Result,11,44);
+      Exit;
+    end;
+
+  end;
+
+  function funcvarXML(xmlNTag : IXMLNode): WideString;
+  begin
+    if Not (xmlNTag.ChildNodes.First = Nil) Then
+      Result := xmlNTag.ChildNodes.First.Text;
+  end;
+
+  procedure pXMLChave(pChave : String);
+  var SLCannotRead : TStringList;
+  auxS : TStream;
+  begin
+
+    wErro := FindFirst(wObjConfig.NFePathProcessado+'\*'+ pChave+'*.xml', faAnyFile, wFRec);
+    wOK := wErro = 0;
+    wFileSource := wObjConfig.NFePathProcessado+'\'+wFRec.Name;
+
+    with wObjetoXML do
+    while wOK do
+    begin
+      if Pos('Env_NFe',wFileSource) > 0 then
+      begin
+        wObjetoXML := TLm_bkpdfe.Create;
+        Status := stNada;
+        wXmlName := ExtractFileName(wFileSource);
+        wChaveAux := fGetChaveFilename(wXmlName);
+
+        Tipo := '1';
+        Inc(wJ,1);
+        SetLength(wArrayObjXML, wJ);
+        wXMLAutorizado := False;
+        wStream := TMemoryStream.Create;
+        wFileStream := TFileStream.Create(wFileSource,0);
+
+        XMLArq.LoadFromStream(wFileStream,xetUTF_8);
+        wNodeXML := XMLArq.documentElement;
+        //Nesse momento verifica se o xml é autorizado (nfeProc = Autorizado) (NFe = XML de Envio)
+        if Assigned(wNodeXML) and (wNodeXML.NodeName = 'nfeProc') or (wNodeXML.NodeName = 'NFe') then
+        begin
+          if (wNodeXML.NodeName = 'nfeProc') then
+          begin
+            wXMLAutorizado := true;
+            wNodeNfeProc := wNodeXML;
+            wNodeXML := wNodeXML.ChildNodes.First;
+          end;
+
+          if (wNodeXML.NodeName = 'NFe') then
+          begin
+            wNodeXML := wNodeXML.ChildNodes.First;
+
+            if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infNFe') then
+            begin
+              Chave := wNodeXML.AttributeNodes.FindNode('Id').text;
+              Chave := Copy(Chave,4,44);
+              wNodeXML := wNodeXML.ChildNodes.First;
+              if Assigned(wNodeXML) and (wNodeXML.NodeName = 'ide') then
+              begin
+                Idf_documento := StrToInt64Def(funcvarXML(wNodeXML.ChildNodes['nNF']),0);
+                Dataemissao := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhEmi']));
+                Tipoambiente :=  funcvarXML(wNodeXML.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
+                if Tipoambiente = '1' then
+                  Tipoambiente := 'Produção'
+                else
+                  Tipoambiente := 'Homologação';
+              end;
+
+              Status := stEnvio;
+            end;
+
+            if (wXMLAutorizado) and (Assigned(wNodeNfeProc)) then
+            begin
+              Status := stEnvioProc;
+              wNodeNfeProc := wNodeNfeProc.ChildNodes.First.NextSibling;
+              if Assigned(wNodeNfeProc) and (wNodeNfeProc.NodeName = 'protNFe') or (wNodeNfeProc.NodeName = 'infProt') then
+              begin
+                if (wNodeNfeProc.NodeName = 'protNFe') then
+                  wNodeNfeProc := wNodeNfeProc.ChildNodes.First;
+
+                if (wNodeNfeProc.NodeName = 'infProt') then
+                begin
+                  Tipoambiente :=  funcvarXML(wNodeNfeProc.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
+                  if Tipoambiente = '1' then
+                    Tipoambiente := 'Produção'
+                  else
+                  Tipoambiente := 'Homologação';
+
+                  wChaveAux := funcvarXML(wNodeNfeProc.ChildNodes['chNFe']);
+                  if Chave <> wChaveAux then
+                     exit;
+
+                  Datarecto := DateXMLToDate(funcvarXML(wNodeNfeProc.ChildNodes['dhRecbto']));
+                  Protocoloaut := funcvarXML(wNodeNfeProc.ChildNodes['nProt']);
+                  Motivo :=  funcvarXML(wNodeNfeProc.ChildNodes['xMotivo']);
+                  if Length(Motivo) > 20 then
+                  Motivo := Copy(Motivo,1,20);
+                end;
+              end;
+            end;
+          end;
+        end;
+
+        FileClose(wFileStream.Handle);
+        pCompress(wFileSource, wStream,false);
+        Xmlenvio := wStream;
+        if wXMLAutorizado then
+          Xmlextend := wStream;
+
+        Dataalteracao := Today;
+        wArrayObjXML[wJ-1] := wObjetoXML;
+      end;
+
+      if Pos('Can_',wFileSource) > 0 then
+      begin
+        Inc(wJ,1);
+        SetLength(wArrayObjXML, wJ);
+        wXmlName := ExtractFileName(wFileSource);
+        wObjetoXML := TLm_bkpdfe.Create;
+        Status := stNada;
+        Chave := fGetChaveFilename(wXmlName);
+        Idf_documento := fGetIdf_DocPelaChave(Chave);
+        Tipo := '1';
+        wStream := TMemoryStream.Create;
+        wFileStream := TFileStream.Create(wFileSource,0);
+        XMLArq.LoadFromStream(wFileStream);
+        wNodeXML := XMLArq.documentElement;
+
+        if Assigned(wNodeXML) then
+        begin  //CAN_ Envio
+
+          if (wNodeXML.NodeName = 'cancNFe') then
+          begin
+            wNodeXML := wNodeXML.ChildNodes.First;
+
+            if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infCanc') then
+            begin
+              Tipoambiente := funcvarXML(wNodeXML.ChildNodes['tpAmb']);
+              if Tipoambiente = '1' then
+                Tipoambiente := 'Produção'
+              else
+                Tipoambiente := 'Homologação';
+              wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
+              if wChaveAux <> Chave then
+                exit;
+              Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
+              Motivocanc := funcvarXML(wNodeXML.ChildNodes['xJust']);
+              if Length(Motivocanc)>20 then
+                Motivocanc := copy(Motivocanc,1,20);
+
+      //              if pEmail <> '' then
+      //                Emailsnotificados := pEmail;
+
+              Status := stCanEnvio;
+              Dataalteracao := Today;
+              FileClose(wFileStream.Handle);
+              pCompress(wFileSource,wStream,false);
+              Xmlenviocanc := wStream;
+            end;
+          end
+          else
+          if (wNodeXML.NodeName = 'procEventoNFe') then
+          begin   //CAN_ processado
+            wNodeXML := wNodeXML.ChildNodes.First.NextSibling; //Pula da tag <Evento> para <retEvento>
+
+            if Assigned(wNodeXML) and (wNodeXML.NodeName = 'retEvento') then
+            begin
+              wNodeXML := wNodeXML.ChildNodes.First;
+              if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infEvento') then
+              begin
+                Tipoambiente := funcvarXML(wNodeXML.ChildNodes['tpAmb']);
+                if Tipoambiente = '1' then
+                  Tipoambiente := 'Produção'
+                else
+                  Tipoambiente := 'Homologação';
+
+                Motivocanc := funcvarXML(wNodeXML.ChildNodes['xMotivo']);
+                if Length(Motivocanc)> 20 then
+                  Motivocanc := copy(Motivocanc,1,20);
+
+                wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
+                if wChaveAux <> Chave then
+                  exit;
+
+//                if pEmail <> '' then
+//                  Emailsnotificados := pEmail;
+
+                Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
+                Status := stCanProc;
+                Dataalteracao := Today;
+                FileClose(wFileStream.Handle);
+                pCompress(wFileSource,wStream,false);
+                Xmlextendcanc := wStream;
+              end;
+            end;
+          end;
+        end;
+
+        wArrayObjXML[wJ-1] := wObjetoXML;
+      end;
+
+      wErro := FindNext(wFRec);
+      wFileSource := wObjConfig.NFePathProcessado+'\'+wFRec.Name;
+      wOK := (wErro = 0);
+    end;
+  end;
+
+ function fCarregaObjConfig(pIDConfig : Integer): boolean;
+  begin
+    Result := false;
+   if not Assigned(wObjConfig) then
+     wObjConfig := TConfiguracoes.Create;
+
+   wObjConfig.id := pIDConfig;
+   Result := (wDaoConfig.fCarregaConfiguracoes(wObjConfig,['id']).RecordCount = 1);
+  end;
+
+ function fGravaXML: boolean;
+ var i: Integer;
+ begin
+   Result := False;
+   try
+   for I := Low(wArrayObjXML) to High(wArrayObjXML) do
+   begin
+     if wDaoXML.fCarregaXMLEnvio(wArrayObjXML[I]) then
+        wArrayObjXML[i].Free;
+   end;
+   finally
+     Result := True;
+   end;
+ end;
+
+begin
+  Result := False;
+
+  XMLArq     := TXMLDocument.Create(Application);
+  wDaoXML    := TDaoBkpdfe.Create;
+  wObjConfig := TConfiguracoes.Create;
+  wDaoConfig := TDaoConfiguracoes.Create;
+
+  try
+    try
+      if fCarregaObjConfig(tabUsuarios.Id) then
+      begin
+        wJ := 0;
+        for wI := 0 to pLista.Count - 1 do
+          pXMLChave(pLista.Strings[wi]);
+      end
+      else
+      exit;
+
+      Result := fGravaXML;
+    except on E: Exception do
+      ShowMessage('Método: fLoadXMLNFeLista' + #10#13+
                   'Arquivo: '+ wXmlName+#10#13+
                    E.Message);
     end;
@@ -1450,9 +1821,8 @@ begin
   finally
     FreeAndNil(XMLArq);
     FreeAndNil(wDaoXML);
-    FreeAndNil(wDataSet);
-    pZapFiles(wPathFile+'\~*.zip');
-    pZapFiles(wPathFile+'\~*.xml')
+    FreeAndNil(wObjConfig);
+    FreeAndNil(wDaoConfig);
   end;
 end;
 

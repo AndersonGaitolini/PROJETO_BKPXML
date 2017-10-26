@@ -216,7 +216,7 @@ begin
       end;
     end;
   finally
-   DatSet.Free;
+//   DatSet.Free;
   end;
 
 end;

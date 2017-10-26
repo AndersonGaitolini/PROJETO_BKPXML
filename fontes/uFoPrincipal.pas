@@ -24,18 +24,12 @@ type
 //  end;
 
   TfoPrincipal = class(TForm)
-    mmPrincipal: TMainMenu;
-    mmFerrametas: TMenuItem;
-    mmConfiguracoes: TMenuItem;
     ilPrincipal: TImageList;
     statPrincipal: TStatusBar;
     tmrHora: TTimer;
     dbgNfebkp: TDBGrid;
-    pmExporta: TPopupMenu;
     mmExpSelecao: TMenuItem;
-    mmGeraclasse: TMenuItem;
     ilMenu: TImageList;
-    mmConfiguraoconsulta: TMenuItem;
     pnlMenu: TPanel;
     edConfiguracao: TEdit;
     EvaAlertas: TFDEventAlerter;
@@ -87,18 +81,24 @@ type
     Shape4: TShape;
     Label1: TLabel;
     btnFiltrar: TButton;
-    Aes1: TMenuItem;
+    mmAcoes: TMenuItem;
     mmExpXMLPDFSelecao: TMenuItem;
     mmRefazAutorizacaoSelecao: TMenuItem;
     mmRefazAutorizacaoTodos: TMenuItem;
-    mmN1: TMenuItem;
-    mmN2: TMenuItem;
+    mmLinhaGrupoRefaz: TMenuItem;
+    mmLinhaGrupoDel: TMenuItem;
     mmN3: TMenuItem;
     mmMarcarTodos: TMenuItem;
     mmExpPDFSelecao: TMenuItem;
     mmExpPDFTodos: TMenuItem;
-    mmN4: TMenuItem;
+    mmLinhaGrupoExpPDF: TMenuItem;
     mmExpXMLPDFTodos: TMenuItem;
+    mmConfigurar: TMenuItem;
+    mmConfgDiretorios: TMenuItem;
+    mmConfigUsaurios: TMenuItem;
+    mmDelRefazAutTodos: TMenuItem;
+    pmExportar: TPopupMenu;
+    mmN1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -108,7 +108,6 @@ type
     procedure mmGeraclasseClick(Sender: TObject);
     procedure ToolButton1Click(Sender: TObject);
     procedure dbgNfebkpTitleClick(Column: TColumn);
-    procedure mmConfiguraoconsultaClick(Sender: TObject);
     procedure btnInserirClick(Sender: TObject);
     procedure FormActivate(Sender: TObject);
     procedure btnProcRetornoClick(Sender: TObject);
@@ -153,6 +152,9 @@ type
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure mmMarcarTodosClick(Sender: TObject);
     procedure mmRefazAutorizacaoTodosClick(Sender: TObject);
+    procedure mmConfgDiretoriosClick(Sender: TObject);
+    procedure mmDelRefazAutTodosClick(Sender: TObject);
+    procedure mmRefazAutorizacaoSelecaoClick(Sender: TObject);
   private
     { Private declarations }
     procedure pCarregaConfigUsuario(pIDConfig: Integer);
@@ -397,18 +399,46 @@ begin
 end;
 
 procedure TfoPrincipal.pmExportaPopup(Sender: TObject);
-  var wI,wJ : Integer;
-      wSTR1,wSTR2 : String;
-begin
-  wI := dbgNfebkp.SelectedRows.Count;
-  pSelecaoChave(wListaSelecionados);
-//  wJ := dbgNfebkp.DataSource.DataSet.RecordCount;
-//  wSTR1 := IntToStr(wI);
-//  wSTR2 := IntToStr(wJ);
-  if wI > 0 then
+var wHabilita : boolean;
+
+  procedure pMenuMaster(pAtiva : boolean);
+  var i, j, k: integer;
   begin
 
-  end
+      with TMainMenu(Sender) do
+      begin
+        for I := 0 to Items.Count-1 do
+        begin
+          if Items[i].Name = 'mmAcoes' then
+          begin
+            for j := 0 to TMainMenu(sender).Items[i].Count -1 do
+            begin
+               if TMainMenu(Sender).Items[i].Items[j].Tag = 2 then
+               begin
+                 TMainMenu(Sender).Items[i].Items[j].Enabled := pAtiva;
+                 TMainMenu(Sender).Items[i].Items[j].Visible := pAtiva;
+               end;
+            end;
+          end;
+
+          if Items[i].Name = 'mmConfigurar' then
+          begin
+            Items[I].Enabled := pAtiva;
+            Items[I].Visible := pAtiva;
+
+            exit;
+          end;
+
+        end;
+      end;
+
+  end;
+
+begin
+  pSelecaoChave(wListaSelecionados);
+
+  wHabilita := ((Trim(tabUsuarios.Usuario) = 'master') and (tabUsuarios.Senha = fSenhaAtual('')));
+  pMenuMaster(wHabilita);
 end;
 
 procedure TfoPrincipal.pmSelecionarPopup(Sender: TObject);
@@ -435,7 +465,7 @@ begin
     dbchkCHECKBOX.Caption := 'false'//dbckCHECKBOX.ValueUnChecked;
 end;
 
-procedure TfoPrincipal.mmConfiguraoconsultaClick(Sender: TObject);
+procedure TfoPrincipal.mmConfgDiretoriosClick(Sender: TObject);
 begin
   foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
 try
@@ -461,6 +491,19 @@ begin
 
   DM_NFEDFE.cdsBkpdfe.Close;
   DM_NFEDFE.cdsBkpdfe.Open;
+end;
+
+procedure TfoPrincipal.mmDelRefazAutTodosClick(Sender: TObject);
+begin
+  pSelTodasLinhas;
+  pSelecaoChave(wListaSelecionados);
+  fDeleteObjetoXML(wListaSelecionados);
+  if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
+  begin
+    DM_NFEDFE.cdsBkpdfe.Close;
+    DM_NFEDFE.cdsBkpdfe.Open;
+  end;
+
 end;
 
 procedure TfoPrincipal.mmDelTodosSelecionadosClick(Sender: TObject);
@@ -676,24 +719,23 @@ var wStream : TStream;
     with (Sender as TDBGrid) do
     begin
       Canvas.Font.Style := [];
-      wStatus := DataSource.DataSet.FieldByName('STATUS').AsInteger;
-      case wStatus of
-        0: Canvas.Font.Color := clBlack;    //XML Envio Processado
-        1: Canvas.Font.Color := clNavy;     //XML Envio
-        2: Canvas.Font.Color := clRed;      //XML Cancel. Processado
-        3: Canvas.Font.Color := clPurple;    //XML Envio Cancelamento
-        4: Canvas.Font.Color := clBlue;     //Denegada
-        5: Canvas.Font.Color := clFuchsia;  //Inutilizada
-      else
-        Canvas.Font.Color := clGray;
-      end;
 
       if (gdFocused in State) then
       begin
-       Canvas.Brush.Color := clSilver;
+       Canvas.Brush.Color := clWebLightYellow;
        Canvas.Font.Style := [];
        Canvas.FillRect(Rect);
        Canvas.Font.Color:= clBlack;
+       Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
+       Canvas.FillRect(Rect);
+      end;
+
+      if (gdFixed in State) then
+      begin
+       Canvas.Brush.Color := clFuchsia;
+       Canvas.Font.Style := [];
+       Canvas.FillRect(Rect);
+       Canvas.Font.Color:= clwhite;
        Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
        Canvas.FillRect(Rect);
       end;
@@ -706,6 +748,18 @@ var wStream : TStream;
        Canvas.Font.Color:= clWhite;
        Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
        Canvas.FillRect(Rect);
+      end;
+
+      wStatus := DataSource.DataSet.FieldByName('STATUS').AsInteger;
+      case wStatus of
+        0: Canvas.Font.Color := clBlack;    //XML Envio Processado
+        1: Canvas.Font.Color := clNavy;     //XML Envio
+        2: Canvas.Font.Color := clRed;      //XML Cancel. Processado
+        3: Canvas.Font.Color := clPurple;    //XML Envio Cancelamento
+        4: Canvas.Font.Color := clBlue;     //Denegada
+        5: Canvas.Font.Color := clFuchsia;  //Inutilizada
+      else
+        Canvas.Font.Color := clGray;
       end;
 
      Canvas.FillRect(Rect);
@@ -766,7 +820,8 @@ procedure TfoPrincipal.dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
 begin
   if Key = 46 then
   begin
-    pDeleteRowsSelectGrid;
+    if((Trim(tabUsuarios.Usuario) = 'master') and (tabUsuarios.Senha = fSenhaAtual(''))) then
+      pDeleteRowsSelectGrid;
   end;
 end;
 
@@ -864,8 +919,6 @@ procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
   if DirectoryExists(tabConfiguracoes.NFePathEnvio) then
   begin
-    mmGeraclasse.Visible := tabUsuarios.Id = 0;
-    mmGeraclasse.Enabled := tabUsuarios.Id = 0;
     pDataFiltro;
     DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
   end;
@@ -989,13 +1042,30 @@ begin
   pSelTodasLinhas;
 end;
 
+procedure TfoPrincipal.mmRefazAutorizacaoSelecaoClick(Sender: TObject);
+begin
+  if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
+  begin
+    if fLoadXMLNFeLista(wListaSelecionados)then
+    begin
+      DM_NFEDFE.cdsBkpdfe.Close;
+      DM_NFEDFE.cdsBkpdfe.Open;
+
+      ShowMessage('Autorizações selecionadas reprocessadas!');
+    end;
+  end;
+end;
+
 procedure TfoPrincipal.mmRefazAutorizacaoTodosClick(Sender: TObject);
 begin
-  pSelTodasLinhas;
+//  pSelTodasLinhas;
+
   if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
   begin
     DM_NFEDFE.cdsBkpdfe.Close;
     DM_NFEDFE.cdsBkpdfe.Open;
+
+    ShowMessage('Autorizações reprocessadas!');
   end;
 
 end;

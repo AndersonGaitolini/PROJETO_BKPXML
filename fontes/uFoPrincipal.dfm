@@ -2,7 +2,7 @@ object foPrincipal: TfoPrincipal
   Left = 0
   Top = 0
   Width = 1050
-  Height = 507
+  Height = 527
   Align = alClient
   AutoScroll = True
   BorderWidth = 1
@@ -14,7 +14,6 @@ object foPrincipal: TfoPrincipal
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
-  Menu = mmPrincipal
   OldCreateOrder = False
   Position = poDesktopCenter
   OnActivate = FormActivate
@@ -128,148 +127,180 @@ object foPrincipal: TfoPrincipal
         220
         62)
       object Shape1: TShape
-        Left = 8
-        Top = 3
+        Left = -24
+        Top = -29
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clBlack
         Pen.Color = clGray
+        ExplicitLeft = 8
+        ExplicitTop = 3
       end
       object Shape2: TShape
-        Left = 125
-        Top = 31
+        Left = 93
+        Top = -1
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clRed
         Pen.Color = clGray
+        ExplicitLeft = 125
+        ExplicitTop = 31
       end
       object Shape3: TShape
-        Left = 8
-        Top = 31
+        Left = -24
+        Top = -1
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clFuchsia
         Pen.Color = clGray
+        ExplicitLeft = 8
+        ExplicitTop = 31
       end
       object Shape13: TShape
-        Left = 125
-        Top = 45
+        Left = 93
+        Top = 13
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clGray
         Pen.Color = clGray
         Visible = False
+        ExplicitLeft = 125
+        ExplicitTop = 45
       end
       object Shape14: TShape
-        Left = 8
-        Top = 45
+        Left = -24
+        Top = 13
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clBlue
         Pen.Color = clGray
+        ExplicitLeft = 8
+        ExplicitTop = 45
       end
       object Shape15: TShape
-        Left = 125
-        Top = 4
+        Left = 93
+        Top = -28
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clNavy
         Pen.Color = clGray
+        ExplicitLeft = 125
+        ExplicitTop = 4
       end
       object Shape17: TShape
-        Left = 8
-        Top = 17
+        Left = -24
+        Top = -15
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clGreen
         Pen.Color = clGray
+        ExplicitLeft = 8
+        ExplicitTop = 17
       end
       object Label3: TLabel
-        Left = 24
-        Top = 3
+        Left = -8
+        Top = -29
         Width = 51
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Processado'
+        ExplicitLeft = 24
+        ExplicitTop = 3
       end
       object Label4: TLabel
-        Left = 139
-        Top = 30
+        Left = 107
+        Top = -2
         Width = 41
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Rejeitado'
+        ExplicitLeft = 139
+        ExplicitTop = 30
       end
       object Label5: TLabel
-        Left = 24
-        Top = 31
+        Left = -8
+        Top = -1
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Inutilizada'
+        ExplicitLeft = 24
+        ExplicitTop = 31
       end
       object Label16: TLabel
-        Left = 139
-        Top = 44
+        Left = 107
+        Top = 12
         Width = 57
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'N'#227'o definido'
         Visible = False
+        ExplicitLeft = 139
+        ExplicitTop = 44
       end
       object Label17: TLabel
-        Left = 24
-        Top = 45
+        Left = -8
+        Top = 13
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Denegada'
+        ExplicitLeft = 24
+        ExplicitTop = 45
       end
       object Label18: TLabel
-        Left = 24
-        Top = 17
+        Left = -8
+        Top = -15
         Width = 87
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Cancel. Processado'
+        ExplicitLeft = 24
+        ExplicitTop = 17
       end
       object Label20: TLabel
-        Left = 139
-        Top = 3
+        Left = 107
+        Top = -29
         Width = 67
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Envio aguard. '
+        ExplicitLeft = 139
+        ExplicitTop = 3
       end
       object Shape4: TShape
-        Left = 125
-        Top = 17
+        Left = 93
+        Top = -15
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clOlive
         Pen.Color = clGray
+        ExplicitLeft = 125
+        ExplicitTop = 17
       end
       object Label1: TLabel
-        Left = 139
-        Top = 16
+        Left = 107
+        Top = -16
         Width = 62
         Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Envio Cancel.'
+        ExplicitLeft = 139
+        ExplicitTop = 16
       end
     end
   end
   object statPrincipal: TStatusBar
     Left = 0
-    Top = 427
+    Top = 467
     Width = 1032
     Height = 19
     Margins.Left = 2
@@ -294,14 +325,13 @@ object foPrincipal: TfoPrincipal
         Width = 80
       end>
     OnDrawPanel = statPrincipalDrawPanel
-    ExplicitTop = 421
-    ExplicitWidth = 1033
+    ExplicitTop = 447
   end
   object dbgNfebkp: TDBGrid
     Left = 0
     Top = 25
     Width = 1032
-    Height = 385
+    Height = 425
     Align = alClient
     Color = clBtnFace
     Ctl3D = True
@@ -310,7 +340,7 @@ object foPrincipal: TfoPrincipal
     FixedColor = clHighlightText
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
     ParentCtl3D = False
-    PopupMenu = pmExporta
+    PopupMenu = pmExportar
     ReadOnly = True
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
@@ -354,7 +384,7 @@ object foPrincipal: TfoPrincipal
         FieldName = 'CHAVE'
         Title.Caption = 'Chave XML'
         Title.Color = clInfoBk
-        Width = 250
+        Width = 257
         Visible = True
       end
       item
@@ -362,6 +392,7 @@ object foPrincipal: TfoPrincipal
         FieldName = 'TIPO'
         Title.Caption = 'Tipo NF'
         Title.Color = clInfoBk
+        Width = 64
         Visible = True
       end
       item
@@ -449,38 +480,38 @@ object foPrincipal: TfoPrincipal
         Expanded = False
         FieldName = 'XMLENVIO'
         Title.Color = clInfoBk
-        Visible = True
+        Visible = False
       end
       item
         Expanded = False
         FieldName = 'XMLEXTEND'
         Title.Color = clInfoBk
-        Visible = True
+        Visible = False
       end
       item
         Expanded = False
         FieldName = 'XMLENVIOCANC'
         Title.Color = clInfoBk
-        Visible = True
+        Visible = False
       end
       item
         Expanded = False
         FieldName = 'XMLEXTENDCANC'
         Title.Color = clInfoBk
-        Visible = True
+        Visible = False
       end
       item
         Expanded = False
         FieldName = 'CAMPOSTREAM'
         Title.Color = clInfoBk
-        Visible = True
+        Visible = False
       end
       item
         Alignment = taLeftJustify
         Expanded = False
         FieldName = 'CHECKBOX'
         Title.Color = clInfoBk
-        Visible = True
+        Visible = False
       end>
   end
   object pnlMenu: TPanel
@@ -490,7 +521,6 @@ object foPrincipal: TfoPrincipal
     Height = 25
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 1034
     object btn1: TSpeedButton
       Left = 754
       Top = 0
@@ -575,36 +605,12 @@ object foPrincipal: TfoPrincipal
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 410
+    Top = 450
     Width = 1032
     Height = 17
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 404
-    ExplicitWidth = 1033
-  end
-  object mmPrincipal: TMainMenu
-    Images = ilPrincipal
-    Left = 622
-    Top = 155
-    object mmFerrametas: TMenuItem
-      Caption = '&Ferramentas'
-      object mmConfiguracoes: TMenuItem
-        Caption = '&Configura'#231#227'o'
-        ImageIndex = 34
-        object mmConfiguraoconsulta: TMenuItem
-          Caption = '&Consulta configura'#231#227'o '
-          ShortCut = 16450
-          OnClick = mmConfiguraoconsultaClick
-        end
-        object mmGeraclasse: TMenuItem
-          Caption = '&Gera classe'
-          Enabled = False
-          Visible = False
-          OnClick = mmGeraclasseClick
-        end
-      end
-    end
+    ExplicitTop = 430
   end
   object ilPrincipal: TImageList
     Height = 32
@@ -612,7 +618,7 @@ object foPrincipal: TfoPrincipal
     Left = 470
     Top = 247
     Bitmap = {
-      494C01012C003C00D00120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00F00120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6959,11 +6965,11 @@ object foPrincipal: TfoPrincipal
     Left = 774
     Top = 155
   end
-  object pmExporta: TPopupMenu
+  object pmExportar: TPopupMenu
     OnPopup = pmExportaPopup
     Left = 622
     Top = 247
-    object Aes1: TMenuItem
+    object mmAcoes: TMenuItem
       Caption = '&A'#231#245'es'
       object mmExpTodos: TMenuItem
         Caption = 'Exporta  XML'#39's (todos)'
@@ -6973,7 +6979,7 @@ object foPrincipal: TfoPrincipal
         Caption = 'Exporta XML'#39' (sele'#231#227'o) '
         OnClick = mmExpSelecaoClick
       end
-      object mmN4: TMenuItem
+      object mmLinhaGrupoExpPDF: TMenuItem
         Caption = '-'
       end
       object mmExpPDFTodos: TMenuItem
@@ -6992,30 +6998,48 @@ object foPrincipal: TfoPrincipal
         Caption = 'Exporta XML'#39's + PDF'#39's (sele'#231#227'o)  '
         Visible = False
       end
-      object mmN2: TMenuItem
+      object mmLinhaGrupoDel: TMenuItem
+        Tag = 2
         Caption = '-'
         Visible = False
       end
       object mmDeletarTodos: TMenuItem
+        Tag = 2
         Caption = '&Deletar (todos)'
+        Enabled = False
+        Visible = False
         OnClick = mmDeletarTodosClick
       end
       object mmDelTodosSelecionados: TMenuItem
+        Tag = 2
         Caption = 'D&eletar (sele'#231#227'o)'
+        Enabled = False
+        Visible = False
         OnClick = mmDelTodosSelecionadosClick
       end
-      object mmN1: TMenuItem
+      object mmLinhaGrupoRefaz: TMenuItem
+        Tag = 2
         Caption = '-'
       end
       object mmRefazAutorizacaoTodos: TMenuItem
         Caption = 'Refazer autoriza'#231#245'es (Todos)'
         OnClick = mmRefazAutorizacaoTodosClick
       end
+      object mmDelRefazAutTodos: TMenuItem
+        Tag = 2
+        Caption = 'Deleta e refaz autoriza'#231#245'es (todos)'
+        Enabled = False
+        Visible = False
+        OnClick = mmDelRefazAutTodosClick
+      end
       object mmRefazAutorizacaoSelecao: TMenuItem
+        Tag = 2
         Caption = 'Refazer autoriza'#231#245'es (Sele'#231#227'o)'
         Enabled = False
+        OnClick = mmRefazAutorizacaoSelecaoClick
       end
       object mmN3: TMenuItem
+        Tag = 2
         Caption = '-'
       end
     end
@@ -7027,12 +7051,29 @@ object foPrincipal: TfoPrincipal
       Caption = '&Marcar (todos)'
       OnClick = mmMarcarTodosClick
     end
+    object mmN1: TMenuItem
+      Tag = 2
+      Caption = '-'
+    end
+    object mmConfigurar: TMenuItem
+      Tag = 2
+      Caption = 'Configurar'
+      Enabled = False
+      Visible = False
+      object mmConfgDiretorios: TMenuItem
+        Caption = 'Confg. diret'#243'rios'
+        OnClick = mmConfgDiretoriosClick
+      end
+      object mmConfigUsaurios: TMenuItem
+        Caption = 'Config. Usu'#225'rios'
+      end
+    end
   end
   object ilMenu: TImageList
     Left = 546
     Top = 155
     Bitmap = {
-      494C010103000C00780110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00980110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF
@@ -7337,7 +7378,6 @@ object foPrincipal: TfoPrincipal
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
-    PopupMenu = pmExporta
     OnDblClick = TrayIconBkpNfeDblClick
     Left = 774
     Top = 247

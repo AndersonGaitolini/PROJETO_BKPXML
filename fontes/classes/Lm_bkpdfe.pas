@@ -133,17 +133,16 @@ begin
         if (DaoObjetoXML.fConsultaObjXML(pObjXML,['chave'])) then
         begin
           wControle := Dao.Salvar(pObjXML);
-          AddLog('CRUD_ORM','J:\','Update id: '+IntToStr(pObjXML.Id));
         end
         else
         begin
            pObjXML.Id := fNextId(pObjXML);
            wControle:= Dao.Inserir(pObjXML);
-           AddLog('CRUD_ORM','J:\','Inseriu id: '+IntToStr(pObjXML.Id));
         end;
 
         Result := (wControle > 0);
         DM_NFEDFE.Dao.Commit;
+        Application.ProcessMessages;
       end;
     except on E: Exception do
            begin
