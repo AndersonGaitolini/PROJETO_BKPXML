@@ -25,20 +25,16 @@ type
 
   TfoPrincipal = class(TForm)
     ilPrincipal: TImageList;
-    statPrincipal: TStatusBar;
     tmrHora: TTimer;
-    dbgNfebkp: TDBGrid;
     mmExpSelecao: TMenuItem;
     ilMenu: TImageList;
     pnlMenu: TPanel;
     edConfiguracao: TEdit;
     EvaAlertas: TFDEventAlerter;
     tiTryIcon: TJvTrayIcon;
-    ProgressBar1: TProgressBar;
     btn1: TSpeedButton;
     dlgSaveXML: TSaveDialog;
     mmExpTodos: TMenuItem;
-    dbchkCHECKBOX: TDBCheckBox;
     lbDataIni: TLabel;
     dtpDataFiltroINI: TDateTimePicker;
     lbDataFIm: TLabel;
@@ -101,6 +97,9 @@ type
     mmN1: TMenuItem;
     mniTrocarUsuario: TMenuItem;
     mniN1: TMenuItem;
+    pnl1: TPanel;
+    dbgNfebkp: TDBGrid;
+    statPrincipal: TStatusBar;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -115,15 +114,12 @@ type
     procedure btnProcRetornoClick(Sender: TObject);
     procedure btnProcessaEnvioClick(Sender: TObject);
     procedure btn1Click(Sender: TObject);
-    procedure statPrincipalDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
-      const Rect: TRect);
     procedure dbgNfebkpDblClick(Sender: TObject);
     procedure btnPelaChaveClick(Sender: TObject);
     procedure mmExpTodosClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure dbgNfebkpColExit(Sender: TObject);
     procedure dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
-    procedure dbchkCHECKBOXClick(Sender: TObject);
     procedure dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure mmSelTodosClick(Sender: TObject);
@@ -452,14 +448,6 @@ begin
 //  end;
 end;
 
-procedure TfoPrincipal.dbchkCHECKBOXClick(Sender: TObject);
-begin
-  if dbchkCHECKBOX.Checked then
-    dbchkCHECKBOX.Caption := 'true'//dbckCHECKBOX.ValueChecked
-  else
-    dbchkCHECKBOX.Caption := 'false'//dbckCHECKBOX.ValueUnChecked;
-end;
-
 procedure TfoPrincipal.mmConfgDiretoriosClick(Sender: TObject);
 begin
   foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
@@ -762,34 +750,34 @@ var wStream : TStream;
     end;
   end;
 
-  procedure pDesenhaCheckBox;
-  var    DrawState, Check: Integer;
-         DrawRect, R: TRect;
-  begin
-    if (gdFocused in State) then
-    begin
-     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
-     begin
-      dbchkCHECKBOX.Left := Rect.Left + dbgNfebkp.Left + 2;
-      dbchkCHECKBOX.Top := Rect.Top + dbgNfebkp.top + 2;
-      dbchkCHECKBOX.Width := Rect.Right - Rect.Left;
-      dbchkCHECKBOX.Height := Rect.Bottom - Rect.Top;
-      dbchkCHECKBOX.Visible := True;
-     end
-    end
-    else
-    begin
-     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
-     begin
-       DrawRect:=Rect;
-       InflateRect(DrawRect,-1,-1);
-       DrawState := Column.Field.AsINTEGER;
-       dbgNfebkp.Canvas.FillRect(Rect);
-       DrawFrameControl(dbgNfebkp.Canvas.Handle, DrawRect,
-       DFC_BUTTON, DrawState);
-     end;
-    end;
-  end;
+//  procedure pDesenhaCheckBox;
+//  var    DrawState, Check: Integer;
+//         DrawRect, R: TRect;
+//  begin
+//    if (gdFocused in State) then
+//    begin
+//     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
+//     begin
+//      dbchkCHECKBOX.Left := Rect.Left + dbgNfebkp.Left + 2;
+//      dbchkCHECKBOX.Top := Rect.Top + dbgNfebkp.top + 2;
+//      dbchkCHECKBOX.Width := Rect.Right - Rect.Left;
+//      dbchkCHECKBOX.Height := Rect.Bottom - Rect.Top;
+//      dbchkCHECKBOX.Visible := True;
+//     end
+//    end
+//    else
+//    begin
+//     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
+//     begin
+//       DrawRect:=Rect;
+//       InflateRect(DrawRect,-1,-1);
+//       DrawState := Column.Field.AsINTEGER;
+//       dbgNfebkp.Canvas.FillRect(Rect);
+//       DrawFrameControl(dbgNfebkp.Canvas.Handle, DrawRect,
+//       DFC_BUTTON, DrawState);
+//     end;
+//    end;
+//  end;
 
 begin
   pSetColorLinhas;
@@ -858,19 +846,19 @@ procedure TfoPrincipal.FormCreate(Sender: TObject);
 var i:Integer;
     dts : TDataSet;
 
-  procedure pIniciaDBCheckBox;
-  begin
-    dbchkCHECKBOX.DataSource := DM_NFEDFE.dsBkpdfe;
-    dbchkCHECKBOX.DataField := 'CHECKBOX';
-    dbchkCHECKBOX.Visible := False;
-    dbchkCHECKBOX.Color := dbgNfebkp.Color;
-    dbchkCHECKBOX.Caption := '';
-  end;
+//  procedure pIniciaDBCheckBox;
+//  begin
+//    dbchkCHECKBOX.DataSource := DM_NFEDFE.dsBkpdfe;
+//    dbchkCHECKBOX.DataField := 'CHECKBOX';
+//    dbchkCHECKBOX.Visible := False;
+//    dbchkCHECKBOX.Color := dbgNfebkp.Color;
+//    dbchkCHECKBOX.Caption := '';
+//  end;
 
 begin
-  foPrincipal.Caption := 'SOUIS MAX XML';
+  foPrincipal.Caption := 'SOUIS MAX XML Versão 1.0 - beta';
 
-  pStatusBarProgress;
+//  pStatusBarProgress;
   pIniciaGrid;
 
   if not Assigned(DaoObjetoXML) then
@@ -896,7 +884,7 @@ begin
   wLastColunm := -1;
   wLastOrderBy := obyNone;
 
-  pIniciaDBCheckBox;
+//  pIniciaDBCheckBox;
   wListaSelecionados := TStringList.Create;
 
 
@@ -915,7 +903,7 @@ end;
 procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.pSalveName(pFieldName: string; var wFileName: string);
@@ -998,30 +986,17 @@ begin
 //  dbgNfebkp.SelectedRows.Refresh;
 end;
 
-procedure TfoPrincipal.statPrincipalDrawPanel(StatusBar: TStatusBar;
-  Panel: TStatusPanel; const Rect: TRect);
-begin
-  if Panel = StatusBar.Panels[1] then
-  with ProgressBar1 do
-  begin
-    Top := Rect.Top;
-    Left := Rect.Left;
-    Width := Rect.Right - Rect.Left - 15;
-    Height := Rect.Bottom - Rect.Top;
-  end;
-end;
-
 procedure TfoPrincipal.pStatusBarProgress;
-var
- ProgressBarStyle: integer;
+//var
+// ProgressBarStyle: integer;
 begin
-  statPrincipal.Panels[3].Style := psOwnerDraw;
-  ProgressBar1.Parent := statPrincipal;
-  ProgressBarStyle := GetWindowLong(ProgressBar1.Handle,GWL_EXSTYLE);
-  ProgressBarStyle := ProgressBarStyle - WS_EX_STATICEDGE;
-  SetWindowLong(ProgressBar1.Handle, GWL_EXSTYLE, ProgressBarStyle);
-  ProgressBar1.Position := 0;
-  ProgressBar1.Max := 100;
+//  statPrincipal.Panels[3].Style := psOwnerDraw;
+//  ProgressBar1.Parent := statPrincipal;
+//  ProgressBarStyle := GetWindowLong(ProgressBar1.Handle,GWL_EXSTYLE);
+//  ProgressBarStyle := ProgressBarStyle - WS_EX_STATICEDGE;
+//  SetWindowLong(ProgressBar1.Handle, GWL_EXSTYLE, ProgressBarStyle);
+//  ProgressBar1.Position := 0;
+//  ProgressBar1.Max := 100;
 end;
 
 procedure TfoPrincipal.mmGeraclasseClick(Sender: TObject);

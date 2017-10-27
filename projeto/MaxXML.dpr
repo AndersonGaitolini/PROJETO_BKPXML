@@ -74,9 +74,9 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'CALL_PARAMETROS: '+ ParamStr(i));
 
-    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, TRUE) then
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin
       Application.Terminate;
       exit;
@@ -100,7 +100,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'CALL_PARAMETROS: ' + ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin

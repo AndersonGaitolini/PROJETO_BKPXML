@@ -1,18 +1,152 @@
 object foPrincipal: TfoPrincipal
   Left = 0
   Top = 0
-  Width = 1050
-  Height = 527
-  Align = alClient
-  AutoScroll = True
+  Anchors = [akLeft, akTop, akRight, akBottom]
   BorderWidth = 1
   Caption = 'SOUIS MAX XML'
+  ClientHeight = 452
+  ClientWidth = 817
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
+  Font.Height = -10
   Font.Name = 'Tahoma'
   Font.Style = []
+  Icon.Data = {
+    0000010001002020000001002000A81000001600000028000000200000004000
+    000001002000000000008010000000000000000000000000000000000000F0F0
+    F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFEEEEEEFFE7E5
+    E5FFE2DEDEFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDA
+    DAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFE2DEDEFFE7E5E5FFEEEE
+    EEFFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFEDECECFFE0DBDBFFD5CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD5CE
+    CEFFE0DBDBFFEDECECFFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFF0F0F0FFF0F0F0FFE6E3E3FFD6CFCFFFD6CECEFFD6CECEFFD6CE
+    CEFFC3C0D1FF909CDAFF8E9ADAFF8996DAFF7686DBFF6F81DBFF808EDAFFB1B3
+    D4FFD5CDCEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CFCFFFE6E3E3FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFF0F0F0FFE4E0E0FFD5CDCDFFD6CECEFFD6CECEFFD5CDCEFF97A0
+    D9FF8491D9FF818BD1FF828BD1FF8B92D0FF8A90CFFF5763CDFF4353CDFF5461
+    CEFF5562CFFF5265D7FF8C98DAFF949ED9FFBFBED1FFD5CDCEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD5CDCDFFE4E0E0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFE6E3E3FFD5CDCDFFD6CECEFFD6CECEFFD6CECEFF8A96D9FF6374
+    D6FF9197D0FFCFC8CEFFB7B3CDFF7479CBFF8B8DCCFFC8C2CDFFD6CECEFFD6CE
+    CEFFD5CDCDFFA7A6CCFF5963CCFFA5A6CFFFA1A7D7FF8896DBFFB2B4D4FFD5CD
+    CEFFD6CECEFFD6CECEFFD6CECEFFD5CDCDFFE6E3E3FFF0F0F0FFF0F0F0FFF0F0
+    F0FFEDECECFFD6CFCFFFD6CECEFFD6CECEFFD6CECEFFA9ABD1FF707DD3FFCEC7
+    CEFFD5CDCDFF8689CCFF8A8DCCFFD4CCCDFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFCFC8CDFF545FCCFF7C85D0FFD4CDCEFFA7ACD6FF8B98
+    DBFFD0CACEFFD6CECEFFD6CECEFFD6CECEFFD6CFCFFFEDECECFFF0F0F0FFF0F0
+    F0FFE0DBDBFFD6CECEFFD6CECEFFD6CECEFFA5AAD6FF576CD8FFD4CCCEFFD4CC
+    CDFF757ACBFFB3B0CDFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD0C9CDFF535ECCFF7883D1FFD1CACEFFC9C5
+    D0FF8291DCFFCAC6CFFFD6CECEFFD6CECEFFD6CECEFFE0DBDBFFF0F0F0FFEEEE
+    EEFFD5CECEFFD6CECEFFD6CECEFFADB0D5FF9FA6D7FF858DD1FFD5CDCEFF7A7F
+    CBFFBAB6CDFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFB3B0CDFF8488CCFF7782D1FFD1CA
+    CEFFD0C9CEFF8291DCFFCFC9CFFFD6CECEFFD6CECEFFD5CECEFFEEEEEEFFE7E5
+    E5FFD6CECEFFD6CECEFFC7C3D0FF8E99DAFFC0BDCEFF9A9ED0FF9A9ACCFFA4A3
+    CCFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFF777CCBFFC6C1CEFF7A84
+    D1FFD4CDCEFFCBC6CFFF8895DBFFD5CDCEFFD6CECEFFD6CECEFFE7E5E5FFE2DE
+    DEFFD6CECEFFD5CDCEFF8895DBFFD2CBCEFFB2B1CFFFA1A3CFFF777CCBFFD5CD
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFF898BCCFFC7C1CDFFBBB8
+    CFFF8990D0FFD6CECEFFAFB2D4FFA9AED5FFD6CECEFFD6CECEFFE2DEDEFFCFC9
+    C7FFB0A6A2FFA19BA4FF8285A8FFADA4A0FF9E9CB7FF5965CDFFC3BECDFFD6CE
+    CEFFD6CECEFFD6CECEFFD3CBCBFFAFA6A2FFAEA4A0FFADA39FFFC2BAB8FFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFCBC2C1FFB1A7A3FF908BA3FF8F8AA3FFB1A8
+    A4FF7C7EA6FF9C97A5FFCDC5C4FF8895DBFFD4CDCEFFD6CECEFFDFDADAFFCEC8
+    C7FF493B2DFF433526FF433526FF433526FF473D3AFF5E66C4FFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFB3AAA6FF433526FF433526FF433526FF4A3D2FFFA79D
+    98FFD6CECEFFD6CECEFFD6CECEFFCEC5C5FF4E4032FF433526FF433526FF4335
+    26FF433526FF433526FF8F847DFFB4B5D3FFABAFD5FFD6CECEFFDFDADAFFDFDA
+    DAFF938881FF433526FF433526FF433526FF433526FF7A706CFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFF897E76FF433526FF433526FF433526FF433526FF4335
+    26FF8A7F77FFD4CCCCFFD6CECEFFD6CECEFF90867EFF433526FF433526FF4335
+    26FF433526FF433526FF55483BFFD4CCCCFF8C98DAFFD6CECEFFDFDADAFFDFDA
+    DAFFC2BFCEFF49434FFF433526FF433526FF433526FF443627FFB3A9A6FFD6CE
+    CEFFD6CECEFFD5CDCDFF605347FF433526FF433526FF433526FF433526FF4335
+    26FF433526FF6D6156FFCCC4C3FFD6CECEFFCFC6C6FF4F4133FF433526FF4335
+    26FF433526FF433526FF433526FFACA29EFF8E9ADAFFD5CDCEFFDFDADAFFDFDA
+    DAFFAFB2D4FFA2A2BCFF4C3E30FF433526FF433526FF433526FF594C3FFFD1C9
+    C8FFD6CECEFFC8BFBEFF443627FF433526FF433526FF433526FF433526FF4335
+    26FF433526FF433526FF574A3DFFBCB3B0FFD6CECEFF787180FF433526FF4335
+    26FF433526FF433526FF433526FF71645AFF9EA5D7FFC6C2D0FFDFDADAFFDFDA
+    DAFFA9AED5FFBCBBD2FFACA29EFF453728FF433526FF433526FF433526FF887D
+    75FFD6CECEFF9F958FFF433526FF433526FF433526FF433526FF433526FF4335
+    26FF433526FF433526FF433526FF493C2DFFA49A95FF7276C4FF504234FF4335
+    26FF433526FF433526FF433526FF453728FFA3A4C2FFB2B4D4FFDFDADAFFDFDA
+    DAFFB3B5D3FFB1B3D4FFD6CECEFF9F9590FF443627FF433526FF433526FF4537
+    29FFB9B0ADFF756960FF433526FF433526FF433526FF433526FF433526FF4335
+    26FF7F736BFF493B2DFF433526FF433526FF433526FF766D73FF928780FF4335
+    26FF433526FF433526FF433526FF433526FF747080FFAAAED5FFDFDADAFFDFDA
+    DAFFCCC6CFFF97A1D8FFD6CECEFFD6CECEFF757598FF483A2CFF433526FF4335
+    26FF5F5246FF4E4032FF433526FF433526FF433526FF433526FF433526FF4335
+    26FFCBC2C1FFBEB5B2FF5F5347FF433526FF433526FF433526FF65594DFF473A
+    2BFF433526FF433526FF433526FF433526FF463D3CFFACAFD2FFDFDADAFFDFDA
+    DAFFD5CDCEFF8B98DBFFD6CECEFFD6CECEFF868ED1FFBAB1B0FF5E5145FF4335
+    26FF433526FF433526FF433526FF433526FF433526FF433526FF433526FF5649
+    3CFFD5CDCDFFD6CECEFFD3CBCAFF666180FF4B3D2FFF433526FF433526FF4335
+    26FF433526FF433526FF433526FF433526FF433526FFA79E9DFFDFDADAFFDFDA
+    DAFFD6CECEFFA1A7D7FFBBBAD2FFD6CECEFF9FA2D0FFBAB7CFFFD3CBCBFF9B90
+    8AFF493E3DFF433526FF433526FF433526FF433526FF433526FF433526FF7468
+    5EFFD6CECEFFD6CECEFF9E9ECCFF9797CCFFCAC2C0FF8A7F77FF4F4133FF4335
+    26FF433526FF433526FF433526FF433526FF433526FF706359FFDFDADAFFDFDA
+    DAFFD6CECEFFD4CDCEFF8392DCFFD2CBCEFFCBC5CEFF8C93D0FFD6CECEFFD6CE
+    CEFF9798CBFF7F7DA3FF867B73FF66594EFF4F4234FF443628FF433526FF9287
+    80FFD6CECEFF9C9CCCFF8C8ECCFFD6CECEFFD6CECEFFD6CECEFFD2CAC9FFA99F
+    9AFF7D7168FF5A4D40FF443628FF433526FF433526FF453728FFCFC8C7FFDFDA
+    DAFFD6CECEFFD6CECEFFC6C2D0FF8593DCFFD2CBCEFF7F89D1FFD5CDCEFFD6CE
+    CEFFD5CDCDFF7B7FCBFFBCB7CDFFD6CECEFFD5CDCDFFD2CACAFFCEC6C5FFCFC8
+    CBFF8083CBFF9999CCFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD0C7C7FFB4ADB2FF4F5CABFFA69C97FFCCC7C5FFE2DE
+    DEFFD6CECEFFD6CECEFFD6CECEFFC7C3D0FF8392DCFF8D96D4FFA7A8CFFFD6CE
+    CEFFD6CECEFFD3CCCDFF7075CBFFC3BDCDFFD6CECEFFD3CCCDFF9797CCFF7278
+    CBFFBEB9CDFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFF8E95D0FF7D8CDBFFD6CECEFFE2DEDEFFE7E5
+    E5FFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD5CDCEFFA4AAD6FF6073D6FF8890
+    D1FFA6A7CFFFB2B2CFFFA8A9CFFF4957CCFF757BCBFF797DCBFFB1AECDFFD5CD
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFCCC6CEFF7984D2FF969FD9FFD6CECEFFE7E5E5FFEEEE
+    EEFFD5CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFC3C0D1FF8996
+    DAFFB5B4CFFFA9AACFFFAFAFCFFFC3BECEFF818AD1FFADAECFFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD5CDCEFF7E88D1FF8C98D9FFC6C3D0FFD5CECEFFEEEEEEFFF0F0
+    F0FFE0DBDBFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFABAF
+    D5FFA1A8D7FFD6CECEFFD6CECEFFD6CECEFFD5CDCEFF999DD0FF8890D0FFD1CA
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFF9399D0FF9CA1D2FF909BDAFFD6CECEFFE0DBDBFFF0F0F0FFF0F0
+    F0FFEDECECFFD6CFCFFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFA6ABD6FF9CA4D8FFD5CDCEFFD6CECEFFD6CECEFFD6CECEFFC3BECEFF7D87
+    D1FF999ED0FFD3CCCEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD5CD
+    CEFF9398D0FF8D95D3FF8493DCFFD3CCCEFFD6CFCFFFEDECECFFF0F0F0FFF0F0
+    F0FFF0F0F0FFE6E3E3FFD5CDCDFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFB4B5D3FF8795DBFFC9C4D0FFD6CECEFFD6CECEFFD6CECEFFD5CD
+    CEFFB8B6CFFF818AD1FF838CD1FFA6A8CFFFC6C1CEFFD3CCCEFFC7C2CEFF6979
+    D4FF677ADCFF96A0D9FFD4CCCEFFD5CDCDFFE6E3E3FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFF0F0F0FFE4E0E0FFD5CDCDFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFCFC9CFFF929DD9FF8E9ADAFFBEBCD2FFD5CDCEFFD6CE
+    CEFFD6CECEFFD6CECEFFD3CCCEFFB3B2CFFF808BD4FF4761DCFF7A86D4FFAEB0
+    D3FFD2CBCEFFD6CECEFFD5CDCDFFE4E0E0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFF0F0F0FFF0F0F0FFE6E3E3FFD6CFCFFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD0CACEFFA4A9D6FF8E9ADAFF8F9B
+    DAFF909BDAFF909BDAFF8F9ADAFF8E9ADAFFA0A7D7FFCFC8CFFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CFCFFFE6E3E3FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFEDECECFFE0DBDBFFD5CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CE
+    CEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD6CECEFFD5CE
+    CEFFE0DBDBFFEDECECFFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0
+    F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFEEEEEEFFE7E5
+    E5FFE2DEDEFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDA
+    DAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFDFDADAFFE2DEDEFFE7E5E5FFEEEE
+    EEFFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFF0F0F0FFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+    FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
   KeyPreview = True
   OldCreateOrder = False
   Position = poDesktopCenter
@@ -21,746 +155,609 @@ object foPrincipal: TfoPrincipal
   OnCreate = FormCreate
   OnKeyUp = FormKeyUp
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  DesignSize = (
+    817
+    452)
+  PixelsPerInch = 96
+  TextHeight = 12
   object pnlControles: TPanel
-    Left = 260
-    Top = 393
-    Width = 1291
-    Height = 85
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Left = 24
+    Top = 356
+    Width = 818
+    Height = 54
+    Anchors = [akLeft, akTop, akRight]
     Enabled = False
-    TabOrder = 2
+    TabOrder = 1
     Visible = False
+    ExplicitWidth = 838
     object btnEnvioArq: TButton
-      Left = 11
-      Top = 9
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 9
+      Top = 7
+      Width = 110
+      Height = 25
       Caption = 'XML Envio'
       TabOrder = 0
       OnClick = btnEnvioArqClick
     end
     object btnEnvioLote: TButton
-      Left = 14
-      Top = 45
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 11
+      Top = 36
+      Width = 110
+      Height = 25
       Caption = 'XML Envio Lote'
       TabOrder = 4
       OnClick = btnEnvioLoteClick
     end
     object btnEnvioExt: TButton
-      Left = 156
-      Top = 9
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 125
+      Top = 7
+      Width = 110
+      Height = 25
       Caption = 'XML Envio Extend'
       TabOrder = 1
       OnClick = btnEnvioExtClick
     end
     object btnXMLEnvioExtLote: TButton
-      Left = 156
-      Top = 45
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 125
+      Top = 36
+      Width = 110
+      Height = 25
       Caption = 'XML Envio Ext. Lote'
       TabOrder = 5
       OnClick = btnXMLEnvioExtLoteClick
     end
     object btnCanEnvioLote: TButton
-      Left = 299
-      Top = 45
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 239
+      Top = 36
+      Width = 110
+      Height = 25
       Caption = 'XML Cancel. Lote'
       TabOrder = 6
       OnClick = btnCanEnvioLoteClick
     end
     object btnCanEnvioArq: TButton
-      Left = 299
-      Top = 9
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 239
+      Top = 7
+      Width = 110
+      Height = 25
       Caption = 'XML Cancelamento'
       TabOrder = 2
       OnClick = btnCanEnvioArqClick
     end
     object btnCanEnvioExt: TButton
-      Left = 441
-      Top = 9
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 353
+      Top = 7
+      Width = 110
+      Height = 25
       Caption = 'XML Canc. Extend'
       TabOrder = 3
       OnClick = btnCanEnvioExtClick
     end
     object btnCanExetendLote: TButton
-      Left = 443
-      Top = 45
-      Width = 137
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 354
+      Top = 36
+      Width = 110
+      Height = 25
       Caption = 'XML Can Ext. Lote'
       TabOrder = 7
       OnClick = btnCanExetendLoteClick
     end
     object btnSIMULACAO: TButton
-      Left = 585
-      Top = 45
-      Width = 138
-      Height = 31
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 468
+      Top = 36
+      Width = 110
+      Height = 25
       Caption = 'XML Simula'#231#227'o '
       TabOrder = 8
       Visible = False
       OnClick = btnSIMULACAOClick
     end
     object pnlLegenda: TPanel
-      Left = 1010
+      Left = 593
       Top = 1
-      Width = 280
-      Height = 83
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Width = 224
+      Height = 52
       Align = alRight
       Anchors = [akTop, akRight]
       BevelInner = bvRaised
       BevelKind = bkFlat
       TabOrder = 9
+      ExplicitLeft = 808
+      ExplicitHeight = 66
       DesignSize = (
-        276
-        79)
+        220
+        48)
       object Shape1: TShape
-        Left = -46
-        Top = -52
-        Width = 12
-        Height = 12
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -45
+        Top = -64
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clBlack
         Pen.Color = clGray
-        ExplicitLeft = -30
-        ExplicitTop = -36
+        ExplicitLeft = -37
+        ExplicitTop = -42
       end
       object Shape2: TShape
-        Left = 100
-        Top = -17
-        Width = 13
-        Height = 12
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 72
+        Top = -36
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clRed
         Pen.Color = clGray
-        ExplicitLeft = 116
-        ExplicitTop = -1
+        ExplicitLeft = 80
+        ExplicitTop = -14
       end
       object Shape3: TShape
-        Left = -46
-        Top = -17
-        Width = 12
-        Height = 12
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -45
+        Top = -36
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clFuchsia
         Pen.Color = clGray
-        ExplicitLeft = -30
-        ExplicitTop = -1
+        ExplicitLeft = -37
+        ExplicitTop = -14
       end
       object Shape13: TShape
-        Left = 100
-        Top = 0
-        Width = 13
-        Height = 13
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 72
+        Top = -22
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clGray
         Pen.Color = clGray
         Visible = False
-        ExplicitLeft = 116
-        ExplicitTop = 16
+        ExplicitLeft = 80
+        ExplicitTop = 0
       end
       object Shape14: TShape
-        Left = -46
-        Top = 0
-        Width = 12
-        Height = 13
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -45
+        Top = -22
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clBlue
         Pen.Color = clGray
-        ExplicitLeft = -30
-        ExplicitTop = 16
+        ExplicitLeft = -37
+        ExplicitTop = 0
       end
       object Shape15: TShape
-        Left = 100
-        Top = -51
-        Width = 13
-        Height = 12
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 72
+        Top = -63
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clNavy
         Pen.Color = clGray
-        ExplicitLeft = 116
-        ExplicitTop = -35
+        ExplicitLeft = 80
+        ExplicitTop = -41
       end
       object Shape17: TShape
-        Left = -46
-        Top = -35
-        Width = 12
-        Height = 13
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -45
+        Top = -50
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clGreen
         Pen.Color = clGray
-        ExplicitLeft = -30
-        ExplicitTop = -19
+        ExplicitLeft = -37
+        ExplicitTop = -28
       end
       object Label3: TLabel
-        Left = -26
-        Top = -52
-        Width = 65
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -29
+        Top = -64
+        Width = 51
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Processado'
-        ExplicitLeft = -10
-        ExplicitTop = -36
+        ExplicitLeft = -21
+        ExplicitTop = -42
       end
       object Label4: TLabel
-        Left = 118
-        Top = -19
-        Width = 54
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 86
+        Top = -37
+        Width = 41
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Rejeitado'
-        ExplicitLeft = 134
-        ExplicitTop = -3
+        ExplicitLeft = 94
+        ExplicitTop = -15
       end
       object Label5: TLabel
-        Left = -26
-        Top = -17
-        Width = 58
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -29
+        Top = -36
+        Width = 45
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Inutilizada'
-        ExplicitLeft = -10
-        ExplicitTop = -1
+        ExplicitLeft = -21
+        ExplicitTop = -14
       end
       object Label16: TLabel
-        Left = 118
-        Top = -1
-        Width = 71
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 86
+        Top = -23
+        Width = 57
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'N'#227'o definido'
         Visible = False
-        ExplicitLeft = 134
-        ExplicitTop = 15
+        ExplicitLeft = 94
+        ExplicitTop = -1
       end
       object Label17: TLabel
-        Left = -26
-        Top = 0
-        Width = 57
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -29
+        Top = -22
+        Width = 45
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Denegada'
-        ExplicitLeft = -10
-        ExplicitTop = 16
+        ExplicitLeft = -21
+        ExplicitTop = 0
       end
       object Label18: TLabel
-        Left = -26
-        Top = -35
-        Width = 111
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = -29
+        Top = -50
+        Width = 87
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Cancel. Processado'
-        ExplicitLeft = -10
-        ExplicitTop = -19
+        ExplicitLeft = -21
+        ExplicitTop = -28
       end
       object Label20: TLabel
-        Left = 118
-        Top = -52
-        Width = 82
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 86
+        Top = -64
+        Width = 67
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Envio aguard. '
-        ExplicitLeft = 134
-        ExplicitTop = -36
+        ExplicitLeft = 94
+        ExplicitTop = -42
       end
       object Shape4: TShape
-        Left = 100
-        Top = -35
-        Width = 13
-        Height = 13
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 72
+        Top = -50
+        Width = 10
+        Height = 10
         Anchors = [akRight, akBottom]
         Brush.Color = clOlive
         Pen.Color = clGray
-        ExplicitLeft = 116
-        ExplicitTop = -19
+        ExplicitLeft = 80
+        ExplicitTop = -28
       end
       object Label1: TLabel
-        Left = 118
-        Top = -36
-        Width = 76
-        Height = 16
-        Margins.Left = 4
-        Margins.Top = 4
-        Margins.Right = 4
-        Margins.Bottom = 4
+        Left = 86
+        Top = -51
+        Width = 62
+        Height = 12
         Anchors = [akRight, akBottom]
         Caption = 'Envio Cancel.'
-        ExplicitLeft = 134
-        ExplicitTop = -20
+        ExplicitLeft = 94
+        ExplicitTop = -29
       end
     end
   end
-  object statPrincipal: TStatusBar
+  object pnl1: TPanel
     Left = 0
-    Top = 461
-    Width = 1030
-    Height = 19
-    Panels = <
-      item
-        Text = 'Usu'#225'rio: Master'
-        Width = 150
-      end
-      item
-        Text = 'Linhas Selecionadas..'
-        Width = 125
-      end
-      item
-        Text = 'Progresso'
-        Width = 150
-      end
-      item
-        Text = 'barra'
-        Width = 80
-      end>
-    OnDrawPanel = statPrincipalDrawPanel
-  end
-  object dbgNfebkp: TDBGrid
-    Left = 0
-    Top = 31
-    Width = 1030
-    Height = 409
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Top = 26
+    Width = 817
+    Height = 426
     Align = alClient
-    Color = clBtnFace
-    Ctl3D = True
-    DataSource = DM_NFEDFE.dsBkpdfe
-    DrawingStyle = gdsGradient
-    FixedColor = clHighlightText
-    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
-    ParentCtl3D = False
-    PopupMenu = pmExportar
-    ReadOnly = True
-    TabOrder = 1
-    TitleFont.Charset = DEFAULT_CHARSET
-    TitleFont.Color = clWindowText
-    TitleFont.Height = -13
-    TitleFont.Name = 'Tahoma'
-    TitleFont.Style = []
-    Touch.ParentTabletOptions = False
-    Touch.TabletOptions = [toPenBarrelFeedback]
-    OnColExit = dbgNfebkpColExit
-    OnDrawColumnCell = dbgNfebkpDrawColumnCell
-    OnDblClick = dbgNfebkpDblClick
-    OnKeyPress = dbgNfebkpKeyPress
-    OnKeyUp = dbgNfebkpKeyUp
-    OnMouseActivate = dbgNfebkpMouseActivate
-    OnTitleClick = dbgNfebkpTitleClick
-    Columns = <
-      item
-        Alignment = taLeftJustify
-        Expanded = False
-        FieldName = 'ID'
-        Title.Color = clInfoBk
-        Visible = False
-      end
-      item
-        Alignment = taLeftJustify
-        Expanded = False
-        FieldName = 'STATUS'
-        Title.Color = clInfoBk
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'DATAALTERACAO'
-        Title.Caption = 'Data altera'#231#227'o'
-        Title.Color = clInfoBk
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'CHAVE'
-        Title.Caption = 'Chave XML'
-        Title.Color = clInfoBk
-        Width = 257
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TIPO'
-        Title.Caption = 'Tipo NF'
-        Title.Color = clInfoBk
-        Width = 64
-        Visible = True
-      end
-      item
-        Alignment = taLeftJustify
-        Expanded = False
-        FieldName = 'IDF_DOCUMENTO'
-        Title.Caption = 'N'#186' Nota'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATAEMISSAO'
-        Title.Caption = 'Emiss'#227'o'
-        Title.Color = clInfoBk
-        Width = 80
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PROTOCOLOAUT'
-        Title.Caption = 'Protoc. autoriza'#231#227'o'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'MOTIVO'
-        Title.Caption = 'Motivo'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PROTOCOLOCANC'
-        Title.Caption = 'Protoc. Cancelamento'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'MOTIVOCANC'
-        Title.Caption = 'Motivo cancelamento'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'PROTOCOLORECTO'
-        Title.Caption = 'Protoc. Recebimento'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'DATARECTO'
-        Title.Caption = 'Recebimento'
-        Title.Color = clInfoBk
-        Width = 90
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'TIPOAMBIENTE'
-        Title.Caption = 'Ambiente'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'EMAILSNOTIFICADOS'
-        Title.Caption = 'E-Mail'
-        Title.Color = clInfoBk
-        Width = 100
-        Visible = True
-      end
-      item
-        Expanded = False
-        FieldName = 'XMLENVIO'
-        Title.Color = clInfoBk
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'XMLEXTEND'
-        Title.Color = clInfoBk
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'XMLENVIOCANC'
-        Title.Color = clInfoBk
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'XMLEXTENDCANC'
-        Title.Color = clInfoBk
-        Visible = False
-      end
-      item
-        Expanded = False
-        FieldName = 'CAMPOSTREAM'
-        Title.Color = clInfoBk
-        Visible = False
-      end
-      item
-        Alignment = taLeftJustify
-        Expanded = False
-        FieldName = 'CHECKBOX'
-        Title.Color = clInfoBk
-        Visible = False
-      end>
+    Alignment = taLeftJustify
+    Caption = 'pnl1'
+    TabOrder = 2
+    ExplicitLeft = 48
+    ExplicitTop = 280
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+    object dbgNfebkp: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 815
+      Height = 402
+      Align = alClient
+      Color = clBtnFace
+      DataSource = DM_NFEDFE.dsBkpdfe
+      DrawingStyle = gdsGradient
+      FixedColor = clHighlightText
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
+      PopupMenu = pmExportar
+      ReadOnly = True
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -10
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Touch.ParentTabletOptions = False
+      Touch.TabletOptions = [toPenBarrelFeedback]
+      OnColExit = dbgNfebkpColExit
+      OnDrawColumnCell = dbgNfebkpDrawColumnCell
+      OnDblClick = dbgNfebkpDblClick
+      OnKeyPress = dbgNfebkpKeyPress
+      OnKeyUp = dbgNfebkpKeyUp
+      OnMouseActivate = dbgNfebkpMouseActivate
+      OnTitleClick = dbgNfebkpTitleClick
+      Columns = <
+        item
+          Alignment = taLeftJustify
+          Expanded = False
+          FieldName = 'ID'
+          Title.Color = clInfoBk
+          Visible = False
+        end
+        item
+          Alignment = taLeftJustify
+          Expanded = False
+          FieldName = 'STATUS'
+          Title.Color = clInfoBk
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAALTERACAO'
+          Title.Caption = 'Data altera'#231#227'o'
+          Title.Color = clInfoBk
+          Width = 60
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'CHAVE'
+          Title.Caption = 'Chave XML'
+          Title.Color = clInfoBk
+          Width = 200
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TIPO'
+          Title.Caption = 'Tipo NF'
+          Title.Color = clInfoBk
+          Width = 50
+          Visible = True
+        end
+        item
+          Alignment = taLeftJustify
+          Expanded = False
+          FieldName = 'IDF_DOCUMENTO'
+          Title.Caption = 'N'#186' Nota'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAEMISSAO'
+          Title.Caption = 'Emiss'#227'o'
+          Title.Color = clInfoBk
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLOAUT'
+          Title.Caption = 'Protoc. autoriza'#231#227'o'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MOTIVO'
+          Title.Caption = 'Motivo'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLOCANC'
+          Title.Caption = 'Protoc. Cancelamento'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'MOTIVOCANC'
+          Title.Caption = 'Motivo cancelamento'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PROTOCOLORECTO'
+          Title.Caption = 'Protoc. Recebimento'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATARECTO'
+          Title.Caption = 'Recebimento'
+          Title.Color = clInfoBk
+          Width = 90
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'TIPOAMBIENTE'
+          Title.Caption = 'Ambiente'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'EMAILSNOTIFICADOS'
+          Title.Caption = 'E-Mail'
+          Title.Color = clInfoBk
+          Width = 100
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'XMLENVIO'
+          Title.Color = clInfoBk
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'XMLEXTEND'
+          Title.Color = clInfoBk
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'XMLENVIOCANC'
+          Title.Color = clInfoBk
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'XMLEXTENDCANC'
+          Title.Color = clInfoBk
+          Visible = False
+        end
+        item
+          Expanded = False
+          FieldName = 'CAMPOSTREAM'
+          Title.Color = clInfoBk
+          Visible = False
+        end
+        item
+          Alignment = taLeftJustify
+          Expanded = False
+          FieldName = 'CHECKBOX'
+          Title.Color = clInfoBk
+          Visible = False
+        end>
+    end
+    object statPrincipal: TStatusBar
+      Left = 1
+      Top = 403
+      Width = 815
+      Height = 22
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Panels = <
+        item
+          Bevel = pbRaised
+          Text = 'Usu'#225'rio: Master'
+          Width = 150
+        end
+        item
+          Text = 'Linhas Selecionadas..'
+          Width = 125
+        end
+        item
+          Text = 'Progresso'
+          Width = 150
+        end
+        item
+          Text = 'barra'
+          Width = 80
+        end>
+      SizeGrip = False
+      ExplicitTop = 402
+    end
   end
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 1030
-    Height = 31
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
+    Width = 817
+    Height = 26
     Align = alTop
+    Anchors = [akLeft, akRight, akBottom]
     TabOrder = 0
+    ExplicitLeft = -1
+    ExplicitTop = -5
+    ExplicitWidth = 754
     object btn1: TSpeedButton
-      Left = 943
-      Top = 0
-      Width = 22
-      Height = 23
+      Left = 767
+      Top = 4
+      Width = 21
+      Height = 18
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
       Caption = '...'
       Flat = True
       OnClick = btn1Click
     end
     object lbDataIni: TLabel
-      Left = 13
-      Top = 5
-      Width = 30
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 10
+      Top = 9
+      Width = 25
+      Height = 12
       Caption = 'Inicio'
     end
     object lbDataFIm: TLabel
-      Left = 185
-      Top = 5
-      Width = 21
-      Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 148
+      Top = 9
+      Width = 16
+      Height = 12
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 634
-      Top = 4
-      Width = 81
+      Left = 490
+      Top = 5
+      Width = 77
       Height = 16
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
       Caption = 'Configura'#231#245'es'
     end
     object edConfiguracao: TEdit
-      Left = 718
-      Top = -1
-      Width = 225
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 560
+      Top = 3
+      Width = 202
+      Height = 20
+      AutoSelect = False
+      AutoSize = False
       TabOrder = 0
     end
-    object dbchkCHECKBOX: TDBCheckBox
-      Left = 479
-      Top = -3
-      Width = 121
-      Height = 22
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      DataField = 'CHECKBOX'
-      DataSource = DM_NFEDFE.dsBkpdfe
-      TabOrder = 4
-      ValueChecked = '0'
-      ValueUnchecked = '-1'
-      Visible = False
-      OnClick = dbchkCHECKBOXClick
-    end
     object dtpDataFiltroINI: TDateTimePicker
-      Left = 49
-      Top = 0
-      Width = 131
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 39
+      Top = 5
+      Width = 105
+      Height = 20
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 1
     end
     object dtpDataFiltroFin: TDateTimePicker
-      Left = 210
-      Top = 0
-      Width = 131
-      Height = 24
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 168
+      Top = 5
+      Width = 105
+      Height = 20
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 2
     end
     object btnFiltrar: TButton
-      Left = 346
-      Top = 0
-      Width = 94
-      Height = 25
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 277
+      Top = 5
+      Width = 75
+      Height = 20
       Caption = '&Filtrar'
       TabOrder = 3
       OnClick = btnFiltrarClick
     end
   end
-  object ProgressBar1: TProgressBar
-    Left = 0
-    Top = 440
-    Width = 1030
-    Height = 21
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
-    Align = alBottom
-    TabOrder = 3
-  end
   object ilPrincipal: TImageList
     Height = 32
     Width = 32
-    Left = 470
-    Top = 247
+    Left = 300
+    Top = 233
     Bitmap = {
-      494C01012C003C00000220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00080220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -7104,13 +7101,13 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object tmrHora: TTimer
-    Left = 774
-    Top = 155
+    Left = 528
+    Top = 233
   end
   object pmExportar: TPopupMenu
     OnPopup = pmExportaPopup
-    Left = 622
-    Top = 247
+    Left = 451
+    Top = 156
     object mmAcoes: TMenuItem
       Caption = '&A'#231#245'es'
       object mmExpTodos: TMenuItem
@@ -7219,10 +7216,10 @@ object foPrincipal: TfoPrincipal
     end
   end
   object ilMenu: TImageList
-    Left = 546
-    Top = 155
+    Left = 376
+    Top = 157
     Bitmap = {
-      494C010103000C00A80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00B00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF
@@ -7362,24 +7359,26 @@ object foPrincipal: TfoPrincipal
       000000000000}
   end
   object EvaAlertas: TFDEventAlerter
-    Left = 394
-    Top = 247
+    Left = 224
+    Top = 233
   end
   object tiTryIcon: TJvTrayIcon
     IconIndex = 0
-    Left = 546
-    Top = 247
+    Left = 376
+    Top = 233
   end
   object dlgSaveXML: TSaveDialog
-    Filter = 'XML|*.XML'
+    DefaultExt = '*.*'
+    Filter = 'zip|*.zip'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
     Title = 'Salvando oXML zipado'
-    Left = 698
-    Top = 247
+    Left = 528
+    Top = 156
   end
   object pmSelecionar: TPopupMenu
     OnPopup = pmSelecionarPopup
-    Left = 698
-    Top = 155
+    Left = 452
+    Top = 233
     object mmSelTodos: TMenuItem
       Caption = 'Selecionar &todos'
       OnClick = mmSelTodosClick
@@ -7528,20 +7527,20 @@ object foPrincipal: TfoPrincipal
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
     OnDblClick = TrayIconBkpNfeDblClick
-    Left = 774
-    Top = 247
+    Left = 604
+    Top = 157
   end
   object appEventBKPNFE: TApplicationEvents
     OnMinimize = appEventBKPNFEMinimize
-    Left = 394
-    Top = 155
+    Left = 224
+    Top = 157
   end
   object FDEventAlerter1: TFDEventAlerter
     Connection = DM_NFEDFE.conConexaoFD
     Names.Strings = (
       'NOVO_XML')
     OnAlert = FDEventAlerter1Alert
-    Left = 470
-    Top = 155
+    Left = 300
+    Top = 157
   end
 end

@@ -29,7 +29,8 @@ uses
   uFoConfigPadrao in 'J:\fontes\uFoConfigPadrao.pas' {foConfigPadrao},
   uFoConfiguracao in 'J:\fontes\uFoConfiguracao.pas' {foConfiguracao},
   uRotinas in 'J:\fontes\uRotinas.pas',
-  uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao};
+  uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao},
+  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario};
 
 var
  ShowResult : Byte;
@@ -73,7 +74,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,+'CALL_PARAMETROS: ' + ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, TRUE) then
     begin
@@ -83,9 +84,9 @@ begin
 
    tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
-   wSenhaAtual := ume
+   wSenhaAtual := uMetodosUteis.fSenhaAtual('');
 
-   if daoLogin.fLogar(tabUsuarios) then
+   if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
@@ -99,7 +100,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,+'CALL_PARAMETROS: ' + ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin

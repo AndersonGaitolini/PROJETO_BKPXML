@@ -431,8 +431,9 @@ begin
    Erro := FindFirst(pMasc,faArchive,Dir);
    While Erro = 0 do
    begin
-      if not (deleteFile(ExtractFilePath(pMasc)+Dir.Name)) then
-        AddLog('Cannot delete',ExtractFileDir(Dir.Name),' - '+ ExtractFileName(Dir.Name));
+//      if not (deleteFile(ExtractFilePath(pMasc)+Dir.Name)) then
+//        AddLog( 'LOGMAXXML',ExtractFileDir(Dir.Name),' - '+ ExtractFileName(Dir.Name));
+      deleteFile(ExtractFilePath(pMasc)+Dir.Name);
       Erro := FindNext(Dir);
    end;
    FindClose(Dir);
@@ -679,6 +680,29 @@ wUser : string;
 wSenha: string;
 wOk :Boolean;
 wHandle : THandle;
+
+  procedure pIniArquivo(pSource: string);
+  begin
+    try
+      setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
+    except
+      wHandle := FindWindow( 0,pWideChar(pSource));
+      FileClose(wHandle);
+      setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
+    end;
+  end;
+
+  procedure pIniFbClient(pSource: string);
+  begin
+    try
+    setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
+  except
+    wHandle := FindWindow( 0,pWideChar(pSource));
+    FileClose(wHandle);
+    setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
+  end;
+  end;
+
 begin
   try
     try
@@ -686,7 +710,7 @@ begin
       prCon.Connected := Result;
       prCon.Close;
       wDataBase   := getINI(fArqIni, 'BD', 'ARQUIVO', '');
-      wFBClient := getINI(fArqIni, 'BD', 'FBCLIENT', '');
+      wFBClient   := getINI(fArqIni, 'BD', 'FBCLIENT', '');
 
       if not FileExists(wDataBase)then
       begin
@@ -700,30 +724,29 @@ begin
           wMSg := 'Base de dados não encontrada! Infome o caminho do BACKUPXML.FDB)';
           repeat
             begin
-              wDataBase := inputbox('Diretório do "BD" ou "S" para sair!', wMSg,wDataBase);
+              wDataBase := inputbox('Diretório do "BD" ou "S" para sair!', wMSg,'');
               if Trim(UpperCase(wDataBase)) = 'S' then
                Application.Terminate;
 
               wOk := FileExists(wDataBase);
               if wOk then
               begin
-
-                try
-                  setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
-                except
-                  wMSg := fArqIni;
-                  wHandle := FindWindow( 0,pWideChar(wMSg));
-                  FileClose(wHandle);
-                  setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
-                end;
+                 pIniArquivo(fArqIni);
               end
               else
+              begin
                 wMSg := 'Arquivo inválido! ou "S" para Sair';
+              end;
 
             end;
           until wOk;
-        end;
-      end;
+        end
+        else
+         pIniArquivo(fArqIni);
+      end
+      else
+       pIniArquivo(fArqIni);
+
 
       if not FileExists(wFBClient)then
       begin
@@ -737,37 +760,35 @@ begin
           wMSg := 'FBClient.Dll não encontrada! Infome o caminho da DLL!)';
           repeat
             begin
-              wFBClient := inputbox('Diretório da "Dll" ou "S" para sair!', wMSg,wFBClient);
-              if Trim(UpperCase(wFBClient1)) = 'S' then
+              wFBClient := inputbox('Diretório da "Dll" ou "S" para sair!', wMSg,'');
+              if Trim(UpperCase(wFBClient)) = 'S' then
                Application.Terminate;
 
               wOk := FileExists(wFBClient);
               if wOk then
               begin
-                try
-                  setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
-                except
-                  wMSg := fArqIni;
-                  wHandle := FindWindow( 0,pWideChar(wMSg));
-                  FileClose(wHandle);
-                  setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
-                end;
+                pIniFbClient(fArqIni);
               end
               else
+              begin
                 wMSg := 'Arquivo inválido! ou "S" para Sair';
+              end;
 
             end;
           until wOk;
-        end;
-      end;
+        end
+        else
+         pIniFbClient(fArqIni);
+      end
+      else
+        pIniFbClient(fArqIni);
 
-
-      AddLog('LOGMAXXML',GetCurrentDir,'[INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient +'] ['+wFBClient1+']');
+//      AddLog('LOGMAXXML',GetCurrentDir,'conexaoBD: [INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient +'] ['+wFBClient1+']');
       prDriver.VendorLib := wFBClient;
 
-      prCon.Params.Values['User_Name'] := 'sysdba';//wUser;
-      prCon.Params.Values['Password']  := 'masterkey';//wSenha;
-      prCon.Params.Values['Database'] := wDataBase;
+      prCon.Params.Values['User_Name']  := 'sysdba';//wUser;
+      prCon.Params.Values['Password']   := 'masterkey';//wSenha;
+      prCon.Params.Values['Database']   := wDataBase;
       prCon.Params.Values['SQLDialect'] := '3';
 
       prCon.Open;
@@ -821,6 +842,8 @@ begin
 
   if not FileExists(Result) then
     setINI(Result,'','','');
+
+//  AddLog('LOGMAXXML',GetCurrentDir,'fArqIni: [INI: '+Result+']' );
 end;
 
 { TConvert }

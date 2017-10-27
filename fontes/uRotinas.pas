@@ -348,6 +348,10 @@ begin
               exit;
             end;
 
+
+//        if FileExists(FileName) then
+//          FileName := FileName + '('++')'
+
         wPathZIP := FileName;
         if not Assigned(ObjetoXML) then
           ObjetoXML := TLm_bkpdfe.Create;
@@ -615,7 +619,7 @@ var
           pCopyFiles(wFileSource, tabConfiguracoes.NFePathRejeitado,false);
           FileClose(FindWindow( 0,pWideChar(wFileSource)));
           if DeleteFile(wFileSource) then
-            AddLog('LOGMAXXML',GetCurrentDir,'['+ wXmlName+']');
+            AddLog('LOGMAXXML',GetCurrentDir,'ErroXML: ['+ wXmlName+']');
 
           wErro := FindNext(wFRec);
           wFileSource := wPathFile+'\'+wFRec.Name;
@@ -742,7 +746,7 @@ var
           pCopyFiles(wFileSource, tabConfiguracoes.NFePathRejeitado,false);
           FileClose(FindWindow( 0,pWideChar(wFileSource)));
           if DeleteFile(wFileSource) then
-            AddLog('LOGMAXXML', GetCurrentDir,'['+ wXmlName+']');
+            AddLog('LOGMAXXML', GetCurrentDir,'ErroXML: ['+ wXmlName+']');
 
           wErro := FindNext(wFRec);
           wFileSource := wPathFile+'\'+wFRec.Name;
