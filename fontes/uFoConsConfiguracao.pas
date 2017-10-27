@@ -123,6 +123,8 @@ begin
   if evtTelaUsuarios = etuConsultar then
   begin
     tabConfiguracoes.Id := DM_NFEDFE.cdsConfiguracoes.FieldByName('id').AsInteger;
+    tabUsuarios.ConfigSalva := tabConfiguracoes.Id;
+    DM_NFEDFE.Dao.Salvar(tabUsuarios, ['ConfigSalva']);
     Close;
   end;
 end;

@@ -47,7 +47,9 @@ Const
   function fNomePC: string;
   function ExtractName(const Filename: String): String;
   function DateXMLToDate(pDateXML: String): TDate;
-  function fOpenFileName(pFilter: array of string;pFilterName: array of string;var prFileName:string;pTitle : string = ''): Boolean;
+  function fOpenFileName(var prFileName:string;pTitle: string; pFilter: array of string; pFilterIndex : integer = 0): Boolean;
+  function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0): Boolean; overload;
+
   function fOpenPath(var pInitialDir: string; pTitle : string = ''): Boolean;
   function fSaveFile(pInitialDir, pFileNAme, pTitle: String; pFilter: array of string): TSaveDialog;
   Procedure pZapFiles(pMasc:string);
@@ -459,7 +461,8 @@ var
       FreeAndNil(f);
     end;
   end;
-function fOpenFileName(pFilter: array of string;pFilterName: array of string;var prFileName:string;pTitle : string = ''): Boolean;
+
+function fOpenFileName(var prFileName:string;pTitle: string; pFilter: array of string; pFilterIndex : integer = 0): Boolean;
 var
   dlgOpenDir : TOpenDialog;
   auxFilter, auxFilterName : string;
@@ -471,7 +474,7 @@ var
      dlgOpenDir.Filter :='';
      for I := Low(pFilter) to High(pFilter) do
      begin
-       dlgOpenDir.Filter := pFilterName[i] + '|' + pFilter[i]+'|';
+       dlgOpenDir.Filter := pFilter[i] + '|' + pFilter[i]+'|';
      end;
 
      dlgOpenDir.FilterIndex := 0;
@@ -485,6 +488,46 @@ var
        prFileName := dlgOpenDir.FileName
      else
        prFileName := '';
+  finally
+    dlgOpenDir.Free;
+  end;
+end;
+
+function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0): Boolean;
+var
+  dlgOpenDir : TOpenDialog;
+  auxFilter, auxFilterName : string;
+  i : Integer;
+begin
+
+  dlgOpenDir := TOpenDialog.Create(Application);
+  try
+     auxFilter := '';
+     i := Length(pFilterName);
+     dlgOpenDir.Filter := 'Todos | *.* |';
+     dlgOpenDir.FilterIndex := 0;
+
+     if i > 0 then
+     begin
+       for auxFilter in pFilterName do
+       begin
+         dlgOpenDir.Filter := auxFilter+ ' |'
+       end;
+     end;
+
+     dlgOpenDir.InitialDir := GetCurrentDir;
+     dlgOpenDir.FilterIndex := pFilterIndex;
+     dlgOpenDir.Title := pTitleName;
+
+     if pFileName <> '' then
+       dlgOpenDir.FileName := pFileName;
+
+     Result := dlgOpenDir.Execute;
+
+     if Result then
+       pFileName := dlgOpenDir.FileName
+     else
+       pFileName := '';
   finally
     dlgOpenDir.Free;
   end;
@@ -631,7 +674,7 @@ function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink; pTry
 var
 wMSg : string;
 wDataBase: string;
-wFBClient0,wFBClient1  : string;
+wFBClient,wFBClient1  : string;
 wUser : string;
 wSenha: string;
 wOk :Boolean;
@@ -642,83 +685,90 @@ begin
       Result := False;
       prCon.Connected := Result;
       prCon.Close;
-  //    wUser     := getINI(fArqIni, 'BD', 'USUARIO', '');
-  //    wSenha    := getINI(fArqIni, 'BD', 'SENHA', '');
       wDataBase   := getINI(fArqIni, 'BD', 'ARQUIVO', '');
-      wFBClient0 := getINI(fArqIni, 'BD', 'FBCLIENT0', '');
-      wFBClient1 := getINI(fArqIni, 'BD', 'FBCLIENT1', '');
+      wFBClient := getINI(fArqIni, 'BD', 'FBCLIENT', '');
 
-      AddLog('LOGMAXXML','E:','[INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient0 +'] ['+wFBClient1+']');
-
-      if not FileExists(wDataBase) then
+      if not FileExists(wDataBase)then
       begin
-        wMSg := 'Base de dados não encontrada! Infome o caminho do arquivo.fbd)';
-        repeat
-          begin
+        if not pTryConexao then
+          wDataBase := GetCurrentDir+'\MAXXML\BACKUPXML.FDB'
+        else
+         wDataBase := GetCurrentDir+'\BACKUPXML.FDB';
 
-            wDataBase := inputbox('Diretório do Banco de dados ou "S" para sair!', wMSg,'\backupxml.fbd');
-            if Trim(UpperCase(wDataBase)) = 'S' then
-             Exit;
-
-            wOk := FileExists(wDataBase);
-            if wOk then
+        if not FileExists(wDataBase) and pTryConexao then
+        begin
+          wMSg := 'Base de dados não encontrada! Infome o caminho do BACKUPXML.FDB)';
+          repeat
             begin
+              wDataBase := inputbox('Diretório do "BD" ou "S" para sair!', wMSg,wDataBase);
+              if Trim(UpperCase(wDataBase)) = 'S' then
+               Application.Terminate;
 
-              try
-                setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
-              except
-                wMSg := fArqIni;
-                wHandle := FindWindow( 0,pWideChar(wMSg));
-                FileClose(wHandle);
-                setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
-              end;
-            end
-            else
-              wMSg := 'Arquivo inválido! ou "S" para Sair';
+              wOk := FileExists(wDataBase);
+              if wOk then
+              begin
 
-          end;
-        until wOk;
+                try
+                  setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
+                except
+                  wMSg := fArqIni;
+                  wHandle := FindWindow( 0,pWideChar(wMSg));
+                  FileClose(wHandle);
+                  setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
+                end;
+              end
+              else
+                wMSg := 'Arquivo inválido! ou "S" para Sair';
+
+            end;
+          until wOk;
+        end;
+      end;
+
+      if not FileExists(wFBClient)then
+      begin
+        if not pTryConexao then
+          wFBClient := GetCurrentDir+'\MAXXML\fb\fbClient.dll'
+        else
+          wFBClient := GetCurrentDir+'\fb\fbClient.dll';
+
+        if not FileExists(wFBClient) and pTryConexao then
+        begin
+          wMSg := 'FBClient.Dll não encontrada! Infome o caminho da DLL!)';
+          repeat
+            begin
+              wFBClient := inputbox('Diretório da "Dll" ou "S" para sair!', wMSg,wFBClient);
+              if Trim(UpperCase(wFBClient1)) = 'S' then
+               Application.Terminate;
+
+              wOk := FileExists(wFBClient);
+              if wOk then
+              begin
+                try
+                  setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
+                except
+                  wMSg := fArqIni;
+                  wHandle := FindWindow( 0,pWideChar(wMSg));
+                  FileClose(wHandle);
+                  setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
+                end;
+              end
+              else
+                wMSg := 'Arquivo inválido! ou "S" para Sair';
+
+            end;
+          until wOk;
+        end;
       end;
 
 
-      if not FileExists(wFBClient1) then
-      begin
-        wMSg := 'FBClient.Dll não encontrada! Infome o caminho da DLL!)';
-        repeat
-          begin
-            wFBClient1 := inputbox('Diretório da "Dll" ou "S" para sair!', wMSg,'\fbClient.dll');
-            if Trim(UpperCase(wFBClient1)) = 'S' then
-             Exit;
+      AddLog('LOGMAXXML',GetCurrentDir,'[INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient +'] ['+wFBClient1+']');
+      prDriver.VendorLib := wFBClient;
 
-            wOk := FileExists(wFBClient1);
-            if wOk then
-            begin
-              try
-                setINI(fArqIni, 'BD', 'FBCLIENT0',wFBClient1);
-              except
-                wMSg := fArqIni;
-                wHandle := FindWindow( 0,pWideChar(wMSg));
-                FileClose(wHandle);
-                setINI(fArqIni, 'BD', 'FBCLIENT0',wFBClient1);
-              end;
-            end
-            else
-              wMSg := 'Arquivo inválido! ou "S" para Sair';
-
-          end;
-        until wOk;
-      end;
-
-     prDriver.VendorLib := wFBClient0;
-
-  //    prDriver.VendorLib := 'D:\Programacao\DELPHI\BASE\7357\BKP\fb\fbClient.dll';
       prCon.Params.Values['User_Name'] := 'sysdba';//wUser;
       prCon.Params.Values['Password']  := 'masterkey';//wSenha;
       prCon.Params.Values['Database'] := wDataBase;
       prCon.Params.Values['SQLDialect'] := '3';
-
-  //    prCon.Params.Values['Database']  := 'E:\BT\7.0\MaxWin\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
-  //    prCon.Params.Values['Database']  := 'D:\Programacao\DELPHI\BASE\7357\BKP\bd\BACKUPXML.FDB'; //wBanco
 
       prCon.Open;
       Result := prCon.Connected;

@@ -250,7 +250,7 @@ end;
 
 procedure TfoConfigPadrao.btnGetDirBancoClick(Sender: TObject);
 begin
-  if fOpenFileName(['*.*fdb','*.*gbd'],['Firebird', 'Interbase'], wPathAux, 'Aponte o seu banco de dados') then
+  if fOpenFileName(wPathAux, 'Aponte o seu banco de dados', [ ' Todos | *.*', 'FDB | *.*fdb'],0) then
  begin
    edArquivo.Text := wPathAux;
    tabConfiguracoes.PathBD := wPathAux;

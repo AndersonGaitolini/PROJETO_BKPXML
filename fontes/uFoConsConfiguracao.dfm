@@ -1,25 +1,28 @@
 inherited foConsConfiguracoes: TfoConsConfiguracoes
   Caption = 'foConsConfiguracoes'
-  ClientWidth = 651
+  ClientWidth = 814
   OnCreate = FormCreate
   OnShow = FormShow
-  ExplicitWidth = 667
-  ExplicitHeight = 421
-  PixelsPerInch = 96
-  TextHeight = 12
+  ExplicitWidth = 832
+  ExplicitHeight = 523
+  PixelsPerInch = 120
+  TextHeight = 16
   inherited pnlCentral: TPanel
-    Width = 651
-    Margins.Left = 3
-    Margins.Top = 3
-    Margins.Right = 3
-    Margins.Bottom = 3
-    ExplicitWidth = 651
+    Width = 814
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
+    ExplicitTop = 65
+    ExplicitWidth = 814
+    ExplicitHeight = 394
     inherited dbgConsulta: TDBGrid
-      Width = 649
-      Margins.Left = 3
-      Margins.Top = 3
-      Margins.Right = 3
-      Margins.Bottom = 3
+      Width = 812
+      Height = 344
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       DataSource = DM_NFEDFE.dsConfiguracoes
       ReadOnly = True
       OnDrawColumnCell = dbg1DrawColumnCell
@@ -29,8 +32,8 @@ inherited foConsConfiguracoes: TfoConsConfiguracoes
         item
           Expanded = False
           FieldName = 'ID'
-          Width = 25
-          Visible = True
+          Width = -1
+          Visible = False
         end
         item
           Expanded = False
@@ -76,26 +79,29 @@ inherited foConsConfiguracoes: TfoConsConfiguracoes
         end>
     end
     inherited pnlRodape: TPanel
-      Width = 649
-      Margins.Left = 3
-      Margins.Top = 3
-      Margins.Right = 3
-      Margins.Bottom = 3
-      ExplicitWidth = 649
+      Top = 345
+      Width = 812
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
+      ExplicitTop = 345
+      ExplicitWidth = 812
     end
   end
   inherited statMsg: TStatusBar
-    Width = 651
-    Margins.Left = 3
-    Margins.Top = 3
-    Margins.Right = 3
-    Margins.Bottom = 3
-    ExplicitWidth = 651
+    Width = 814
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
+    ExplicitTop = 459
+    ExplicitWidth = 814
   end
   inherited JvToolBar1: TJvToolBar
-    Width = 651
+    Width = 814
     Images = ilCadastro
-    ExplicitWidth = 651
+    ExplicitWidth = 814
     object btnInserir: TToolButton
       Left = 0
       Top = 0
@@ -122,7 +128,7 @@ inherited foConsConfiguracoes: TfoConsConfiguracoes
     Left = 556
     Top = 16
     Bitmap = {
-      494C010104000C00E00010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C00E40010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -41,13 +41,13 @@ type
 
   public
     [attPK]
-    property Id:           Integer read FId write FId;
-    property Idusuario:    Integer read FIdusuario write FIdusuario;
+    property Id: Integer read FId write FId;
+    property Idusuario: Integer read FIdusuario write FIdusuario;
     property Descriconfig: string read FDescriconfig write FDescriconfig;
     property Namebd:       string read FNamebd write FNamebd;
     property Pathbd:       string read FPathbd write FPathbd;
     property Senhabd:      string read FSenhabd write FSenhabd;
-    property Usuariobd:    string read FUsuariobd write FUsuariobd;
+    property Usuariobd:   string read FUsuariobd write FUsuariobd;
 
     property NFePathEnvio:        string read FNFePathEnvio write FNFePathEnvio;
     property NFePathProcessado:   string read FNFePathProcessado write FNFePathProcessado;

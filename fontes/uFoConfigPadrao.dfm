@@ -55,6 +55,10 @@ object foConfigPadrao: TfoConfigPadrao
         Margins.Right = 4
         Margins.Bottom = 4
         Caption = 'Configura BD'
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object btnGetDirBanco: TSpeedButton
           Left = 430
           Top = 255
@@ -121,6 +125,9 @@ object foConfigPadrao: TfoConfigPadrao
         ParentShowHint = False
         ShowHint = True
         ExplicitLeft = 20
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object edNFePathEnvio: TLabeledEdit
           Left = 63
           Top = 131
@@ -292,6 +299,8 @@ object foConfigPadrao: TfoConfigPadrao
         ImageIndex = 2
         ExplicitLeft = -124
         ExplicitTop = 53
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object edNFCePathEnvio: TLabeledEdit
           Left = 63
           Top = 131
@@ -461,6 +470,10 @@ object foConfigPadrao: TfoConfigPadrao
         ImageIndex = 3
         ParentShowHint = False
         ShowHint = True
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 0
         object edNFSePathEnvio: TLabeledEdit
           Left = 63
           Top = 131
@@ -784,7 +797,7 @@ object foConfigPadrao: TfoConfigPadrao
     Left = 236
     Top = 464
     Bitmap = {
-      494C010104000C00FC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C00000110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

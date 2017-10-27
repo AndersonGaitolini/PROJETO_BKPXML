@@ -48,8 +48,7 @@ end;
 
 procedure TfoXMLSimulcao.btnPathClick(Sender: TObject);
 begin
-  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML');
-//  fOpenFileName(['XML | *.*XML'],['*.XML'],wFileName,'Selecione o Arquivo XML NFE_Env ou Can_');
+  fOpenFile('Selecione o XML',wFilename,['XML | *.*xml'],1);
   edXML.Text := wFileName;
 
 

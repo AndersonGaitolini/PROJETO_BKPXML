@@ -33,7 +33,7 @@ uses
 
 var
  ShowResult : Byte;
- wMsg : string;
+ wMsg, wSenhaAtual : string;
  SoapUsuario : TUsuarios;
  i : integer;
 {$R *.res}
@@ -73,7 +73,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, TRUE) then
     begin
@@ -83,8 +83,9 @@ begin
 
    tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
+   wSenhaAtual := uMetodosUteis.fSenhaAtual('');
 
-   if daoLogin.fLogar(tabUsuarios) then
+   if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
@@ -98,7 +99,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),'E:', ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin

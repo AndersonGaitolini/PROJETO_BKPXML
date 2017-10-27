@@ -99,6 +99,8 @@ type
     mmDelRefazAutTodos: TMenuItem;
     pmExportar: TPopupMenu;
     mmN1: TMenuItem;
+    mniTrocarUsuario: TMenuItem;
+    mniN1: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -155,6 +157,7 @@ type
     procedure mmConfgDiretoriosClick(Sender: TObject);
     procedure mmDelRefazAutTodosClick(Sender: TObject);
     procedure mmRefazAutorizacaoSelecaoClick(Sender: TObject);
+    procedure mniTrocarUsuarioClick(Sender: TObject);
   private
     { Private declarations }
     procedure pCarregaConfigUsuario(pIDConfig: Integer);
@@ -187,7 +190,7 @@ implementation
 
 uses
 
-uFoConsConfiguracao, uFoConfiguracao, Configuracoes, uFoXMLSimulacao;
+uFoConsConfiguracao, uFoConfiguracao, Configuracoes, uFoXMLSimulacao, ufoLogin, uFoCadUsuario;
 
 {$R *.dfm}
 
@@ -219,44 +222,36 @@ end;
 procedure TfoPrincipal.btnCanEnvioArqClick(Sender: TObject);
 var wFilename: string;
 begin
-  wFilename := 'Can_';
-  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML de Cancelamento');
+  fOpenFile('Selecione o XML de Cancelamento', wFilename,['XML | *.*xml'],1);
   fLoadXMLNFe(tabConfiguracoes,txCan_, False, wFilename);
-  pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  btnFiltrarClick(Sender);
 end;
 
 procedure TfoPrincipal.btnCanEnvioExtClick(Sender: TObject);
 var wFilename: string;
 begin
-  wFilename := 'Can_';
-  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML de Cancelamento processado');
+  fOpenFile('Selecione o XML de Cancelamento processado', wFilename,['XML | *.*xml'],1);
   fLoadXMLNFe(tabConfiguracoes,txCan_Ext, False, wFilename);
-  pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  btnFiltrarClick(Sender);
 end;
 
 procedure TfoPrincipal.btnCanEnvioLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txCan_Lote, True);
-  pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
-
+  btnFiltrarClick(Sender);
 end;
 
 procedure TfoPrincipal.btnCanExetendLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txCan_ExtLote, True);
-  pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
-
+  btnFiltrarClick(Sender);
 end;
 
 procedure TfoPrincipal.btnEnvioArqClick(Sender: TObject);
 var wFilename: string;
 begin
   wFilename := 'Env_Nfe';
-  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML de Envio');
+  fOpenFile('Selecione o XML de Envio', wFilename,['XML | *.*xml'],1);
   fLoadXMLNFe(tabConfiguracoes, txNFE_Env, false, wFilename);
   pDataFiltro;
   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
@@ -266,7 +261,7 @@ procedure TfoPrincipal.btnEnvioExtClick(Sender: TObject);
 var wFilename: string;
 begin
   wFilename := 'Env_Nfe';
-  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML Processado');
+  fOpenFile('Selecione o XML de Envio processado', wFilename,['XML | *.*xml'],1);
   fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt, False, wFilename);
   pDataFiltro;
   DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
@@ -437,7 +432,7 @@ var wHabilita : boolean;
 begin
   pSelecaoChave(wListaSelecionados);
 
-  wHabilita := ((Trim(tabUsuarios.Usuario) = 'master') and (tabUsuarios.Senha = fSenhaAtual('')));
+  wHabilita := ((Trim(LowerCase(tabUsuarios.Usuario)) = 'master') and (tabUsuarios.Senha = fSenhaAtual('')));
   pMenuMaster(wHabilita);
 end;
 
@@ -587,10 +582,10 @@ begin
 
     ffIDF_DOCUMENTO:
        begin
-       dbgNfebkp.DataSource.DataSet.First;
-       wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
-       dbgNfebkp.DataSource.DataSet.Last;
-       wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
+         dbgNfebkp.DataSource.DataSet.First;
+         wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
+         dbgNfebkp.DataSource.DataSet.Last;
+         wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
        end;
 
     ffTIPO,
@@ -672,7 +667,7 @@ begin
      dtpDataFiltroFin.Date := dtpDataFiltroINI.Date;
 
   if dtpDataFiltroINI.Date <= dtpDataFiltroFin.Date then
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+    DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO, wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
@@ -850,8 +845,6 @@ begin
   begin
     DM_NFEDFE.cdsBkpdfe.Close;
     DM_NFEDFE.cdsBkpdfe.Open;
-    statPrincipal.Panels[0].Text := 'Total de Linhas: '+ IntToStr(DM_NFEDFE.cdsBkpdfe.RecordCount);
-    statPrincipal.Panels[1].Text := 'Linhas Selecionadas: '+ IntToStr(dbgNfebkp.SelectedRows.Count);
   end;
 end;
 
@@ -897,12 +890,16 @@ begin
   dts.Free;
 
   pCarregaConfigUsuario(i);
+  statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
+
   wLoadXML := lxNone;
   wLastColunm := -1;
   wLastOrderBy := obyNone;
 
   pIniciaDBCheckBox;
   wListaSelecionados := TStringList.Create;
+
+
 end;
 
 procedure TfoPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
@@ -917,11 +914,8 @@ end;
 
 procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
-  if DirectoryExists(tabConfiguracoes.NFePathEnvio) then
-  begin
-    pDataFiltro;
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
-  end;
+  pDataFiltro;
+  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,obyASCENDENTE,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.pSalveName(pFieldName: string; var wFileName: string);
@@ -970,7 +964,7 @@ procedure TfoPrincipal.pSelTodasLinhas;
 var
  wlLinha: Integer;
 begin
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
   with dbgNfebkp.DataSource.DataSet do
   begin
     First;
@@ -980,7 +974,9 @@ begin
       Next;
     end;
   end;
-  dbgNfebkp.SelectedRows.Refresh;
+
+//  dbgNfebkp.SelectedRows.Refresh;
+
 end;
 
 
@@ -988,7 +984,7 @@ procedure TfoPrincipal.pRemoveSelTodasLinhas;
 var
 wlLinha: Integer;
 begin
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
   with dbgNfebkp.DataSource.DataSet do
   begin
     First;
@@ -998,7 +994,8 @@ begin
       Next;
     end;
   end;
-  dbgNfebkp.SelectedRows.Refresh;
+
+//  dbgNfebkp.SelectedRows.Refresh;
 end;
 
 procedure TfoPrincipal.statPrincipalDrawPanel(StatusBar: TStatusBar;
@@ -1108,6 +1105,28 @@ begin
   else
    statusCon := 'Desconecado';
   statPrincipal.Panels[1].text := statusCon;
+end;
+
+procedure TfoPrincipal.mniTrocarUsuarioClick(Sender: TObject);
+var wShowResult : Byte;
+begin
+  foLogin := TfoLogin.Create(Application);
+  try
+    wShowResult := foLogin.ShowModal;
+
+    if wShowResult = mrOk then
+    begin
+
+      pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
+      statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
+
+    end
+    else
+    Application.Terminate;
+
+  finally
+    FreeAndNil(foLogin);
+  end;
 end;
 
 function TfoPrincipal.OpenTabela: boolean;

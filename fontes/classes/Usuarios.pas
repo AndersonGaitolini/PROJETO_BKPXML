@@ -67,7 +67,7 @@ begin
     end;
   end;
   finally
-    ptab.Free;
+
   end;
 
 end;

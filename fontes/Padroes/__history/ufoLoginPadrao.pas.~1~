@@ -28,7 +28,7 @@ type
 
 const
 
- wMsgClose = 'Deseja mesmo fechar ?';
+ wMsgClose = 'Deseja mesmo fechar o login?';
 
 implementation
 

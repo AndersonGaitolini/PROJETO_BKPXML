@@ -10,7 +10,7 @@ object foPrincipal: TfoPrincipal
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -10
+  Font.Height = -13
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -21,296 +21,400 @@ object foPrincipal: TfoPrincipal
   OnCreate = FormCreate
   OnKeyUp = FormKeyUp
   OnShow = FormShow
-  PixelsPerInch = 96
-  TextHeight = 12
+  PixelsPerInch = 120
+  TextHeight = 16
   object pnlControles: TPanel
-    Left = 208
-    Top = 314
-    Width = 1033
-    Height = 68
+    Left = 260
+    Top = 393
+    Width = 1291
+    Height = 85
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Enabled = False
     TabOrder = 2
     Visible = False
     object btnEnvioArq: TButton
-      Left = 9
-      Top = 7
-      Width = 110
-      Height = 25
+      Left = 11
+      Top = 9
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio'
       TabOrder = 0
       OnClick = btnEnvioArqClick
     end
     object btnEnvioLote: TButton
-      Left = 11
-      Top = 36
-      Width = 110
-      Height = 25
+      Left = 14
+      Top = 45
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio Lote'
       TabOrder = 4
       OnClick = btnEnvioLoteClick
     end
     object btnEnvioExt: TButton
-      Left = 125
-      Top = 7
-      Width = 110
-      Height = 25
+      Left = 156
+      Top = 9
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio Extend'
       TabOrder = 1
       OnClick = btnEnvioExtClick
     end
     object btnXMLEnvioExtLote: TButton
-      Left = 125
-      Top = 36
-      Width = 110
-      Height = 25
+      Left = 156
+      Top = 45
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Envio Ext. Lote'
       TabOrder = 5
       OnClick = btnXMLEnvioExtLoteClick
     end
     object btnCanEnvioLote: TButton
-      Left = 239
-      Top = 36
-      Width = 110
-      Height = 25
+      Left = 299
+      Top = 45
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Cancel. Lote'
       TabOrder = 6
       OnClick = btnCanEnvioLoteClick
     end
     object btnCanEnvioArq: TButton
-      Left = 239
-      Top = 7
-      Width = 110
-      Height = 25
+      Left = 299
+      Top = 9
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Cancelamento'
       TabOrder = 2
       OnClick = btnCanEnvioArqClick
     end
     object btnCanEnvioExt: TButton
-      Left = 353
-      Top = 7
-      Width = 110
-      Height = 25
+      Left = 441
+      Top = 9
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Canc. Extend'
       TabOrder = 3
       OnClick = btnCanEnvioExtClick
     end
     object btnCanExetendLote: TButton
-      Left = 354
-      Top = 36
-      Width = 110
-      Height = 25
+      Left = 443
+      Top = 45
+      Width = 137
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Can Ext. Lote'
       TabOrder = 7
       OnClick = btnCanExetendLoteClick
     end
     object btnSIMULACAO: TButton
-      Left = 468
-      Top = 36
-      Width = 110
-      Height = 25
+      Left = 585
+      Top = 45
+      Width = 138
+      Height = 31
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'XML Simula'#231#227'o '
       TabOrder = 8
       Visible = False
       OnClick = btnSIMULACAOClick
     end
     object pnlLegenda: TPanel
-      Left = 808
+      Left = 1010
       Top = 1
-      Width = 224
-      Height = 66
+      Width = 280
+      Height = 83
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alRight
       Anchors = [akTop, akRight]
       BevelInner = bvRaised
       BevelKind = bkFlat
       TabOrder = 9
       DesignSize = (
-        220
-        62)
+        276
+        79)
       object Shape1: TShape
-        Left = -24
-        Top = -29
-        Width = 10
-        Height = 10
+        Left = -46
+        Top = -52
+        Width = 12
+        Height = 12
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clBlack
         Pen.Color = clGray
-        ExplicitLeft = 8
-        ExplicitTop = 3
+        ExplicitLeft = -30
+        ExplicitTop = -36
       end
       object Shape2: TShape
-        Left = 93
-        Top = -1
-        Width = 10
-        Height = 10
+        Left = 100
+        Top = -17
+        Width = 13
+        Height = 12
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clRed
         Pen.Color = clGray
-        ExplicitLeft = 125
-        ExplicitTop = 31
+        ExplicitLeft = 116
+        ExplicitTop = -1
       end
       object Shape3: TShape
-        Left = -24
-        Top = -1
-        Width = 10
-        Height = 10
+        Left = -46
+        Top = -17
+        Width = 12
+        Height = 12
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clFuchsia
         Pen.Color = clGray
-        ExplicitLeft = 8
-        ExplicitTop = 31
+        ExplicitLeft = -30
+        ExplicitTop = -1
       end
       object Shape13: TShape
-        Left = 93
-        Top = 13
-        Width = 10
-        Height = 10
+        Left = 100
+        Top = 0
+        Width = 13
+        Height = 13
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clGray
         Pen.Color = clGray
         Visible = False
-        ExplicitLeft = 125
-        ExplicitTop = 45
+        ExplicitLeft = 116
+        ExplicitTop = 16
       end
       object Shape14: TShape
-        Left = -24
-        Top = 13
-        Width = 10
-        Height = 10
+        Left = -46
+        Top = 0
+        Width = 12
+        Height = 13
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clBlue
         Pen.Color = clGray
-        ExplicitLeft = 8
-        ExplicitTop = 45
+        ExplicitLeft = -30
+        ExplicitTop = 16
       end
       object Shape15: TShape
-        Left = 93
-        Top = -28
-        Width = 10
-        Height = 10
+        Left = 100
+        Top = -51
+        Width = 13
+        Height = 12
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clNavy
         Pen.Color = clGray
-        ExplicitLeft = 125
-        ExplicitTop = 4
+        ExplicitLeft = 116
+        ExplicitTop = -35
       end
       object Shape17: TShape
-        Left = -24
-        Top = -15
-        Width = 10
-        Height = 10
+        Left = -46
+        Top = -35
+        Width = 12
+        Height = 13
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clGreen
         Pen.Color = clGray
-        ExplicitLeft = 8
-        ExplicitTop = 17
+        ExplicitLeft = -30
+        ExplicitTop = -19
       end
       object Label3: TLabel
-        Left = -8
-        Top = -29
-        Width = 51
-        Height = 12
+        Left = -26
+        Top = -52
+        Width = 65
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'Processado'
-        ExplicitLeft = 24
-        ExplicitTop = 3
+        ExplicitLeft = -10
+        ExplicitTop = -36
       end
       object Label4: TLabel
-        Left = 107
-        Top = -2
-        Width = 41
-        Height = 12
+        Left = 118
+        Top = -19
+        Width = 54
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'Rejeitado'
-        ExplicitLeft = 139
-        ExplicitTop = 30
+        ExplicitLeft = 134
+        ExplicitTop = -3
       end
       object Label5: TLabel
-        Left = -8
-        Top = -1
-        Width = 45
-        Height = 12
+        Left = -26
+        Top = -17
+        Width = 58
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'Inutilizada'
-        ExplicitLeft = 24
-        ExplicitTop = 31
+        ExplicitLeft = -10
+        ExplicitTop = -1
       end
       object Label16: TLabel
-        Left = 107
-        Top = 12
-        Width = 57
-        Height = 12
+        Left = 118
+        Top = -1
+        Width = 71
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'N'#227'o definido'
         Visible = False
-        ExplicitLeft = 139
-        ExplicitTop = 44
+        ExplicitLeft = 134
+        ExplicitTop = 15
       end
       object Label17: TLabel
-        Left = -8
-        Top = 13
-        Width = 45
-        Height = 12
+        Left = -26
+        Top = 0
+        Width = 57
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'Denegada'
-        ExplicitLeft = 24
-        ExplicitTop = 45
+        ExplicitLeft = -10
+        ExplicitTop = 16
       end
       object Label18: TLabel
-        Left = -8
-        Top = -15
-        Width = 87
-        Height = 12
+        Left = -26
+        Top = -35
+        Width = 111
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'Cancel. Processado'
-        ExplicitLeft = 24
-        ExplicitTop = 17
+        ExplicitLeft = -10
+        ExplicitTop = -19
       end
       object Label20: TLabel
-        Left = 107
-        Top = -29
-        Width = 67
-        Height = 12
+        Left = 118
+        Top = -52
+        Width = 82
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'Envio aguard. '
-        ExplicitLeft = 139
-        ExplicitTop = 3
+        ExplicitLeft = 134
+        ExplicitTop = -36
       end
       object Shape4: TShape
-        Left = 93
-        Top = -15
-        Width = 10
-        Height = 10
+        Left = 100
+        Top = -35
+        Width = 13
+        Height = 13
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Brush.Color = clOlive
         Pen.Color = clGray
-        ExplicitLeft = 125
-        ExplicitTop = 17
+        ExplicitLeft = 116
+        ExplicitTop = -19
       end
       object Label1: TLabel
-        Left = 107
-        Top = -16
-        Width = 62
-        Height = 12
+        Left = 118
+        Top = -36
+        Width = 76
+        Height = 16
+        Margins.Left = 4
+        Margins.Top = 4
+        Margins.Right = 4
+        Margins.Bottom = 4
         Anchors = [akRight, akBottom]
         Caption = 'Envio Cancel.'
-        ExplicitLeft = 139
-        ExplicitTop = 16
+        ExplicitLeft = 134
+        ExplicitTop = -20
       end
     end
   end
   object statPrincipal: TStatusBar
     Left = 0
-    Top = 467
-    Width = 1032
+    Top = 461
+    Width = 1030
     Height = 19
-    Margins.Left = 2
-    Margins.Top = 2
-    Margins.Right = 2
-    Margins.Bottom = 2
     Panels = <
       item
-        Text = 'Total de Linhas..'
-        Width = 100
+        Text = 'Usu'#225'rio: Master'
+        Width = 150
       end
       item
         Text = 'Linhas Selecionadas..'
@@ -325,13 +429,16 @@ object foPrincipal: TfoPrincipal
         Width = 80
       end>
     OnDrawPanel = statPrincipalDrawPanel
-    ExplicitTop = 447
   end
   object dbgNfebkp: TDBGrid
     Left = 0
-    Top = 25
-    Width = 1032
-    Height = 425
+    Top = 31
+    Width = 1030
+    Height = 409
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alClient
     Color = clBtnFace
     Ctl3D = True
@@ -345,7 +452,7 @@ object foPrincipal: TfoPrincipal
     TabOrder = 1
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
-    TitleFont.Height = -10
+    TitleFont.Height = -13
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
     Touch.ParentTabletOptions = False
@@ -517,56 +624,76 @@ object foPrincipal: TfoPrincipal
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 1032
-    Height = 25
+    Width = 1030
+    Height = 31
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alTop
     TabOrder = 0
     object btn1: TSpeedButton
-      Left = 754
+      Left = 943
       Top = 0
-      Width = 18
-      Height = 18
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Width = 22
+      Height = 23
       Caption = '...'
       Flat = True
       OnClick = btn1Click
     end
     object lbDataIni: TLabel
-      Left = 10
-      Top = 4
-      Width = 25
-      Height = 12
+      Left = 13
+      Top = 5
+      Width = 30
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Inicio'
     end
     object lbDataFIm: TLabel
-      Left = 148
-      Top = 4
-      Width = 16
-      Height = 12
+      Left = 185
+      Top = 5
+      Width = 21
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 507
-      Top = 3
-      Width = 65
-      Height = 12
+      Left = 634
+      Top = 4
+      Width = 81
+      Height = 16
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = 'Configura'#231#245'es'
     end
     object edConfiguracao: TEdit
-      Left = 574
+      Left = 718
       Top = -1
-      Width = 180
-      Height = 20
+      Width = 225
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       TabOrder = 0
     end
     object dbchkCHECKBOX: TDBCheckBox
-      Left = 383
-      Top = -2
-      Width = 97
-      Height = 17
+      Left = 479
+      Top = -3
+      Width = 121
+      Height = 22
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       DataField = 'CHECKBOX'
       DataSource = DM_NFEDFE.dsBkpdfe
       TabOrder = 4
@@ -576,28 +703,40 @@ object foPrincipal: TfoPrincipal
       OnClick = dbchkCHECKBOXClick
     end
     object dtpDataFiltroINI: TDateTimePicker
-      Left = 39
+      Left = 49
       Top = 0
-      Width = 105
-      Height = 20
+      Width = 131
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 1
     end
     object dtpDataFiltroFin: TDateTimePicker
-      Left = 168
+      Left = 210
       Top = 0
-      Width = 105
-      Height = 20
+      Width = 131
+      Height = 24
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 2
     end
     object btnFiltrar: TButton
-      Left = 277
+      Left = 346
       Top = 0
-      Width = 75
-      Height = 20
+      Width = 94
+      Height = 25
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Caption = '&Filtrar'
       TabOrder = 3
       OnClick = btnFiltrarClick
@@ -605,12 +744,15 @@ object foPrincipal: TfoPrincipal
   end
   object ProgressBar1: TProgressBar
     Left = 0
-    Top = 450
-    Width = 1032
-    Height = 17
+    Top = 440
+    Width = 1030
+    Height = 21
+    Margins.Left = 4
+    Margins.Top = 4
+    Margins.Right = 4
+    Margins.Bottom = 4
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 430
   end
   object ilPrincipal: TImageList
     Height = 32
@@ -618,7 +760,7 @@ object foPrincipal: TfoPrincipal
     Left = 470
     Top = 247
     Bitmap = {
-      494C01012C003C00F00120002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00000220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -7051,6 +7193,13 @@ object foPrincipal: TfoPrincipal
       Caption = '&Marcar (todos)'
       OnClick = mmMarcarTodosClick
     end
+    object mniN1: TMenuItem
+      Caption = '-'
+    end
+    object mniTrocarUsuario: TMenuItem
+      Caption = 'Trocar usu'#225'rio'
+      OnClick = mniTrocarUsuarioClick
+    end
     object mmN1: TMenuItem
       Tag = 2
       Caption = '-'
@@ -7073,7 +7222,7 @@ object foPrincipal: TfoPrincipal
     Left = 546
     Top = 155
     Bitmap = {
-      494C010103000C00980110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00A80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF

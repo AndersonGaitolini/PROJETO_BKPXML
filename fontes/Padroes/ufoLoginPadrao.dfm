@@ -2,12 +2,12 @@ object foLoginPadrao: TfoLoginPadrao
   Left = 640
   Top = 540
   Caption = 'Tela de acesso'
-  ClientHeight = 297
-  ClientWidth = 242
+  ClientHeight = 371
+  ClientWidth = 303
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -10
+  Font.Height = -13
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
@@ -16,73 +16,49 @@ object foLoginPadrao: TfoLoginPadrao
   Position = poDesigned
   OnClose = FormClose
   OnKeyPress = FormKeyPress
-  PixelsPerInch = 96
-  TextHeight = 12
+  PixelsPerInch = 120
+  TextHeight = 16
   object pnl1: TPanel
     Left = 0
     Top = 0
-    Width = 242
-    Height = 297
-    Margins.Left = 2
-    Margins.Top = 2
-    Margins.Right = 2
-    Margins.Bottom = 2
+    Width = 303
+    Height = 371
     Align = alClient
     TabOrder = 0
     object lbUserNome: TLabel
-      Left = 73
-      Top = 112
-      Width = 26
-      Height = 12
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 91
+      Top = 140
+      Width = 33
+      Height = 16
       Caption = 'Nome'
     end
     object lbUSerNivelAcesso: TLabel
-      Left = 73
-      Top = 130
-      Width = 60
-      Height = 12
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 91
+      Top = 163
+      Width = 76
+      Height = 16
       Caption = 'Nivel Acesso:'
     end
     object edUsuario: TEdit
-      Left = 73
-      Top = 58
-      Width = 97
+      Left = 91
+      Top = 73
+      Width = 122
       Height = 20
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
       TabOrder = 0
     end
     object edSenha: TEdit
-      Left = 73
-      Top = 88
-      Width = 97
+      Left = 91
+      Top = 110
+      Width = 122
       Height = 20
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
       PasswordChar = '*'
       TabOrder = 1
     end
     object btnAcessar: TBitBtn
-      Left = 84
-      Top = 147
-      Width = 60
-      Height = 20
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
+      Left = 105
+      Top = 184
+      Width = 75
+      Height = 25
       Caption = '&Acessar'
       TabOrder = 2
     end
