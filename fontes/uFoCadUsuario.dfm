@@ -1,59 +1,126 @@
 inherited foCadUsuario: TfoCadUsuario
   Caption = 'Cadastro de usu'#225'rio e senha'
-  PixelsPerInch = 120
-  TextHeight = 16
+  ClientHeight = 259
+  ClientWidth = 351
+  OnCreate = FormCreate
+  ExplicitWidth = 367
+  ExplicitHeight = 298
+  PixelsPerInch = 96
+  TextHeight = 12
   inherited pnl1: TPanel
-    ExplicitTop = -8
+    Width = 351
+    Height = 259
+    ExplicitLeft = 7
+    ExplicitWidth = 302
+    ExplicitHeight = 224
     inherited lbUserNome: TLabel
-      Left = 68
-      Top = 117
-      ExplicitLeft = 68
-      ExplicitTop = 117
+      Left = 78
+      Top = 30
+      Width = 38
+      Caption = 'Usu'#225'rio:'
+      ExplicitLeft = 78
+      ExplicitTop = 30
+      ExplicitWidth = 38
     end
-    inherited lbUSerNivelAcesso: TLabel
-      Top = 211
-      ExplicitTop = 211
+    object lb1: TLabel [1]
+      Left = 84
+      Top = 52
+      Width = 32
+      Height = 12
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Caption = 'Senha:'
     end
-    object lb1: TLabel [2]
-      Left = 65
-      Top = 145
-      Width = 36
-      Height = 16
-      Caption = 'Senha'
+    object lb2: TLabel [2]
+      Left = 48
+      Top = 72
+      Width = 68
+      Height = 12
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Caption = 'Repita a senha:'
     end
-    object lb2: TLabel [3]
-      Left = 16
-      Top = 173
-      Width = 85
-      Height = 16
-      Caption = 'Repita a senha'
-    end
-    inherited edUsuario: TEdit
-      Left = 116
-      Top = 113
-      ExplicitLeft = 116
-      ExplicitTop = 113
-    end
-    inherited edSenha: TEdit
-      Left = 116
-      Top = 141
-      ExplicitLeft = 116
-      ExplicitTop = 141
-    end
-    inherited btnAcessar: TBitBtn
-      Left = 114
-      Top = 242
+    inherited btnAcessar: TBitBtn [3]
+      Left = 57
+      Top = 114
+      Enabled = False
       TabOrder = 3
-      ExplicitLeft = 114
-      ExplicitTop = 242
+      Visible = False
+      ExplicitLeft = 57
+      ExplicitTop = 114
     end
-    object ed1: TEdit
-      Left = 116
-      Top = 169
-      Width = 122
-      Height = 24
+    inherited edUsuario: TEdit [4]
+      Left = 121
+      Top = 25
+      OnExit = edUsuarioExit
+      ExplicitLeft = 121
+      ExplicitTop = 25
+    end
+    inherited edSenha: TEdit [5]
+      Left = 120
+      Top = 49
+      OnExit = edSenhaExit
+      ExplicitLeft = 120
+      ExplicitTop = 49
+    end
+    object edSenha2: TEdit
+      Left = 121
+      Top = 73
+      Width = 97
+      Height = 20
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
       PasswordChar = '*'
       TabOrder = 2
+      OnExit = edSenha2Exit
     end
+    object btnAplicar: TBitBtn
+      Left = 121
+      Top = 114
+      Width = 60
+      Height = 20
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Caption = '&Aplicar'
+      TabOrder = 4
+      OnClick = btnAplicarClick
+    end
+    object btnCancelar: TBitBtn
+      Left = 185
+      Top = 114
+      Width = 60
+      Height = 20
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Caption = '&Cancelar'
+      TabOrder = 5
+    end
+    object btnOK: TBitBtn
+      Left = 57
+      Top = 114
+      Width = 60
+      Height = 20
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
+      Caption = '&OK'
+      Enabled = False
+      TabOrder = 6
+    end
+  end
+  inherited mmMenuTelaAcesso: TMainMenu
+    Left = 256
+    Top = 8
   end
 end

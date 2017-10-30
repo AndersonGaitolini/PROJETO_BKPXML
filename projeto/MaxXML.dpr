@@ -30,7 +30,8 @@ uses
   uFoConfiguracao in 'J:\fontes\uFoConfiguracao.pas' {foConfiguracao},
   uRotinas in 'J:\fontes\uRotinas.pas',
   uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao},
-  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario};
+  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario},
+  uFoConsUsuario in 'J:\fontes\uFoConsUsuario.pas' {foConsUsuario};
 
 var
  ShowResult : Byte;

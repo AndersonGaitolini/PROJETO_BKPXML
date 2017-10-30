@@ -8,9 +8,10 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      '|Database=D:\Programacao\DELPHI\BASE\7357\maxxml\BACKUPXML.FDB'
-      'Database=E:\BT\7.0\MaxWin\7357\maxxml\BACKUPXML.FDB'
+      'Database=D:\Programacao\DELPHI\BASE\7357\maxxml\BACKUPXML.FDB'
+      '|Database=E:\BT\7.0\MaxWin\7357\maxxml\BACKUPXML.FDB'
       'DriverID=FBEmbed')
+    Connected = True
     LoginPrompt = False
     Left = 20
     Top = 26
@@ -276,6 +277,7 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 216
   end
   object cdsUsuarios: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'provUsuarios'
@@ -296,6 +298,10 @@ object DM_NFEDFE: TDM_NFEDFE
       FieldName = 'SENHA'
       Origin = 'SENHA'
       Size = 16
+    end
+    object cdsUsuariosCONFIGSALVA: TIntegerField
+      FieldName = 'CONFIGSALVA'
+      Required = True
     end
   end
   object provUsuarios: TDataSetProvider

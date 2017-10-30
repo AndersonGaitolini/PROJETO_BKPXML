@@ -13,6 +13,7 @@ type
     statMsg: TStatusBar;
     JvToolBar1: TJvToolBar;
     dbgConsulta: TDBGrid;
+    pnlRodape: TPanel;
   private
     { Private declarations }
   public

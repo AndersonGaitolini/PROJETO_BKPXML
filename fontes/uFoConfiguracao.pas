@@ -163,7 +163,6 @@ type
 var
   foConfiguracao : TfoConfiguracao;
   wPathAux: string;
-  wOpe : TOperacao;
   SavStr : String;
 implementation
 

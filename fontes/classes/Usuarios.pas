@@ -3,7 +3,7 @@ unit Usuarios;
 interface
 
 uses
-  Base, Atributos,Data.DB,Vcl.Dialogs,uDMnfebkp, System.SysUtils,uMetodosUteis;
+  Base, Atributos,Data.DB,Vcl.Dialogs,uDMnfebkp, System.SysUtils,uMetodosUteis, Vcl.Forms;
 
  type
    TEventoTelaUsuario = (etuSalvar, etuInserir, etuEditar, etuDeletar, etuConsultar);
@@ -36,6 +36,7 @@ uses
      function fSalvar(pTab: TUsuarios): Boolean;
      function fExcluir(pTab : TUsuarios): Boolean;
      function fBuscar(pTab: TUsuarios): TDataSet;
+     function fNextID(ptab : TUsuarios): Integer;
 
    private
 
@@ -138,6 +139,31 @@ begin
     ptab.Free;
   end;
 end;
+
+function TDaoCadUsuario.fNextID(ptab: TUsuarios): Integer;
+var wDataSet: TDataset;
+begin
+  if not Assigned(ptab) then
+    ptab := TUsuarios.Create;
+
+  Result := 0;
+  ptab.Id := Result;
+  wDataSet := TDataSet.Create(Application);
+  try
+    try
+      wDataSet := DM_NFEDFE.dao.ConsultaAll(ptab,'id' );
+      wDataSet.Close;
+      wDataSet.Open;
+      wDataSet.last;
+      Result := wDataSet.FieldByName('id').AsInteger+1;
+    except on E: Exception do
+             ShowMessage('Método: fNextId!'+#10#13+
+                         'Exception: '+e.Message);
+    end;
+  finally
+    FreeAndNil(wDataSet);
+  end;
+end;
 
 function TDaoLogin.fLogar(var prUsuario: TUsuarios): Boolean;
 var wID : integer;

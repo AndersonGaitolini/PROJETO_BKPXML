@@ -15,6 +15,7 @@ type
     mmMenuTelaAcesso: TMainMenu;
     btnAcessar: TBitBtn;
     lbUserNome: TLabel;
+    lbUSerNivelAcesso: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
   private

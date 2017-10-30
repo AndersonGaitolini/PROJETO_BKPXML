@@ -69,7 +69,6 @@ Const
 //  function fCripStr(pString : string) : string;
   var
    wOpe : TOperacao = opNil;
-
 implementation
 
 //  { Criptografa uma String }

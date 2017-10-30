@@ -2,77 +2,68 @@ inherited foLogin: TfoLogin
   Left = 146
   Top = 55
   Caption = 'Tela de Login'
-  ClientHeight = 379
+  ClientHeight = 303
   Position = poDesktopCenter
   OnCreate = FormCreate
-  ExplicitHeight = 424
-  PixelsPerInch = 120
-  TextHeight = 16
+  ExplicitHeight = 342
+  PixelsPerInch = 96
+  TextHeight = 12
   inherited pnl1: TPanel
-    Height = 360
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
-    ExplicitHeight = 360
+    Height = 284
+    Margins.Left = 3
+    Margins.Top = 3
+    Margins.Right = 3
+    Margins.Bottom = 3
+    ExplicitHeight = 284
     inherited lbUserNome: TLabel
-      Left = 43
-      Top = 83
-      Width = 48
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 34
+      Top = 66
+      Width = 38
+      Margins.Left = 3
+      Margins.Top = 3
+      Margins.Right = 3
+      Margins.Bottom = 3
       Caption = 'Usu'#225'rio:'
-      ExplicitLeft = 43
-      ExplicitTop = 83
-      ExplicitWidth = 48
-    end
-    inherited lbUSerNivelAcesso: TLabel
-      Left = 44
-      Top = 113
-      Width = 41
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
-      Caption = 'Senha:'
-      ExplicitLeft = 44
-      ExplicitTop = 113
-      ExplicitWidth = 41
+      ExplicitLeft = 34
+      ExplicitTop = 66
+      ExplicitWidth = 38
     end
     inherited edUsuario: TEdit
-      Top = 80
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Top = 64
+      Margins.Left = 3
+      Margins.Top = 3
+      Margins.Right = 3
+      Margins.Bottom = 3
       OnExit = edUsuarioExit
-      ExplicitTop = 80
+      ExplicitTop = 64
     end
     inherited edSenha: TEdit
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Margins.Left = 3
+      Margins.Top = 3
+      Margins.Right = 3
+      Margins.Bottom = 3
       OnExit = edSenhaExit
     end
     inherited btnAcessar: TBitBtn
-      Left = 74
-      Margins.Left = 4
-      Margins.Top = 4
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Left = 59
+      Margins.Left = 3
+      Margins.Top = 3
+      Margins.Right = 3
+      Margins.Bottom = 3
       Caption = '&Entrar'
       Default = True
       OnClick = btnAcessarClick
-      ExplicitLeft = 74
+      ExplicitLeft = 59
     end
     object btnCancelar: TBitBtn
-      Left = 155
-      Top = 184
-      Width = 75
-      Height = 25
+      Left = 124
+      Top = 147
+      Width = 60
+      Height = 20
+      Margins.Left = 2
+      Margins.Top = 2
+      Margins.Right = 2
+      Margins.Bottom = 2
       Caption = '&Cancelar'
       Default = True
       ModalResult = 2
@@ -82,13 +73,9 @@ inherited foLogin: TfoLogin
   end
   object statMsg: TStatusBar [1]
     Left = 0
-    Top = 360
-    Width = 303
+    Top = 284
+    Width = 242
     Height = 19
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 4
     Panels = <
       item
         Text = 'Conexao:'

@@ -169,7 +169,6 @@ object foPrincipal: TfoPrincipal
     Enabled = False
     TabOrder = 1
     Visible = False
-    ExplicitWidth = 838
     object btnEnvioArq: TButton
       Left = 9
       Top = 7
@@ -262,14 +261,12 @@ object foPrincipal: TfoPrincipal
       BevelInner = bvRaised
       BevelKind = bkFlat
       TabOrder = 9
-      ExplicitLeft = 808
-      ExplicitHeight = 66
       DesignSize = (
         220
         48)
       object Shape1: TShape
-        Left = -45
-        Top = -64
+        Left = -49
+        Top = -68
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -279,8 +276,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Shape2: TShape
-        Left = 72
-        Top = -36
+        Left = 68
+        Top = -40
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -290,8 +287,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Shape3: TShape
-        Left = -45
-        Top = -36
+        Left = -49
+        Top = -40
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -301,8 +298,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Shape13: TShape
-        Left = 72
-        Top = -22
+        Left = 68
+        Top = -26
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -313,8 +310,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Shape14: TShape
-        Left = -45
-        Top = -22
+        Left = -49
+        Top = -26
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -324,8 +321,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Shape15: TShape
-        Left = 72
-        Top = -63
+        Left = 68
+        Top = -67
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -335,8 +332,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -41
       end
       object Shape17: TShape
-        Left = -45
-        Top = -50
+        Left = -49
+        Top = -54
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -346,8 +343,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label3: TLabel
-        Left = -29
-        Top = -64
+        Left = -33
+        Top = -68
         Width = 51
         Height = 12
         Anchors = [akRight, akBottom]
@@ -356,8 +353,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Label4: TLabel
-        Left = 86
-        Top = -37
+        Left = 82
+        Top = -41
         Width = 41
         Height = 12
         Anchors = [akRight, akBottom]
@@ -366,8 +363,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -15
       end
       object Label5: TLabel
-        Left = -29
-        Top = -36
+        Left = -33
+        Top = -40
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
@@ -376,8 +373,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Label16: TLabel
-        Left = 86
-        Top = -23
+        Left = 82
+        Top = -27
         Width = 57
         Height = 12
         Anchors = [akRight, akBottom]
@@ -387,8 +384,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -1
       end
       object Label17: TLabel
-        Left = -29
-        Top = -22
+        Left = -33
+        Top = -26
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
@@ -397,8 +394,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Label18: TLabel
-        Left = -29
-        Top = -50
+        Left = -33
+        Top = -54
         Width = 87
         Height = 12
         Anchors = [akRight, akBottom]
@@ -407,8 +404,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label20: TLabel
-        Left = 86
-        Top = -64
+        Left = 82
+        Top = -68
         Width = 67
         Height = 12
         Anchors = [akRight, akBottom]
@@ -417,8 +414,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Shape4: TShape
-        Left = 72
-        Top = -50
+        Left = 68
+        Top = -54
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -428,8 +425,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label1: TLabel
-        Left = 86
-        Top = -51
+        Left = 82
+        Top = -55
         Width = 62
         Height = 12
         Anchors = [akRight, akBottom]
@@ -448,10 +445,6 @@ object foPrincipal: TfoPrincipal
     Alignment = taLeftJustify
     Caption = 'pnl1'
     TabOrder = 2
-    ExplicitLeft = 48
-    ExplicitTop = 280
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object dbgNfebkp: TDBGrid
       Left = 1
       Top = 1
@@ -666,7 +659,6 @@ object foPrincipal: TfoPrincipal
           Width = 80
         end>
       SizeGrip = False
-      ExplicitTop = 402
     end
   end
   object pnlMenu: TPanel
@@ -677,9 +669,6 @@ object foPrincipal: TfoPrincipal
     Align = alTop
     Anchors = [akLeft, akRight, akBottom]
     TabOrder = 0
-    ExplicitLeft = -1
-    ExplicitTop = -5
-    ExplicitWidth = 754
     object btn1: TSpeedButton
       Left = 767
       Top = 4
@@ -710,8 +699,8 @@ object foPrincipal: TfoPrincipal
     object lbConfig: TLabel
       Left = 490
       Top = 5
-      Width = 77
-      Height = 16
+      Width = 65
+      Height = 12
       Caption = 'Configura'#231#245'es'
     end
     object edConfiguracao: TEdit
@@ -757,7 +746,7 @@ object foPrincipal: TfoPrincipal
     Left = 300
     Top = 233
     Bitmap = {
-      494C01012C003C00080220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C000C0220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -7212,6 +7201,7 @@ object foPrincipal: TfoPrincipal
       end
       object mmConfigUsaurios: TMenuItem
         Caption = 'Config. Usu'#225'rios'
+        OnClick = mmConfigUsauriosClick
       end
     end
   end
@@ -7219,7 +7209,7 @@ object foPrincipal: TfoPrincipal
     Left = 376
     Top = 157
     Bitmap = {
-      494C010103000C00B00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00B40110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF

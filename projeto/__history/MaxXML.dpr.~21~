@@ -29,7 +29,9 @@ uses
   uFoConfigPadrao in 'J:\fontes\uFoConfigPadrao.pas' {foConfigPadrao},
   uFoConfiguracao in 'J:\fontes\uFoConfiguracao.pas' {foConfiguracao},
   uRotinas in 'J:\fontes\uRotinas.pas',
-  uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao};
+  uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao},
+  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario},
+  uFoConsUsuario in 'J:\fontes\uFoConsUsuario.pas' {foConsUsuario};
 
 var
  ShowResult : Byte;
@@ -41,6 +43,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
+  Application.CreateForm(TfoConsUsuario, foConsUsuario);
   if (ParamCount = 0) then
   begin
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, true) then
@@ -73,9 +76,9 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'CALL_PARAMETROS: '+ ParamStr(i));
 
-    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, TRUE) then
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin
       Application.Terminate;
       exit;
@@ -99,7 +102,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGPARAMSTR'+IntToStr(ParamCount),GetCurrentDir, ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'CALL_PARAMETROS: ' + ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin

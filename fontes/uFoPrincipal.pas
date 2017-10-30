@@ -154,6 +154,7 @@ type
     procedure mmDelRefazAutTodosClick(Sender: TObject);
     procedure mmRefazAutorizacaoSelecaoClick(Sender: TObject);
     procedure mniTrocarUsuarioClick(Sender: TObject);
+    procedure mmConfigUsauriosClick(Sender: TObject);
   private
     { Private declarations }
     procedure pCarregaConfigUsuario(pIDConfig: Integer);
@@ -186,7 +187,7 @@ implementation
 
 uses
 
-uFoConsConfiguracao, uFoConfiguracao, Configuracoes, uFoXMLSimulacao, ufoLogin, uFoCadUsuario;
+uFoConsConfiguracao, uFoConfiguracao, Configuracoes, uFoXMLSimulacao, ufoLogin, uFoCadUsuario, uFoConsUsuario;
 
 {$R *.dfm}
 
@@ -459,6 +460,21 @@ try
 finally
   FreeAndNil(foConsConfiguracoes);
 end;
+end;
+
+procedure TfoPrincipal.mmConfigUsauriosClick(Sender: TObject);
+var wShowResult : Byte;
+begin
+  FoConsUsuario := TfoConsUsuario.Create(Application);
+  try
+    wShowResult := FoConsUsuario.ShowModal;
+
+    pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
+    statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
+
+  finally
+    FreeAndNil(FoConsUsuario);
+  end;
 end;
 
 procedure TfoPrincipal.mmDeletarTodosClick(Sender: TObject);
