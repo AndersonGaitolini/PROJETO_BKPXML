@@ -5,7 +5,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, System.IniFiles,
   Data.SqlExpr, FireDAC.Comp.Client,Vcl.ComCtrls,Generics.Collections,TypInfo,System.DateUtils,
-  JvBaseDlg, JvSelectDirectory,FireDAC.Phys.FB;
+  JvBaseDlg, JvSelectDirectory, FireDAC.Phys.FB;
 
 Const
   Threshold2000 : Integer = 2000;
@@ -48,7 +48,7 @@ Const
   function ExtractName(const Filename: String): String;
   function DateXMLToDate(pDateXML: String): TDate;
   function fOpenFileName(var prFileName:string;pTitle: string; pFilter: array of string; pFilterIndex : integer = 0): Boolean;
-  function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0): Boolean; overload;
+  function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0; pDefaultExt : string = '*.*' ): Boolean; overload;
 
   function fOpenPath(var pInitialDir: string; pTitle : string = ''): Boolean;
   function fSaveFile(pInitialDir, pFileNAme, pTitle: String; pFilter: array of string): TSaveDialog;
@@ -67,9 +67,11 @@ Const
   function fColocaVerificador(pValor: string; pNum: LongInt):string;
 //  function fDesCriptStr(pString : string) : string;
 //  function fCripStr(pString : string) : string;
+
   var
    wOpe : TOperacao = opNil;
 implementation
+
 
 //  { Criptografa uma String }
 //  function fCripStr(pString : string) : string;
@@ -107,6 +109,8 @@ implementation
 //     ist[0] := pString[1];
 //     result   := WideCharToString(ist);
 //  end;
+
+
 
 function fIsNumeric(pStr: String) : Boolean;
 begin
@@ -262,6 +266,7 @@ begin
 
   fColocaVerificador := VlFinal;
 end;
+
 
 function fConsideraPrimeiros(pValor, pNum: LongInt):string;
 var
@@ -493,7 +498,7 @@ var
   end;
 end;
 
-function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0): Boolean;
+function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0; pDefaultExt : string = '*.*' ): Boolean;
 var
   dlgOpenDir : TOpenDialog;
   auxFilter, auxFilterName : string;
@@ -504,20 +509,24 @@ begin
   try
      auxFilter := '';
      i := Length(pFilterName);
-     dlgOpenDir.Filter := 'Todos | *.* |';
-     dlgOpenDir.FilterIndex := 0;
 
      if i > 0 then
      begin
        for auxFilter in pFilterName do
        begin
-         dlgOpenDir.Filter := auxFilter+ ' |'
+         dlgOpenDir.Filter :=  auxFilter+ ' |'
        end;
+     end
+     else
+     begin
+       dlgOpenDir.Filter := 'Todos | *.* |';
+       dlgOpenDir.FilterIndex := 0;
      end;
 
      dlgOpenDir.InitialDir := GetCurrentDir;
      dlgOpenDir.FilterIndex := pFilterIndex;
      dlgOpenDir.Title := pTitleName;
+     dlgOpenDir.DefaultExt := pDefaultExt;
 
      if pFileName <> '' then
        dlgOpenDir.FileName := pFileName;

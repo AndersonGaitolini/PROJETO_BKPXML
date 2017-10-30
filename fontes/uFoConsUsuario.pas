@@ -16,6 +16,9 @@ type
     btnExcluir: TToolButton;
     procedure FormShow(Sender: TObject);
     procedure btnInserirClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+    procedure btnExcluirClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
     procedure pShowTabela;
@@ -33,23 +36,54 @@ uses
 
 {$R *.dfm}
 
-procedure TfoConsUsuario.btnInserirClick(Sender: TObject);
+procedure TfoConsUsuario.btnAlterarClick(Sender: TObject);
 begin
   inherited;
+  tabUsuarios.Id := dbgConsulta.Fields[0].AsInteger;
+  wOpe := opAlterar;
   foCadUsuario := TfoCadUsuario.Create(Application);
   try
-    wOpe := opInserir;
     foCadUsuario.ShowModal;
-
   finally
     FreeAndNil(foCadUsuario);
   end;
 end;
 
+procedure TfoConsUsuario.btnExcluirClick(Sender: TObject);
+begin
+  inherited;
+  foCadUsuario := TfoCadUsuario.Create(Application);
+  wOpe := opExcluir;
+  dbgConsulta.SelectedIndex;
+  daoUsuarios.fExcluir(tabUsuarios);
+end;
+
+procedure TfoConsUsuario.btnInserirClick(Sender: TObject);
+begin
+  inherited;
+  tabUsuarios.Id := daoUsuarios.fNextID(tabUsuarios);
+  wOpe := opInserir;
+  foCadUsuario := TfoCadUsuario.Create(Application);
+  try
+    foCadUsuario.ShowModal;
+    pShowTabela;
+    tabUsuarios.Id := dbgConsulta.Fields[0].AsInteger;
+  finally
+    FreeAndNil(foCadUsuario);
+  end;
+end;
+
+procedure TfoConsUsuario.FormClose(Sender: TObject; var Action: TCloseAction);
+begin
+  inherited;
+  tabUsuarios.Id := dbgConsulta.Fields[0].AsInteger;
+  tabUsuarios.ConfigSalva := dbgConsulta.Fields[3].AsInteger;
+end;
+
 procedure TfoConsUsuario.FormShow(Sender: TObject);
 begin
   inherited;
- //pAbre
+  pShowTabela;
 end;
 
 procedure TfoConsUsuario.pShowTabela;
@@ -63,11 +97,11 @@ begin
 
     wSQL := '';
     wSQL := wSQL + '';
-    wSQL := wSQL + 'Select * from Usuarios order by id asc';
+    wSQL := wSQL + 'Select * from usuarios order by id asc';
     wDataSetAux := Dao.ConsultaSql(wSQL);
-    provConfiguracoes.DataSet := wDataSetAux;
-    cdsConfiguracoes.Close;
-    cdsConfiguracoes.Open;
+    provUsuarios.DataSet := wDataSetAux;
+    cdsUsuarios.Close;
+    cdsUsuarios.Open;
   end;
   finally
     FreeAndNil(wDataSetAux);

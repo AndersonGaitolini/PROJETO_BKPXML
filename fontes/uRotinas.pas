@@ -38,6 +38,7 @@ procedure pCompressFiles(Files: TStrings; const Filename: String);
 procedure pDecompressFiles(const Filename, DestDirectory : String);
 procedure pEnumFiles(szPath, szAllowedExt: String; iAttributes: Integer;
   Buffer: TStrings; bClear, bIncludePath: Boolean); StdCall;
+function fMaster(pObjUsuario: TUsuarios): boolean;
 
 const
   SHCONTCH_NOPROGRESSBOX = 4;
@@ -128,6 +129,12 @@ begin
     until FindNext(res) <> 0;
     FindClose(res);
   end;
+end;
+
+
+function fMaster(pObjUsuario: TUsuarios): boolean;
+begin
+  Result := ((Trim(LowerCase(pObjUsuario.Usuario)) = 'master') and (pObjUsuario.Senha = fSenhaAtual('')));
 end;
 
 

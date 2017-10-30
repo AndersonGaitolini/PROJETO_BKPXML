@@ -1,20 +1,25 @@
 inherited foConsUsuario: TfoConsUsuario
   Caption = 'MAXXML Consulta usu'#225'rios'
   ClientHeight = 275
-  ClientWidth = 341
+  ClientWidth = 357
+  Position = poMainFormCenter
+  OnClose = FormClose
   OnShow = FormShow
-  ExplicitWidth = 357
+  ExplicitWidth = 373
   ExplicitHeight = 314
   PixelsPerInch = 96
   TextHeight = 12
   inherited pnlCentral: TPanel
-    Width = 341
+    Width = 357
     Height = 191
+    ExplicitWidth = 341
+    ExplicitHeight = 191
     inherited dbgConsulta: TDBGrid
-      Width = 339
+      Width = 355
       Height = 189
       DataSource = DM_NFEDFE.dsUsuarios
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      OnDblClick = btnAlterarClick
       Columns = <
         item
           Expanded = False
@@ -32,7 +37,6 @@ inherited foConsUsuario: TfoConsUsuario
           Expanded = False
           FieldName = 'SENHA'
           Title.Caption = 'Senha'
-          Width = -1
           Visible = False
         end
         item
@@ -46,11 +50,14 @@ inherited foConsUsuario: TfoConsUsuario
   end
   inherited statMsg: TStatusBar
     Top = 256
-    Width = 341
+    Width = 357
+    ExplicitTop = 256
+    ExplicitWidth = 341
   end
   inherited JvToolBar1: TJvToolBar
-    Width = 341
+    Width = 357
     Images = ilCadastro
+    ExplicitWidth = 341
     object btnInserir: TToolButton
       Left = 0
       Top = 0
@@ -63,19 +70,21 @@ inherited foConsUsuario: TfoConsUsuario
       Top = 0
       Caption = 'btnAlterar'
       ImageIndex = 1
+      OnClick = btnAlterarClick
     end
     object btnExcluir: TToolButton
       Left = 194
       Top = 0
       Caption = 'btnExcluir'
       ImageIndex = 2
+      OnClick = btnExcluirClick
     end
   end
   object ilCadastro: TImageList
     Left = 556
     Top = 16
     Bitmap = {
-      494C010104000C00EC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C00FC0010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

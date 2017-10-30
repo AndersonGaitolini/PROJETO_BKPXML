@@ -37,7 +37,7 @@ object foConfiguracao: TfoConfiguracao
       Width = 315
       Height = 366
       Hint = 'Configura par'#226'metros do banco de dados'
-      ActivePage = tsConfigBD
+      ActivePage = tsConfigNFe
       Align = alClient
       ParentShowHint = False
       ShowHint = True
@@ -48,7 +48,7 @@ object foConfiguracao: TfoConfiguracao
         object btnGetDirBanco: TSpeedButton
           AlignWithMargins = True
           Left = 273
-          Top = 204
+          Top = 213
           Width = 33
           Height = 20
           Margins.Left = 2
@@ -141,123 +141,121 @@ object foConfiguracao: TfoConfiguracao
           OnExit = edDescriConfigExit
         end
       end
-      object tsConfigNFCe: TTabSheet
-        Hint = 'Configura par'#226'metros de notas fiscais de cumpom fiscal'
-        Caption = 'Configura NFCe'
-        ImageIndex = 2
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 519
-        ExplicitHeight = 0
-        object edNFCePathEnvio: TLabeledEdit
+      object tsConfigNFe: TTabSheet
+        Hint = 'Configura par'#226'metros de notas fiscais eletr'#244'nica'
+        Caption = 'Configura NFe'
+        ImageIndex = 1
+        ParentShowHint = False
+        ShowHint = True
+        object edNFePathEnvio: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 94
-          Width = 249
-          Height = 24
+          Top = 95
+          Width = 250
+          Height = 20
           EditLabel.Width = 109
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio do XML Envio:'
           TabOrder = 1
-          OnExit = edNFCePathEnvioExit
+          OnExit = edNFePathEnvioExit
         end
-        object edNFCePathProcessado: TLabeledEdit
+        object edNFePathProcessado: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 130
-          Width = 249
-          Height = 24
+          Top = 129
+          Width = 250
+          Height = 20
           EditLabel.Width = 122
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML Processado: '
-          TabOrder = 3
-          OnExit = edNFCePathProcessadoExit
+          TabOrder = 2
+          OnExit = edNFePathProcessadoExit
         end
-        object edNFCePathRejeitado: TLabeledEdit
+        object edNFePathRejeitado: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 166
-          Width = 249
-          Height = 24
+          Top = 167
+          Width = 250
+          Height = 20
           EditLabel.Width = 109
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML Rejeitado:'
           TabOrder = 5
-          OnExit = edNFCePathRejeitadoExit
+          OnExit = edNFePathRejeitadoExit
         end
-        object edNFCePathRetornoLido: TLabeledEdit
+        object edNFePathRetornoLido: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 202
-          Width = 249
-          Height = 24
+          Top = 203
+          Width = 250
+          Height = 20
           EditLabel.Width = 135
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML de retorno lido:'
           TabOrder = 7
-          OnExit = edNFCePathRetornoLidoExit
+          OnExit = edNFePathRetornoLidoExit
         end
-        object edNFCePathPDFSalvo: TLabeledEdit
+        object edNFePathPDFSalvo: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 237
-          Width = 249
-          Height = 24
+          Top = 239
+          Width = 250
+          Height = 20
           EditLabel.Width = 133
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio arquivos PDF salvo:'
-          TabOrder = 8
-          OnExit = edNFCePathPDFSalvoExit
+          TabOrder = 9
+          OnExit = edNFePathPDFSalvoExit
         end
-        object btnOpenNFCe1: TBitBtn
+        object btnOpen1: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 93
-          Width = 24
+          Top = 94
+          Width = 25
           Height = 22
           Caption = '...'
           TabOrder = 0
-          OnClick = btnOpenNFCe1Click
+          OnClick = btnOpen1Click
         end
-        object btnOpenNFCe2: TBitBtn
+        object btnOpen2: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 129
-          Width = 24
+          Top = 130
+          Width = 25
           Height = 22
           Caption = '...'
-          TabOrder = 2
-          OnClick = btnOpenNFCe2Click
+          TabOrder = 3
+          OnClick = btnOpen2Click
         end
-        object btnOpenNFCe3: TBitBtn
+        object btnOpen3: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 165
-          Width = 24
+          Top = 166
+          Width = 25
           Height = 22
           Caption = '...'
           TabOrder = 4
-          OnClick = btnOpenNFCe3Click
+          OnClick = btnOpen3Click
         end
-        object btnOpenNFCe4: TBitBtn
+        object btnOpen4: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 201
-          Width = 24
+          Top = 202
+          Width = 25
           Height = 22
           Caption = '...'
           TabOrder = 6
-          OnClick = btnOpenNFCe4Click
+          OnClick = btnOpen4Click
         end
-        object btnOpenNFCe5: TBitBtn
+        object btnOpen5: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 237
-          Width = 24
+          Top = 238
+          Width = 25
           Height = 22
           Caption = '...'
-          TabOrder = 9
-          OnClick = btnOpenNFCe5Click
+          TabOrder = 8
+          OnClick = btnOpen5Click
         end
       end
       object tsConfigNFSe: TTabSheet
@@ -265,16 +263,12 @@ object foConfiguracao: TfoConfiguracao
         ImageIndex = 3
         ParentShowHint = False
         ShowHint = True
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 519
-        ExplicitHeight = 0
         object edNFSePathEnvio: TLabeledEdit
           AlignWithMargins = True
           Left = 14
           Top = 94
           Width = 249
-          Height = 24
+          Height = 20
           EditLabel.Width = 109
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio do XML Envio:'
@@ -286,7 +280,7 @@ object foConfiguracao: TfoConfiguracao
           Left = 14
           Top = 130
           Width = 249
-          Height = 24
+          Height = 20
           EditLabel.Width = 122
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML Processado: '
@@ -298,7 +292,7 @@ object foConfiguracao: TfoConfiguracao
           Left = 14
           Top = 166
           Width = 249
-          Height = 24
+          Height = 20
           EditLabel.Width = 109
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML Rejeitado:'
@@ -310,7 +304,7 @@ object foConfiguracao: TfoConfiguracao
           Left = 14
           Top = 202
           Width = 249
-          Height = 24
+          Height = 20
           EditLabel.Width = 135
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML de retorno lido:'
@@ -322,7 +316,7 @@ object foConfiguracao: TfoConfiguracao
           Left = 14
           Top = 238
           Width = 249
-          Height = 24
+          Height = 20
           EditLabel.Width = 133
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio arquivos PDF salvo:'
@@ -380,125 +374,121 @@ object foConfiguracao: TfoConfiguracao
           OnClick = btnOpenNFSe5Click
         end
       end
-      object tsConfigNFe: TTabSheet
-        Hint = 'Configura par'#226'metros de notas fiscais eletr'#244'nica'
-        Caption = 'Configura NFe'
-        ImageIndex = 1
-        ParentShowHint = False
-        ShowHint = True
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 519
-        ExplicitHeight = 0
-        object edNFePathEnvio: TLabeledEdit
+      object tsConfigNFCe: TTabSheet
+        Hint = 'Configura par'#226'metros de notas fiscais de cumpom fiscal'
+        Caption = 'Configura NFCe'
+        ImageIndex = 2
+        ExplicitLeft = 8
+        ExplicitTop = 22
+        object edNFCePathEnvio: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 95
-          Width = 250
-          Height = 24
+          Top = 94
+          Width = 249
+          Height = 20
           EditLabel.Width = 109
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio do XML Envio:'
           TabOrder = 1
-          OnExit = edNFePathEnvioExit
+          OnExit = edNFCePathEnvioExit
         end
-        object edNFePathProcessado: TLabeledEdit
+        object edNFCePathProcessado: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 129
-          Width = 250
-          Height = 24
+          Top = 130
+          Width = 249
+          Height = 20
           EditLabel.Width = 122
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML Processado: '
-          TabOrder = 2
-          OnExit = edNFePathProcessadoExit
+          TabOrder = 3
+          OnExit = edNFCePathProcessadoExit
         end
-        object edNFePathRejeitado: TLabeledEdit
+        object edNFCePathRejeitado: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 167
-          Width = 250
-          Height = 24
+          Top = 166
+          Width = 249
+          Height = 20
           EditLabel.Width = 109
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML Rejeitado:'
           TabOrder = 5
-          OnExit = edNFePathRejeitadoExit
+          OnExit = edNFCePathRejeitadoExit
         end
-        object edNFePathRetornoLido: TLabeledEdit
+        object edNFCePathRetornoLido: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 203
-          Width = 250
-          Height = 24
+          Top = 202
+          Width = 249
+          Height = 20
           EditLabel.Width = 135
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio XML de retorno lido:'
           TabOrder = 7
-          OnExit = edNFePathRetornoLidoExit
+          OnExit = edNFCePathRetornoLidoExit
         end
-        object edNFePathPDFSalvo: TLabeledEdit
+        object edNFCePathPDFSalvo: TLabeledEdit
           AlignWithMargins = True
           Left = 14
-          Top = 239
-          Width = 250
-          Height = 24
+          Top = 237
+          Width = 249
+          Height = 20
           EditLabel.Width = 133
           EditLabel.Height = 12
           EditLabel.Caption = 'Diret'#243'rio arquivos PDF salvo:'
-          TabOrder = 9
-          OnExit = edNFePathPDFSalvoExit
+          TabOrder = 8
+          OnExit = edNFCePathPDFSalvoExit
         end
-        object btnOpen1: TBitBtn
+        object btnOpenNFCe1: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 94
-          Width = 25
+          Top = 93
+          Width = 24
           Height = 22
           Caption = '...'
           TabOrder = 0
-          OnClick = btnOpen1Click
+          OnClick = btnOpenNFCe1Click
         end
-        object btnOpen2: TBitBtn
+        object btnOpenNFCe2: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 130
-          Width = 25
+          Top = 129
+          Width = 24
           Height = 22
           Caption = '...'
-          TabOrder = 3
-          OnClick = btnOpen2Click
+          TabOrder = 2
+          OnClick = btnOpenNFCe2Click
         end
-        object btnOpen3: TBitBtn
+        object btnOpenNFCe3: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 166
-          Width = 25
+          Top = 165
+          Width = 24
           Height = 22
           Caption = '...'
           TabOrder = 4
-          OnClick = btnOpen3Click
+          OnClick = btnOpenNFCe3Click
         end
-        object btnOpen4: TBitBtn
+        object btnOpenNFCe4: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 202
-          Width = 25
+          Top = 201
+          Width = 24
           Height = 22
           Caption = '...'
           TabOrder = 6
-          OnClick = btnOpen4Click
+          OnClick = btnOpenNFCe4Click
         end
-        object btnOpen5: TBitBtn
+        object btnOpenNFCe5: TBitBtn
           AlignWithMargins = True
           Left = 270
-          Top = 238
-          Width = 25
+          Top = 237
+          Width = 24
           Height = 22
           Caption = '...'
-          TabOrder = 8
-          OnClick = btnOpen5Click
+          TabOrder = 9
+          OnClick = btnOpenNFCe5Click
         end
       end
     end
@@ -673,7 +663,7 @@ object foConfiguracao: TfoConfiguracao
     Left = 108
     Top = 464
     Bitmap = {
-      494C010104000C00140110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C001C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

@@ -210,7 +210,7 @@ begin
       end
       else
       begin
-        ShowMessage('Registro não encontrado!');
+//        ShowMessage('Registro não encontrado!');
         result := nil;
         Exit;
       end;
@@ -242,7 +242,7 @@ begin
     end;
   end;
   finally
-    ptab.Free;
+
   end;
 end;
 

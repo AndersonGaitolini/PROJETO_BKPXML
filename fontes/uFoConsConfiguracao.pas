@@ -55,8 +55,9 @@ begin
   begin
     DataSetAux := Dao.ConsultaAll(tabConfiguracoes, 'id');
     provConfiguracoes.DataSet := DataSetAux;
-//    cdsConfiguracoes.Close;
-//    cdsConfiguracoes.Open;
+
+    cdsConfiguracoes.Close;
+    cdsConfiguracoes.Open;
   end;
   finally
 //    FreeAndNil(DataSetAux);

@@ -13,7 +13,7 @@ object foLoginPadrao: TfoLoginPadrao
   KeyPreview = True
   Menu = mmMenuTelaAcesso
   OldCreateOrder = False
-  Position = poDesktopCenter
+  Position = poDesigned
   OnClose = FormClose
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96

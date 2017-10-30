@@ -22,7 +22,7 @@ type
     procedure edSenhaExit(Sender: TObject);
   private
     { Private declarations }
-    function fValidaCampos:boolean;
+    function fValidaCampos(pSender : TObject): boolean;
   public
     { Public declarations }
   end;
@@ -34,23 +34,25 @@ var
 implementation
 
 uses
-  uMetodosUteis, Usuarios, uDMnfebkp;
+  uMetodosUteis, Usuarios, uDMnfebkp, Configuracoes;
 
 {$R *.dfm}
 
 procedure TfoCadUsuario.btnAplicarClick(Sender: TObject);
 begin
   inherited;
-  if fValidaCampos then
+  if wOk and fValidaCampos(Sender) then
   case wOpe of
 
     opAlterar:begin
-                btnOK.Enabled := daoUsuarios.fSalvar(tabUsuarios);
+                btnOK.Enabled := DM_NFEDFE.Dao.Salvar(tabUsuarios) = 1;
+                btnAplicar.Enabled := NOT (btnOK.Enabled)
               end;
 
     opInserir: begin
                   tabUsuarios.Id := daoUsuarios.fNextID(tabUsuarios);
-                  btnOK.Enabled := daoUsuarios.fInserir(tabUsuarios) = 1;
+                  btnOK.Enabled := DM_NFEDFE.Dao.Inserir(tabUsuarios) = 1;
+                  btnAplicar.Enabled := NOT (btnOK.Enabled)
                end;
   end;
 
@@ -59,14 +61,23 @@ end;
 procedure TfoCadUsuario.edSenha2Exit(Sender: TObject);
 begin
   inherited;
-   wOk := Trim(edUsuario.Text) <> Trim(edSenha2.Text);
-   if not wOk then
+
+   if (Trim(edSenha.Text) <> Trim(edSenha2.Text))then
    begin
-     ShowMessage('Senhas não conferem');
+     ShowMessage('Senhas não conferem!');
      if edSenha.CanFocus then
        edSenha.SetFocus;
-     edSenha.Clear;
-     edSenha2.Clear;
+      edSenha.Clear;
+      edSenha2.Clear;
+   end;
+
+   wOk := (edSenha2.Text <> '');
+   if not wOk then
+   begin
+
+     ShowMessage('Preencha campo senha de confirmação.');
+     if edSenha2.CanFocus then
+       edSenha2.SetFocus;
    end
    else
    begin
@@ -79,7 +90,7 @@ end;
 procedure TfoCadUsuario.edSenhaExit(Sender: TObject);
 begin
   inherited;
-  wOk :=  Trim(edSenha.Text) = '';
+  wOk :=  Trim(edSenha.Text) <> '';
   if not wOk then
   begin
     ShowMessage('Preencha o campo senha!');
@@ -92,7 +103,7 @@ end;
 procedure TfoCadUsuario.edUsuarioExit(Sender: TObject);
 begin
   inherited;
-  wOk :=  Trim(edUsuario.Text) = '';
+  wOk :=  Trim(edUsuario.Text) <> '';
   if not wOk then
   begin
     ShowMessage('Preencha o campo usuário!');
@@ -111,91 +122,62 @@ begin
   case wOpe of
 
     opInserir: begin
-                 if edUsuario.CanFocus then
-                   edUsuario.SetFocus;
-
-
 
                end;
 
     opAlterar: begin
-                 wDataSet := DM_NFEDFE.Dao.ConsultaTab(tabUsuarios, ['id']);
+                 wDataSet       := DM_NFEDFE.Dao.ConsultaTab(tabUsuarios, ['id']);
                  edUsuario.Text := wDataSet.FieldByName('Usuario').AsString;
-                 edSenha.Text := wDataSet.FieldByName('senha').AsString;
-                 if edUsuario.CanFocus then
-                   edUsuario.SetFocus;
+                 edSenha.Text   := wDataSet.FieldByName('senha').AsString;
+                 edSenha2.Text  := wDataSet.FieldByName('senha').AsString;
                end;
   end;
 end;
 
-function TfoCadUsuario.fValidaCampos: boolean;
+function TfoCadUsuario.fValidaCampos(pSender : TObject): boolean;
 var i,wTabOrd,iTab : Integer;
     wCampoName, NameComp : string;
 begin
    result := True;
 
-  if not Assigned(foCadUsuario) then
-  exit;
+   tabUsuarios.Usuario := Trim(edUsuario.Text);
+   tabUsuarios.Senha   := Trim(edSenha2.Text);
+   tabUsuarios.ConfigSalva :=  tabConfiguracoes.Id;
 
-  for i:= 0 to foCadUsuario.ComponentCount-1 do  //Percorre todos os componentes da tela
-  begin
-//    NameComp := (pForm.Components[i]).
-    if foCadUsuario.Components[i] is TEdit then
-    begin
-      with TEdit(foCadUsuario.Components[i]), tabUsuarios do
-      begin
-        wTabOrd := TabOrder;  //Salva o tab order
-        iTab := i;
-        wCampoName := Copy(Name, 3,Length(Name));
-        if Trim(text) = ''  then
-        begin
-           text := 'Preencha  o campo ' + wCampoName ;
-           SelText;
-           if CanFocus then
-             SetFocus;
-           Result := False;
-           Break;
-        end
-        else
-        begin
-          if Name = 'edUsuario' then
-            Usuario := Trim(Text);
-
-          if (Name = 'edSenha2' ) and  (Trim(Text) = edSenha.Text ) then
-           Senha := Trim(text);
-
-        end;
-
-      end;
-    end;
-
-//    if foCadUsuario.Components[i] is TLabeledEdit then
-//      if Trim(TLabeledEdit(foCadUsuario.Components[i]).Text) = '' then
-//      begin
-//        if foCadUsuario.Components[iTab] is TTabSheet then
-//        begin
-//          pgcConfig.TabIndex := wTabOrd;
-////          if TTabSheet(pForm.Components[iTab]).CanFocus then
-////            begin
-////              TTabSheet(pForm.Components[iTab]).SetFocus;
-//              if TLabeledEdit(foCadUsuario.Components[i]).CanFocus then
-//              begin
-//                NameLabel :=  TLabeledEdit(foCadUsuario.Components[i]).EditLabel.Caption;
-//                MsgStatus('O Campo '+ NameLabel + ' está vazio!', clRed);
-////                ShowMessage('O Campo '+ NameLabel + ' está vazio!' );
-//                TLabeledEdit(foCadUsuario.Components[i]).SetFocus;
-//                result := False;
-//                Break;
+//  if not Assigned(pSender) then
+//  exit;
 //
-//              end;
-////            end;
+//  for i:= 0 to TfoCadUsuario(pSender).ComponentCount-1 do  //Percorre todos os componentes da tela
+//  begin
+////    NameComp := (pForm.Components[i]).
+//    if TfoCadUsuario(pSender).Components[i] is TEdit then
+//    begin
+//      with TEdit(TfoCadUsuario(pSender).Components[i]), tabUsuarios do
+//      begin
+//        wTabOrd := TabOrder;  //Salva o tab order
+//        iTab := i;
+//        wCampoName := Copy(Name, 3,Length(Name));
+//        if Trim(text) = ''  then
+//        begin
+//           text := 'Preencha  o campo ' + wCampoName ;
+//           SelText;
+//           if CanFocus then
+//             SetFocus;
+//           Result := False;
+//           Break;
+//        end
+//        else
+//        begin
+//          if Name = 'edUsuario' then
+//            Usuario := Trim(Text);
+//
+//          if (Name = 'edSenha2' ) and  (Trim(Text) = edSenha.Text ) then
+//           Senha := Trim(text);
+//
 //        end;
-//      end
-//    else
-
-  end;
-
+//      end;
+//    end;
+//  end;
 end;
-
 
 end.

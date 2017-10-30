@@ -204,6 +204,7 @@ begin
                    begin
                      statMSg.Panels[1].Text := 'Novo registo!';
                      wOpe := opOk;
+
                    end;
                  end;
     end;
@@ -253,10 +254,14 @@ end;
 
 procedure TfoConfiguracao.btnGetDirBancoClick(Sender: TObject);
 begin
-  if fOpenFile('Selecione o Diretório do seu Banco de DADOS', wPathAux, ['FDB | *.*fdb'],1) then
+//  if fOpenFile('Selecione o Diretório do seu Banco de DADOS', wPathAux, ['FDB | *.*fdb'],1) then
+ dlgOpenDir := TOpenDialog.Create(Application);
+ dlgOpenDir.DefaultExt := 'FDB';
+ dlgOpenDir.InitialDir := GetCurrentDir;
+ if dlgOpenDir.Execute then
  begin
-   edArquivo.Text := wPathAux;
-   tabConfiguracoes.PathBD := wPathAux;
+   edArquivo.Text := dlgOpenDir.FileName;
+   tabConfiguracoes.PathBD := dlgOpenDir.FileName;
  end;
 end;
 
@@ -454,31 +459,37 @@ end;
 function TfoConfiguracao.CarregaIniFile: Boolean;
 var wFilePathIni : string;
 begin
-if fOpenFile('Localiza o INI File',wFilePathIni, ['INI | *.*ini'],1) then
+//if fOpenFile('Localiza o INI File MAXWIN/MAXECV',wFilePathIni, ['INI | *.*ini'],1,'*.*ini') then
+ dlgOpenDir := TOpenDialog.Create(Application);
+ dlgOpenDir.DefaultExt := 'INI';
+ dlgOpenDir.InitialDir := GetCurrentDir;
+ if dlgOpenDir.Execute then
  begin
-//  edUsuarioBD.Text       := 'sysdba';
-//  edSenhaBD.Text         := 'masterkey';
-//  edArquivo.Text         := '';
-//  edDescriConfig.Text    := fNomePC;
-//  //Aba Configura NFe
-//  edNFePathEnvio.Text       := getINI(wFilePathIni,'NFe','Caminho','');
-//  edNFePathProcessado.Text  := getINI(wFilePathIni,'NFe','Caminho','') +'\processado';
-//  edNFePathProcessado.Text   := getINI(wFilePathIni,'NFe','Retorno','');
-//  edNFePathRejeitado.Text   := getINI(wFilePathIni,'NFe','Dir_RetornoEnv','');
-//  edNFePathRetornoLido.Text  := getINI(wFilePathIni,'NFe','Retorno','')+ '\lido';
-//  edNFePathPDFSalvo.Text  := getINI(wFilePathIni,'NFe','Dir_RetornoInut','');
-//  //Aba Configura NFCe
-//  edNFCePathEnvio.Text    := getINI(wFilePathIni,'NFCe','Caminho','');
-//  edNFCePathProcessado.Text  := getINI(wFilePathIni,'NFCe','Retorno','');
-//  edNFCePathRejeitado.Text  := getINI(wFilePathIni,'NFCe','Dir_RetornoEnv','');
-//  edNFCePathRetornoLido.Text := getINI(wFilePathIni,'NFCe','Dir_RetornoCanc','');
-//  edNFCePathPDFSalvo.Text := getINI(wFilePathIni,'NFCe','Dir_RetornoInut','');
-//  //Aba Configura NFSe
-//  edNFSePathEnvio.Text    := getINI(wFilePathIni,'NFSe','Caminho','');
-//  edNFSePathProcessado.Text  := getINI(wFilePathIni,'NFSe','Retorno','');
-//  edNFSePathRejeitado.Text  := getINI(wFilePathIni,'NFSe','Dir_RetornoEnv','');
-//  edNFSePathRetornoLido.Text := getINI(wFilePathIni,'NFSe','Dir_RetornoCanc','');
-//  edNFSePathPDFSalvo.Text := getINI(wFilePathIni,'NFSe','Dir_RetornoInut','');
+  wFilePathIni := dlgOpenDir.FileName;
+
+  edUsuarioBD.Text       := 'sysdba';
+  edSenhaBD.Text         := 'masterkey';
+  edArquivo.Text         := '';
+  edDescriConfig.Text    := fNomePC;
+
+  //Aba Configura NFe
+  edNFePathEnvio.Text        := getINI(wFilePathIni,'NFe','Caminho','');
+  edNFePathProcessado.text   := getINI(wFilePathIni,'NFe','Caminho','')  + '\Processado';
+  edNFePathRejeitado.text    := getINI(wFilePathIni,'NFe','Caminho','')  + '\Rejeitado';
+  edNFePathRetornoLido.Text  := getINI(wFilePathIni,'NFe','Retorno','') + '\lido';
+  edNFePathPDFSalvo.Text     := getINI(wFilePathIni,'NFe','Caminho','')   +'\PDF';
+//Aba Configura NFCe
+  edNFCePathEnvio.Text        := getINI(wFilePathIni,'NFCe','Caminho','');
+  edNFCePathProcessado.Text   := getINI(wFilePathIni,'NFCe','Caminho','')+'\Processado';
+  edNFCePathRejeitado.Text    := getINI(wFilePathIni,'NFCe','Caminho','')+'\Rejeitado';
+  edNFCePathRetornoLido.Text  := getINI(wFilePathIni,'NFCe','Retorno','')+ '\lido';
+  edNFCePathPDFSalvo.Text     := getINI(wFilePathIni,'NFCe','Caminho','')+'\PDF';
+ //Aba Configura NFSe
+  edNFSePathEnvio.Text        := getINI(wFilePathIni,'NFSe','Caminho','');
+  edNFSePathProcessado.Text   := getINI(wFilePathIni,'NFSe','Caminho','')+'\Processado';
+  edNFSePathRejeitado.Text    := getINI(wFilePathIni,'NFSe','Caminho','')+'\Rejeitado';
+  edNFSePathRetornoLido.Text  := getINI(wFilePathIni,'NFSe','Retorno','')+ '\lido';
+  edNFSePathPDFSalvo.Text     := getINI(wFilePathIni,'NFSe','Caminho','')+'\PDF';
  end;
 end;
 

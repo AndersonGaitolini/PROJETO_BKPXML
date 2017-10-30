@@ -12,7 +12,7 @@ uses
   JvTrayIcon, IPPeerClient, REST.Backend.PushTypes, System.JSON,
   System.PushNotification, Data.Bind.Components, Data.Bind.ObjectScope,
   REST.Backend.BindSource, REST.Backend.PushDevice,System.TypInfo, Vcl.Buttons,uRotinas,
-  Vcl.DBCtrls, Vcl.AppEvnts;
+  Vcl.DBCtrls, Vcl.AppEvnts, JvBaseDlg, JvSelectDirectory;
 
 type
   TOrdena = (ordCodigo, ordData, ordChave);
@@ -32,7 +32,7 @@ type
     edConfiguracao: TEdit;
     EvaAlertas: TFDEventAlerter;
     tiTryIcon: TJvTrayIcon;
-    btn1: TSpeedButton;
+    btnCarregaConfig: TSpeedButton;
     dlgSaveXML: TSaveDialog;
     mmExpTodos: TMenuItem;
     lbDataIni: TLabel;
@@ -100,6 +100,11 @@ type
     pnl1: TPanel;
     dbgNfebkp: TDBGrid;
     statPrincipal: TStatusBar;
+    pmFiltroData: TPopupMenu;
+    mmDataEmissao: TMenuItem;
+    mmDataAlteracao: TMenuItem;
+    mmDataRecebimento: TMenuItem;
+    jopdDirDir: TJvSelectDirectory;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -113,7 +118,7 @@ type
     procedure FormActivate(Sender: TObject);
     procedure btnProcRetornoClick(Sender: TObject);
     procedure btnProcessaEnvioClick(Sender: TObject);
-    procedure btn1Click(Sender: TObject);
+    procedure btnCarregaConfigClick(Sender: TObject);
     procedure dbgNfebkpDblClick(Sender: TObject);
     procedure btnPelaChaveClick(Sender: TObject);
     procedure mmExpTodosClick(Sender: TObject);
@@ -155,8 +160,19 @@ type
     procedure mmRefazAutorizacaoSelecaoClick(Sender: TObject);
     procedure mniTrocarUsuarioClick(Sender: TObject);
     procedure mmConfigUsauriosClick(Sender: TObject);
+    procedure dtpDataFiltroINIExit(Sender: TObject);
+    procedure dtpDataFiltroINIKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure dtpDataFiltroFinKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure pmFiltroDataPopup(Sender: TObject);
+    procedure mmDataEmissaoClick(Sender: TObject);
+    procedure mmDataAlteracaoClick(Sender: TObject);
+    procedure mmDataRecebimentoClick(Sender: TObject);
   private
     { Private declarations }
+    wVisible: boolean;
+    wFieldFiltros : TFieldFiltros;
     procedure pCarregaConfigUsuario(pIDConfig: Integer);
     procedure fFiltroEmissaoXML;
     procedure pDataFiltro;
@@ -167,6 +183,8 @@ type
     procedure pDeleteRowsSelectGrid;
     procedure pRemoveSelTodasLinhas;
     procedure pIniciaGrid;
+    procedure pMenuFiltroData(pFieldFiltros : TFieldFiltros);
+
   public
     { Public declarations }
 
@@ -199,14 +217,14 @@ begin
 //  TrayIconBkpNfe.Animate := True;
 end;
 
-procedure TfoPrincipal.btn1Click(Sender: TObject);
+procedure TfoPrincipal.btnCarregaConfigClick(Sender: TObject);
 begin
   foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
 try
   with foConsConfiguracoes do
   begin
     Usuarios := tabUsuarios;
-    evtTelaUsuarios := etuConsultar;
+    evtTelaUsuarios := etuEditar;
     ShowModal;
   end;
   pCarregaConfigUsuario(tabConfiguracoes.Id);
@@ -334,12 +352,17 @@ end;
 
 procedure TfoPrincipal.pCarregaConfigUsuario(pIDConfig: Integer);
 begin
- if not Assigned(tabConfiguracoes) then
-   tabConfiguracoes := TConfiguracoes.Create;
+  if not Assigned(tabConfiguracoes) then
+    tabConfiguracoes := TConfiguracoes.Create;
 
- tabConfiguracoes.id := pIDConfig;
- daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
- edConfiguracao.Text := tabConfiguracoes.DescriConfig;
+  tabConfiguracoes.id := pIDConfig;
+  daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
+
+
+  edConfiguracao.Visible   := wVisible;
+  lbConfig.Visible         := wVisible;
+  btnCarregaConfig.Visible := wVisible;
+  edConfiguracao.Text := tabConfiguracoes.DescriConfig;
 end;
 
 procedure TfoPrincipal.pDataFiltro;
@@ -390,6 +413,22 @@ begin
   end;
 end;
 
+procedure TfoPrincipal.pMenuFiltroData(pFieldFiltros: TFieldFiltros);
+ procedure pCheck(pEmissao, pAlterecao, pReceb: boolean);
+ begin
+  mmDataEmissao.Checked     := pEmissao;
+  mmDataAlteracao.Checked   := pAlterecao;
+  mmDataRecebimento.Checked := pReceb;
+ end;
+begin
+  case pFieldFiltros of
+
+       ffDATARECTO: pCheck(false, false, True);
+     ffDATAEMISSAO: pCheck(true, false, false);
+   ffDATAALTERACAO: pCheck(false, true, false);
+  end;
+end;
+
 procedure TfoPrincipal.pmExportaPopup(Sender: TObject);
 var wHabilita : boolean;
 
@@ -428,9 +467,17 @@ var wHabilita : boolean;
 
 begin
   pSelecaoChave(wListaSelecionados);
+  wVisible := fMaster(tabUsuarios);
+  pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
+  pMenuMaster(wVisible);
+end;
 
-  wHabilita := ((Trim(LowerCase(tabUsuarios.Usuario)) = 'master') and (tabUsuarios.Senha = fSenhaAtual('')));
-  pMenuMaster(wHabilita);
+procedure TfoPrincipal.pmFiltroDataPopup(Sender: TObject);
+var i, j, k: integer;
+begin
+  if True then
+
+
 end;
 
 procedure TfoPrincipal.pmSelecionarPopup(Sender: TObject);
@@ -475,6 +522,21 @@ begin
   finally
     FreeAndNil(FoConsUsuario);
   end;
+end;
+
+procedure TfoPrincipal.mmDataAlteracaoClick(Sender: TObject);
+begin
+  pMenuFiltroData(ffDATAALTERACAO);
+end;
+
+procedure TfoPrincipal.mmDataEmissaoClick(Sender: TObject);
+begin
+  pMenuFiltroData(ffDATAEMISSAO);
+end;
+
+procedure TfoPrincipal.mmDataRecebimentoClick(Sender: TObject);
+begin
+  pMenuFiltroData(ffDATARECTO);
 end;
 
 procedure TfoPrincipal.mmDeletarTodosClick(Sender: TObject);
@@ -651,6 +713,29 @@ begin
   wLastColunm := Column.Index;
 end;
 
+procedure TfoPrincipal.dtpDataFiltroFinKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_F2 then
+   dtpDataFiltroFin.DateTime := now;
+end;
+
+procedure TfoPrincipal.dtpDataFiltroINIExit(Sender: TObject);
+var y,m,d: word;
+    wDateIni : Tdate;
+begin
+  DecodeDate(dtpDataFiltroINI.Date,y,m,d);
+//  dtpDataFiltroINI.DateTime := EncodeDate(y,m,01);
+  dtpDataFiltroFin.DateTime := EncodeDate(y,m,DaysInMonth(dtpDataFiltroINI.Date));
+end;
+
+procedure TfoPrincipal.dtpDataFiltroINIKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if Key = VK_F2 then
+   dtpDataFiltroINI.DateTime := now;
+end;
+
 procedure TfoPrincipal.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
   const AEventName: string; const AArgument: Variant);
 begin
@@ -671,7 +756,7 @@ begin
      dtpDataFiltroFin.Date := dtpDataFiltroINI.Date;
 
   if dtpDataFiltroINI.Date <= dtpDataFiltroFin.Date then
-    DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO, wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+    DaoObjetoXML.fFiltraOrdena(wFieldFiltros, wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
 procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
@@ -872,7 +957,7 @@ var i:Integer;
 //  end;
 
 begin
-  foPrincipal.Caption := 'SOUIS MAX XML Versão 1.0 - beta';
+  foPrincipal.Caption := 'SOUIS MAXXML Versão 1.0 - beta';
 
 //  pStatusBarProgress;
   pIniciaGrid;
@@ -893,12 +978,15 @@ begin
   i:= dts.FieldByName('configsalva').AsInteger;
   dts.Free;
 
+  wVisible := fMaster(tabUsuarios);
   pCarregaConfigUsuario(i);
   statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
 
   wLoadXML := lxNone;
   wLastColunm := -1;
   wLastOrderBy := obyNone;
+  wFieldFiltros := ffDATAEMISSAO;
+  pMenuFiltroData(wFieldFiltros);
 
 //  pIniciaDBCheckBox;
   wListaSelecionados := TStringList.Create;
@@ -1034,6 +1122,9 @@ procedure TfoPrincipal.mmRefazAutorizacaoSelecaoClick(Sender: TObject);
 begin
   if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
   begin
+    tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
+
+
     if fLoadXMLNFeLista(wListaSelecionados)then
     begin
       DM_NFEDFE.cdsBkpdfe.Close;
@@ -1047,6 +1138,11 @@ end;
 procedure TfoPrincipal.mmRefazAutorizacaoTodosClick(Sender: TObject);
 begin
 //  pSelTodasLinhas;
+   jopdDirDir := TJvSelectDirectory.Create(Application);
+   jopdDirDir.InitialDir := GetCurrentDir;
+   jopdDirDir.Title := 'Seleceione o diretório dos Processados.';
+  if jopdDirDir.Execute then
+    tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
 
   if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
   begin
@@ -1107,10 +1203,9 @@ begin
 
     if wShowResult = mrOk then
     begin
-
+      wVisible := fMaster(tabUsuarios);
       pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
       statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
-
     end
     else
     Application.Terminate;
