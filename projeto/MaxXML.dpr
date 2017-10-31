@@ -35,9 +35,10 @@ uses
 
 var
  ShowResult : Byte;
- wMsg, wSenhaAtual : string;
+ wMsg, wSenhaAtual, wPathMAX: string;
  SoapUsuario : TUsuarios;
  i : integer;
+ wMaxOK : boolean;
 {$R *.res}
 begin
   Application.Initialize;
@@ -86,12 +87,41 @@ begin
    tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
    wSenhaAtual := uMetodosUteis.fSenhaAtual('');
+   wPathMAX := ExtractFileDir(ParamStr(0));
+   wPathMAX := Copy(wPathMAX, 1, LastDelimiter('\', wPathMAX));
+   wMaxOK := FileExists(wPathMAX+'MaxWin.exe') or (FileExists(wPathMAX+'MaxEcv.exe'));
+   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: '+ ParamStr(0));
 
-   if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
+   if wMaxOK and (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
      Application.Run;
+   end
+   else
+   if (wMaxOK) then
+   begin
+     DM_NFEDFE.Dao.StartTransaction;
+     try
+       tabUsuarios.Id := Usuarios.daoUsuarios.fNextID(tabUsuarios);
+       if DM_NFEDFE.Dao.Inserir(tabUsuarios) = 1 then
+       begin
+         uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'Commit: id:'+ INTTOSTR(tabUsuarios.Id));
+         DM_NFEDFE.Dao.Commit;
+         if daoLogin.fLogar(tabUsuarios) then
+         begin
+           tabConfiguracoes.id := tabUsuarios.ConfigSalva;
+           Application.CreateForm(TFoPrincipal, FoPrincipal);
+           Application.Run;
+         end;
+       end;
+     except
+        on E: Exception do
+        begin
+        if DM_NFEDFE.Dao.InTransaction then
+          DM_NFEDFE.Dao.RollBack;
+        end;
+     end;
    end;
 
    Application.Terminate;

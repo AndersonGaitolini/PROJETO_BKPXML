@@ -30,13 +30,15 @@ uses
   uFoConfiguracao in 'J:\fontes\uFoConfiguracao.pas' {foConfiguracao},
   uRotinas in 'J:\fontes\uRotinas.pas',
   uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao},
-  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario};
+  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario},
+  uFoConsUsuario in 'J:\fontes\uFoConsUsuario.pas' {foConsUsuario};
 
 var
  ShowResult : Byte;
- wMsg, wSenhaAtual : string;
+ wMsg, wSenhaAtual, wPathMAX: string;
  SoapUsuario : TUsuarios;
  i : integer;
+ wMaxOK : boolean;
 {$R *.res}
 begin
   Application.Initialize;
@@ -76,7 +78,7 @@ begin
     for I := 0 to ParamCount do
       uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'CALL_PARAMETROS: '+ ParamStr(i));
 
-    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, TRUE) then
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin
       Application.Terminate;
       exit;
@@ -85,12 +87,42 @@ begin
    tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
    wSenhaAtual := uMetodosUteis.fSenhaAtual('');
+   wPathMAX := ExtractFileDir(ParamStr(0));
+   wPathMAX := Copy(wPathMAX, 1, LastDelimiter('\', wPathMAX));
+   wMaxOK := FileExists(wPathMAX+'MaxWin.exe') or (FileExists(wPathMAX+'MaxEcv.exe'));
+   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: '+ ParamStr(0));
 
-   if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
+   if wMaxOK and (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
      Application.Run;
+   end
+   else
+   if (wMaxOK) then
+   begin
+     DM_NFEDFE.Dao.StartTransaction;
+     try
+       tabUsuarios.Id := Usuarios.daoUsuarios.fNextID(tabUsuarios);
+       if DM_NFEDFE.Dao.Inserir(tabUsuarios,['id']) = 1 then
+       begin
+         DM_NFEDFE.Dao.Commit;
+         if daoLogin.fLogar(tabUsuarios) then
+         begin
+           tabConfiguracoes.id := tabUsuarios.ConfigSalva;
+           Application.CreateForm(TFoPrincipal, FoPrincipal);
+           Application.Run;
+         end;
+       end;
+     except
+        on E: Exception do
+        begin
+        if DM_NFEDFE.Dao.InTransaction then
+          DM_NFEDFE.Dao.RollBack;
+        end;
+     end;
+//     if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
+
    end;
 
    Application.Terminate;

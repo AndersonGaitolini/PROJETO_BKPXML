@@ -30,11 +30,12 @@ uses
   uFoConfiguracao in 'J:\fontes\uFoConfiguracao.pas' {foConfiguracao},
   uRotinas in 'J:\fontes\uRotinas.pas',
   uFoXMLSimulacao in 'J:\fontes\uFoXMLSimulacao.pas' {foXMLSimulcao},
-  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario};
+  uFoCadUsuario in 'J:\fontes\uFoCadUsuario.pas' {foCadUsuario},
+  uFoConsUsuario in 'J:\fontes\uFoConsUsuario.pas' {foConsUsuario};
 
 var
  ShowResult : Byte;
- wMsg, wSenhaAtual : string;
+ wMsg, wSenhaAtual, wPathMAX: string;
  SoapUsuario : TUsuarios;
  i : integer;
 {$R *.res}
@@ -72,11 +73,11 @@ begin
   else
   if ParamCount = 2 then
   begin
-    if ParamCount > 0 then
-    for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,+'CALL_PARAMETROS: ' + ParamStr(i));
+//    if ParamCount > 0 then
+//    for I := 0 to ParamCount do
+//      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'CALL_PARAMETROS: '+ ParamStr(i));
 
-    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, TRUE) then
+    if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin
       Application.Terminate;
       exit;
@@ -85,8 +86,12 @@ begin
    tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
    wSenhaAtual := uMetodosUteis.fSenhaAtual('');
+   wPathMAX := ExtractFileDir(ParamStr(0));
+   wPathMAX := Copy(wPathMAX, 1, LastDelimiter('\', wPathMAX));
+   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: '+ ParamStr(0));
 
-   if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
+   if FileExists(wPathMAX+'MaxWin.exe') or (FileExists(wPathMAX+'MaxEcv.exe')) then
+//   if (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
@@ -100,7 +105,7 @@ begin
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
-      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,+'CALL_PARAMETROS: ' + ParamStr(i));
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'CALL_PARAMETROS: ' + ParamStr(i));
 
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, false) then
     begin

@@ -1,29 +1,30 @@
 inherited foCadUsuario: TfoCadUsuario
   Caption = 'Cadastro de usu'#225'rio e senha'
-  ClientHeight = 163
-  ClientWidth = 327
+  ClientHeight = 157
+  ClientWidth = 255
   Position = poMainFormCenter
   OnCreate = FormCreate
-  ExplicitWidth = 343
-  ExplicitHeight = 202
+  ExplicitWidth = 271
+  ExplicitHeight = 196
   PixelsPerInch = 96
   TextHeight = 12
   inherited pnl1: TPanel
-    Width = 327
-    Height = 163
-    ExplicitWidth = 327
-    ExplicitHeight = 163
+    Width = 255
+    Height = 157
+    ExplicitLeft = 1
+    ExplicitWidth = 281
+    ExplicitHeight = 176
     inherited lbUserNome: TLabel
-      Left = 78
+      Left = 62
       Top = 30
       Width = 38
       Caption = 'Usu'#225'rio:'
-      ExplicitLeft = 78
+      ExplicitLeft = 62
       ExplicitTop = 30
       ExplicitWidth = 38
     end
     object lb1: TLabel [1]
-      Left = 84
+      Left = 68
       Top = 52
       Width = 32
       Height = 12
@@ -34,7 +35,7 @@ inherited foCadUsuario: TfoCadUsuario
       Caption = 'Senha:'
     end
     object lb2: TLabel [2]
-      Left = 48
+      Left = 32
       Top = 72
       Width = 68
       Height = 12
@@ -45,30 +46,30 @@ inherited foCadUsuario: TfoCadUsuario
       Caption = 'Repita a senha:'
     end
     inherited btnAcessar: TBitBtn [3]
-      Left = 69
+      Left = 34
       Top = 114
       Enabled = False
       TabOrder = 3
       Visible = False
-      ExplicitLeft = 69
+      ExplicitLeft = 34
       ExplicitTop = 114
     end
     inherited edUsuario: TEdit [4]
-      Left = 120
+      Left = 104
       Top = 25
       OnExit = edUsuarioExit
-      ExplicitLeft = 120
+      ExplicitLeft = 104
       ExplicitTop = 25
     end
     inherited edSenha: TEdit [5]
-      Left = 120
+      Left = 104
       Top = 49
       OnExit = edSenhaExit
-      ExplicitLeft = 120
+      ExplicitLeft = 104
       ExplicitTop = 49
     end
     object edSenha2: TEdit
-      Left = 121
+      Left = 105
       Top = 73
       Width = 97
       Height = 20
@@ -81,7 +82,7 @@ inherited foCadUsuario: TfoCadUsuario
       OnExit = edSenha2Exit
     end
     object btnAplicar: TBitBtn
-      Left = 133
+      Left = 98
       Top = 114
       Width = 60
       Height = 20
@@ -114,7 +115,7 @@ inherited foCadUsuario: TfoCadUsuario
       OnClick = btnAplicarClick
     end
     object btnCancelar: TBitBtn
-      Left = 197
+      Left = 162
       Top = 114
       Width = 60
       Height = 20
@@ -127,7 +128,7 @@ inherited foCadUsuario: TfoCadUsuario
       TabOrder = 5
     end
     object btnOK: TBitBtn
-      Left = 69
+      Left = 34
       Top = 114
       Width = 60
       Height = 20
