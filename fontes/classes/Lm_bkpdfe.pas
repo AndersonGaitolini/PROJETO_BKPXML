@@ -100,7 +100,7 @@ type
     function fConsDeleteObjXML(var pObjXML  : TLm_bkpdfe; pCampos: array of string): Boolean;
 
     procedure pLimpaObjetoXML(var pObjXML   : TLm_bkpdfe);
-    procedure fFiltraOrdena(pFieldNameOrder : TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
+    procedure fFiltraOrdena(pFieldNameOrder : TFieldFiltros = ffDATAEMISSAO; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
 
   end;
 
@@ -419,7 +419,7 @@ begin
   end;
 end;
 
-procedure TDaoBkpdfe.fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffCHAVE; pUpDown: TOrdenaBy = obyNone ;
+procedure TDaoBkpdfe.fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffDATAEMISSAO; pUpDown: TOrdenaBy = obyNone ;
   pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
 var data1STR, data2STR, str1, str2:string;
     wDataSet : TDataSet;
@@ -465,36 +465,63 @@ const cAsc = 'Asc'; cdesc = 'desc';
   procedure pFiltro(pFieldOrder:string);
   var wOrdData: Boolean;
       auxFF : TFieldFiltros;
+      wList : TList;
+      i:Integer;
   begin
+    wList := TList.Create;
     auxFF := TConvert<TFieldFiltros>.StrConvertEnum('ff'+pFieldOrder);
-    wOrdData := ((auxFF = ffDATARECTO) or (auxFF = ffDATAALTERACAO));
+    wOrdData := ((auxFF = ffDATARECTO) or (auxFF = ffDATAALTERACAO) or (auxFF = ffDATAEMISSAO));
     try
-      with DM_NFEDFE, sqlBkpDfe do
+      with DM_NFEDFE do
       begin
         DateTimeToString(data1STR, 'yyyy/mm/dd', pDtINI);
         data1STR := QuotedStr(data1STR);
         DateTimeToString(data2STR, 'yyyy/mm/dd', pDtFin);
         data2STR := QuotedStr(data2STR);
 
-        SQL.Clear;
-        SQL.Add('Select * from lm_bkpdfe ');
+        sqlBkpDfe.SQL.Clear;
+        sqlBkpDfe.SQL.Add('Select * from lm_bkpdfe ');
 
-        SQL.Add( 'where ');
-        str1 := Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
-        SQL.Add(str1);
+        if wOrdData then
+        begin
+          sqlBkpDfe.SQL.Add( 'where ');
+          str1 := Format('(%s between %s and %s) ',[pFieldOrder, data1STR, data2STR]);
+          sqlBkpDfe.SQL.Add(str1);
+        end
+        else
+        begin
+          sqlBkpDfe.SQL.Add( 'where ');
+          str1 := Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
+          sqlBkpDfe.SQL.Add(str1);
+        end;
+
 
         if pUpDown <> obyNone then
         begin
           str1 := Format(' order by %s %s',[pFieldOrder, wUpDown]);
-          SQL.Add(str1);
+          sqlBkpDfe.SQL.Add(str1);
         end;
 
+//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'SQL FiltroData: '+ sqlBkpDfe.SQL.Text);
+//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'VendorLib: '+ DM_NFEDFE.fddrfbDriver.VendorLib);
+//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'DriverNAme: '+ sqlBkpDfe.Connection.DriverName);
+
+//        sqlBkpDfe.Connection.Params.SaveToFile(GetCurrentDir+'\Params.txt');
+
+//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfe ' );
+//        sqlBkpDfe.Close;
+//        sqlBkpDfe.Open;
+
+//        wDataSet := sqlBkpDfe;
+//        dsBkpdfe.DataSet := wDataSet;
+        if not sqlBkpDfe.Active then
+          sqlBkpDfe.Active := true;
+        sqlBkpDfe.Close;
+
         sqlBkpDfe.Open;
-        wDataSet := sqlBkpDfe;
-        dsBkpdfe.DataSet := wDataSet;
         cdsBkpdfe.Close;
         cdsBkpdfe.Open;
-        Application.ProcessMessages;
+//        Application.ProcessMessages;
       end;
     except on E: Exception do
              ShowMessage('Método: pFiltro!'+#10#13+
@@ -520,7 +547,7 @@ begin
     ffID: begin end;
     ffCHAVE: begin pFiltro('CHAVE') end;
     ffIDF_DOCUMENTO: begin pFiltro('IDF_DOCUMENTO') end;
-    ffDATAEMISSAO: begin pFiltroData('DATAEMISSAO') end;
+    ffDATAEMISSAO: begin pFiltro('DATAEMISSAO') end;//pFiltroData('DATAEMISSAO') end;
     ffDATARECTO: begin pFiltro('DATARECTO') end;
     ffMOTIVO: begin pFiltro('MOTIVO') end;
     ffPROTOCOLOCANC: begin pFiltro('PROTOCOLOCANC') end;

@@ -717,103 +717,141 @@ begin
       Result := False;
       prCon.Connected := Result;
       prCon.Close;
-      wDataBase   := getINI(fArqIni, 'BD', 'ARQUIVO', '');
-      wFBClient   := getINI(fArqIni, 'BD', 'FBCLIENT', '');
+//      wDataBase   := getINI(fArqIni, 'BD', 'ARQUIVO', '');
+//      wFBClient   := getINI(fArqIni, 'BD', 'FBCLIENT', '');
 
-      if not FileExists(wDataBase)then
-      begin
-        if not pTryConexao then
-          wDataBase := GetCurrentDir+'\MAXXML\BACKUPXML.FDB'
-        else
-         wDataBase := GetCurrentDir+'\BACKUPXML.FDB';
-
-        if not FileExists(wDataBase) and pTryConexao then
-        begin
-          wMSg := 'Base de dados não encontrada! Infome o caminho do BACKUPXML.FDB)';
-          repeat
-            begin
-              wDataBase := inputbox('Diretório do "BD" ou "S" para sair!', wMSg,'');
-              if Trim(UpperCase(wDataBase)) = 'S' then
-               Application.Terminate;
-
-              wOk := FileExists(wDataBase);
-              if wOk then
-              begin
-                 pIniArquivo(fArqIni);
-              end
-              else
-              begin
-                wMSg := 'Arquivo inválido! ou "S" para Sair';
-              end;
-
-            end;
-          until wOk;
-        end
-        else
-         pIniArquivo(fArqIni);
-      end
-      else
-       pIniArquivo(fArqIni);
-
-
-      if not FileExists(wFBClient)then
-      begin
-        if not pTryConexao then
-          wFBClient := GetCurrentDir+'\MAXXML\fb\fbClient.dll'
-        else
-          wFBClient := GetCurrentDir+'\fb\fbClient.dll';
-
-        if not FileExists(wFBClient) and pTryConexao then
-        begin
-          wMSg := 'FBClient.Dll não encontrada! Infome o caminho da DLL!)';
-          repeat
-            begin
-              wFBClient := inputbox('Diretório da "Dll" ou "S" para sair!', wMSg,'');
-              if Trim(UpperCase(wFBClient)) = 'S' then
-               Application.Terminate;
-
-              wOk := FileExists(wFBClient);
-              if wOk then
-              begin
-                pIniFbClient(fArqIni);
-              end
-              else
-              begin
-                wMSg := 'Arquivo inválido! ou "S" para Sair';
-              end;
-
-            end;
-          until wOk;
-        end
-        else
-         pIniFbClient(fArqIni);
-      end
-      else
-        pIniFbClient(fArqIni);
+//      if not FileExists(wDataBase)then
+//      begin
+//        if not pTryConexao then
+//          wDataBase := GetCurrentDir+'\MAXXML\BACKUPXML.FDB'
+//        else
+//         wDataBase := GetCurrentDir+'\BACKUPXML.FDB';
+//
+//        if not FileExists(wDataBase) and pTryConexao then
+//        begin
+//          wMSg := 'Base de dados não encontrada! Infome o caminho do BACKUPXML.FDB)';
+//          repeat
+//            begin
+//              wDataBase := inputbox('Diretório do "BD" ou "S" para sair!', wMSg,'');
+//              if Trim(UpperCase(wDataBase)) = 'S' then
+//               Application.Terminate;
+//
+//              wOk := FileExists(wDataBase);
+//              if wOk then
+//              begin
+//                 pIniArquivo(fArqIni);
+//              end
+//              else
+//              begin
+//                wMSg := 'Arquivo inválido! ou "S" para Sair';
+//              end;
+//
+//            end;
+//          until wOk;
+//        end
+//        else
+//         pIniArquivo(fArqIni);
+//      end
+//      else
+//       pIniArquivo(fArqIni);
+//
+//
+//      if not FileExists(wFBClient)then
+//      begin
+//        if not pTryConexao then
+//          wFBClient := GetCurrentDir+'\MAXXML\fb\fbClient.dll'
+//        else
+//          wFBClient := GetCurrentDir+'\fb\fbClient.dll';
+//
+//        if not FileExists(wFBClient) and pTryConexao then
+//        begin
+//          wMSg := 'FBClient.Dll não encontrada! Infome o caminho da DLL!)';
+//          repeat
+//            begin
+//              wFBClient := inputbox('Diretório da "Dll" ou "S" para sair!', wMSg,'');
+//              if Trim(UpperCase(wFBClient)) = 'S' then
+//               Application.Terminate;
+//
+//              wOk := FileExists(wFBClient);
+//              if wOk then
+//              begin
+//                pIniFbClient(fArqIni);
+//              end
+//              else
+//              begin
+//                wMSg := 'Arquivo inválido! ou "S" para Sair';
+//              end;
+//
+//            end;
+//          until wOk;
+//        end
+//        else
+//         pIniFbClient(fArqIni);
+//      end
+//      else
+//        pIniFbClient(fArqIni);
 
 //      AddLog('LOGMAXXML',GetCurrentDir,'conexaoBD: [INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient +'] ['+wFBClient1+']');
-      prDriver.VendorLib := wFBClient;
 
+      wFBClient := GetCurrentDir;
+      wDataBase := wFBClient;
+      if (ParamCount = 0) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
+      begin
+        AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
+        wFBClient := wFBClient + '\fb\fbClient.dll';
+        AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ wFBClient + ']');
+        wDataBase := wDataBase + '\BACKUPXML.FDB';
+        AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ wDataBase + ']');
+      end
+      else
+      if (ParamCount = 2) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
+      begin
+         AddLog('LOGMAXXML',GetCurrentDir,'2 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
+        wFBClient := wFBClient + '\MAXXML\fb\fbClient.dll'; // fbClient.dll';
+        wDataBase := wDataBase + '\MAXXML\BACKUPXML.FDB';
+      end
+      else
+      begin
+        AddLog('LOGMAXXML',GetCurrentDir,'3 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
+        Application.Terminate;
+      end;
+
+//      if FileExists(wFBClient) or FileExists(wDataBase) then
+//      begin
+//        prDriver.VendorLib := wFBClient;
+//        prCon.Params.Values['Database'] := wDataBase;
+//      end
+//      else
+//      begin
+//        AddLog('LOGMAXXML',GetCurrentDir,'Arquivos podem não existir: ['+ wDataBase+ ']['+ wFBClient +']');
+//        Application.Terminate;
+//      end;
+      prDriver.VendorLib := '';
+      prDriver.VendorLib := ExtractFileName(wFBClient);
+
+      prDriver.VendorHome := '';
+      prDriver.VendorHome := ExtractFileDir(wFBClient);
+      prCon.Params.Values['Database'] := wDataBase;
+      prCon.Params.Values['DriverID']   := 'FBEmbed';
       prCon.Params.Values['User_Name']  := 'sysdba';//wUser;
       prCon.Params.Values['Password']   := 'masterkey';//wSenha;
-      prCon.Params.Values['Database']   := wDataBase;
       prCon.Params.Values['SQLDialect'] := '3';
+
+//      prCon.Params.SaveToFile(GetCurrentDir+'\ParamsLista.log');
 
       prCon.Open;
       Result := prCon.Connected;
 
     except
-//      on E: Exception do
+      on E: Exception do
          begin
-           exit;
-  //         ShowMessage('Erro na rotina ConexaoBD: '+ E.Message);
+           AddLog('LOGMAXXML',GetCurrentDir,'except Conexão: '+ E.Message);
          end;
     end;
   finally
 
     if not Result  then
     begin
-      if not ConexaoBD(prCon, prDriver) then
         Application.Terminate;
     end;
   end;

@@ -12,8 +12,9 @@ object DM_NFEDFE: TDM_NFEDFE
       'Database=E:\BT\7.0\MaxWin\7357\maxxml\BACKUPXML.FDB'
       'DriverID=FBEmbed')
     LoginPrompt = False
-    Left = 19
-    Top = 26
+    AfterConnect = conConexaoFDAfterConnect
+    Left = 20
+    Top = 25
   end
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
@@ -27,13 +28,15 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
-    VendorLib = 'C:\FBClient0\fbClient.dll'
+    VendorHome = 'C:\fb\'
+    VendorLib = 'fbClient.dll'
     OnDriverCreated = DataModuleCreate
     Embedded = True
-    Left = 164
-    Top = 18
+    Left = 163
+    Top = 17
   end
   object sqlConfiguracoes: TFDQuery
+    AfterOpen = sqlConfiguracoesAfterOpen
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (
@@ -48,7 +51,7 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object dsBkpdfe: TDataSource
     DataSet = cdsBkpdfe
-    Left = 24
+    Left = 23
     Top = 216
   end
   object cdsBkpdfe: TClientDataSet
@@ -159,7 +162,8 @@ object DM_NFEDFE: TDM_NFEDFE
     Params = <>
     ProviderName = 'provBkpdfe'
     StoreDefs = True
-    Left = 24
+    AfterOpen = cdsBkpdfeAfterOpen
+    Left = 23
     Top = 80
     object cdsBkpdfeID: TIntegerField
       FieldName = 'ID'
@@ -263,12 +267,13 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 148
   end
   object sqlBkpDfe: TFDQuery
+    AfterOpen = sqlBkpDfeAfterOpen
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (
       'select * from LM_bkpdfe')
     Left = 24
-    Top = 284
+    Top = 286
   end
   object dsUsuarios: TDataSource
     DataSet = cdsUsuarios
@@ -279,6 +284,7 @@ object DM_NFEDFE: TDM_NFEDFE
     Aggregates = <>
     Params = <>
     ProviderName = 'provUsuarios'
+    AfterOpen = cdsUsuariosAfterOpen
     Left = 136
     Top = 80
     object cdsUsuariosID: TIntegerField
@@ -308,17 +314,19 @@ object DM_NFEDFE: TDM_NFEDFE
     Top = 148
   end
   object sqlUsuarios: TFDQuery
+    AfterOpen = sqlUsuariosAfterOpen
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (
       'select * from usuarios')
-    Left = 136
+    Left = 137
     Top = 284
   end
   object cdsConfiguracoes: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'provConfiguracoes'
+    AfterOpen = cdsConfiguracoesAfterOpen
     Left = 248
     Top = 72
     object intgrfldConfiguracoesID: TIntegerField

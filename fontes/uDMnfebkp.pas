@@ -80,6 +80,13 @@ type
     cdsUsuariosCONFIGSALVA: TIntegerField;
 
     procedure DataModuleCreate(Sender: TObject);
+    procedure cdsBkpdfeAfterOpen(DataSet: TDataSet);
+    procedure cdsUsuariosAfterOpen(DataSet: TDataSet);
+    procedure cdsConfiguracoesAfterOpen(DataSet: TDataSet);
+    procedure sqlBkpDfeAfterOpen(DataSet: TDataSet);
+    procedure sqlUsuariosAfterOpen(DataSet: TDataSet);
+    procedure sqlConfiguracoesAfterOpen(DataSet: TDataSet);
+    procedure conConexaoFDAfterConnect(Sender: TObject);
   private
     { Private declarations }
   public
@@ -99,6 +106,49 @@ uses
 
 {$R *.dfm}
 
+procedure TDM_NFEDFE.cdsBkpdfeAfterOpen(DataSet: TDataSet);
+begin
+  try
+
+  except on E: Exception do
+         begin
+           AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'cdsBkpdfeAfterOpen : '+E.Message);
+         end;
+  end;
+
+end;
+
+procedure TDM_NFEDFE.cdsConfiguracoesAfterOpen(DataSet: TDataSet);
+begin
+  try
+
+  except on E: Exception do
+         begin
+           AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'cdsConfiguracoesAfterOpen : '+E.Message);
+         end;
+  end;
+end;
+
+procedure TDM_NFEDFE.cdsUsuariosAfterOpen(DataSet: TDataSet);
+begin
+  try
+  except on E: Exception do
+         begin
+           AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'cdsUsuariosAfterOpen : '+E.Message);
+         end;
+  end;
+end;
+
+procedure TDM_NFEDFE.conConexaoFDAfterConnect(Sender: TObject);
+begin
+  try
+  except on E: Exception do
+         begin
+           AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfeAfterOpen : '+E.Message);
+         end;
+  end;
+end;
+
 procedure TDM_NFEDFE.DataModuleCreate(Sender: TObject);
 begin
   Dao := TDaoFD.Create(conConexaoFD, fdtrTransacao);
@@ -117,6 +167,36 @@ begin
 
 //  ConexaoBD(DM_NFEDFE.conConexaoFD, fddrfbDriver);
 
+end;
+
+procedure TDM_NFEDFE.sqlBkpDfeAfterOpen(DataSet: TDataSet);
+begin
+  try
+  except on E: Exception do
+         begin
+           AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfeAfterOpen : '+E.Message);
+         end;
+  end;
+end;
+
+procedure TDM_NFEDFE.sqlConfiguracoesAfterOpen(DataSet: TDataSet);
+begin
+  try
+  except on E: Exception do
+         begin
+           AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlConfiguracoesAfterOpen : '+E.Message);
+         end;
+  end;
+end;
+
+procedure TDM_NFEDFE.sqlUsuariosAfterOpen(DataSet: TDataSet);
+begin
+  try
+  except on E: Exception do
+         begin
+           AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlUsuariosAfterOpen : '+E.Message);
+         end;
+  end;
 end;
 
 end.
