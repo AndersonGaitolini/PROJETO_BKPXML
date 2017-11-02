@@ -9,7 +9,7 @@ object DM_NFEDFE: TDM_NFEDFE
       'User_Name=sysdba'
       'Password=masterkey'
       '|Database=D:\Programacao\DELPHI\BASE\7357\maxxml\BACKUPXML.FDB'
-      'Database=E:\BT\7.0\MaxWin\7357\maxxml\BACKUPXML.FDB'
+      'Database=D:\Programacao\DELPHI\BASE\7357\MAXXML\BACKUPXML.FDB'
       'DriverID=FBEmbed')
     LoginPrompt = False
     AfterConnect = conConexaoFDAfterConnect
@@ -28,7 +28,7 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
-    VendorHome = 'C:\fb\'
+    VendorHome = 'C:\fb\bin'
     VendorLib = 'fbClient.dll'
     OnDriverCreated = DataModuleCreate
     Embedded = True

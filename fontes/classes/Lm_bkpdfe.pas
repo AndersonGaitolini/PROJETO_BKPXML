@@ -514,18 +514,36 @@ const cAsc = 'Asc'; cdesc = 'desc';
 
 //        wDataSet := sqlBkpDfe;
 //        dsBkpdfe.DataSet := wDataSet;
+
+        DM_NFEDFE.conConexaoFD.Params.SaveToFile(GetCurrentDir+'\parametrosConn.txt');
+
+
+       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfe.Connected: '+BoolToStr(DM_NFEDFE.conConexaoFD.Connected));
+       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfe.Active: '+BoolToStr(sqlBkpDfe.Active));
+       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'fddrfbDriver.VendorHome: '+ DM_NFEDFE.fddrfbDriver.VendorHome  );
+       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'fddrfbDriver.VendorLib: '+ DM_NFEDFE.fddrfbDriver.VendorLib );
+
+        if not DM_NFEDFE.conConexaoFD.Connected then
+          DM_NFEDFE.conConexaoFD.Connected := True;
+
+
         if not sqlBkpDfe.Active then
           sqlBkpDfe.Active := true;
         sqlBkpDfe.Close;
 
-        sqlBkpDfe.Open;
+        sqlBkpDfe.Open(sqlBkpDfe.SQL.Text);
         cdsBkpdfe.Close;
         cdsBkpdfe.Open;
 //        Application.ProcessMessages;
       end;
     except on E: Exception do
+           begin
              ShowMessage('Método: pFiltro!'+#10#13+
              'Exception: '+e.Message);
+
+             if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver) then
+               ShowMessage('Não reconectou!');
+           end;
     end;
   end;
 

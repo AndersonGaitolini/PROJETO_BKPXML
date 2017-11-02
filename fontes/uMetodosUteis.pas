@@ -798,7 +798,7 @@ begin
       if (ParamCount = 0) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
       begin
         AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
-        wFBClient := wFBClient + '\fb\fbClient.dll';
+        wFBClient := wFBClient + '\fb\fbembed.dll';
         AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ wFBClient + ']');
         wDataBase := wDataBase + '\BACKUPXML.FDB';
         AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ wDataBase + ']');
@@ -807,8 +807,8 @@ begin
       if (ParamCount = 2) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
       begin
          AddLog('LOGMAXXML',GetCurrentDir,'2 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
-        wFBClient := wFBClient + '\MAXXML\fb\fbClient.dll'; // fbClient.dll';
-        wDataBase := wDataBase + '\MAXXML\BACKUPXML.FDB';
+//        wFBClient := wFBClient + '\fb\fbembed.dll'; // fbClient.dll';
+        wDataBase := wDataBase + '\BACKUPXML.FDB';
       end
       else
       begin
@@ -826,18 +826,19 @@ begin
 //        AddLog('LOGMAXXML',GetCurrentDir,'Arquivos podem não existir: ['+ wDataBase+ ']['+ wFBClient +']');
 //        Application.Terminate;
 //      end;
-      prDriver.VendorLib := '';
-      prDriver.VendorLib := ExtractFileName(wFBClient);
+      prDriver.VendorLib := 'fbembed.dll';
+//      prDriver.VendorLib := ExtractFileName(wFBClient);
 
       prDriver.VendorHome := '';
-      prDriver.VendorHome := ExtractFileDir(wFBClient);
+      prDriver.VendorHome := GetCurrentDir+'\FB\';
+
       prCon.Params.Values['Database'] := wDataBase;
       prCon.Params.Values['DriverID']   := 'FBEmbed';
       prCon.Params.Values['User_Name']  := 'sysdba';//wUser;
       prCon.Params.Values['Password']   := 'masterkey';//wSenha;
       prCon.Params.Values['SQLDialect'] := '3';
 
-//      prCon.Params.SaveToFile(GetCurrentDir+'\ParamsLista.log');
+      prCon.Params.SaveToFile(GetCurrentDir+'\ParamsLista.log');
 
       prCon.Open;
       Result := prCon.Connected;
