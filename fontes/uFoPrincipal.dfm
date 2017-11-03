@@ -150,7 +150,6 @@ object foPrincipal: TfoPrincipal
   KeyPreview = True
   OldCreateOrder = False
   Position = poDesktopCenter
-  OnActivate = FormActivate
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyUp = FormKeyUp
@@ -265,8 +264,8 @@ object foPrincipal: TfoPrincipal
         220
         48)
       object Shape1: TShape
-        Left = -85
-        Top = -104
+        Left = -93
+        Top = -112
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -276,8 +275,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Shape2: TShape
-        Left = 32
-        Top = -76
+        Left = 24
+        Top = -84
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -287,8 +286,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Shape3: TShape
-        Left = -85
-        Top = -76
+        Left = -93
+        Top = -84
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -298,8 +297,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Shape13: TShape
-        Left = 32
-        Top = -62
+        Left = 24
+        Top = -70
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -310,8 +309,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Shape14: TShape
-        Left = -85
-        Top = -62
+        Left = -93
+        Top = -70
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -321,8 +320,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Shape15: TShape
-        Left = 32
-        Top = -103
+        Left = 24
+        Top = -111
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -332,8 +331,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -41
       end
       object Shape17: TShape
-        Left = -85
-        Top = -90
+        Left = -93
+        Top = -98
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -343,8 +342,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label3: TLabel
-        Left = -69
-        Top = -104
+        Left = -77
+        Top = -112
         Width = 51
         Height = 12
         Anchors = [akRight, akBottom]
@@ -353,8 +352,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Label4: TLabel
-        Left = 46
-        Top = -77
+        Left = 38
+        Top = -85
         Width = 41
         Height = 12
         Anchors = [akRight, akBottom]
@@ -363,8 +362,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -15
       end
       object Label5: TLabel
-        Left = -69
-        Top = -76
+        Left = -77
+        Top = -84
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
@@ -373,8 +372,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Label16: TLabel
-        Left = 46
-        Top = -63
+        Left = 38
+        Top = -71
         Width = 57
         Height = 12
         Anchors = [akRight, akBottom]
@@ -384,8 +383,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -1
       end
       object Label17: TLabel
-        Left = -69
-        Top = -62
+        Left = -77
+        Top = -70
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
@@ -394,8 +393,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Label18: TLabel
-        Left = -69
-        Top = -90
+        Left = -77
+        Top = -98
         Width = 87
         Height = 12
         Anchors = [akRight, akBottom]
@@ -404,8 +403,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label20: TLabel
-        Left = 46
-        Top = -104
+        Left = 38
+        Top = -112
         Width = 67
         Height = 12
         Anchors = [akRight, akBottom]
@@ -414,8 +413,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Shape4: TShape
-        Left = 32
-        Top = -90
+        Left = 24
+        Top = -98
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -425,8 +424,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label1: TLabel
-        Left = 46
-        Top = -91
+        Left = 38
+        Top = -99
         Width = 62
         Height = 12
         Anchors = [akRight, akBottom]
@@ -750,7 +749,7 @@ object foPrincipal: TfoPrincipal
     Left = 300
     Top = 233
     Bitmap = {
-      494C01012C003C00300220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00380220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -7207,13 +7206,17 @@ object foPrincipal: TfoPrincipal
         Caption = 'Config. Usu'#225'rios'
         OnClick = mmConfigUsauriosClick
       end
+      object mmHabiltaLogs: TMenuItem
+        AutoCheck = True
+        Caption = 'Habilta Logs'
+      end
     end
   end
   object ilMenu: TImageList
     Left = 376
     Top = 157
     Bitmap = {
-      494C010103000C00D80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00E00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF
@@ -7558,5 +7561,9 @@ object foPrincipal: TfoPrincipal
   object jopdDirDir: TJvSelectDirectory
     Left = 670
     Top = 244
+  end
+  object dlgOpenPrinc: TOpenDialog
+    Left = 673
+    Top = 160
   end
 end

@@ -38,7 +38,7 @@ Const
      end;
 
   function fIsNumeric(pStr : String) : Boolean;
-  procedure AddLog(pNameLog,pDirLog, aStr: string);
+  procedure AddLog(pNameLog,pDirLog, aStr: string; pActiveAll: boolean = false);
   procedure setINI(pIniFilePath, prSessao, prSubSessao, prValor:string);
   function getINI(pIniFilePath, prSessao, prSubSessao, prValor:string): string;
   function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink; pTryConexao: boolean = false):Boolean;
@@ -443,11 +443,14 @@ begin
    FindClose(Dir);
 end;
 
-procedure AddLog(pNameLog,pDirLog, aStr: string);
+procedure AddLog(pNameLog,pDirLog, aStr: string; pActiveAll: boolean = false);
 var
  ArqLog: string;
  F :TStringList;
   begin
+    if not pActiveAll then
+      exit;
+
     F := TStringList.Create;
     try
       try
@@ -799,16 +802,14 @@ begin
       begin
         AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
         wFBClient := wFBClient + '\fb\fbembed.dll';
-        AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ wFBClient + ']');
         wDataBase := wDataBase + '\BACKUPXML.FDB';
-        AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ wDataBase + ']');
       end
       else
-      if (ParamCount = 2) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
+      if (ParamCount >= 2) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
       begin
-         AddLog('LOGMAXXML',GetCurrentDir,'2 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
-//        wFBClient := wFBClient + '\fb\fbembed.dll'; // fbClient.dll';
-        wDataBase := wDataBase + '\BACKUPXML.FDB';
+        AddLog('LOGMAXXML',GetCurrentDir,'2 ParamStr(0) = ['+ ParamStr(0) + ']');
+        wDataBase := wDataBase + '\MAXXML\BACKUPXML.FDB';
+        wFBClient := wFBClient + '\MAXXML\fb\fbembed.dll';
       end
       else
       begin
@@ -826,27 +827,33 @@ begin
 //        AddLog('LOGMAXXML',GetCurrentDir,'Arquivos podem não existir: ['+ wDataBase+ ']['+ wFBClient +']');
 //        Application.Terminate;
 //      end;
-      prDriver.VendorLib := 'fbembed.dll';
-//      prDriver.VendorLib := ExtractFileName(wFBClient);
+//      prDriver.VendorLib := 'fbembed.dll';
+      prDriver.VendorLib := ExtractFileName(wFBClient);
 
       prDriver.VendorHome := '';
-      prDriver.VendorHome := GetCurrentDir+'\FB\';
+      prDriver.VendorHome := ExtractFileDir(wFBClient);
 
       prCon.Params.Values['Database'] := wDataBase;
       prCon.Params.Values['DriverID']   := 'FBEmbed';
+//      prCon.Params.Values['DriverID']   := 'FB';
       prCon.Params.Values['User_Name']  := 'sysdba';//wUser;
       prCon.Params.Values['Password']   := 'masterkey';//wSenha;
       prCon.Params.Values['SQLDialect'] := '3';
 
-      prCon.Params.SaveToFile(GetCurrentDir+'\ParamsLista.log');
-
       prCon.Open;
       Result := prCon.Connected;
+
+      if ParamCount = 0 then
+        if not prCon.Connected then
+          ShowMessage('Não conectado! Path BD: '+wDataBase);
+
+
 
     except
       on E: Exception do
          begin
-           AddLog('LOGMAXXML',GetCurrentDir,'except Conexão: '+ E.Message);
+           AddLog('LOGMAXXML',GetCurrentDir,'except Conexão -  [VendorHome: ' +  prDriver.VendorHome +'] wDataBase: ['+ wDataBase + ']: Erro:'+
+           #10#13+ E.Message);
          end;
     end;
   finally

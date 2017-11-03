@@ -152,7 +152,7 @@ end;
 procedure TDM_NFEDFE.DataModuleCreate(Sender: TObject);
 begin
   Dao := TDaoFD.Create(conConexaoFD, fdtrTransacao);
-
+  sqlBkpDfe.Connection := conConexaoFD;
   tabConfigpadrao := TConfigpadrao.create;
   daoConfigPadrao := TDaoConfigPadrao.Create;
 

@@ -608,6 +608,7 @@ var
     with ObjetoXML do
     if Pos('Env_NFe',wFileSource) > 0 then
     begin
+
       while wOK do
       begin
         ObjetoXML := TLm_bkpdfe.Create;
@@ -626,7 +627,7 @@ var
           pCopyFiles(wFileSource, tabConfiguracoes.NFePathRejeitado,false);
           FileClose(FindWindow( 0,pWideChar(wFileSource)));
           if DeleteFile(wFileSource) then
-            AddLog('LOGMAXXML',GetCurrentDir,'ErroXML: ['+ wXmlName+']');
+            AddLog('LOGMAXXML',GetCurrentDir,'ErroXML: ['+ wXmlName+']', true);
 
           wErro := FindNext(wFRec);
           wFileSource := wPathFile+'\'+wFRec.Name;
@@ -706,7 +707,10 @@ var
         pCompress(wFileSource, wStream,false);
         Xmlenvio := wStream;
         if wXMLAutorizado then
+        begin
+          Status := 0;
           Xmlextend := wStream;
+        end;
 
         Dataalteracao := Today;
         wArrayObjXML[j-1] := ObjetoXML;
@@ -1491,8 +1495,12 @@ begin
       Result := fGravaXML;
     except on E: Exception do
            begin
-              if wChaveErro.IndexOf(wChaveAux) < 0 then
-                wChaveErro.Add(wChaveAux);
+              if pLote then
+                exit;
+
+                if wChaveErro.IndexOf(wChaveAux) < 0 then
+                   wChaveErro.Add(wChaveAux);
+
 
              if (not wYesAll) then
              begin

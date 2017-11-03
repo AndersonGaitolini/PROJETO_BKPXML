@@ -41,6 +41,7 @@ var
  wMaxOK : boolean;
 {$R *.res}
 begin
+
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
@@ -86,14 +87,19 @@ begin
 
    tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
+   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'LOGIN PARAMS('+ IntToStr(ParamCount)+'): 0['+ParamStr(0) + '] 1['+tabUsuarios.Usuario+'] 2['+ tabUsuarios.Senha+ ']');
    wSenhaAtual := uMetodosUteis.fSenhaAtual('');
+
+
    wPathMAX := ExtractFileDir(ParamStr(0));
    wPathMAX := Copy(wPathMAX, 1, LastDelimiter('\', wPathMAX));
+
    wMaxOK := FileExists(wPathMAX+'MaxWin.exe') or (FileExists(wPathMAX+'MaxEcv.exe'));
-   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: '+ ParamStr(0));
+   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: '+ wPathMAX);
 
    if wMaxOK and (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
+     uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: True e logou');
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
      Application.Run;
@@ -103,6 +109,7 @@ begin
    begin
      DM_NFEDFE.Dao.StartTransaction;
      try
+       uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: True não logou');
        tabUsuarios.Id := Usuarios.daoUsuarios.fNextID(tabUsuarios);
        if DM_NFEDFE.Dao.Inserir(tabUsuarios) = 1 then
        begin
@@ -122,9 +129,9 @@ begin
           DM_NFEDFE.Dao.RollBack;
         end;
      end;
-   end;
-
-   Application.Terminate;
+   end
+   else
+     Application.Terminate;
   end
   else
   if (ParamCount >= 3) then
@@ -137,7 +144,9 @@ begin
     begin
       Application.Terminate;
       exit;
-    end;
+    end
+    else
+      uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'Conectou BD : XML Envio: ' + ParamStr(3));
 
     tabUsuarios.Usuario := Trim(ParamStr(1));
     tabUsuarios.Senha    := Trim(ParamStr(2));
@@ -147,7 +156,8 @@ begin
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
 
-     uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3));
+     if uRotinas.fLoadXMLNFe(tabConfiguracoes, txTodos, false,ParamStr(3)) then
+       uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'fLoadXMLNFe XML: : ' + ParamStr(3), true);
    end;
 
    Application.Terminate;

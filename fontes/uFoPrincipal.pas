@@ -105,6 +105,8 @@ type
     mmDataAlteracao: TMenuItem;
     mmDataRecebimento: TMenuItem;
     jopdDirDir: TJvSelectDirectory;
+    dlgOpenPrinc: TOpenDialog;
+    mmHabiltaLogs: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -115,7 +117,6 @@ type
     procedure ToolButton1Click(Sender: TObject);
     procedure dbgNfebkpTitleClick(Column: TColumn);
     procedure btnInserirClick(Sender: TObject);
-    procedure FormActivate(Sender: TObject);
     procedure btnProcRetornoClick(Sender: TObject);
     procedure btnProcessaEnvioClick(Sender: TObject);
     procedure btnCarregaConfigClick(Sender: TObject);
@@ -292,6 +293,7 @@ end;
 procedure TfoPrincipal.btnFiltrarClick(Sender: TObject);
 begin
   fFiltroEmissaoXML;
+  dbgNfebkp.Refresh;
 end;
 
 procedure TfoPrincipal.btnInserirClick(Sender: TObject);
@@ -358,7 +360,6 @@ begin
   tabConfiguracoes.id := pIDConfig;
   daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
 
-
   edConfiguracao.Visible   := wVisible;
   lbConfig.Visible         := wVisible;
   btnCarregaConfig.Visible := wVisible;
@@ -374,12 +375,6 @@ begin
 end;
 
 procedure TfoPrincipal.pDeleteRowsSelectGrid;
-  procedure pRefreshCDS;
-  begin
-    DM_NFEDFE.cdsBkpdfe.Close;
-    DM_NFEDFE.cdsBkpdfe.Open;
-  end;
-
 begin
   if dbgNfebkp.SelectedRows.Count > 1 then
   begin
@@ -390,14 +385,14 @@ begin
                    'Confirma ?',
        mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
       if fDeleteObjetoXML(wListaSelecionados) then
-        pRefreshCDS;
+        dbgNfebkp.Refresh;;
   end
   else
   if dbgNfebkp.SelectedRows.Count = 1 then
   begin
     if MessageDlg('Deseja excluir o XML selecionado ?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
       if fDeleteObjetoXML(wListaSelecionados) then
-        pRefreshCDS;
+        dbgNfebkp.Refresh;;
   end;
 end;
 
@@ -502,6 +497,7 @@ begin
   foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
 try
   evtTelaUsuarios := etuEditar;
+
   foConsConfiguracoes.Usuarios := tabUsuarios;
   foConsConfiguracoes.ShowModal;
   pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
@@ -550,8 +546,7 @@ begin
       fDeleteObjetoXML(wListaSelecionados);
   end;
 
-  DM_NFEDFE.cdsBkpdfe.Close;
-  DM_NFEDFE.cdsBkpdfe.Open;
+ dbgNfebkp.Refresh;
 end;
 
 procedure TfoPrincipal.mmDelRefazAutTodosClick(Sender: TObject);
@@ -561,8 +556,7 @@ begin
   fDeleteObjetoXML(wListaSelecionados);
   if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
   begin
-    DM_NFEDFE.cdsBkpdfe.Close;
-    DM_NFEDFE.cdsBkpdfe.Open;
+    dbgNfebkp.Refresh;
   end;
 
 end;
@@ -585,8 +579,7 @@ begin
       fDeleteObjetoXML(wListaSelecionados);
   end;
 
-  DM_NFEDFE.cdsBkpdfe.Close;
-  DM_NFEDFE.cdsBkpdfe.Open;
+  dbgNfebkp.Refresh;
 end;
 
 procedure TfoPrincipal.mmExpTodosClick(Sender: TObject);
@@ -604,149 +597,164 @@ begin
 end;
 
 procedure TfoPrincipal.dbgNfebkpTitleClick(Column: TColumn);
-var
-  sIndexName: string;
-  oOrdenacao: TIndexOptions;
-  i: smallint;
-begin
-  // retira a formatação em negrito de todas as colunas
-  for i := 0 to dbgNfebkp.Columns.Count - 1 do
-    dbgNfebkp.Columns[i].Title.Font.Style := [];
+//var
+//  sIndexName: string;
+//  oOrdenacao: TIndexOptions;
+//  i: smallint;
+//begin
+//  try
+//    // retira a formatação em negrito de todas as colunas
+//    for i := 0 to dbgNfebkp.Columns.Count - 1 do
+//      dbgNfebkp.Columns[i].Title.Font.Style := [];
+//
+//    // configura a ordenação ascendente ou descendente
+//    if DM_NFEDFE.cdsBkpdfe.IndexName = Column.FieldName + '_ASC' then
+//    begin
+//      sIndexName := Column.FieldName + '_DESC';
+//      oOrdenacao := [ixDescending];
+//    end
+//    else
+//    begin
+//      sIndexName := Column.FieldName + '_ASC';
+//      oOrdenacao := [];
+//    end;
+//
+//    DM_NFEDFE.cdsBkpdfe.Open;
+//
+//    // adiciona a ordenação no DataSet, caso não exista
+//    if DM_NFEDFE.cdsBkpdfe.IndexDefs.IndexOf(sIndexName) < 0 then
+//      DM_NFEDFE.cdsBkpdfe.AddIndex(sIndexName, Column.FieldName, oOrdenacao);
+//
+//    DM_NFEDFE.cdsBkpdfe.IndexDefs.Update;
+//
+//    // formata o título da coluna em negrito
+//    Column.Title.Font.Style := [fsBold];
+//
+//    // atribui a ordenação selecionada
+//    DM_NFEDFE.cdsBkpdfe.IndexName := sIndexName;
+//
+//
+//
+//    DM_NFEDFE.cdsBkpdfe.close;
+//    DM_NFEDFE.cdsBkpdfe.Open;
+//
+//    DM_NFEDFE.cdsBkpdfe.First;
+//    dbgNfebkp.Refresh;
+//  except
+//
+//  end;
+//end;
 
-  // configura a ordenação ascendente ou descendente
-  if DM_NFEDFE.cdsBkpdfe.IndexName = Column.FieldName + '_ASC' then
-  begin
-    sIndexName := Column.FieldName + '_DESC';
-    oOrdenacao := [ixDescending];
-  end
-  else
-  begin
-    sIndexName := Column.FieldName + '_ASC';
-    oOrdenacao := [];
+var iFirst, iLast: Integer;
+    wDataINI, wDataFIN,DtAUX1,DtAUX2 : TDate;
+    wValue1, wValue2, wValueAux : string;
+    wFieldOrd : TFieldFiltros;
+    wFieldFiltro : TFieldFiltros;
+begin
+  iFirst := 1;
+  iLast := dbgNfebkp.DataSource.DataSet.RecordCount;
+  wFieldOrd := TConvert<TFieldFiltros>.StrConvertEnum('ff'+Column.FieldName);
+  wDataINI := dtpDataFiltroINI.Date;
+  wDataFIN := dtpDataFiltroFIN.Date;
+
+ wFieldFiltro := TConvert<TFieldFiltros>.StrConvertEnum('ff'+dbgNfebkp.Columns[Column.Index].FieldName);
+
+  case wFieldFiltro of
+
+   ffDATARECTO,
+   ffDATAEMISSAO,
+   ffDATAALTERACAO:
+           begin
+             dbgNfebkp.DataSource.DataSet.First;
+             DtAUX1 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsDateTime;
+             dbgNfebkp.DataSource.DataSet.Last;
+             DtAUX2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsDateTime;
+             if DtAUX1 <= DtAUX2 then
+             begin
+               DateTimeToString(wValueAux, 'yyyy/mm/dd',DtAUX1);
+               DateTimeToString(wValue2, 'yyyy/mm/dd', DtAUX2);
+             end
+             else
+             begin
+               DateTimeToString(wValueAux, 'yyyy/mm/dd',DtAUX2);
+               DateTimeToString(wValue2, 'yyyy/mm/dd', DtAUX1);
+             end;
+
+             if wValueAux <> '' then
+               wValueAux := QuotedStr(wValueAux);
+
+             if wValue2 <> '' then
+               wValue2 := QuotedStr(wValue2);
+           end;
+
+    ffIDF_DOCUMENTO:
+       begin
+         dbgNfebkp.DataSource.DataSet.First;
+         wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
+         dbgNfebkp.DataSource.DataSet.Last;
+         wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
+       end;
+
+    ffTIPO,
+    ffCHAVE,
+    ffMOTIVO,
+    ffMOTIVOCANC,
+    ffPROTOCOLOAUT,
+    ffTIPOAMBIENTE,
+    ffPROTOCOLOCANC,
+    ffPROTOCOLORECTO,
+    ffEMAILSNOTIFICADOS:
+    begin
+     dbgNfebkp.DataSource.DataSet.First;
+     wValueAux := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
+     dbgNfebkp.DataSource.DataSet.Last;
+     wValue2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
+
+     if wValueAux <> '' then
+       wValueAux := QuotedStr(wValueAux);
+
+     if wValue2 <> '' then
+       wValue2 := QuotedStr(wValue2);
+    end;
+
+    ffXMLENVIO,
+    ffXMLEXTEND,
+    ffXMLENVIOCANC,
+    ffXMLEXTENDCANC:
+    begin
+     dbgNfebkp.DataSource.DataSet.First;
+     wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
+     dbgNfebkp.DataSource.DataSet.Last;
+     wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
+    end;
   end;
 
-  // adiciona a ordenação no DataSet, caso não exista
-  if DM_NFEDFE.cdsBkpdfe.IndexDefs.IndexOf(sIndexName) < 0 then
-    DM_NFEDFE.cdsBkpdfe.AddIndex(sIndexName, Column.FieldName, oOrdenacao);
+  if wValueAux > wValue2 then
+  begin
+    wValue1 := wValue2;
+    wValue2 := wValueAux;
+  end
+  else
+  wValue1 := wValueAux;
 
-  DM_NFEDFE.cdsBkpdfe.IndexDefs.Update;
+  if wLastOrderBy = obyNone then
+    wLastOrderBy:= obyASCENDENTE;
 
-  // formata o título da coluna em negrito
-  Column.Title.Font.Style := [fsBold];
+  DaoObjetoXML.fFiltraOrdena(wFieldOrd,wLastOrderBy, Column.FieldName,wDataINI, wDataFIN,'','');
 
-  // atribui a ordenação selecionada
-  DM_NFEDFE.cdsBkpdfe.IndexName := sIndexName;
+  if wLastOrderBy = obyASCENDENTE then
+    wLastOrderBy := obyDESCEDENTE
+  else
+   wLastOrderBy := obyASCENDENTE;
 
-  DM_NFEDFE.cdsBkpdfe.First;
+  if wLastColunm >= 0 then
+    dbgNfebkp.Columns[wLastColunm].Title.Font.Style := [];
+
+  dbgNfebkp.Columns[Column.Index].Title.Font.Style := [fsBold];
+  wLastColunm := Column.Index;
+
+  dbgNfebkp.Refresh;
 end;
-//var iFirst, iLast: Integer;
-//    wDataINI, wDataFIN,DtAUX1,DtAUX2 : TDate;
-//    wValue1, wValue2, wValueAux : string;
-//    wFieldOrd : TFieldFiltros;
-//    wFieldFiltro : TFieldFiltros;
-//begin
-//  iFirst := 1;
-//  iLast := dbgNfebkp.DataSource.DataSet.RecordCount;
-//  wFieldOrd := TConvert<TFieldFiltros>.StrConvertEnum('ff'+Column.FieldName);
-//  wDataINI := dtpDataFiltroINI.Date;
-//  wDataFIN := dtpDataFiltroFIN.Date;
-//
-// wFieldFiltro := TConvert<TFieldFiltros>.StrConvertEnum('ff'+dbgNfebkp.Columns[Column.Index].FieldName);
-//
-//  case wFieldFiltro of
-//
-//   ffDATARECTO,
-//   ffDATAEMISSAO,
-//   ffDATAALTERACAO:
-//           begin
-//             dbgNfebkp.DataSource.DataSet.First;
-//             DtAUX1 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsDateTime;
-//             dbgNfebkp.DataSource.DataSet.Last;
-//             DtAUX2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsDateTime;
-//             if DtAUX1 <= DtAUX2 then
-//             begin
-//               DateTimeToString(wValueAux, 'yyyy/mm/dd',DtAUX1);
-//               DateTimeToString(wValue2, 'yyyy/mm/dd', DtAUX2);
-//             end
-//             else
-//             begin
-//               DateTimeToString(wValueAux, 'yyyy/mm/dd',DtAUX2);
-//               DateTimeToString(wValue2, 'yyyy/mm/dd', DtAUX1);
-//             end;
-//
-//             if wValueAux <> '' then
-//               wValueAux := QuotedStr(wValueAux);
-//
-//             if wValue2 <> '' then
-//               wValue2 := QuotedStr(wValue2);
-//           end;
-//
-//    ffIDF_DOCUMENTO:
-//       begin
-//         dbgNfebkp.DataSource.DataSet.First;
-//         wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
-//         dbgNfebkp.DataSource.DataSet.Last;
-//         wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsInteger);
-//       end;
-//
-//    ffTIPO,
-//    ffCHAVE,
-//    ffMOTIVO,
-//    ffMOTIVOCANC,
-//    ffPROTOCOLOAUT,
-//    ffTIPOAMBIENTE,
-//    ffPROTOCOLOCANC,
-//    ffPROTOCOLORECTO,
-//    ffEMAILSNOTIFICADOS:
-//    begin
-//     dbgNfebkp.DataSource.DataSet.First;
-//     wValueAux := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
-//     dbgNfebkp.DataSource.DataSet.Last;
-//     wValue2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
-//
-//     if wValueAux <> '' then
-//       wValueAux := QuotedStr(wValueAux);
-//
-//     if wValue2 <> '' then
-//       wValue2 := QuotedStr(wValue2);
-//    end;
-//
-//    ffXMLENVIO,
-//    ffXMLEXTEND,
-//    ffXMLENVIOCANC,
-//    ffXMLEXTENDCANC:
-//    begin
-//     dbgNfebkp.DataSource.DataSet.First;
-//     wValueAux := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
-//     dbgNfebkp.DataSource.DataSet.Last;
-//     wValue2 := IntToStr(dbgNfebkp.DataSource.DataSet.FieldByName('id').AsInteger);
-//    end;
-//  end;
-//
-//  if wValueAux > wValue2 then
-//  begin
-//    wValue1 := wValue2;
-//    wValue2 := wValueAux;
-//  end
-//  else
-//  wValue1 := wValueAux;
-//
-//  if wLastOrderBy = obyNone then
-//    wLastOrderBy:= obyASCENDENTE;
-//
-//  DaoObjetoXML.fFiltraOrdena(wFieldOrd,wLastOrderBy, Column.FieldName,wDataINI, wDataFIN,'','');
-//
-//  if wLastOrderBy = obyASCENDENTE then
-//    wLastOrderBy := obyDESCEDENTE
-//  else
-//   wLastOrderBy := obyASCENDENTE;
-//
-//  if wLastColunm >= 0 then
-//    dbgNfebkp.Columns[wLastColunm].Title.Font.Style := [];
-//
-//  dbgNfebkp.Columns[Column.Index].Title.Font.Style := [fsBold];
-//  wLastColunm := Column.Index;
-//end;
 
 procedure TfoPrincipal.dtpDataFiltroFinKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
@@ -963,15 +971,6 @@ begin
 //  end;
 end;
 
-procedure TfoPrincipal.FormActivate(Sender: TObject);
-begin
-//  if DM_NFEDFE.cdsBkpdfe.Active then;
-//  begin
-//    DM_NFEDFE.cdsBkpdfe.Close;
-//    DM_NFEDFE.cdsBkpdfe.Open;
-//  end;
-end;
-
 procedure TfoPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FreeAndNil(wListaSelecionados);
@@ -1042,12 +1041,8 @@ end;
 procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
   pDataFiltro;
-//  if not DM_NFEDFE.cdsBkpdfe.Active then
-//    DM_NFEDFE.cdsBkpdfe.Active := true;
-
-//  DM_NFEDFE.cdsBkpdfe.Close;
-//  DM_NFEDFE.cdsBkpdfe.Open;
-//  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  dbgNfebkp.Refresh;
 end;
 
 procedure TfoPrincipal.pSalveName(pFieldName: string; var wFileName: string);
@@ -1167,9 +1162,7 @@ begin
 
     if fLoadXMLNFeLista(wListaSelecionados)then
     begin
-      DM_NFEDFE.cdsBkpdfe.Close;
-      DM_NFEDFE.cdsBkpdfe.Open;
-
+      dbgNfebkp.Refresh;
       ShowMessage('Autorizações selecionadas reprocessadas!');
     end;
   end;
@@ -1186,9 +1179,7 @@ begin
 
   if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
   begin
-    DM_NFEDFE.cdsBkpdfe.Close;
-    DM_NFEDFE.cdsBkpdfe.Open;
-
+    dbgNfebkp.Refresh;
     ShowMessage('Autorizações reprocessadas!');
   end;
 
@@ -1269,9 +1260,7 @@ begin
            ObjetoXML := TLm_bkpdfe.Create;
 
         dsBkpdfe.DataSet :=  dao.SelectAll(ObjetoXML);
-        cdsBkpdfe.close;
-        cdsBkpdfe.Open;
-
+        dbgNfebkp.Refresh;
        result := true;
       end;
     except

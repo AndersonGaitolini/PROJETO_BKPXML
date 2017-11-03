@@ -3,7 +3,6 @@ inherited foConsUsuario: TfoConsUsuario
   ClientHeight = 287
   ClientWidth = 359
   Position = poMainFormCenter
-  OnClose = FormClose
   OnShow = FormShow
   ExplicitWidth = 375
   ExplicitHeight = 326
@@ -12,8 +11,8 @@ inherited foConsUsuario: TfoConsUsuario
   inherited pnlCentral: TPanel
     Width = 359
     Height = 203
-    ExplicitWidth = 357
-    ExplicitHeight = 191
+    ExplicitWidth = 359
+    ExplicitHeight = 203
     inherited dbgConsulta: TDBGrid
       Width = 357
       Height = 201
@@ -51,13 +50,13 @@ inherited foConsUsuario: TfoConsUsuario
   inherited statMsg: TStatusBar
     Top = 268
     Width = 359
-    ExplicitTop = 256
-    ExplicitWidth = 357
+    ExplicitTop = 268
+    ExplicitWidth = 359
   end
   inherited JvToolBar1: TJvToolBar
     Width = 359
     Images = ilCadastro
-    ExplicitWidth = 357
+    ExplicitWidth = 359
     object btnInserir: TToolButton
       Left = 0
       Top = 0
@@ -84,7 +83,7 @@ inherited foConsUsuario: TfoConsUsuario
     Left = 556
     Top = 16
     Bitmap = {
-      494C010104000C00000110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C00040110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

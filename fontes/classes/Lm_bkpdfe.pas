@@ -4,7 +4,7 @@ interface
 
 uses
   Base, System.SysUtils, Atributos, System.Classes,Data.DB, uDMnfebkp,FireDAC.Comp.Client,Vcl.DBGrids,
-  Datasnap.DBClient, Datasnap.Provider,Vcl.Forms,Vcl.Dialogs;
+  Datasnap.DBClient, Datasnap.Provider,Vcl.Forms,Vcl.Dialogs,Vcl.Controls;
 type
   TPushXML = (pshNone, pshEnvio1st, pshEnvioSinc);
   TLoadXML = (lxNone,lxXMLEnvio, lxXMLProc, lxXMLRetSai, lxXMLArquivo, lxXMLFull);
@@ -243,7 +243,7 @@ begin
           if (pObjXML.Id < 1) then
             pObjXML.Id := FieldByName('id').AsInteger;
 
-          if (pObjXML.Status = 0) then
+          if (pObjXML.Status >= 0) then
             pObjXML.Status := FieldByName('Status').AsInteger;
 
           if (pObjXML.Chave = '') then
@@ -437,24 +437,17 @@ const cAsc = 'Asc'; cdesc = 'desc';
         data1STR := QuotedStr(data1STR);
         DateTimeToString(data2STR, 'yyyy/mm/dd', pDtFin);
         data2STR := QuotedStr(data2STR);
-        SQL.Clear;
-        SQL.Add('Select * from lm_bkpdfe ');
-        SQL.Add( 'where ');
-        str1 := Format('(%s between %s and %s) ',[pFieldName,data1STR, data2STR]);
-        SQL.Add(str1);
+
+        str1 := ('Select * from lm_bkpdfe where ');
+        str1 :=  str1 + Format('(%s between %s and %s) ',[pFieldName,data1STR, data2STR]);
 
         if pUpDown = obyNone then
         begin
-          str1 := Format(' order by %s %s',[pFieldOrder, wUpDown]);
-          SQL.Add(str1);
+          str1 := str1 + Format(' order by %s %s',[pFieldOrder, wUpDown]);
         end;
 
-        sqlBkpDfe.Open;
-        wDataSet := sqlBkpDfe;
-        dsBkpdfe.DataSet := wDataSet;
-        cdsBkpdfe.Close;
-        cdsBkpdfe.Open;
-        Application.ProcessMessages;
+
+
       end;
     except on E: Exception do
                ShowMessage('Método: pFiltroData!'+#10#13+
@@ -467,10 +460,12 @@ const cAsc = 'Asc'; cdesc = 'desc';
       auxFF : TFieldFiltros;
       wList : TList;
       i:Integer;
+      wFilename: string;
+      wOpen : TOpenDialog;
   begin
-    wList := TList.Create;
     auxFF := TConvert<TFieldFiltros>.StrConvertEnum('ff'+pFieldOrder);
     wOrdData := ((auxFF = ffDATARECTO) or (auxFF = ffDATAALTERACAO) or (auxFF = ffDATAEMISSAO));
+    //    wOrdData := ((pFieldOrder = 'DATARECTO') or (pFieldOrder = 'DATAALTERACAO') or (pFieldOrder = 'DATAEMISSAO)'));
     try
       with DM_NFEDFE do
       begin
@@ -479,62 +474,20 @@ const cAsc = 'Asc'; cdesc = 'desc';
         DateTimeToString(data2STR, 'yyyy/mm/dd', pDtFin);
         data2STR := QuotedStr(data2STR);
 
-        sqlBkpDfe.SQL.Clear;
-        sqlBkpDfe.SQL.Add('Select * from lm_bkpdfe ');
-
+        str1 := str1 + 'Select * from lm_bkpdfe where ';
         if wOrdData then
         begin
-          sqlBkpDfe.SQL.Add( 'where ');
-          str1 := Format('(%s between %s and %s) ',[pFieldOrder, data1STR, data2STR]);
-          sqlBkpDfe.SQL.Add(str1);
+          str1 := str1 +  Format('(%s between %s and %s) ',[pFieldOrder, data1STR, data2STR]);
         end
         else
         begin
-          sqlBkpDfe.SQL.Add( 'where ');
-          str1 := Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
-          sqlBkpDfe.SQL.Add(str1);
+          str1 := str1 + Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
         end;
-
 
         if pUpDown <> obyNone then
-        begin
-          str1 := Format(' order by %s %s',[pFieldOrder, wUpDown]);
-          sqlBkpDfe.SQL.Add(str1);
-        end;
+          str1 := str1 + Format(' order by %s %s',[pFieldOrder, wUpDown]);
 
-//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'SQL FiltroData: '+ sqlBkpDfe.SQL.Text);
-//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'VendorLib: '+ DM_NFEDFE.fddrfbDriver.VendorLib);
-//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'DriverNAme: '+ sqlBkpDfe.Connection.DriverName);
-
-//        sqlBkpDfe.Connection.Params.SaveToFile(GetCurrentDir+'\Params.txt');
-
-//        AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfe ' );
-//        sqlBkpDfe.Close;
-//        sqlBkpDfe.Open;
-
-//        wDataSet := sqlBkpDfe;
-//        dsBkpdfe.DataSet := wDataSet;
-
-        DM_NFEDFE.conConexaoFD.Params.SaveToFile(GetCurrentDir+'\parametrosConn.txt');
-
-
-       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfe.Connected: '+BoolToStr(DM_NFEDFE.conConexaoFD.Connected));
-       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'sqlBkpDfe.Active: '+BoolToStr(sqlBkpDfe.Active));
-       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'fddrfbDriver.VendorHome: '+ DM_NFEDFE.fddrfbDriver.VendorHome  );
-       AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'fddrfbDriver.VendorLib: '+ DM_NFEDFE.fddrfbDriver.VendorLib );
-
-        if not DM_NFEDFE.conConexaoFD.Connected then
-          DM_NFEDFE.conConexaoFD.Connected := True;
-
-
-        if not sqlBkpDfe.Active then
-          sqlBkpDfe.Active := true;
-        sqlBkpDfe.Close;
-
-        sqlBkpDfe.Open(sqlBkpDfe.SQL.Text);
-        cdsBkpdfe.Close;
-        cdsBkpdfe.Open;
-//        Application.ProcessMessages;
+        dsBkpdfe.DataSet := DM_NFEDFE.Dao.ConsultaSql(str1);
       end;
     except on E: Exception do
            begin

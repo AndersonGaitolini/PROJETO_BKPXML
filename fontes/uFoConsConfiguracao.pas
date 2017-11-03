@@ -54,10 +54,8 @@ begin
   with daoConfiguracoes, DM_NFEDFE do
   begin
     DataSetAux := Dao.ConsultaAll(tabConfiguracoes, 'id');
-    provConfiguracoes.DataSet := DataSetAux;
-
-    cdsConfiguracoes.Close;
-    cdsConfiguracoes.Open;
+    dsConfiguracoes.DataSet := DataSetAux;
+    dbgConsulta.Refresh;
   end;
   finally
 //    FreeAndNil(DataSetAux);
@@ -234,22 +232,16 @@ end;
 
 {Métodos do form}
 procedure TfoConsConfiguracoes.pShowTabela;
-var DataSetAux : TDataSet;
 begin
-  DataSetAux := TDataSet.Create(Application);
   try
-  with daoConfiguracoes, DM_NFEDFE do
-  begin
-    tabConfiguracoes.IDusuario := FUsuarios.ID;
-//    Dao.Buscar(tabConfiguracoes);
+    with daoConfiguracoes, DM_NFEDFE do
+    begin
+      tabConfiguracoes.IDusuario := FUsuarios.ID;
+      dsConfiguracoes.DataSet :=  Dao.ConsultaTab(tabConfiguracoes,['idusuario']);
+      dbgConsulta.Refresh;
+    end;
+  except
 
-    DataSetAux := Dao.ConsultaTab(tabConfiguracoes,['idusuario']);
-    provConfiguracoes.DataSet := DataSetAux;
-    cdsConfiguracoes.Close;
-    cdsConfiguracoes.Open;
-  end;
-  finally
-    FreeAndNil(DataSetAux);
   end;
 end;
 end.

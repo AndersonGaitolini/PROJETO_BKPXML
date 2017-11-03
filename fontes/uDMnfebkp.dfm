@@ -8,17 +8,18 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      '|Database=D:\Programacao\DELPHI\BASE\7357\maxxml\BACKUPXML.FDB'
-      'Database=D:\Programacao\DELPHI\BASE\7357\MAXXML\BACKUPXML.FDB'
-      'DriverID=FBEmbed')
+      'Database=E:\BT\7.0\MaxWin\ELITE2\MAXXML\BACKUPXML.FDB'
+      '|Database=D:\Programacao\DELPHI\BASE\7357\MAXXML\BACKUPXML.FDB'
+      'DriverID=FBEmbed'
+      'Pooled=False')
     LoginPrompt = False
     AfterConnect = conConexaoFDAfterConnect
-    Left = 20
-    Top = 25
+    Left = 18
+    Top = 24
   end
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
-    Left = 244
+    Left = 243
     Top = 26
   end
   object fdWaitCursor: TFDGUIxWaitCursor
@@ -28,7 +29,7 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
-    VendorHome = 'C:\fb\bin'
+    VendorHome = 'C:\fb'
     VendorLib = 'fbClient.dll'
     OnDriverCreated = DataModuleCreate
     Embedded = True
@@ -163,7 +164,7 @@ object DM_NFEDFE: TDM_NFEDFE
     ProviderName = 'provBkpdfe'
     StoreDefs = True
     AfterOpen = cdsBkpdfeAfterOpen
-    Left = 23
+    Left = 24
     Top = 80
     object cdsBkpdfeID: TIntegerField
       FieldName = 'ID'

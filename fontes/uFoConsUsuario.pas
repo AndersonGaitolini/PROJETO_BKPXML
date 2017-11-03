@@ -87,24 +87,22 @@ begin
 end;
 
 procedure TfoConsUsuario.pShowTabela;
-var wDataSetAux : TDataSet;
-    wSQL : string;
+var wSQL : string;
 begin
-  wDataSetAux := TDataSet.Create(Application);
   try
-  with daoUsuarios, DM_NFEDFE do
-  begin
+    with daoUsuarios, DM_NFEDFE do
+    begin
+      try
+        wSQL := '';
+        wSQL := wSQL + 'Select * from usuarios order by id asc';
+        dsUsuarios.DataSet := Dao.ConsultaSql(wSQL);
+        dbgConsulta.Refresh;
+      except
 
-    wSQL := '';
-    wSQL := wSQL + '';
-    wSQL := wSQL + 'Select * from usuarios order by id asc';
-    wDataSetAux := Dao.ConsultaSql(wSQL);
-    provUsuarios.DataSet := wDataSetAux;
-    cdsUsuarios.Close;
-    cdsUsuarios.Open;
-  end;
+      end;
+    end;
   finally
-    FreeAndNil(wDataSetAux);
+
   end;
 end;
 
