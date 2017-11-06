@@ -44,7 +44,7 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
-
+  Lm_bkpdfe.CNPJDOC.Create;
   if (ParamCount = 0) then
   begin
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, true) then

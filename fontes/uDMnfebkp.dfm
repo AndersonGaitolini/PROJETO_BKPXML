@@ -1,8 +1,8 @@
 object DM_NFEDFE: TDM_NFEDFE
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 343
-  Width = 328
+  Height = 276
+  Width = 350
   object conConexaoFD: TFDConnection
     Params.Strings = (
       'CharacterSet=WIN1252'
@@ -12,20 +12,21 @@ object DM_NFEDFE: TDM_NFEDFE
       '|Database=D:\Programacao\DELPHI\BASE\7357\MAXXML\BACKUPXML.FDB'
       'DriverID=FBEmbed'
       'Pooled=False')
+    Connected = True
     LoginPrompt = False
     AfterConnect = conConexaoFDAfterConnect
-    Left = 18
+    Left = 24
     Top = 24
   end
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
-    Left = 243
-    Top = 26
+    Left = 252
+    Top = 24
   end
   object fdWaitCursor: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 96
-    Top = 18
+    Left = 100
+    Top = 24
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
@@ -33,27 +34,18 @@ object DM_NFEDFE: TDM_NFEDFE
     VendorLib = 'fbClient.dll'
     OnDriverCreated = DataModuleCreate
     Embedded = True
-    Left = 163
-    Top = 17
-  end
-  object sqlConfiguracoes: TFDQuery
-    AfterOpen = sqlConfiguracoesAfterOpen
-    Connection = conConexaoFD
-    Transaction = fdtrTransacao
-    SQL.Strings = (
-      'select * from configuracoes')
-    Left = 248
-    Top = 276
+    Left = 176
+    Top = 24
   end
   object dsConfiguracoes: TDataSource
     DataSet = cdsConfiguracoes
-    Left = 248
-    Top = 208
+    Left = 171
+    Top = 85
   end
   object dsBkpdfe: TDataSource
     DataSet = cdsBkpdfe
-    Left = 23
-    Top = 216
+    Left = 173
+    Top = 203
   end
   object cdsBkpdfe: TClientDataSet
     Aggregates = <>
@@ -66,6 +58,19 @@ object DM_NFEDFE: TDM_NFEDFE
       item
         Name = 'STATUS'
         DataType = ftSmallint
+      end
+      item
+        Name = 'EMPRESA'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'FILIAL'
+        DataType = ftSmallint
+      end
+      item
+        Name = 'CNPJ'
+        DataType = ftString
+        Size = 14
       end
       item
         Name = 'CHAVE'
@@ -164,8 +169,8 @@ object DM_NFEDFE: TDM_NFEDFE
     ProviderName = 'provBkpdfe'
     StoreDefs = True
     AfterOpen = cdsBkpdfeAfterOpen
-    Left = 24
-    Top = 80
+    Left = 21
+    Top = 203
     object cdsBkpdfeID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
@@ -175,6 +180,10 @@ object DM_NFEDFE: TDM_NFEDFE
     object cdsBkpdfeSTATUS: TSmallintField
       FieldName = 'STATUS'
       Origin = 'STATUS'
+    end
+    object cdsBkpdfeCNPJ: TStringField
+      FieldName = 'CNPJ'
+      Size = 14
     end
     object cdsBkpdfeCHAVE: TStringField
       FieldName = 'CHAVE'
@@ -264,8 +273,8 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object provBkpdfe: TDataSetProvider
     DataSet = sqlBkpDfe
-    Left = 24
-    Top = 148
+    Left = 97
+    Top = 203
   end
   object sqlBkpDfe: TFDQuery
     AfterOpen = sqlBkpDfeAfterOpen
@@ -273,21 +282,21 @@ object DM_NFEDFE: TDM_NFEDFE
     Transaction = fdtrTransacao
     SQL.Strings = (
       'select * from LM_bkpdfe')
-    Left = 24
-    Top = 286
+    Left = 250
+    Top = 204
   end
   object dsUsuarios: TDataSource
     DataSet = cdsUsuarios
-    Left = 136
-    Top = 216
+    Left = 170
+    Top = 145
   end
   object cdsUsuarios: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'provUsuarios'
     AfterOpen = cdsUsuariosAfterOpen
-    Left = 136
-    Top = 80
+    Left = 18
+    Top = 145
     object cdsUsuariosID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
@@ -311,8 +320,8 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object provUsuarios: TDataSetProvider
     DataSet = sqlUsuarios
-    Left = 136
-    Top = 148
+    Left = 94
+    Top = 145
   end
   object sqlUsuarios: TFDQuery
     AfterOpen = sqlUsuariosAfterOpen
@@ -320,16 +329,16 @@ object DM_NFEDFE: TDM_NFEDFE
     Transaction = fdtrTransacao
     SQL.Strings = (
       'select * from usuarios')
-    Left = 137
-    Top = 284
+    Left = 246
+    Top = 145
   end
   object cdsConfiguracoes: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'provConfiguracoes'
     AfterOpen = cdsConfiguracoesAfterOpen
-    Left = 248
-    Top = 72
+    Left = 19
+    Top = 85
     object intgrfldConfiguracoesID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -423,8 +432,16 @@ object DM_NFEDFE: TDM_NFEDFE
     end
   end
   object provConfiguracoes: TDataSetProvider
-    DataSet = sqlConfiguracoes
-    Left = 248
-    Top = 140
+    Left = 95
+    Top = 85
+  end
+  object sqlConfiguracoes: TFDQuery
+    AfterOpen = sqlConfiguracoesAfterOpen
+    Connection = conConexaoFD
+    Transaction = fdtrTransacao
+    SQL.Strings = (
+      'select * from configuracoes')
+    Left = 247
+    Top = 85
   end
 end

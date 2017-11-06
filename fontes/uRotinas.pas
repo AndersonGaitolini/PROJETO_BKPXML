@@ -9,16 +9,17 @@ uses
  Vcl.Buttons, Vcl.ExtCtrls, System.IniFiles,
  Data.SqlExpr, FireDAC.Comp.Client,Vcl.ComCtrls, System.ZLib,uDMnfebkp,
  Xml.XMLDoc,Xml.XMLIntf, uMetodosUteis,Data.DB,System.Zip,System.DateUtils,
- Usuarios, ShellAPI, TlHelp32, Comobj;
+ Usuarios, ShellAPI, TlHelp32, Comobj,System.StrUtils;
 
  type TOperArquivos = (oaReplace, oaAdd, oaDescarta);
 //Demo
 procedure pLeituradaNFE;
 function fGetIdf_DocPelaChave(pChave: string):Integer;
+function fGetCNPJPelaChave(pChave: string):string;
 //Métodos para importar e exportar arquivos XML
 function fExportaLoteXML(pLista: TStringList):Boolean;
 function fDeleteObjetoXML(pLista: TStringList):Boolean;
-//function fLoadXMLNFe(pTipoXML: TTipoXML; ; pChaveNFE: string = ''; pEmail : string = ''): Boolean;
+//function fLoadXMLNFe(pTipoXML: TTipoXML; pChaveNFE: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFe(pObjConfig : TConfiguracoes; pTiposXML: TTipoXML; pLote: boolean = false; pChave: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFeLista(pLista : TStringList): Boolean;
 //Métodos de Compressão
@@ -529,6 +530,7 @@ begin
   end;
 end;
 
+//function fLoadXMLNFe(pObjConfig : TConfiguracoes; pTiposXML: TTipoXML; pLote: boolean = false; pChave: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFe(pObjConfig : TConfiguracoes; pTiposXML: TTipoXML; pLote: boolean = false; pChave: string = ''; pEmail : string = ''): Boolean;
 var
   wDataSet   : TDataSet;
@@ -540,9 +542,9 @@ var
   wErro, j: integer;
   XMLArq     : TXMLDocument;
   wArrayObjXML : array of TLm_bkpdfe;
-  wNodeXML, wNodeInfNFe, wNodeNfeProc: IXMLNode;
+  wNodeXML, wNodeInfNFe, wNodeNfeProc, wNodeDest, wNodeEmit: IXMLNode;
   wFileSource, wFileDest: string;
-  wXmlName, wZipName,wChaveAux,wPathFile: string;
+  wXmlName, wZipName,wChaveAux,wPathFile, wCNPJAux: string;
   wXMLEnvio, wXMLAutorizado,wOK, wYesAll: boolean;
 
  function fGetChaveFilename(pFileName : string): string;
@@ -611,9 +613,11 @@ var
 
       while wOK do
       begin
+
         ObjetoXML := TLm_bkpdfe.Create;
         Status := stNada;
         wXmlName := ExtractFileName(wFileSource);
+        wCNPJAux :=  fGetCNPJPelaChave(wXmlName);
         wChaveAux := fGetChaveFilename(wXmlName);
 
         Tipo := '1';
@@ -668,6 +672,14 @@ var
                   Tipoambiente := 'Homologação';
               end;
 
+              wNodeDest := wNodeXML.NextSibling;
+              if Assigned(wNodeDest) and (wNodeDest.NodeName = 'emit') then
+              begin
+                CNPJ := funcvarXML(wNodeDest.ChildNodes['CNPJ']);
+                if wCNPJAux <> CNPJ then
+                  ShowMessage('CNPJ da Chave difere da tag <CNPJ> do Desitinatário');
+              end;
+
               Status := stEnvio;
             end;
 
@@ -708,7 +720,6 @@ var
         Xmlenvio := wStream;
         if wXMLAutorizado then
         begin
-          Status := 0;
           Xmlextend := wStream;
         end;
 
@@ -783,6 +794,7 @@ var
               else
                 Tipoambiente := 'Homologação';
               chave := funcvarXML(wNodeXML.ChildNodes['chNFe']);
+              CNPJ := fGetCNPJPelaChave(chave);
               if wChaveAux <> Chave then
                 exit;
               Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
@@ -821,6 +833,7 @@ var
                   Motivocanc := copy(Motivocanc,1,20);
 
                 Chave := funcvarXML(wNodeXML.ChildNodes['chNFe']);
+                CNPJ := fGetCNPJPelaChave(Chave);
                 if wChaveAux <> Chave then
                   exit;
 
@@ -873,6 +886,7 @@ var
         Tipo := '1';
         Status := stNada;
         Chave := fGetChaveFilename(wXmlName);
+        CNPJ  := fGetCNPJPelaChave(Chave);
         wStream := TMemoryStream.Create;
         wFileStream := TFileStream.Create(wFileSource,0);
         XMLArq.LoadFromStream(wFileStream,xetUTF_8);
@@ -922,507 +936,6 @@ var
       end;
     end;
   end;
-
-
-//  procedure pXMLEnvioExtend;
-//  var SLCannotRead : TStringList;
-//  begin
-//    J := 0;
-//    Result := False;
-//    wChaveAux :='';
-//    wErro := FindFirst(wPathFile+'\'+ cEnv_, faAnyFile, wFRec);
-//    wOK := wErro = 0;
-//    SLCannotRead := TStringList.Create;
-//    with ObjetoXML do
-//    while wOK do
-//    begin
-//      wXmlName := wFRec.Name;
-//      ObjetoXML := TLm_bkpdfe.Create;
-//      Chave := fGetChaveFilename(wXmlName);
-//      Inc(J,1);
-//      SetLength(wArrayObjXML, J);
-//
-//      if Pos('Env_',wXmlName) > 0 then
-//      begin
-//        wFileSource := wPathFile+'\'+wXmlName;
-//        wStream := TMemoryStream.Create;
-//        wFileStream := TFileStream.Create(wFileSource,0);
-//
-//        XMLArq.LoadFromStream(wFileStream,xetUTF_8);
-//        wNodeXML := XMLArq.documentElement;
-//        wNodeXML := wNodeXML.ChildNodes.First;
-//        if Assigned(wNodeXML) then
-//        begin
-//          if Assigned(wNodeXML) and (wNodeXML.NodeName = 'NFe') then
-//          wNodeInfNFe := wNodeXML.ChildNodes.First;
-//          if Assigned(wNodeInfNFe) and (wNodeInfNFe.NodeName = 'infNFe') then
-//          begin
-//            Chave := wNodeInfNFe.AttributeNodes.FindNode('Id').text;
-//            Chave := Copy(Chave,4,44);
-//
-//            wNodeInfNFe := wNodeInfNFe.ChildNodes.First;
-//            if Assigned(wNodeInfNFe) and (wNodeInfNFe.NodeName = 'ide') then
-//            begin
-//              Idf_documento := StrToInt64Def(funcvarXML(wNodeInfNFe.ChildNodes['nNF']),0);
-//              Dataemissao := DateXMLToDate(funcvarXML(wNodeInfNFe.ChildNodes['dhEmi']));
-//              Tipoambiente :=  funcvarXML(wNodeInfNFe.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//              if Tipoambiente = '1' then
-//                Tipoambiente := 'Produção'
-//              else
-//              Tipoambiente := 'Homologação';
-//            end;
-//
-//            Dataalteracao := Today;
-//          end;
-//
-//          wNodeXML := wNodeXML.NextSibling; //ChildNodes.First;
-//          if Assigned(wNodeXML) and (wNodeXML.NodeName = 'protNFe') then
-//          begin
-//            wNodeXML := wNodeXML.ChildNodes.First;
-//            if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infProt') then
-//            begin
-//              if Tipoambiente <> '' then
-//              begin
-//                Tipoambiente :=  funcvarXML(wNodeXML.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//                if Tipoambiente = '1' then
-//                  Tipoambiente := 'Produção'
-//                else
-//                Tipoambiente := 'Homologação';
-//              end;
-//
-//              if Chave <> '' then
-//              begin
-//                wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
-//                if Chave <> wChaveAux then
-//                   ShowMessage('Chaves do arquivo XML diferem');
-//              end;
-//
-//              Datarecto := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhRecbto']));
-//              Protocoloaut := funcvarXML(wNodeXML.ChildNodes['nProt']);
-//              Motivo :=  funcvarXML(wNodeXML.ChildNodes['xMotivo']);
-//              if Length(Motivo) > 20 then
-//              Motivo := Copy(Motivo,1,20);
-//              Dataalteracao := Today;
-//            end;
-//          end
-//          else
-//          begin
-//            FileClose(wFileStream.Handle);
-//            wOK := (FindNext(wFRec)= 0);
-//            Continue
-//          end;
-//        end;
-//      end;
-//
-//      FileClose(wFileStream.Handle);
-//      pCompress(wFileSource, wStream,false);
-//      Xmlextend := wStream;
-//
-//      wArrayObjXML[j-1] := ObjetoXML;
-//      wErro := FindNext(wFRec);
-//      wOK := (wErro = 0);
-//    end;
-//
-//    //Verifica os XML Cancelados Can_0000000000000000.xml
-//
-//
-//    wOK := FindFirst(wPathFile+'\'+cCan_, faAnyFile, wFRec)=0;
-//    with ObjetoXML do
-//    while wOK do
-//    begin
-//      wXmlName := wFRec.Name;
-//      ObjetoXML := TLm_bkpdfe.Create;
-//      Chave := fGetChaveFilename(wXmlName);
-//
-//      Inc(J,1);
-//      SetLength(wArrayObjXML, J);
-//
-//      if Pos('Can_',wXmlName) > 0 then
-//      begin
-//        wFileSource := wPathFile+'\'+wXmlName;
-//        wStream := TMemoryStream.Create;
-//        wFileStream := TFileStream.Create(wFileSource,0);
-//        XMLArq.LoadFromStream(wFileStream);
-//        wNodeXML := XMLArq.documentElement;
-//        wNodeXML := wNodeXML.ChildNodes.First;
-//
-//        if Assigned(wNodeXML) then
-//        begin
-//          if Assigned(wNodeXML) and (wNodeXML.NodeName = 'cancNFe') then
-//          wNodeXML := wNodeXML.ChildNodes.First;
-//
-//          if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infCanc') then
-//          begin
-//            Tipoambiente := funcvarXML(wNodeXML.ChildNodes['tpAmb']);
-//            if Tipoambiente = '1' then
-//              Tipoambiente := 'Produção'
-//            else
-//              Tipoambiente := 'Homologação';
-//            Chave := funcvarXML(wNodeXML.ChildNodes['chNFe']);
-//            Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
-//            Motivocanc := funcvarXML(wNodeXML.ChildNodes['xJust']);
-//            if Length(Motivocanc)>20 then
-//              Motivocanc := copy(Motivocanc,1,20);
-//
-//            Dataalteracao := Today;
-//          end
-//        end;
-//      end;
-//
-//      wErro := FindNext(wFRec);
-//      wOK := (wErro = 0);
-//      FileClose(wFileStream.Handle);
-//      pCompress(wFileSource,wStream,false);
-//      Xmlextendcanc := wStream;
-//      wArrayObjXML[j-1] := ObjetoXML;
-//    end;
-//  end;
-
-//  procedure pXMLEnvio;
-//  begin
-//    wChaveAux :='';
-//    J := 0;
-//    wErro := FindFirst(wPathFile+'\'+ cEnv_, faAnyFile, wFRec);
-//    wOK := wErro = 0;
-//
-//    while wOK do
-//    begin
-//      ObjetoXML := TLm_bkpdfe.Create;
-//      Inc(J,1);
-//      SetLength(wArrayObjXML, J);
-//      with ObjetoXML do
-//      begin
-//        wXmlName := wFRec.Name;
-//        Chave := fGetChaveFilename(wXmlName);
-//        if Pos('Env_NFe',wXmlName) > 0 then
-//        begin
-//          wFileSource := wPathFile+'\'+wXmlName;
-//          wStream := TMemoryStream.Create;
-//          wFileStream := TFileStream.Create(wFileSource,0);
-//          XMLArq.LoadFromStream(wFileStream,xetUTF_8);
-//          wNodeXML := XMLArq.documentElement;
-//          wNodeXML.ChildNodes.Count;
-//
-//           wNodeXML := wNodeXML.ChildNodes.First;
-//          if Assigned(wNodeXML) then
-//          begin
-//             if Assigned(wNodeXML) and (wNodeXML.NodeName = 'NFe') then
-//             begin
-//               wNodeXML := wNodeXML.ChildNodes.First;
-//               if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infNFe') then
-//               begin
-//                 wChaveAux := wNodeXML.Attributes['Id'];
-//                 wChaveAux := Copy(wChaveAux,4,44);
-//               end;
-//
-//               wNodeXML := wNodeXML.ChildNodes.First;
-//               if Assigned(wNodeXML) and (wNodeXML.NodeName = 'ide') then
-//               begin
-//                 Idf_documento := StrToInt64Def(funcvarXML(wNodeXML.ChildNodes['nNF']),0);
-//                 Dataemissao := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhEmi']));
-//                 Tipoambiente :=  funcvarXML(wNodeXML.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//                 if Tipoambiente = '1' then
-//                   Tipoambiente := 'Produção'
-//                 else
-//                 Tipoambiente := 'Homologação';
-//                 if Chave <> wChaveAux then
-//                   ShowMessage('Chaves do arquivo XML diferem');
-//
-//                 Dataalteracao := Today;
-//               end;
-//             end
-//             else
-//             begin
-//               if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infNFe') then
-//               begin
-//                 wChaveAux := wNodeXML.Attributes['Id'];
-//                 wChaveAux := Copy(wChaveAux,4,44);
-//
-//                 wNodeXML := wNodeXML.ChildNodes.First;
-//                 if Assigned(wNodeXML) and (wNodeXML.NodeName = 'ide') then
-//                 begin
-//                   Idf_documento := StrToInt64Def(funcvarXML(wNodeXML.ChildNodes['nNF']),0); // Código sequencial NFe
-//                   Dataemissao := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhEmi']));
-//                   Tipoambiente :=  funcvarXML(wNodeXML.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//                   if Tipoambiente = '1' then
-//                     Tipoambiente := 'Produção'
-//                   else
-//                   Tipoambiente := 'Homologação';
-//
-//                   if Chave <> wChaveAux then
-//                     ShowMessage('Chaves do arquivo XML diferem');
-//                   Dataalteracao := Today;
-//                 end;
-//               end;
-//             end;
-//          end;
-//        end;
-//
-//        FileClose(wFileStream.Handle);
-//        pCompress(wFileSource,wStream,False);
-//        Xmlenvio := wStream;
-//        wErro := FindNext(wFRec);
-//        wOK := (wErro = 0);
-//        wArrayObjXML[j-1] := ObjetoXML;
-//      end;
-//    end;
-//  end;
-
-//  procedure pXMLEnvioPelaChave;
-//  begin
-//    J := 0;
-//    wChaveAux :='';
-//    if not fOpenFileName(['*.xml'],['XML'], wPathFile, 'Aponte o seu XML') then
-//       Exit;
-//
-//    with ObjetoXML do
-//    if Pos('Env_NFe',wPathFile) > 0 then
-//    begin
-//      ObjetoXML := TLm_bkpdfe.Create;
-//      J := J+1;
-//      SetLength(wArrayObjXML, J);
-//
-//      Chave := fGetChaveFilename(wPathFile);
-//      wFileSource := wPathFile;
-//      wStream := TMemoryStream.Create;
-//      wFileStream := TFileStream.Create(wFileSource,0);
-//      XMLArq.LoadFromStream(wFileStream,xetUTF_8);
-//      wNodeXML := XMLArq.documentElement;
-//      wNodeXML.ChildNodes.Count;
-//
-//       wNodeXML := wNodeXML.ChildNodes.First;
-//      if Assigned(wNodeXML) then
-//      begin
-//         if Assigned(wNodeXML) and (wNodeXML.NodeName = 'NFe') then
-//         begin
-//           wNodeInfNFe := wNodeXML.ChildNodes.First;
-//           if Assigned(wNodeInfNFe) and (wNodeInfNFe.NodeName = 'infNFe') then
-//           begin
-//             wChaveAux := wNodeInfNFe.Attributes['Id'];
-//             wChaveAux := Copy(wChaveAux,4,44);
-//           end;
-//
-//           wNodeXML := wNodeXML.ChildNodes.First;
-//           if Assigned(wNodeXML) and (wNodeXML.NodeName = 'ide') then
-//           begin
-//             Idf_documento := StrToInt64Def(funcvarXML(wNodeXML.ChildNodes['nNF']),0);
-//             Dataemissao := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhEmi']));
-//             Tipoambiente :=  funcvarXML(wNodeXML.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//             if Tipoambiente = '1' then
-//               Tipoambiente := 'Produção'
-//             else
-//             Tipoambiente := 'Homologação';
-//             if Chave <> wChaveAux then
-//               ShowMessage('Chaves do arquivo XML diferem');
-//
-//             pCompress(wFileSource, wStream,False);
-//             Xmlenvio := wStream;
-//             Dataalteracao := Today;
-//           end;
-//         end
-//         else
-//         begin
-//           if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infNFe') then
-//           begin
-//             wChaveAux := wNodeXML.Attributes['Id'];
-//             wChaveAux := Copy(wChaveAux,4,44);
-//
-//             wNodeXML := wNodeXML.ChildNodes.First;
-//             if Assigned(wNodeXML) and (wNodeXML.NodeName = 'ide') then
-//             begin
-//               Idf_documento := StrToInt64Def(funcvarXML(wNodeXML.ChildNodes['nNF']),0); // Código sequencial NFe
-//               Dataemissao := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhEmi']));
-//               Tipoambiente :=  funcvarXML(wNodeXML.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//               if Tipoambiente = '1' then
-//                 Tipoambiente := 'Produção'
-//               else
-//               Tipoambiente := 'Homologação';
-//
-//               if Chave <> wChaveAux then
-//                 ShowMessage('Chaves do arquivo XML diferem');
-//
-//               pCompress(wFileSource, wStream,False);
-//               Xmlextend := wStream;
-//               Dataalteracao := Today;
-//             end;
-//           end;
-//         end;
-//      end;
-//
-//      FileClose(wFileStream.Handle);
-//      wArrayObjXML[j-1] := ObjetoXML;
-//    end;
-//
-//    with ObjetoXML do
-//    if Pos('Can_',wPathFile) > 0 then
-//    begin
-//      ObjetoXML := TLm_bkpdfe.Create;
-//      Chave := fGetChaveFilename(wPathFile);
-////      if not wDaoXML.fConsultaObjXML(ObjetoXML,['chave']) then
-////      begin
-////        if (MessageDlg( 'O XML com a chave: '+chave+ ' não foi lido ainda.'+#13#13+
-////            'Deseja incluir mesmo assim?', mtInformation, [mbYes, mbNo],0) = mrNo)then
-////        Exit;
-////      end;
-//
-//      Inc(J,1);
-//      SetLength(wArrayObjXML, J);
-//
-//      wFileSource := wPathFile;
-//      wStream := TMemoryStream.Create;
-//      wFileStream := TFileStream.Create(wFileSource,0);
-//      XMLArq.LoadFromStream(wFileStream);
-//      wNodeXML := XMLArq.documentElement;
-//      wNodeXML.ChildNodes.Count;
-//      wNodeXML := wNodeXML.ChildNodes.First;
-//      if Assigned(wNodeXML) then
-//      begin
-//        if Assigned(wNodeXML) and (wNodeXML.NodeName = 'cancNFe') then
-//        wNodeXML := wNodeXML.ChildNodes.First;
-//
-//        if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infCanc') then
-//        begin
-//          Tipoambiente := funcvarXML(wNodeXML.ChildNodes['tpAmb']);
-//          if Tipoambiente = '1' then
-//            Tipoambiente := 'Produção'
-//          else
-//            Tipoambiente := 'Homologação';
-//          Chave := funcvarXML(wNodeXML.ChildNodes['chNFe']);
-//          Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
-//          Motivocanc := funcvarXML(wNodeXML.ChildNodes['xJust']);
-//          if Length(Motivocanc)>20 then
-//            Motivocanc := copy(Motivocanc,1,20);
-//
-//          Dataalteracao := Today;
-//        end
-//      end;
-//
-//      FileClose(wFileStream.Handle);
-//      pCompress(wFileSource, wStream,False);
-//      Xmlextendcanc := wStream;
-//      wArrayObjXML[j-1] := ObjetoXML;
-//    end;
-//
-//  end;
-
-//  procedure pXMLRetorno;
-//  begin
-//    J := 0;
-//    wChaveAux :='';
-//    wErro := FindFirst(wPathFile+'\'+ cRetsai_, faAnyFile, wFRec);
-//    wOK := wErro = 0;
-//    while wOK do
-//    begin
-//      Inc(J,1);
-//      ObjetoXML := TLm_bkpdfe.Create;
-//      SetLength(wArrayObjXML, J);
-//      with ObjetoXML do
-//      begin
-//        wXmlName := wFRec.Name;
-//        Chave := fGetChaveFilename(wXmlName);
-//        if Pos('retsai_NFe',wXmlName) > 0 then
-//        begin
-//          wFileSource := wPathFile+'\'+wXmlName;
-//          wStream := TMemoryStream.Create;
-//          wFileStream := TFileStream.Create(wFileSource,0);
-//          XMLArq.LoadFromStream(wFileStream,xetUTF_8);
-//          wNodeXML := XMLArq.documentElement;
-//          wNodeXML.ChildNodes.Count;
-//          wNodeXML := wNodeXML.ChildNodes.First;
-//          if Assigned(wNodeXML) then
-//          begin
-//            if wNodeXML.NodeName = 'protNFe' then
-//            begin
-//              wNodeXML := wNodeXML.ChildNodes.First;
-//              if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infProt') then
-//              begin
-//                Tipoambiente :=  funcvarXML(wNodeInfNFe.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//                if Tipoambiente = '1' then
-//                  Tipoambiente := 'Produção'
-//                else
-//                Tipoambiente := 'Homologação';
-//                wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
-//                Datarecto := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhRecbto']));
-//                Protocoloaut := funcvarXML(wNodeXML.ChildNodes['nProt']);
-//                Motivo :=  funcvarXML(wNodeXML.ChildNodes['xMotivo']);
-//                if Length(Motivo) > 20 then
-//                Motivo := Copy(Motivo,1,20);
-//                Dataalteracao := Today;
-//              end;
-//            end
-//          end;
-//        end;
-//        wErro := FindNext(wFRec);
-//
-//        FileClose(wFileStream.Handle);
-//        wOK := (wErro = 0);
-//        wArrayObjXML[j-1] := ObjetoXML;
-//      end;
-//    end;
-//  end;
-
-//  procedure pXMLRetEven;
-//  begin
-//    J := 0;
-//    wErro := FindFirst(wPathFile+'\'+ cRetEven, faAnyFile, wFRec);
-//    wOK := wErro = 0;
-//    while wOK do
-//    begin
-//      ObjetoXML := TLm_bkpdfe.Create;
-//      Inc(J,1);
-//      SetLength(wArrayObjXML, J);
-//      with ObjetoXML do
-//      begin
-//        strAUX := '';
-//        wXmlName := wFRec.Name;
-//
-//        Chave := fGetChaveFilename(wXmlName);
-//        if Pos('reteven_',wXmlName) > 0 then
-//        begin
-////          if not wDaoXML.fConsultaObjXML(ObjetoXML,['chave']) then
-////          begin
-////            ShowMessage('Este xml ainda nao foi adcionado ao banco'+#10#13+wXmlName );
-////          end;
-//
-//          wFileSource := wPathFile+'\'+wXmlName;
-//          wStream := TMemoryStream.Create;
-//          wFileStream := TFileStream.Create(wFileSource,0);
-//          XMLArq.LoadFromStream(wFileStream,xetUTF_8);
-//          wNodeXML := XMLArq.documentElement;
-//          wNodeXML.ChildNodes.Count;
-//
-//          if Assigned(wNodeXML) then
-//          begin
-//            if wNodeXML.NodeName = 'infEvento' then
-//            begin
-//              wNodeXML := wNodeXML.ChildNodes.First;
-//              Tipoambiente :=  funcvarXML(wNodeInfNFe.ChildNodes['tpAmb']); // Tipo de Ambiente da Nota Fiscal(Produção/Homologação)
-//              if Tipoambiente = '1' then
-//                Tipoambiente := 'Produção'
-//              else
-//              Tipoambiente := 'Homologação';
-//              wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
-//              Datarecto := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhRegEvento']));
-//              Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
-//              Motivocanc :=  funcvarXML(wNodeXML.ChildNodes['xMotivo']);
-//
-//              if Length(Motivocanc) > 20 then
-//                Motivocanc := Copy(Motivocanc,1,20);
-//
-//               Dataalteracao := Today;
-//            end
-//          end;
-//         FileClose(wFileStream.Handle);
-//        end;
-//
-//        wErro := FindNext(wFRec);
-//        pCompress(wFileSource, wStream,False);
-//        Xmlenviocanc := wStream;
-//        wOK := (wErro = 0);
-//        wArrayObjXML[j-1] := ObjetoXML;
-//      end;
-//    end;
-//  end;
 
   function fCarregaPath:boolean;
   var
@@ -1877,6 +1390,48 @@ begin
   begin
     pChave := Copy(pChave, 33,9);
     Result := StrToIntDef(pChave,0);
+    exit;
+  end;
+end;
+
+function fGetCNPJPelaChave(pChave: string):string;
+var wLen: Integer;
+begin
+  Result := '';
+
+  if pChave= '' then
+    exit;
+  wLen := Length(pChave);
+
+  if (wLen = 44) then
+  begin
+    pChave := Copy(pChave, 08,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+
+  if (wLen = 52) and (pos('Can_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 11,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+
+  if (wLen = 53) and (pos('Inut_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 12,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+
+  if (wLen = 55) and (pos('Env_NFe',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 14,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
     exit;
   end;
 end;

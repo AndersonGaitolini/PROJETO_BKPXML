@@ -107,6 +107,8 @@ type
     jopdDirDir: TJvSelectDirectory;
     dlgOpenPrinc: TOpenDialog;
     mmHabiltaLogs: TMenuItem;
+    lbEmp: TLabel;
+    edEmpresa: TEdit;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -198,6 +200,7 @@ var
   wLastColunm,AtualColunm,i  : Integer;
   wUpDown,
   wLastOrderBy: TOrdenaBy;
+  wLastField : string;
   wLoadXML : TLoadXML;
   SLXMLEnv :TStringList;
   wListaSelecionados : TStringList;
@@ -239,7 +242,7 @@ procedure TfoPrincipal.btnCanEnvioArqClick(Sender: TObject);
 var wFilename: string;
 begin
   fOpenFile('Selecione o XML de Cancelamento', wFilename,['XML | *.*xml'],1);
-  fLoadXMLNFe(tabConfiguracoes,txCan_, False, wFilename);
+  fLoadXMLNFe(tabConfiguracoes,txCan_,False, wFilename);
   btnFiltrarClick(Sender);
 end;
 
@@ -247,7 +250,7 @@ procedure TfoPrincipal.btnCanEnvioExtClick(Sender: TObject);
 var wFilename: string;
 begin
   fOpenFile('Selecione o XML de Cancelamento processado', wFilename,['XML | *.*xml'],1);
-  fLoadXMLNFe(tabConfiguracoes,txCan_Ext, False, wFilename);
+  fLoadXMLNFe(tabConfiguracoes,txCan_Ext,False, wFilename);
   btnFiltrarClick(Sender);
 end;
 
@@ -280,14 +283,14 @@ begin
   fOpenFile('Selecione o XML de Envio processado', wFilename,['XML | *.*xml'],1);
   fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt, False, wFilename);
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnEnvioLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txNFE_EnvLote, True);
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnFiltrarClick(Sender: TObject);
@@ -696,6 +699,7 @@ begin
        end;
 
     ffTIPO,
+    ffCNPJ,
     ffCHAVE,
     ffMOTIVO,
     ffMOTIVOCANC,
@@ -705,16 +709,16 @@ begin
     ffPROTOCOLORECTO,
     ffEMAILSNOTIFICADOS:
     begin
-     dbgNfebkp.DataSource.DataSet.First;
-     wValueAux := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
-     dbgNfebkp.DataSource.DataSet.Last;
-     wValue2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
+      dbgNfebkp.DataSource.DataSet.First;
+      wValueAux := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
+      dbgNfebkp.DataSource.DataSet.Last;
+      wValue2 := dbgNfebkp.DataSource.DataSet.FieldByName(Column.FieldName).AsString;
 
-     if wValueAux <> '' then
-       wValueAux := QuotedStr(wValueAux);
+      if wValueAux <> '' then
+        wValueAux := QuotedStr(wValueAux);
 
-     if wValue2 <> '' then
-       wValue2 := QuotedStr(wValue2);
+      if wValue2 <> '' then
+        wValue2 := QuotedStr(wValue2);
     end;
 
     ffXMLENVIO,
@@ -740,7 +744,8 @@ begin
   if wLastOrderBy = obyNone then
     wLastOrderBy:= obyASCENDENTE;
 
-  DaoObjetoXML.fFiltraOrdena(wFieldOrd,wLastOrderBy, Column.FieldName,wDataINI, wDataFIN,'','');
+  wLastField := Column.FieldName;
+  DaoObjetoXML.fFiltraOrdena(wFieldOrd,wLastOrderBy,wLastField ,wDataINI, wDataFIN,CNPJDOC,'');
 
   if wLastOrderBy = obyASCENDENTE then
     wLastOrderBy := obyDESCEDENTE
@@ -799,7 +804,7 @@ begin
      dtpDataFiltroFin.Date := dtpDataFiltroINI.Date;
 
   if dtpDataFiltroINI.Date <= dtpDataFiltroFin.Date then
-    DaoObjetoXML.fFiltraOrdena(wFieldFiltros, wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+    DaoObjetoXML.fFiltraOrdena(wFieldFiltros, wLastOrderBy, wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, CNPJDOC.Documento);
 end;
 
 procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
@@ -1019,13 +1024,17 @@ begin
   wLoadXML := lxNone;
   wLastColunm := -1;
   wLastOrderBy := obyNone;
-  wFieldFiltros := ffDATAEMISSAO;
-  pMenuFiltroData(wFieldFiltros);
 
-//  pIniciaDBCheckBox;
   wListaSelecionados := TStringList.Create;
 
+  if Assigned(CNPJDOC) then
+  begin
+    edEmpresa.Text := CNPJDOC.Fantasia;
+    wLastField := CNPJDOC.Documento;
+  end;
 
+  wFieldFiltros := ffDATAEMISSAO;
+  pMenuFiltroData(wFieldFiltros);
 end;
 
 procedure TfoPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
@@ -1041,7 +1050,7 @@ end;
 procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,wLastOrderBy,wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, CNPJDOC.Documento);
   dbgNfebkp.Refresh;
 end;
 

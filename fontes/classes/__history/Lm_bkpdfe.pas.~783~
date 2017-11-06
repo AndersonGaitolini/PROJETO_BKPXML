@@ -10,28 +10,13 @@ type
   TLoadXML = (lxNone,lxXMLEnvio, lxXMLProc, lxXMLRetSai, lxXMLArquivo, lxXMLFull);
   TTipoXML = (txTodos, txNFE_Env, txNFe_EnvExt,txNFE_EnvLote, txNFe_EnvExtLote, txRet_Sai, txCan_, txCan_Ext, txCan_Lote, txCan_ExtLote, txRetEven);
 
-type
-  TCNPJDOC = class(TObject)
-   private 
-   FDocumento: String;
-   FFantasia : String;
-   FParametro: boolean;
-   procedure setDocumento(const Value: string);
-   procedure setParametro(const Value: boolean);
-
-   public
-   property Fantasia : String read FFantasia write FFantasia;
-   property Documento: String read FDocumento write setDocumento;
-   property Parametro: boolean read FParametro write setParametro;
-  end;
-
   [attTabela('LM_BKPDFE')]
   TLm_bkpdfe = class(TTabela)
   private
     FId: Integer;
     FStatus : Integer;
-//    FEmpresa: SmallInt;
-//    FFilial :SmallInt;
+    FEMPRESA: SmallInt;
+    FFILIAL :SmallInt;
     FCNPJ : string;
     FChave: string;
     FIdf_documento: Integer;
@@ -58,7 +43,10 @@ type
     [attPK]
     property Id: Integer read FId write FId;
     property Status : Integer read FStatus write FStatus;
-    property CNPJ: string read FCNPJ write FCNPJ;
+
+    FEMPRESA: SmallInt;
+    FFILIAL :SmallInt;
+    FCNPJ : string;
     property Chave: string read FChave write FChave;
     property Idf_documento: Integer read FIdf_documento write FIdf_documento;
     property Dataemissao: TDate read FDataemissao write FDataemissao;
@@ -85,9 +73,6 @@ type
   TFieldFiltros  = (ffID,
                     ffStatus,
                     ffCHAVE,
-//                    ffEmpresa,
-//                    ffFilial,
-                    ffCNPJ,
                     ffIDF_DOCUMENTO,
                     ffDATAEMISSAO,
                     ffDATARECTO,
@@ -123,8 +108,7 @@ type
     function fConsDeleteObjXML(var pObjXML  : TLm_bkpdfe; pCampos: array of string): Boolean;
 
     procedure pLimpaObjetoXML(var pObjXML   : TLm_bkpdfe);
-    procedure fFiltraOrdena(pFieldNameOrder : TFieldFiltros = ffDATAEMISSAO; pUpDown: TOrdenaBy = obyNone;
-      pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
+    procedure fFiltraOrdena(pFieldNameOrder : TFieldFiltros = ffDATAEMISSAO; pUpDown: TOrdenaBy = obyNone;pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
 
   end;
 
@@ -133,7 +117,6 @@ type
    DaoObjetoXML : TDaoBkpdfe;
    FieldFiltros : TFieldFiltros;
    Ordenaby     : TOrdenaBy;
-   CNPJDOC  : TCNPJDOC;
 
 implementation
 
@@ -270,15 +253,6 @@ begin
 
           if (pObjXML.Status >= 0) then
             pObjXML.Status := FieldByName('Status').AsInteger;
-//
-//          if pObjXML.Empresa >= 0 then
-//            pObjXML.Empresa := FieldByName('Empresa').AsInteger;
-//
-//          if pObjXML.Filial >= 0 then
-//            pObjXML.Filial := FieldByName('Filial').AsInteger;
-
-          if pObjXML.CNPJ = '' then
-            pObjXML.CNPJ := FieldByName('CNPJ').AsString;
 
           if (pObjXML.Chave = '') then
             pObjXML.Chave := FieldByName('chave').AsString;
@@ -511,18 +485,15 @@ const cAsc = 'Asc'; cdesc = 'desc';
         str1 := str1 + 'Select * from lm_bkpdfe where ';
         if wOrdData then
         begin
-          str1 := str1 +  Format('(%s between %s and %s ) ',[pFieldOrder, data1STR, data2STR]);
+          str1 := str1 +  Format('(%s between %s and %s) ',[pFieldOrder, data1STR, data2STR]);
         end
         else
         begin
-          if wV1Empty then
-            str1 := str1 + Format('(%s like %s ) and ',[pFieldName, pValue1]); 
-
-          str1 := str1 + Format('(DATAALTERACAO between %s and %s ) ',[data1STR, data2STR]);
+          str1 := str1 + Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
         end;
 
         if pUpDown <> obyNone then
-          str1 := str1 + Format('order by %s %s',[pFieldOrder, wUpDown]);
+          str1 := str1 + Format(' order by %s %s',[pFieldOrder, wUpDown]);
 
         dsBkpdfe.DataSet := DM_NFEDFE.Dao.ConsultaSql(str1);
       end;
@@ -600,11 +571,8 @@ begin
   with pObjXML do
   begin
     id := 0;
-    Status := 9;
-//    Empresa := 0;
-//    Filial := 0;
-    CNPJ := '';
     Chave := '';
+    Status := 0;
     Idf_documento := 0;
     Dataemissao := 0;
     Datarecto := 0;
@@ -624,20 +592,6 @@ begin
     CampoStream  := nil;
     Selecao := '';
   end;
-end;
-
-{ TCNPJDOC }
-procedure TCNPJDOC.setDocumento(const Value: string);
-begin
-  if fValidaCNPJ(Value) then
-   FDocumento := Value
-  else
-   FDocumento := ''   ;
-end;
-
-procedure TCNPJDOC.setParametro(const Value: boolean);
-begin
-  FParametro := Value;
 end;
 
 end.

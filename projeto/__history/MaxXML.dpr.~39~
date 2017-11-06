@@ -44,7 +44,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
-
   if (ParamCount = 0) then
   begin
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, true) then
@@ -99,7 +98,7 @@ begin
    begin
      if ParamCount = 3 then
      begin
-
+       Lm_bkpdfe.CNPJDOC.Create;
        Lm_bkpdfe.CNPJDOC.Documento := Trim(ParamStr(3));
        Lm_bkpdfe.CNPJDOC.Fantasia := Trim(ParamStr(4));
        Lm_bkpdfe.CNPJDOC.Parametro := true;

@@ -511,18 +511,16 @@ const cAsc = 'Asc'; cdesc = 'desc';
         str1 := str1 + 'Select * from lm_bkpdfe where ';
         if wOrdData then
         begin
-          str1 := str1 +  Format('(%s between %s and %s ) ',[pFieldOrder, data1STR, data2STR]);
+          str1 := str1 +  Format('(%s between %s and %s) ',[pFieldOrder, data1STR, data2STR]);
         end
         else
         begin
-          if wV1Empty then
-            str1 := str1 + Format('(%s like %s ) and ',[pFieldName, pValue1]); 
-
-          str1 := str1 + Format('(DATAALTERACAO between %s and %s ) ',[data1STR, data2STR]);
+          str1 := str1 + Format('(DATAALTERACAO between %s and %s) ',[data1STR, ]]]data2STR]); 
+          str1 := str1 + Format('(DATAALTERACAO between %s and %s) ',[data1STR, data2STR]);
         end;
 
         if pUpDown <> obyNone then
-          str1 := str1 + Format('order by %s %s',[pFieldOrder, wUpDown]);
+          str1 := str1 + Format(' order by %s %s',[pFieldOrder, wUpDown]);
 
         dsBkpdfe.DataSet := DM_NFEDFE.Dao.ConsultaSql(str1);
       end;

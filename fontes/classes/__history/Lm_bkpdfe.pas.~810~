@@ -515,9 +515,9 @@ const cAsc = 'Asc'; cdesc = 'desc';
         end
         else
         begin
-          if wV1Empty then
-            str1 := str1 + Format('(%s like %s ) and ',[pFieldName, pValue1]); 
-
+          if pFieldName <> '' then
+          
+          str1 := str1 + Format('(%s like %s ) and ',[pFieldName, pValue1]); 
           str1 := str1 + Format('(DATAALTERACAO between %s and %s ) ',[data1STR, data2STR]);
         end;
 

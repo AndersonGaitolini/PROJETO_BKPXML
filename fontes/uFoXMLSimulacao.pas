@@ -40,7 +40,7 @@ begin
   if Trim(edEmail.Text) <> '' then
       pEmail := Trim(edEmail.Text);
 
- if fLoadXMLNFe(tabConfiguracoes, txTodos, false, Trim(edXML.Text), pEmail) then
+ if fLoadXMLNFe(tabConfiguracoes, txTodos,false, Trim(edXML.Text), pEmail) then
    CLose
  else
     ShowMessage('Não carregou XML');

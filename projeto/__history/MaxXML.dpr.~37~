@@ -44,7 +44,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
-
   if (ParamCount = 0) then
   begin
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, true) then
@@ -74,7 +73,7 @@ begin
       Application.Terminate; //Encerra a aplicação  end
   end
   else
-  if ParamCount in [4] then
+  if ParamCount = 3 then
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
@@ -97,13 +96,8 @@ begin
 
    if wMaxOK and (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
-     if ParamCount = 3 then
-     begin
-
-       Lm_bkpdfe.CNPJDOC.Documento := Trim(ParamStr(3));
-       Lm_bkpdfe.CNPJDOC.Fantasia := Trim(ParamStr(4));
-       Lm_bkpdfe.CNPJDOC.Parametro := true;
-     end;
+     Lm_bkpdfe.CNPJDOC.Create;
+     Lm_bkpdfe.CNPJDOC.Documento := Trim(ParamStr(3));
 
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
@@ -130,8 +124,8 @@ begin
      except
         on E: Exception do
         begin
-          if DM_NFEDFE.Dao.InTransaction then
-            DM_NFEDFE.Dao.RollBack;
+        if DM_NFEDFE.Dao.InTransaction then
+          DM_NFEDFE.Dao.RollBack;
         end;
      end;
    end

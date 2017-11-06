@@ -5,7 +5,7 @@ object foPrincipal: TfoPrincipal
   BorderWidth = 1
   Caption = 'SOUIS MAX XML'
   ClientHeight = 452
-  ClientWidth = 817
+  ClientWidth = 825
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -155,14 +155,14 @@ object foPrincipal: TfoPrincipal
   OnKeyUp = FormKeyUp
   OnShow = FormShow
   DesignSize = (
-    817
+    825
     452)
   PixelsPerInch = 96
   TextHeight = 12
   object pnlControles: TPanel
     Left = 24
     Top = 356
-    Width = 818
+    Width = 826
     Height = 54
     Anchors = [akLeft, akTop, akRight]
     Enabled = False
@@ -251,7 +251,7 @@ object foPrincipal: TfoPrincipal
       OnClick = btnSIMULACAOClick
     end
     object pnlLegenda: TPanel
-      Left = 593
+      Left = 601
       Top = 1
       Width = 224
       Height = 52
@@ -264,8 +264,8 @@ object foPrincipal: TfoPrincipal
         220
         48)
       object Shape1: TShape
-        Left = -93
-        Top = -112
+        Left = -101
+        Top = -120
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -275,8 +275,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Shape2: TShape
-        Left = 24
-        Top = -84
+        Left = 16
+        Top = -92
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -286,8 +286,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Shape3: TShape
-        Left = -93
-        Top = -84
+        Left = -101
+        Top = -92
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -297,8 +297,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Shape13: TShape
-        Left = 24
-        Top = -70
+        Left = 16
+        Top = -78
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -309,8 +309,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Shape14: TShape
-        Left = -93
-        Top = -70
+        Left = -101
+        Top = -78
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -320,8 +320,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Shape15: TShape
-        Left = 24
-        Top = -111
+        Left = 16
+        Top = -119
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -331,8 +331,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -41
       end
       object Shape17: TShape
-        Left = -93
-        Top = -98
+        Left = -101
+        Top = -106
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -342,8 +342,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label3: TLabel
-        Left = -77
-        Top = -112
+        Left = -85
+        Top = -120
         Width = 51
         Height = 12
         Anchors = [akRight, akBottom]
@@ -352,8 +352,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Label4: TLabel
-        Left = 38
-        Top = -85
+        Left = 30
+        Top = -93
         Width = 41
         Height = 12
         Anchors = [akRight, akBottom]
@@ -362,8 +362,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -15
       end
       object Label5: TLabel
-        Left = -77
-        Top = -84
+        Left = -85
+        Top = -92
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
@@ -372,8 +372,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -14
       end
       object Label16: TLabel
-        Left = 38
-        Top = -71
+        Left = 30
+        Top = -79
         Width = 57
         Height = 12
         Anchors = [akRight, akBottom]
@@ -383,8 +383,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -1
       end
       object Label17: TLabel
-        Left = -77
-        Top = -70
+        Left = -85
+        Top = -78
         Width = 45
         Height = 12
         Anchors = [akRight, akBottom]
@@ -393,8 +393,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = 0
       end
       object Label18: TLabel
-        Left = -77
-        Top = -98
+        Left = -85
+        Top = -106
         Width = 87
         Height = 12
         Anchors = [akRight, akBottom]
@@ -403,8 +403,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label20: TLabel
-        Left = 38
-        Top = -112
+        Left = 30
+        Top = -120
         Width = 67
         Height = 12
         Anchors = [akRight, akBottom]
@@ -413,8 +413,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -42
       end
       object Shape4: TShape
-        Left = 24
-        Top = -98
+        Left = 16
+        Top = -106
         Width = 10
         Height = 10
         Anchors = [akRight, akBottom]
@@ -424,8 +424,8 @@ object foPrincipal: TfoPrincipal
         ExplicitTop = -28
       end
       object Label1: TLabel
-        Left = 38
-        Top = -99
+        Left = 30
+        Top = -107
         Width = 62
         Height = 12
         Anchors = [akRight, akBottom]
@@ -437,9 +437,9 @@ object foPrincipal: TfoPrincipal
   end
   object pnl1: TPanel
     Left = 0
-    Top = 26
-    Width = 817
-    Height = 426
+    Top = 54
+    Width = 825
+    Height = 398
     Align = alClient
     Alignment = taLeftJustify
     Caption = 'pnl1'
@@ -447,8 +447,8 @@ object foPrincipal: TfoPrincipal
     object dbgNfebkp: TDBGrid
       Left = 1
       Top = 1
-      Width = 815
-      Height = 402
+      Width = 823
+      Height = 374
       Align = alClient
       Color = clBtnFace
       DataSource = DM_NFEDFE.dsBkpdfe
@@ -474,166 +474,140 @@ object foPrincipal: TfoPrincipal
       OnTitleClick = dbgNfebkpTitleClick
       Columns = <
         item
-          Alignment = taLeftJustify
           Expanded = False
           FieldName = 'ID'
-          Title.Color = clInfoBk
           Visible = False
         end
         item
-          Alignment = taLeftJustify
           Expanded = False
           FieldName = 'STATUS'
-          Title.Color = clInfoBk
           Visible = False
         end
         item
           Expanded = False
-          FieldName = 'DATAALTERACAO'
-          Title.Caption = 'Data altera'#231#227'o'
-          Title.Color = clInfoBk
-          Width = 60
-          Visible = True
+          FieldName = 'CNPJ'
+          Visible = False
         end
         item
           Expanded = False
           FieldName = 'CHAVE'
-          Title.Caption = 'Chave XML'
-          Title.Color = clInfoBk
-          Width = 200
+          Width = 300
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TIPO'
-          Title.Caption = 'Tipo NF'
-          Title.Color = clInfoBk
-          Width = 50
           Visible = True
         end
         item
-          Alignment = taLeftJustify
           Expanded = False
           FieldName = 'IDF_DOCUMENTO'
-          Title.Caption = 'N'#186' Nota'
-          Title.Color = clInfoBk
-          Width = 100
+          Title.Caption = 'DOCUMENTO'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'DATAEMISSAO'
-          Title.Caption = 'Emiss'#227'o'
-          Title.Color = clInfoBk
+          Title.Caption = 'EMISS'#195'O'
           Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOAUT'
-          Title.Caption = 'Protoc. autoriza'#231#227'o'
-          Title.Color = clInfoBk
-          Width = 100
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'MOTIVO'
-          Title.Caption = 'Motivo'
-          Title.Color = clInfoBk
-          Width = 100
+          Title.Caption = 'PROT. AUTORIZA'#199#195'O'
+          Width = 180
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLOCANC'
-          Title.Caption = 'Protoc. Cancelamento'
-          Title.Color = clInfoBk
-          Width = 100
+          Title.Caption = 'PROT. CANCELAMENTO'
+          Width = 180
           Visible = True
         end
         item
           Expanded = False
-          FieldName = 'MOTIVOCANC'
-          Title.Caption = 'Motivo cancelamento'
-          Title.Color = clInfoBk
-          Width = 100
+          FieldName = 'MOTIVO'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'PROTOCOLORECTO'
-          Title.Caption = 'Protoc. Recebimento'
-          Title.Color = clInfoBk
-          Width = 100
-          Visible = True
-        end
-        item
-          Expanded = False
-          FieldName = 'DATARECTO'
-          Title.Caption = 'Recebimento'
-          Title.Color = clInfoBk
-          Width = 90
+          Title.Caption = 'PROT. RECEBIMENTO'
+          Width = 180
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'TIPOAMBIENTE'
-          Title.Caption = 'Ambiente'
-          Title.Color = clInfoBk
-          Width = 100
+          Title.Caption = 'AMBIENTE'
+          Width = 64
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'EMAILSNOTIFICADOS'
-          Title.Caption = 'E-Mail'
-          Title.Color = clInfoBk
-          Width = 100
+          Title.Caption = 'E-MAIL'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATARECTO'
+          Width = 80
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'DATAALTERACAO'
+          Title.Caption = 'DATA ALTERA'#199#195'O'
+          Width = 80
           Visible = True
         end
         item
           Expanded = False
           FieldName = 'XMLENVIO'
-          Title.Color = clInfoBk
           Visible = False
         end
         item
           Expanded = False
           FieldName = 'XMLEXTEND'
-          Title.Color = clInfoBk
           Visible = False
         end
         item
           Expanded = False
+          FieldName = 'MOTIVOCANC'
+          Width = 64
+          Visible = True
+        end
+        item
+          Expanded = False
           FieldName = 'XMLENVIOCANC'
-          Title.Color = clInfoBk
           Visible = False
         end
         item
           Expanded = False
           FieldName = 'XMLEXTENDCANC'
-          Title.Color = clInfoBk
           Visible = False
         end
         item
           Expanded = False
           FieldName = 'CAMPOSTREAM'
-          Title.Color = clInfoBk
           Visible = False
         end
         item
-          Alignment = taLeftJustify
           Expanded = False
           FieldName = 'CHECKBOX'
-          Title.Color = clInfoBk
           Visible = False
         end>
     end
     object statPrincipal: TStatusBar
       Left = 1
-      Top = 403
-      Width = 815
+      Top = 375
+      Width = 823
       Height = 22
       Margins.Left = 2
       Margins.Top = 2
@@ -663,14 +637,16 @@ object foPrincipal: TfoPrincipal
   object pnlMenu: TPanel
     Left = 0
     Top = 0
-    Width = 817
-    Height = 26
+    Width = 825
+    Height = 54
     Align = alTop
     Anchors = [akLeft, akRight, akBottom]
     TabOrder = 0
+    ExplicitLeft = -8
+    ExplicitTop = -5
     object btnCarregaConfig: TSpeedButton
-      Left = 767
-      Top = 4
+      Left = 798
+      Top = 2
       Width = 21
       Height = 18
       Margins.Left = 2
@@ -682,65 +658,81 @@ object foPrincipal: TfoPrincipal
       OnClick = btnCarregaConfigClick
     end
     object lbDataIni: TLabel
-      Left = 10
+      Left = 20
       Top = 7
       Width = 25
       Height = 12
       Caption = 'Inicio'
     end
     object lbDataFIm: TLabel
-      Left = 148
-      Top = 7
+      Left = 162
+      Top = 6
       Width = 16
       Height = 12
       Caption = 'Fim'
     end
     object lbConfig: TLabel
-      Left = 490
-      Top = 7
+      Left = 520
+      Top = 6
       Width = 65
       Height = 12
       Caption = 'Configura'#231#245'es'
     end
+    object lbEmp: TLabel
+      Left = 7
+      Top = 32
+      Width = 38
+      Height = 12
+      Caption = 'Empresa'
+    end
     object edConfiguracao: TEdit
-      Left = 560
-      Top = 3
+      Left = 591
+      Top = 1
       Width = 202
       Height = 20
       AutoSelect = False
       AutoSize = False
-      TabOrder = 0
+      TabOrder = 4
     end
     object dtpDataFiltroINI: TDateTimePicker
-      Left = 39
+      Left = 51
+      Top = 3
+      Width = 105
+      Height = 20
+      Date = 43006.636531076380000000
+      Time = 43006.636531076380000000
+      TabOrder = 0
+      OnExit = dtpDataFiltroINIExit
+      OnKeyUp = dtpDataFiltroINIKeyUp
+    end
+    object dtpDataFiltroFin: TDateTimePicker
+      Left = 184
       Top = 3
       Width = 105
       Height = 20
       Date = 43006.636531076380000000
       Time = 43006.636531076380000000
       TabOrder = 1
-      OnExit = dtpDataFiltroINIExit
-      OnKeyUp = dtpDataFiltroINIKeyUp
-    end
-    object dtpDataFiltroFin: TDateTimePicker
-      Left = 168
-      Top = 3
-      Width = 105
-      Height = 20
-      Date = 43006.636531076380000000
-      Time = 43006.636531076380000000
-      TabOrder = 2
       OnKeyUp = dtpDataFiltroFinKeyUp
     end
     object btnFiltrar: TButton
-      Left = 279
-      Top = 1
+      Left = 295
+      Top = 3
       Width = 75
-      Height = 20
+      Height = 46
       Caption = '&Filtrar'
       PopupMenu = pmFiltroData
       TabOrder = 3
       OnClick = btnFiltrarClick
+    end
+    object edEmpresa: TEdit
+      Left = 51
+      Top = 28
+      Width = 238
+      Height = 20
+      AutoSelect = False
+      AutoSize = False
+      TabOrder = 2
     end
   end
   object ilPrincipal: TImageList
@@ -749,7 +741,7 @@ object foPrincipal: TfoPrincipal
     Left = 300
     Top = 233
     Bitmap = {
-      494C01012C003C00380220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C01012C003C00400220002000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000008001000001002000000000000000
       0300000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -7216,7 +7208,7 @@ object foPrincipal: TfoPrincipal
     Left = 376
     Top = 157
     Bitmap = {
-      494C010103000C00E00110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000C00E80110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       000000000000000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF05710A00FFFFFFFFFFFFFFFFFFFF

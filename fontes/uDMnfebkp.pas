@@ -19,7 +19,6 @@ type
     fdtrTransacao: TFDTransaction;
     fdWaitCursor: TFDGUIxWaitCursor;
     fddrfbDriver: TFDPhysFBDriverLink;
-    sqlConfiguracoes: TFDQuery;
     dsConfiguracoes: TDataSource;
     dsBkpdfe: TDataSource;
     cdsBkpdfe: TClientDataSet;
@@ -78,6 +77,8 @@ type
     strngfldConfiguracoesNFSEPATHPDFSALVO: TStringField;
     cdsBkpdfeSTATUS: TSmallintField;
     cdsUsuariosCONFIGSALVA: TIntegerField;
+    sqlConfiguracoes: TFDQuery;
+    cdsBkpdfeCNPJ: TStringField;
 
     procedure DataModuleCreate(Sender: TObject);
     procedure cdsBkpdfeAfterOpen(DataSet: TDataSet);
@@ -164,6 +165,8 @@ begin
 
   ObjetoXML := TLm_bkpdfe.Create;
   DaoObjetoXML := TDaoBkpdfe.Create;
+
+  CNPJDOC := TCNPJDOC.Create;
 
 //  ConexaoBD(DM_NFEDFE.conConexaoFD, fddrfbDriver);
 

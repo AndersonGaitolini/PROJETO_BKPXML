@@ -5,7 +5,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, System.IniFiles,
   Data.SqlExpr, FireDAC.Comp.Client,Vcl.ComCtrls,Generics.Collections,TypInfo,System.DateUtils,
-  JvBaseDlg, JvSelectDirectory, FireDAC.Phys.FB;
+  JvBaseDlg, JvSelectDirectory, FireDAC.Phys.FB,System.StrUtils;
 
 Const
   Threshold2000 : Integer = 2000;
@@ -37,6 +37,7 @@ Const
        class function EnumConvertStr(const eEnum:T):string;
      end;
 
+  function fValidaCNPJ(pCNPJ: string): boolean;
   function fIsNumeric(pStr : String) : Boolean;
   procedure AddLog(pNameLog,pDirLog, aStr: string; pActiveAll: boolean = false);
   procedure setINI(pIniFilePath, prSessao, prSubSessao, prValor:string);
@@ -111,6 +112,76 @@ implementation
 //  end;
 
 
+
+function fValidaCNPJ(pCNPJ: string): boolean;
+var
+  wCNPJ: string;
+  wDig1, wDig2: integer;
+  x, total: integer;
+  wRetorno: boolean;
+begin
+  wRetorno:=False;
+  wCNPJ:='';
+//Analisa os formatos
+  if Length(pCNPJ) = 18 then
+    if (Copy(pCNPJ,3,1) + Copy(pCNPJ,7,1) + Copy(pCNPJ,11,1) + Copy(pCNPJ,16,1) = '../-') then
+        begin
+        wCNPJ:=Copy(pCNPJ,1,2) + Copy(pCNPJ,4,3) + Copy(pCNPJ,8,3) + Copy(pCNPJ,12,4) + Copy(pCNPJ,17,2);
+        wRetorno:=True;
+        end;
+
+  if Length(pCNPJ) = 14 then
+    begin
+    wCNPJ:=pCNPJ;
+    wRetorno:=True;
+    end;
+//Verifica
+  if wRetorno then
+  begin
+    try
+      //1° digito
+      total:=0;
+      for x:=1 to 12 do
+          begin
+          if x < 5 then
+              Inc(total, StrToInt(Copy(wCNPJ, x, 1)) * (6 - x))
+          else
+              Inc(total, StrToInt(Copy(wCNPJ, x, 1)) * (14 - x));
+          end;
+      wDig1:=11 - (total mod 11);
+      if wDig1 > 9 then
+          wDig1:=0;
+      //2° digito
+      total:=0;
+      for x:=1 to 13 do
+          begin
+          if x < 6 then
+              Inc(total, StrToInt(Copy(wCNPJ, x, 1)) * (7 - x))
+          else
+              Inc(total, StrToInt(Copy(wCNPJ, x, 1)) * (15 - x));
+          end;
+      wDig2:=11 - (total mod 11);
+      if wDig2 > 9 then
+          wDig2:=0;
+      //Validação final
+      if (wDig1 = StrToInt(Copy(wCNPJ, 13, 1))) and (wDig2 = StrToInt(Copy(wCNPJ, 14, 1))) then
+          wRetorno:=True
+      else
+          wRetorno:=False;
+    except
+      wRetorno:=False;
+    end;
+    //Inválidos
+    case AnsiIndexStr(wCNPJ,['00000000000000','11111111111111','22222222222222','33333333333333','44444444444444',
+                              '55555555555555','66666666666666','77777777777777','88888888888888','99999999999999']) of
+
+    0..9: wRetorno:=False;
+
+    end;
+  end;
+
+Result := wRetorno;
+end;
 
 function fIsNumeric(pStr: String) : Boolean;
 begin

@@ -44,7 +44,6 @@ begin
   Application.Initialize;
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TDM_NFEDFE, DM_NFEDFE);
-
   if (ParamCount = 0) then
   begin
     if not ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver, true) then
@@ -52,7 +51,6 @@ begin
       Application.Terminate;
       exit;
     end;
-
 
     Application.CreateForm(TfoLogin, foLogin);
     ShowResult := foLogin.ShowModal;
@@ -74,7 +72,7 @@ begin
       Application.Terminate; //Encerra a aplicação  end
   end
   else
-  if ParamCount in [4] then
+  if ParamCount = 3 then
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
@@ -88,23 +86,18 @@ begin
 
    tabUsuarios.Usuario  := Trim(ParamStr(1));
    tabUsuarios.Senha    := Trim(ParamStr(2));
-
+   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'LOGIN PARAMS('+ IntToStr(ParamCount)+'): 0['+ParamStr(0) + '] 1['+tabUsuarios.Usuario+'] 2['+ tabUsuarios.Senha+ ']');
    wSenhaAtual := uMetodosUteis.fSenhaAtual('');
+
    wPathMAX := ExtractFileDir(ParamStr(0));
    wPathMAX := Copy(wPathMAX, 1, LastDelimiter('\', wPathMAX));
 
    wMaxOK := FileExists(wPathMAX+'MaxWin.exe') or (FileExists(wPathMAX+'MaxEcv.exe'));
+   uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: '+ wPathMAX);
 
    if wMaxOK and (daoLogin.fLogar(tabUsuarios)) or ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
    begin
-     if ParamCount = 3 then
-     begin
-
-       Lm_bkpdfe.CNPJDOC.Documento := Trim(ParamStr(3));
-       Lm_bkpdfe.CNPJDOC.Fantasia := Trim(ParamStr(4));
-       Lm_bkpdfe.CNPJDOC.Parametro := true;
-     end;
-
+     uMetodosUteis.AddLog('LOGMAXXML'+IntToStr(ParamCount),GetCurrentDir,'wPathMAX: True e logou');
      tabConfiguracoes.id := tabUsuarios.ConfigSalva;
      Application.CreateForm(TFoPrincipal, FoPrincipal);
      Application.Run;
@@ -130,8 +123,8 @@ begin
      except
         on E: Exception do
         begin
-          if DM_NFEDFE.Dao.InTransaction then
-            DM_NFEDFE.Dao.RollBack;
+        if DM_NFEDFE.Dao.InTransaction then
+          DM_NFEDFE.Dao.RollBack;
         end;
      end;
    end
