@@ -107,6 +107,7 @@ type
     jopdDirDir: TJvSelectDirectory;
     dlgOpenPrinc: TOpenDialog;
     mmHabiltaLogs: TMenuItem;
+    mmTodosArquivos: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
@@ -170,6 +171,7 @@ type
     procedure mmDataEmissaoClick(Sender: TObject);
     procedure mmDataAlteracaoClick(Sender: TObject);
     procedure mmDataRecebimentoClick(Sender: TObject);
+    procedure mmTodosArquivosClick(Sender: TObject);
   private
     { Private declarations }
     wVisible: boolean;
@@ -409,19 +411,24 @@ begin
 end;
 
 procedure TfoPrincipal.pMenuFiltroData(pFieldFiltros: TFieldFiltros);
- procedure pCheck(pEmissao, pAlterecao, pReceb: boolean);
+
+ procedure pCheck(pEmissao, pAlteracao, pReceb: boolean);
  begin
   mmDataEmissao.Checked     := pEmissao;
-  mmDataAlteracao.Checked   := pAlterecao;
+  mmDataAlteracao.Checked   := pAlteracao;
   mmDataRecebimento.Checked := pReceb;
+  mmTodosArquivos.Checked   := (not(pEmissao) and not(pAlteracao) and (pReceb));
  end;
 begin
+
   wFieldFiltros := pFieldFiltros;
   case pFieldFiltros of
 
        ffDATARECTO: pCheck(false, false, True);
      ffDATAEMISSAO: pCheck(true, false, false);
    ffDATAALTERACAO: pCheck(false, true, false);
+  else
+    pCheck(false, false, false);
   end;
 end;
 
@@ -795,6 +802,9 @@ end;
 
 procedure TfoPrincipal.fFiltroEmissaoXML;
 begin
+ if wFieldFiltros = ffTODOS then
+   DaoObjetoXML.fFiltraOrdena(ffTODOS, wLastOrderBy,'Dataemissao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+
  if dtpDataFiltroINI.Date > dtpDataFiltroFin.Date then
      dtpDataFiltroFin.Date := dtpDataFiltroINI.Date;
 
@@ -1244,6 +1254,11 @@ begin
   finally
     FreeAndNil(foLogin);
   end;
+end;
+
+procedure TfoPrincipal.mmTodosArquivosClick(Sender: TObject);
+begin
+  pMenuFiltroData(ffTODOS);
 end;
 
 function TfoPrincipal.OpenTabela: boolean;

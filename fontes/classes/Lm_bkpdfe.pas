@@ -83,7 +83,8 @@ type
                     ffPROTOCOLOAUT,
                     ffCAMPOSTREAM,
                     ffSELECAO,
-                    ffCHECKBOX);
+                    ffCHECKBOX,
+                    ffTODOS);
 
   TOrdenaBy = (obyASCENDENTE, obyDESCEDENTE, obyNone);
 
@@ -425,8 +426,8 @@ var data1STR, data2STR, str1, str2:string;
     wDataSet : TDataSet;
     wUpDown: string;
     wV1Empty, wV2Empty : boolean;
+    auxFF : TFieldFiltros;
 const cAsc = 'Asc'; cdesc = 'desc';
-
 
   procedure pFiltroData(pFieldOrder:string);
   begin
@@ -455,9 +456,8 @@ const cAsc = 'Asc'; cdesc = 'desc';
     end;
   end;
 
-  procedure pFiltro(pFieldOrder:string);
+  procedure pFiltro(pFieldOrder: string);
   var wOrdData: Boolean;
-      auxFF : TFieldFiltros;
       wList : TList;
       i:Integer;
       wFilename: string;
@@ -500,6 +500,25 @@ const cAsc = 'Asc'; cdesc = 'desc';
     end;
   end;
 
+  procedure pSelectTodos(pFieldOrder: string);
+  begin
+    auxFF := TConvert<TFieldFiltros>.StrConvertEnum('ff'+pFieldOrder);
+    try
+      with DM_NFEDFE do
+      begin
+        str1 := str1 + 'Select * from lm_bkpdfe';
+
+        if pUpDown <> obyNone then
+          str1 := str1 + Format(' order by %s %s',[pFieldOrder, wUpDown]);
+
+        dsBkpdfe.DataSet := DM_NFEDFE.Dao.ConsultaSql(str1);
+      end;
+    except on E: Exception do
+           begin
+             ShowMessage('Método: pSelectTodos!'+#10#13+'Exception: '+e.Message);
+           end;
+    end;
+  end;
 
 begin
 
@@ -514,8 +533,10 @@ begin
     obyDESCEDENTE: wUpDown := cdesc;
   end;
 
+
   case pFieldNameOrder of
     ffID: begin end;
+    ffTODOS: begin pSelectTodos('DATAEMISSAO') end;
     ffCHAVE: begin pFiltro('CHAVE') end;
     ffIDF_DOCUMENTO: begin pFiltro('IDF_DOCUMENTO') end;
     ffDATAEMISSAO: begin pFiltro('DATAEMISSAO') end;//pFiltroData('DATAEMISSAO') end;
