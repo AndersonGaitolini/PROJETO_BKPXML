@@ -123,9 +123,7 @@ type
     function fConsDeleteObjXML(var pObjXML  : TLm_bkpdfe; pCampos: array of string): Boolean;
 
     procedure pLimpaObjetoXML(var pObjXML   : TLm_bkpdfe);
-    procedure fFiltraOrdena(pFieldNameOrder : TFieldFiltros = ffDATAEMISSAO; pUpDown: TOrdenaBy = obyNone;
-      pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
-
+    procedure pFiltraOrdena (pFieldNameOrder : TFieldFiltros = ffDATAEMISSAO; pUpDown: TOrdenaBy = obyNone; pCNPJ: string = '*'; pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
   end;
 
   var
@@ -453,14 +451,14 @@ begin
   end;
 end;
 
-procedure TDaoBkpdfe.fFiltraOrdena(pFieldNameOrder: TFieldFiltros = ffDATAEMISSAO; pUpDown: TOrdenaBy = obyNone ;
-  pFieldName: string = ''; pDtINI: TDate = 0; pDtFin: TDate = 0 ; pValue1: string = '';pValue2: string = '');
-var data1STR, data2STR, str1, str2:string;
+procedure TDaoBkpdfe.pFiltraOrdena(pFieldNameOrder: TFieldFiltros;
+  pUpDown: TOrdenaBy; pCNPJ, pFieldName: string; pDtINI, pDtFin: TDate; pValue1,
+  pValue2: string);
+var data1STR, data2STR, str1, str2: string;
     wDataSet : TDataSet;
     wUpDown: string;
     wV1Empty, wV2Empty : boolean;
 const cAsc = 'Asc'; cdesc = 'desc';
-
 
   procedure pFiltroData(pFieldOrder:string);
   begin
@@ -509,17 +507,14 @@ const cAsc = 'Asc'; cdesc = 'desc';
         data2STR := QuotedStr(data2STR);
 
         str1 := str1 + 'Select * from lm_bkpdfe where ';
-        if wOrdData then
-        begin
-          str1 := str1 +  Format('(%s between %s and %s ) ',[pFieldOrder, data1STR, data2STR]);
-        end
-        else
-        begin
-          if wV1Empty then
-            str1 := str1 + Format('(%s like %s ) and ',[pFieldName, pValue1]); 
 
-          str1 := str1 + Format('(DATAALTERACAO between %s and %s ) ',[data1STR, data2STR]);
-        end;
+        if (pCNPJ <> '*') and (fValidaCNPJ(pCNPJ)) then
+          str1 := str1 + Format('(%s like %s ) and ',[pFieldName, pCnpj]);
+
+        if wOrdData then
+          str1 := str1 +  Format('(%s between %s and %s ) ',[pFieldOrder, data1STR, data2STR])
+        else
+          str1 := str1 + Format('(dataemissao between %s and %s ) ',[data1STR, data2STR]);
 
         if pUpDown <> obyNone then
           str1 := str1 + Format('order by %s %s',[pFieldOrder, wUpDown]);
@@ -539,7 +534,6 @@ const cAsc = 'Asc'; cdesc = 'desc';
 
 
 begin
-
   if pUpDown = obyNone then
     pUpDown:= obyASCENDENTE;
 
@@ -595,6 +589,7 @@ begin
   end;
 end;
 
+
 procedure TDaoBkpdfe.pLimpaObjetoXML(var pObjXML: TLm_bkpdfe);
 begin
   with pObjXML do
@@ -629,7 +624,7 @@ end;
 { TCNPJDOC }
 procedure TCNPJDOC.setDocumento(const Value: string);
 begin
-  if fValidaCNPJ(Value) then
+  if (Value = '*') or (fValidaCNPJ(Value)) then
    FDocumento := Value
   else
    FDocumento := ''   ;

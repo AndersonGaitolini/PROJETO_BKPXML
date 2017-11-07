@@ -22,6 +22,8 @@ function fDeleteObjetoXML(pLista: TStringList):Boolean;
 //function fLoadXMLNFe(pTipoXML: TTipoXML; pChaveNFE: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFe(pObjConfig : TConfiguracoes; pTiposXML: TTipoXML; pLote: boolean = false; pChave: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFeLista(pLista : TStringList): Boolean;
+
+function fExportaPDF(pLista: TStringList;  var pTotalSavo: integer): boolean;
 //Métodos de Compressão
 function fCompactar(pPath: string): TFileStream;
 function fDescompacartar(pPath: string): boolean;
@@ -1103,8 +1105,6 @@ var
   end;
 
   procedure pXMLChave(pChave : String);
-  var SLCannotRead : TStringList;
-  auxS : TStream;
   begin
 
     wErro := FindFirst(wObjConfig.NFePathProcessado+'\*'+ pChave+'*.xml', faAnyFile, wFRec);
@@ -1302,11 +1302,11 @@ var
  function fCarregaObjConfig(pIDConfig : Integer): boolean;
   begin
     Result := false;
-   if not Assigned(wObjConfig) then
-     wObjConfig := TConfiguracoes.Create;
+    if not Assigned(wObjConfig) then
+      wObjConfig := TConfiguracoes.Create;
 
-   wObjConfig.id := pIDConfig;
-   Result := (wDaoConfig.fCarregaConfiguracoes(wObjConfig,['id']).RecordCount = 1);
+    wObjConfig.id := pIDConfig;
+    Result := (wDaoConfig.fCarregaConfiguracoes(wObjConfig,['id']).RecordCount = 1);
   end;
 
  function fGravaXML: boolean;
@@ -1357,6 +1357,94 @@ begin
     FreeAndNil(wDaoConfig);
   end;
 end;
+
+function fExportaPDF(pLista: TStringList; var pTotalSavo: integer): boolean;
+var
+  wOK : boolean;
+  wDaoXML    : TDaoBkpdfe;
+  wObjConfig : TConfiguracoes;
+  wDaoConfig : TDaoConfiguracoes;
+  wObjetoXML : TLm_bkpdfe;
+  wFRec      : TSearchRec;
+  wErro, wI, wTotSave  : integer;
+  wFileSource, wDirZIPFILE: string;
+
+ function fCarregaObjConfig(pIDConfig : Integer): boolean;
+  begin
+    Result := false;
+    if not Assigned(wObjConfig) then
+      wObjConfig := TConfiguracoes.Create;
+
+    wObjConfig.id := pIDConfig;
+    Result := (wDaoConfig.fCarregaConfiguracoes(wObjConfig,['id']).RecordCount = 1);
+  end;
+
+
+  procedure pPDFChave(pChave: String);
+  begin
+    wErro := FindFirst(wObjConfig.NFePathPDFSalvo+'\*'+ pChave+'*.pdf', faAnyFile, wFRec);
+    wOK := wErro = 0;
+    wFileSource := wObjConfig.NFePathPDFSalvo+'\'+wFRec.Name;
+    with wObjetoXML do
+    while wOK do
+    begin
+      if Pos(pChave,wFileSource) > 0 then
+      begin
+        if fZipFile(wDirZIPFILE,wFileSource) then
+          Inc(wTotSave,1);
+      end;
+
+      wErro := FindNext(wFRec);
+      wFileSource := wObjConfig.NFePathPDFSalvo+'\'+wFRec.Name;
+      wOK := (wErro = 0);
+    end;
+
+  end;
+
+begin
+  Result := False;
+
+  wDaoXML    := TDaoBkpdfe.Create;
+  wObjConfig := TConfiguracoes.Create;
+  wDaoConfig := TDaoConfiguracoes.Create;
+
+  try
+    try
+      if fCarregaObjConfig(tabUsuarios.Id) then
+      begin
+        with foPrincipal.dlgSaveXML, DaoObjetoXML do
+        begin
+          Filter := 'ZIP | *.zip';
+          FilterIndex := FilterIndex+1;
+          FileName := 'LotePDF.zip';
+          if Execute then
+          begin
+            wDirZIPFILE := foPrincipal.dlgSaveXML.FileName;
+            wTotSave := 0;
+            for wI := 0 to pLista.Count - 1 do
+              pPDFChave(pLista.Strings[wi]);
+
+            Result := wTotSave >= pLista.Count;
+          end;
+        end;
+      end
+      else
+      exit;
+
+//      Result := fGravaXML;
+    except on E: Exception do
+      ShowMessage('Método: fExportaPDF' + #10#13+
+                   E.Message);
+    end;
+
+  finally
+    FreeAndNil(wDaoXML);
+    FreeAndNil(wObjConfig);
+    FreeAndNil(wDaoConfig);
+  end;
+
+end;
+
 
 function fGetIdf_DocPelaChave(pChave: string):integer;
 var wLen : Integer;

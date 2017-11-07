@@ -3,7 +3,6 @@ inherited foLogin: TfoLogin
   Top = 55
   Caption = 'Tela de Login'
   ClientHeight = 303
-  Position = poDesktopCenter
   OnCreate = FormCreate
   ExplicitHeight = 342
   PixelsPerInch = 96

@@ -24,16 +24,15 @@ type
     procedure btnAlterarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnLoadIniClick(Sender: TObject);
+    procedure dbgConsultaDblClick(Sender: TObject);
   private
     { Private declarations }
-    FUsuarios : TUsuarios;
     procedure pShowTabela;
     procedure pEnableBotoes(pEnable: Boolean = false);
     procedure pAtualizaGrid;
   public
     { Public declarations }
   published
-    property Usuarios : TUsuarios read FUsuarios write FUsuarios;
   end;
 
 var
@@ -78,9 +77,7 @@ begin
   foConfiguracao := TfoConfiguracao.Create(Application);
   try
     wOpe := opInserir;
-//    tabConfiguracoes.Id := DM_NFEDFE.Dao.GetMax(tabConfiguracoes,'id',['id']);
-    tabConfiguracoes.IDusuario := Usuarios.Id;
-//    daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
+    tabConfiguracoes.IDusuario := tabUsuarios.Id;
     foConfiguracao.ShowModal;
 
     pAtualizaGrid;
@@ -96,12 +93,21 @@ begin
  // LoadIniFile
 end;
 
+procedure TfoConsConfiguracoes.dbgConsultaDblClick(Sender: TObject);
+begin
+  inherited;
+  tabConfiguracoes.Id := DM_NFEDFE.cdsConfiguracoes.FieldByName('id').AsInteger;
+  tabUsuarios.ConfigSalva := tabConfiguracoes.Id;
+  DM_NFEDFE.Dao.Salvar(tabUsuarios, ['ConfigSalva']);
+  Close;
+end;
+
 procedure TfoConsConfiguracoes.btnAlterarClick(Sender: TObject);
 begin
   inherited;
-  if evtTelaUsuarios = etuEditar then
+//  if evtTelaUsuarios = etuEditar then
   begin
-    if DM_NFEDFE.cdsConfiguracoes.IsEmpty then
+    if dbgConsulta.DataSource.DataSet.IsEmpty then
     begin
       statMsg.Panels[1].Text := 'Selecione um Registro';
       exit
@@ -117,10 +123,10 @@ begin
     finally
       foConfiguracao.Free;
     end;
-  end
-  else
-  if evtTelaUsuarios = etuConsultar then
-  begin
+//  end
+//  else
+//  if evtTelaUsuarios = etuConsultar then
+//  begin
     tabConfiguracoes.Id := DM_NFEDFE.cdsConfiguracoes.FieldByName('id').AsInteger;
     tabUsuarios.ConfigSalva := tabConfiguracoes.Id;
     DM_NFEDFE.Dao.Salvar(tabUsuarios, ['ConfigSalva']);
@@ -181,7 +187,7 @@ begin
   begin
     tipoOrdDesc := LastColunm = Column.Index;
     try
-      wIdUsu := Usuarios.Id;
+      wIdUsu := tabUsuarios.Id;
       wSql := 'Select * from configuracoes';
       wSql := wSql + ' where idusuario = '+IntToStr(wIdUsu);
 
@@ -236,7 +242,7 @@ begin
   try
     with daoConfiguracoes, DM_NFEDFE do
     begin
-      tabConfiguracoes.IDusuario := FUsuarios.ID;
+      tabConfiguracoes.IDusuario := tabUsuarios.ID;
       dsConfiguracoes.DataSet :=  Dao.ConsultaTab(tabConfiguracoes,['idusuario']);
       dbgConsulta.Refresh;
     end;

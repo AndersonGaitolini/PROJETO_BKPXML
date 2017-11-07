@@ -6,7 +6,7 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, ufoLoginPadrao, Vcl.Menus,
   Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls,uDMnfebkp,Configuracoes, Vcl.ComCtrls,
-  uMetodosUteis, Usuarios;
+  uMetodosUteis, Usuarios, Data.DB;
 
 type
   TfoLogin = class(TfoLoginPadrao)
@@ -45,15 +45,33 @@ end;
 
 procedure TfoLogin.btnAcessarClick(Sender: TObject);
 var wSenhaAtual: string;
+    wDataSet : TDataSet;
 begin
-//  wTabConect := TT_conectado.create;
-//  wObjUsuario.Userultacesso := Now;
   if not Assigned(tabUsuarios) then
     Exit;
 
+  wDataSet := TDataSet.Create(Application);
   wSenhaAtual := uMetodosUteis.fSenhaAtual('');
-  if daoLogin.fLogar(tabUsuarios)  or
-  ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
+  if ((tabUsuarios.Senha = wSenhaAtual) and (Trim(LowerCase(tabUsuarios.Usuario)) = 'master'))  then
+  begin
+    wDataSet := DM_NFEDFE.dao.ConsultaTab(tabUsuarios, ['usuario']);
+    if wDataSet.RecordCount = 0 then 
+    begin
+      tabUsuarios.Id := daoUsuarios.fNextID(tabUsuarios);
+      DM_NFEDFE.dao.Inserir(tabUsuarios);
+    end
+    else 
+    if wDataSet.RecordCount = 1 then   
+    begin
+      if wDataSet.FieldByName('senha').AsString <> wSenhaAtual then
+      begin
+        tabUsuarios.Senha := wSenhaAtual;
+        DM_NFEDFE.dao.Salvar(tabUsuarios);
+      end;
+    end;
+  end;
+
+  if daoLogin.fLogar(tabUsuarios) then
   begin
     wObjUsuarios := tabUsuarios;
     ModalResult := mrOk;
@@ -63,8 +81,6 @@ begin
     edUsuario.SetFocus;
     ModalResult := mrNone; //mrCancel;
   end;
-
-
 end;
 
 procedure TfoLogin.edSenhaExit(Sender: TObject);

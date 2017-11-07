@@ -172,6 +172,8 @@ type
     procedure mmDataEmissaoClick(Sender: TObject);
     procedure mmDataAlteracaoClick(Sender: TObject);
     procedure mmDataRecebimentoClick(Sender: TObject);
+    procedure mmExpPDFSelecaoClick(Sender: TObject);
+    procedure mmExpPDFTodosClick(Sender: TObject);
   private
     { Private declarations }
     wVisible: boolean;
@@ -205,6 +207,9 @@ var
   SLXMLEnv :TStringList;
   wListaSelecionados : TStringList;
 
+const
+  cTodosCNPJ = '*';
+
 implementation
 
 uses
@@ -227,7 +232,6 @@ begin
 try
   with foConsConfiguracoes do
   begin
-    Usuarios := tabUsuarios;
     evtTelaUsuarios := etuEditar;
     ShowModal;
   end;
@@ -273,7 +277,7 @@ begin
   fOpenFile('Selecione o XML de Envio', wFilename,['XML | *.*xml'],1);
   fLoadXMLNFe(tabConfiguracoes, txNFE_Env, false, wFilename);
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy, cTodosCNPJ,'*', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnEnvioExtClick(Sender: TObject);
@@ -283,14 +287,14 @@ begin
   fOpenFile('Selecione o XML de Envio processado', wFilename,['XML | *.*xml'],1);
   fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt, False, wFilename);
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*',wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnEnvioLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txNFE_EnvLote, True);
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*', wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnFiltrarClick(Sender: TObject);
@@ -328,7 +332,7 @@ begin
   if fLoadXMLNFe(tabConfiguracoes,txRet_Sai,True) then
   begin
     pDataFiltro;
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*','cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
   end;
 end;
 
@@ -340,7 +344,7 @@ begin
     wProcess:= fNumProcessThreads;
     foXMLSimulcao.ShowModal;
     pDataFiltro;
-    DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*','cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
     LastColunm := dbgNfebkp.SelectedIndex;
   finally
     foXMLSimulcao.Free;
@@ -351,7 +355,7 @@ procedure TfoPrincipal.btnXMLEnvioExtLoteClick(Sender: TObject);
 begin
   fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExtLote, True);
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*','cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 
 end;
 
@@ -501,7 +505,6 @@ begin
 try
   evtTelaUsuarios := etuEditar;
 
-  foConsConfiguracoes.Usuarios := tabUsuarios;
   foConsConfiguracoes.ShowModal;
   pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
 finally
@@ -591,6 +594,23 @@ begin
   pSelecaoChave(wListaSelecionados);
   if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
     fExportaLoteXML(wListaSelecionados);
+end;
+
+procedure TfoPrincipal.mmExpPDFSelecaoClick(Sender: TObject);
+var wTotSalvos: integer;
+begin
+  pSelecaoChave(wListaSelecionados);
+  if fExportaPDF(wListaSelecionados, wTotSalvos) then
+    ShowMessage(IntToStr(wTotSalvos) +  ' arquivos de PFDs exportado com sucesso!');
+end;
+
+procedure TfoPrincipal.mmExpPDFTodosClick(Sender: TObject);
+var wTotSalvos: integer;
+begin
+  pSelTodasLinhas;
+  pSelecaoChave(wListaSelecionados);
+  if fExportaPDF(wListaSelecionados, wTotSalvos) then
+    ShowMessage(IntToStr(wTotSalvos) + ' arquivos de PFDs exportado com sucesso!');
 end;
 
 procedure TfoPrincipal.mmExpSelecaoClick(Sender: TObject);
@@ -745,7 +765,7 @@ begin
     wLastOrderBy:= obyASCENDENTE;
 
   wLastField := Column.FieldName;
-  DaoObjetoXML.fFiltraOrdena(wFieldOrd,wLastOrderBy,wLastField ,wDataINI, wDataFIN,CNPJDOC,'');
+  DaoObjetoXML.pFiltraOrdena(wFieldOrd,wLastOrderBy,'*',wLastField ,wDataINI, wDataFIN,CNPJDOC.Documento,'');
 
   if wLastOrderBy = obyASCENDENTE then
     wLastOrderBy := obyDESCEDENTE
@@ -804,7 +824,7 @@ begin
      dtpDataFiltroFin.Date := dtpDataFiltroINI.Date;
 
   if dtpDataFiltroINI.Date <= dtpDataFiltroFin.Date then
-    DaoObjetoXML.fFiltraOrdena(wFieldFiltros, wLastOrderBy, wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, CNPJDOC.Documento);
+    DaoObjetoXML.pFiltraOrdena(wFieldFiltros, wLastOrderBy, '*',wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, CNPJDOC.Documento);
 end;
 
 procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
@@ -845,6 +865,7 @@ procedure TfoPrincipal.dbgNfebkpDrawColumnCell(Sender: TObject;
 var wStream : TStream;
     wFileName : String;
     wRow: integer;
+
   procedure pSetColorLinhas;
   var wStatus : Integer;
   begin
@@ -996,7 +1017,7 @@ var i:Integer;
 //  end;
 
 begin
-  foPrincipal.Caption := 'SOUIS MAXXML Versão 1.0 - beta';
+  foPrincipal.Caption := 'SOUIS MAXXML Versão 1.1 - beta';
 
 //  pStatusBarProgress;
   pIniciaGrid;
@@ -1029,9 +1050,13 @@ begin
 
   if Assigned(CNPJDOC) then
   begin
-    edEmpresa.Text := CNPJDOC.Fantasia;
-    wLastField := CNPJDOC.Documento;
+     wLastField := 'CNPJ';
+    if CNPJDOC.Parametro then
+      edEmpresa.Text := CNPJDOC.Fantasia + ' - ' + copy(CNPJDOC.Documento,1,12) +'-'+ copy(CNPJDOC.Documento,13,02)
+    else
+      edEmpresa.Text := CNPJDOC.Fantasia;
   end;
+
 
   wFieldFiltros := ffDATAEMISSAO;
   pMenuFiltroData(wFieldFiltros);
@@ -1050,7 +1075,7 @@ end;
 procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
   pDataFiltro;
-  DaoObjetoXML.fFiltraOrdena(ffDATAEMISSAO,wLastOrderBy,wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, CNPJDOC.Documento);
+  DaoObjetoXML.pFiltraOrdena(ffDATAEMISSAO, wLastOrderBy,CNPJDOC.Documento, wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
   dbgNfebkp.Refresh;
 end;
 
@@ -1166,8 +1191,11 @@ procedure TfoPrincipal.mmRefazAutorizacaoSelecaoClick(Sender: TObject);
 begin
   if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
   begin
-    tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
-
+    jopdDirDir := TJvSelectDirectory.Create(Application);
+    jopdDirDir.InitialDir := GetCurrentDir;
+    jopdDirDir.Title := 'Seleceione o diretório dos Processados.';
+    if jopdDirDir.Execute then
+      tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
 
     if fLoadXMLNFeLista(wListaSelecionados)then
     begin

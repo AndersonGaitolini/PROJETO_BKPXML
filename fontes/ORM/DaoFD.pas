@@ -667,28 +667,31 @@ begin
   Contexto := TRttiContext.Create;
   try
     TipoRtti := Contexto.GetType(ATabela.ClassType);
-
-    with Dados do
-    begin
-      Connection := FConexao;
-      sql.Text := FSql.GerarSqlSelect(ATabela, ACamposWhere);
-
-      if Length(ACamposWhere)>0 then
+    try
+      with Dados do
       begin
-        for Campo in ACamposWhere do
-        begin
-          // setando os parâmetros
-          for PropRtti in TipoRtti.GetProperties do
-            if CompareText(PropRtti.Name, Campo) = 0 then
-            begin
-              TAtributos.Get.ConfiguraParametro(PropRtti, Campo, ATabela, Dados, FParams);
-              Break;
-            end;
-        end;
-      end;
-      Open;
+        Connection := FConexao;
+        sql.Text := FSql.GerarSqlSelect(ATabela, ACamposWhere);
 
-      Result := Dados;
+        if Length(ACamposWhere)>0 then
+        begin
+          for Campo in ACamposWhere do
+          begin
+            // setando os parâmetros
+            for PropRtti in TipoRtti.GetProperties do
+              if CompareText(PropRtti.Name, Campo) = 0 then
+              begin
+                TAtributos.Get.ConfiguraParametro(PropRtti, Campo, ATabela, Dados, FParams);
+                Break;
+              end;
+          end;
+        end;
+        Open;
+
+        Result := Dados;
+      end;
+    except
+      FreeAndNil(Dados);
     end;
   finally
     Contexto.Free;

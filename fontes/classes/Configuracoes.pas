@@ -79,7 +79,7 @@ uses
      function fInserirConfiguracoes(pTab: TConfiguracoes): Integer;
      function fSalvarConfiguracoes (pTab: TConfiguracoes): Boolean;
      function fExcluirConfiguracoes(pTab : TConfiguracoes): Boolean;
-     function fCarregaConfiguracoes (var pTab: TConfiguracoes; aCampos : array of string): TDataSet;
+     function fCarregaConfiguracoes (var pTab: TConfiguracoes; aCampos : array of string; pPodeCadastrar: boolean=false): TDataSet;
      function fSelectAllConfiguracoes(pTab: TConfiguracoes): Boolean;
      function fBuscaIDConfig(pTab: TConfiguracoes; pConfigDescri: string): Integer;
      function ConsultaSQLConfiguracoes(pTab : TConfiguracoes; aCampos : array of string):TDataSet;
@@ -95,6 +95,9 @@ var
   tabConfiguracoes : TConfiguracoes;
   daoConfiguracoes : TDaoConfiguracoes;
 implementation
+
+uses
+  uFoConsConfiguracao, uFoConfiguracao;
 
 { TDaoLogin }
 function TDaoConfiguracoes.fSalvarConfiguracoes(pTab: TConfiguracoes): Boolean;
@@ -166,7 +169,7 @@ begin
   end;
 end;
 
-function TDaoConfiguracoes.fCarregaConfiguracoes(var pTab: TConfiguracoes; aCampos : array of string): TDataSet;
+function TDaoConfiguracoes.fCarregaConfiguracoes(var pTab: TConfiguracoes; aCampos : array of string; pPodeCadastrar: boolean=false): TDataSet;
 var DatSet : TDataSet;
 begin
   DatSet := TDataSet.Create(nil);
@@ -205,18 +208,28 @@ begin
         FNFSePathRejeitado   := DatSet.FieldByName('NFSePathRejeitado').AsString;
         FNFSePathRetornoLido := DatSet.FieldByName('NFSePathRetornoLido').AsString;
         FNFSePathPDFSalvo    := DatSet.FieldByName('NFSePathPDFSalvo').AsString;
-
-        result := DatSet;
       end
       else
       begin
-//        ShowMessage('Registro não encontrado!');
-        result := nil;
-        Exit;
+       if pPodeCadastrar then
+       if  MessageDlg('Nenhuma há configuração para este usuário'+#10#13+
+                   'Deseja cadastrar agora?',mtInformation, mbYesNo,0) = mrYes then
+       begin
+          foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
+          try
+            tabConfiguracoes := pTab;
+            foConsConfiguracoes.ShowModal;
+          finally
+            DatSet := Dao.ConsultaTab(pTab, aCampos);
+            foConsConfiguracoes.Free;
+          end;
+       end;
       end;
+
+      result := DatSet;
     end;
   finally
-//   DatSet.Free;
+
   end;
 
 end;

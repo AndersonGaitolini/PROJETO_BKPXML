@@ -778,11 +778,11 @@ wHandle : THandle;
   begin
     try
     setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
-  except
-    wHandle := FindWindow( 0,pWideChar(pSource));
-    FileClose(wHandle);
-    setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
-  end;
+    except
+      wHandle := FindWindow( 0,pWideChar(pSource));
+      FileClose(wHandle);
+      setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
+    end;
   end;
 
 begin
