@@ -261,19 +261,16 @@ begin
         wDataSet.Open;
         wDataSet.Edit;
         with wDataSet do
-        if wDataSet.RecordCount = 1 then
+        if (wDataSet.RecordCount = 1) then
         begin
           if (pObjXML.Id < 1) then
             pObjXML.Id := FieldByName('id').AsInteger;
 
-          if (pObjXML.Status >= 0) then
+          if (pObjXML.Status = 0) then      //wDataSet.FieldByName('Status').AsInteger
             pObjXML.Status := FieldByName('Status').AsInteger;
-//
-//          if pObjXML.Empresa >= 0 then
-//            pObjXML.Empresa := FieldByName('Empresa').AsInteger;
-//
-//          if pObjXML.Filial >= 0 then
-//            pObjXML.Filial := FieldByName('Filial').AsInteger;
+
+          if (pObjXML.Status in [1,4]) and (pObjXML.Status > wDataSet.FieldByName('Status').AsInteger)  then
+             FieldByName('Status').AsInteger := pObjXML.Status;
 
           if pObjXML.CNPJ = '' then
             pObjXML.CNPJ := FieldByName('CNPJ').AsString;
@@ -595,7 +592,7 @@ begin
   with pObjXML do
   begin
     id := 0;
-    Status := 9;
+    Status := 999;
 //    Empresa := 0;
 //    Filial := 0;
     CNPJ := '';

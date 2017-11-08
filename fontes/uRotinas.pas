@@ -57,13 +57,9 @@ const
   cRetsai_ = 'Retsai_*.xml';
   cRetEven = 'RetEven_*.xml';
 
-  stEnvioProc = 0;
-  stEnvio     = 1;
-  stCanProc   = 2;
-  stCanEnvio  = 3;
-  stDenegada  = 4;
-  stInut      = 5;
-  stNada      = 6;
+  cAguardando = 1;
+  cCancAguard = 4;
+
 implementation
 
 uses
@@ -547,7 +543,7 @@ var
   wNodeXML, wNodeInfNFe, wNodeNfeProc, wNodeDest, wNodeEmit: IXMLNode;
   wFileSource, wFileDest: string;
   wXmlName, wZipName,wChaveAux,wPathFile, wCNPJAux: string;
-  wXMLEnvio, wXMLAutorizado,wOK, wYesAll: boolean;
+  wXMLEnvio, wXMLProcessado,wOK, wYesAll: boolean;
 
  function fGetChaveFilename(pFileName : string): string;
   var wPos :Integer;
@@ -615,9 +611,7 @@ var
 
       while wOK do
       begin
-
         ObjetoXML := TLm_bkpdfe.Create;
-        Status := stNada;
         wXmlName := ExtractFileName(wFileSource);
         wCNPJAux :=  fGetCNPJPelaChave(wXmlName);
         wChaveAux := fGetChaveFilename(wXmlName);
@@ -625,7 +619,7 @@ var
         Tipo := '1';
         Inc(J,1);
         SetLength(wArrayObjXML, J);
-        wXMLAutorizado := False;
+        wXMLProcessado := False;
         wStream := TMemoryStream.Create;
 
         if wChaveErro.IndexOf(wChaveAux) >= 0 then
@@ -649,7 +643,7 @@ var
         begin
           if (wNodeXML.NodeName = 'nfeProc') then
           begin
-            wXMLAutorizado := true;
+            wXMLProcessado := true;
             wNodeNfeProc := wNodeXML;
             wNodeXML := wNodeXML.ChildNodes.First;
           end;
@@ -682,12 +676,12 @@ var
                   ShowMessage('CNPJ da Chave difere da tag <CNPJ> do Desitinatário');
               end;
 
-              Status := stEnvio;
+              Status := cAguardando;
             end;
 
-            if (wXMLAutorizado) and (Assigned(wNodeNfeProc)) then
+            if (wXMLProcessado) and (Assigned(wNodeNfeProc)) then
             begin
-              Status := stEnvioProc;
+
               wNodeNfeProc := wNodeNfeProc.ChildNodes.First.NextSibling;
               if Assigned(wNodeNfeProc) and (wNodeNfeProc.NodeName = 'protNFe') or (wNodeNfeProc.NodeName = 'infProt') then
               begin
@@ -708,6 +702,7 @@ var
 
                   Datarecto := DateXMLToDate(funcvarXML(wNodeNfeProc.ChildNodes['dhRecbto']));
                   Protocoloaut := funcvarXML(wNodeNfeProc.ChildNodes['nProt']);
+                  Status :=  StrToIntDef(funcvarXML(wNodeNfeProc.ChildNodes['cStat']),-1);
                   Motivo :=  funcvarXML(wNodeNfeProc.ChildNodes['xMotivo']);
                   if Length(Motivo) > 20 then
                   Motivo := Copy(Motivo,1,20);
@@ -720,7 +715,7 @@ var
         FileClose(wFileStream.Handle);
         pCompress(wFileSource, wStream,false);
         Xmlenvio := wStream;
-        if wXMLAutorizado then
+        if wXMLProcessado then
         begin
           Xmlextend := wStream;
         end;
@@ -756,10 +751,10 @@ var
       while wOK do
       begin
         Inc(J,1);
+        Status := cAguardando;
         SetLength(wArrayObjXML, J);
         wXmlName := ExtractFileName(wFileSource);
         ObjetoXML := TLm_bkpdfe.Create;
-        Status := stNada;
         wChaveAux := fGetChaveFilename(wXmlName);
         Idf_documento := fGetIdf_DocPelaChave(wChaveAux);
         Tipo := '1';
@@ -787,7 +782,6 @@ var
           if (wNodeXML.NodeName = 'cancNFe') then
           begin
             wNodeXML := wNodeXML.ChildNodes.First;
-
             if Assigned(wNodeXML) and (wNodeXML.NodeName = 'infCanc') then
             begin
               Tipoambiente := funcvarXML(wNodeXML.ChildNodes['tpAmb']);
@@ -797,9 +791,9 @@ var
                 Tipoambiente := 'Homologação';
               chave := funcvarXML(wNodeXML.ChildNodes['chNFe']);
               CNPJ := fGetCNPJPelaChave(chave);
-              if wChaveAux <> Chave then
-                exit;
+
               Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
+              Status := cCancAguard;;
               Motivocanc := funcvarXML(wNodeXML.ChildNodes['xJust']);
               if Length(Motivocanc)>20 then
                 Motivocanc := copy(Motivocanc,1,20);
@@ -807,7 +801,6 @@ var
               if pEmail <> '' then
                 Emailsnotificados := pEmail;
 
-              Status := stCanEnvio;
               Dataalteracao := Today;
               FileClose(wFileStream.Handle);
               pCompress(wFileSource,wStream,false);
@@ -830,6 +823,7 @@ var
                 else
                   Tipoambiente := 'Homologação';
 
+                Status :=  StrToIntDef(funcvarXML(wNodeXML.ChildNodes['cStat']),-1);
                 Motivocanc := funcvarXML(wNodeXML.ChildNodes['xMotivo']);
                 if Length(Motivocanc)> 20 then
                   Motivocanc := copy(Motivocanc,1,20);
@@ -843,7 +837,6 @@ var
                   Emailsnotificados := pEmail;
 
                 Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
-                Status := stCanProc;
                 Dataalteracao := Today;
                 FileClose(wFileStream.Handle);
                 pCompress(wFileSource,wStream,false);
@@ -886,7 +879,7 @@ var
         SetLength(wArrayObjXML, J);
         ObjetoXML := TLm_bkpdfe.Create;
         Tipo := '1';
-        Status := stNada;
+        Status := cAguardando;
         Chave := fGetChaveFilename(wXmlName);
         CNPJ  := fGetCNPJPelaChave(Chave);
         wStream := TMemoryStream.Create;
@@ -909,11 +902,11 @@ var
             wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
             Datarecto := DateXMLToDate(funcvarXML(wNodeXML.ChildNodes['dhRecbto']));
             Protocoloaut := funcvarXML(wNodeXML.ChildNodes['nProt']);
+            Status :=  StrToIntDef(funcvarXML(wNodeXML.ChildNodes['cStat']),-1);
             Motivo :=  funcvarXML(wNodeXML.ChildNodes['xMotivo']);
             if Length(Motivo) > 20 then
             Motivo := Copy(Motivo,1,20);
             Dataalteracao := Today;
-            Status := stNada;
           end;
         end;
 
@@ -1003,7 +996,6 @@ begin
 
   if pLote then
     fCarregaPath;
-
   try
     try
       pXMLChave;
@@ -1015,7 +1007,6 @@ begin
 
                 if wChaveErro.IndexOf(wChaveAux) < 0 then
                    wChaveErro.Add(wChaveAux);
-
 
              if (not wYesAll) then
              begin
@@ -1057,7 +1048,7 @@ var
   wNodeXML, wNodeInfNFe, wNodeNfeProc: IXMLNode;
   wFileSource, wFileDest: string;
   wXmlName, wZipName,wChaveAux,wPathFile: string;
-  wXMLEnvio, wXMLAutorizado,wOK: boolean;
+  wXMLEnvio, wXMLProcessado,wOK: boolean;
 
  function fGetChaveFilename(pFileName : string): string;
   var wPos :Integer;
@@ -1116,15 +1107,15 @@ var
     begin
       if Pos('Env_NFe',wFileSource) > 0 then
       begin
+        Status := cAguardando;
         wObjetoXML := TLm_bkpdfe.Create;
-        Status := stNada;
         wXmlName := ExtractFileName(wFileSource);
         wChaveAux := fGetChaveFilename(wXmlName);
 
         Tipo := '1';
         Inc(wJ,1);
         SetLength(wArrayObjXML, wJ);
-        wXMLAutorizado := False;
+        wXMLProcessado := False;
         wStream := TMemoryStream.Create;
         wFileStream := TFileStream.Create(wFileSource,0);
 
@@ -1135,7 +1126,7 @@ var
         begin
           if (wNodeXML.NodeName = 'nfeProc') then
           begin
-            wXMLAutorizado := true;
+            wXMLProcessado := true;
             wNodeNfeProc := wNodeXML;
             wNodeXML := wNodeXML.ChildNodes.First;
           end;
@@ -1160,12 +1151,10 @@ var
                   Tipoambiente := 'Homologação';
               end;
 
-              Status := stEnvio;
             end;
 
-            if (wXMLAutorizado) and (Assigned(wNodeNfeProc)) then
+            if (wXMLProcessado) and (Assigned(wNodeNfeProc)) then
             begin
-              Status := stEnvioProc;
               wNodeNfeProc := wNodeNfeProc.ChildNodes.First.NextSibling;
               if Assigned(wNodeNfeProc) and (wNodeNfeProc.NodeName = 'protNFe') or (wNodeNfeProc.NodeName = 'infProt') then
               begin
@@ -1186,6 +1175,7 @@ var
 
                   Datarecto := DateXMLToDate(funcvarXML(wNodeNfeProc.ChildNodes['dhRecbto']));
                   Protocoloaut := funcvarXML(wNodeNfeProc.ChildNodes['nProt']);
+                  Status :=  StrToIntDef(funcvarXML(wNodeNfeProc.ChildNodes['cStat']),-1);
                   Motivo :=  funcvarXML(wNodeNfeProc.ChildNodes['xMotivo']);
                   if Length(Motivo) > 20 then
                   Motivo := Copy(Motivo,1,20);
@@ -1198,7 +1188,7 @@ var
         FileClose(wFileStream.Handle);
         pCompress(wFileSource, wStream,false);
         Xmlenvio := wStream;
-        if wXMLAutorizado then
+        if wXMLProcessado then
           Xmlextend := wStream;
 
         Dataalteracao := Today;
@@ -1208,10 +1198,10 @@ var
       if Pos('Can_',wFileSource) > 0 then
       begin
         Inc(wJ,1);
+        Status := cAguardando;
         SetLength(wArrayObjXML, wJ);
         wXmlName := ExtractFileName(wFileSource);
         wObjetoXML := TLm_bkpdfe.Create;
-        Status := stNada;
         Chave := fGetChaveFilename(wXmlName);
         Idf_documento := fGetIdf_DocPelaChave(Chave);
         Tipo := '1';
@@ -1222,7 +1212,6 @@ var
 
         if Assigned(wNodeXML) then
         begin  //CAN_ Envio
-
           if (wNodeXML.NodeName = 'cancNFe') then
           begin
             wNodeXML := wNodeXML.ChildNodes.First;
@@ -1235,17 +1224,14 @@ var
               else
                 Tipoambiente := 'Homologação';
               wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
-              if wChaveAux <> Chave then
-                exit;
               Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
+              Status := cCancAguard;
               Motivocanc := funcvarXML(wNodeXML.ChildNodes['xJust']);
               if Length(Motivocanc)>20 then
                 Motivocanc := copy(Motivocanc,1,20);
 
-      //              if pEmail <> '' then
-      //                Emailsnotificados := pEmail;
-
-              Status := stCanEnvio;
+//              if pEmail <> '' then
+//                      Emailsnotificados := pEmail;
               Dataalteracao := Today;
               FileClose(wFileStream.Handle);
               pCompress(wFileSource,wStream,false);
@@ -1268,19 +1254,16 @@ var
                 else
                   Tipoambiente := 'Homologação';
 
-                Motivocanc := funcvarXML(wNodeXML.ChildNodes['xMotivo']);
-                if Length(Motivocanc)> 20 then
-                  Motivocanc := copy(Motivocanc,1,20);
-
+                Status :=  StrToIntDef(funcvarXML(wNodeXML.ChildNodes['cStat']),-1);
                 wChaveAux := funcvarXML(wNodeXML.ChildNodes['chNFe']);
                 if wChaveAux <> Chave then
                   exit;
 
-//                if pEmail <> '' then
-//                  Emailsnotificados := pEmail;
-
                 Protocolocanc := funcvarXML(wNodeXML.ChildNodes['nProt']);
-                Status := stCanProc;
+                Motivocanc := funcvarXML(wNodeXML.ChildNodes['xMotivo']);
+                if Length(Motivocanc)> 20 then
+                  Motivocanc := copy(Motivocanc,1,20);
+
                 Dataalteracao := Today;
                 FileClose(wFileStream.Handle);
                 pCompress(wFileSource,wStream,false);

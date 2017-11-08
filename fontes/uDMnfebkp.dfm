@@ -12,7 +12,6 @@ object DM_NFEDFE: TDM_NFEDFE
       '|Database=D:\Programacao\DELPHI\BASE\7357\MAXXML\BACKUPXML.FDB'
       'DriverID=FBEmbed'
       'Pooled=False')
-    Connected = True
     LoginPrompt = False
     AfterConnect = conConexaoFDAfterConnect
     Left = 24

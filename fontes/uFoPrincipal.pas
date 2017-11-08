@@ -905,14 +905,18 @@ var wStream : TStream;
 
       wStatus := DataSource.DataSet.FieldByName('STATUS').AsInteger;
       case wStatus of
-        0: Canvas.Font.Color := clBlack;    //XML Envio Processado
-        1: Canvas.Font.Color := clNavy;     //XML Envio
-        2: Canvas.Font.Color := clRed;      //XML Cancel. Processado
-        3: Canvas.Font.Color := clPurple;    //XML Envio Cancelamento
-        4: Canvas.Font.Color := clBlue;     //Denegada
-        5: Canvas.Font.Color := clFuchsia;  //Inutilizada
+        001: Canvas.Font.Color := clGreen;     //XML Envio aguardando
+        004: Canvas.Font.Color := clPurple;   //XML Cancelamento Envio aguardando
+        100: Canvas.Font.Color := clBlack;    //XML Envio Processado
+        101,
+        135: Canvas.Font.Color := clRed;      //XML Cancel. Processado
+        110,205,301,302,
+        303: Canvas.Font.Color := clGray;     //Denegada
+        206,
+        256,
+        662: Canvas.Font.Color := clFuchsia;  //Inutilizada
       else
-        Canvas.Font.Color := clGray;
+        Canvas.Font.Color := clNavy;
       end;
 
      Canvas.FillRect(Rect);
@@ -920,38 +924,8 @@ var wStream : TStream;
     end;
   end;
 
-//  procedure pDesenhaCheckBox;
-//  var    DrawState, Check: Integer;
-//         DrawRect, R: TRect;
-//  begin
-//    if (gdFocused in State) then
-//    begin
-//     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
-//     begin
-//      dbchkCHECKBOX.Left := Rect.Left + dbgNfebkp.Left + 2;
-//      dbchkCHECKBOX.Top := Rect.Top + dbgNfebkp.top + 2;
-//      dbchkCHECKBOX.Width := Rect.Right - Rect.Left;
-//      dbchkCHECKBOX.Height := Rect.Bottom - Rect.Top;
-//      dbchkCHECKBOX.Visible := True;
-//     end
-//    end
-//    else
-//    begin
-//     if (Column.Field.FieldName = dbchkCHECKBOX.DataField) then
-//     begin
-//       DrawRect:=Rect;
-//       InflateRect(DrawRect,-1,-1);
-//       DrawState := Column.Field.AsINTEGER;
-//       dbgNfebkp.Canvas.FillRect(Rect);
-//       DrawFrameControl(dbgNfebkp.Canvas.Handle, DrawRect,
-//       DFC_BUTTON, DrawState);
-//     end;
-//    end;
-//  end;
-
 begin
   pSetColorLinhas;
-//  pDesenhaCheckBox;
 end;
 
 procedure TfoPrincipal.dbgNfebkpKeyPress(Sender: TObject; var Key: Char);

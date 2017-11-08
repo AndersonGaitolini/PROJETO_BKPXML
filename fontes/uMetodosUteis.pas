@@ -667,7 +667,6 @@ begin
   end;
 end;
 
-
 function fOpenPath(var pInitialDir: string; pTitle : string = ''): Boolean;
 var jopdOpenDir : TJvSelectDirectory;
 begin
@@ -738,7 +737,6 @@ begin
 
   for i:= 0 to pForm.ComponentCount-1 do
   begin
-
     if pForm.Components[i] is TEdit then
       TEdit (pForm.Components[i]).Enabled := pEnable;
 
@@ -791,80 +789,6 @@ begin
       Result := False;
       prCon.Connected := Result;
       prCon.Close;
-//      wDataBase   := getINI(fArqIni, 'BD', 'ARQUIVO', '');
-//      wFBClient   := getINI(fArqIni, 'BD', 'FBCLIENT', '');
-
-//      if not FileExists(wDataBase)then
-//      begin
-//        if not pTryConexao then
-//          wDataBase := GetCurrentDir+'\MAXXML\BACKUPXML.FDB'
-//        else
-//         wDataBase := GetCurrentDir+'\BACKUPXML.FDB';
-//
-//        if not FileExists(wDataBase) and pTryConexao then
-//        begin
-//          wMSg := 'Base de dados não encontrada! Infome o caminho do BACKUPXML.FDB)';
-//          repeat
-//            begin
-//              wDataBase := inputbox('Diretório do "BD" ou "S" para sair!', wMSg,'');
-//              if Trim(UpperCase(wDataBase)) = 'S' then
-//               Application.Terminate;
-//
-//              wOk := FileExists(wDataBase);
-//              if wOk then
-//              begin
-//                 pIniArquivo(fArqIni);
-//              end
-//              else
-//              begin
-//                wMSg := 'Arquivo inválido! ou "S" para Sair';
-//              end;
-//
-//            end;
-//          until wOk;
-//        end
-//        else
-//         pIniArquivo(fArqIni);
-//      end
-//      else
-//       pIniArquivo(fArqIni);
-//
-//
-//      if not FileExists(wFBClient)then
-//      begin
-//        if not pTryConexao then
-//          wFBClient := GetCurrentDir+'\MAXXML\fb\fbClient.dll'
-//        else
-//          wFBClient := GetCurrentDir+'\fb\fbClient.dll';
-//
-//        if not FileExists(wFBClient) and pTryConexao then
-//        begin
-//          wMSg := 'FBClient.Dll não encontrada! Infome o caminho da DLL!)';
-//          repeat
-//            begin
-//              wFBClient := inputbox('Diretório da "Dll" ou "S" para sair!', wMSg,'');
-//              if Trim(UpperCase(wFBClient)) = 'S' then
-//               Application.Terminate;
-//
-//              wOk := FileExists(wFBClient);
-//              if wOk then
-//              begin
-//                pIniFbClient(fArqIni);
-//              end
-//              else
-//              begin
-//                wMSg := 'Arquivo inválido! ou "S" para Sair';
-//              end;
-//
-//            end;
-//          until wOk;
-//        end
-//        else
-//         pIniFbClient(fArqIni);
-//      end
-//      else
-//        pIniFbClient(fArqIni);
-
 //      AddLog('LOGMAXXML',GetCurrentDir,'conexaoBD: [INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient +'] ['+wFBClient1+']');
 
       wFBClient := GetCurrentDir;
@@ -888,17 +812,6 @@ begin
         Application.Terminate;
       end;
 
-//      if FileExists(wFBClient) or FileExists(wDataBase) then
-//      begin
-//        prDriver.VendorLib := wFBClient;
-//        prCon.Params.Values['Database'] := wDataBase;
-//      end
-//      else
-//      begin
-//        AddLog('LOGMAXXML',GetCurrentDir,'Arquivos podem não existir: ['+ wDataBase+ ']['+ wFBClient +']');
-//        Application.Terminate;
-//      end;
-//      prDriver.VendorLib := 'fbembed.dll';
       prDriver.VendorLib := ExtractFileName(wFBClient);
 
       prDriver.VendorHome := '';
@@ -917,9 +830,6 @@ begin
       if ParamCount = 0 then
         if not prCon.Connected then
           ShowMessage('Não conectado! Path BD: '+wDataBase);
-
-
-
     except
       on E: Exception do
          begin

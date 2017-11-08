@@ -41,11 +41,11 @@ var
  wMaxOK : boolean;
 
  const
-  cXMLConsulta = 0;
-  cXMLEnvio = 1;
-  cXMLProc = 2;
-  cXMLCanc = 3;
-  cXMLProcCan = 4;
+  cXMLConsulta   = 0;
+  cXMLEnvio      = 1;
+  cXMLProcessado = 2;
+  cXMLCancProc   = 3;
+  cXMLCancEnvio  = 4;
 {$R *.res}
 begin
   Application.Initialize;
@@ -146,7 +146,7 @@ begin
      Application.Terminate;
   end
   else
-  if (wTipo in [cXMLEnvio, cXMLProc, cXMLCanc, cXMLProcCan]) then
+  if (wTipo in [cXMLEnvio,cXMLProcessado, cXMLCancProc,cXMLCancEnvio]) then
   begin
     if ParamCount > 0 then
     for I := 0 to ParamCount do
