@@ -65,6 +65,7 @@ type
     function ConsultaSql(ASql: string): TDataSet; overload;
     function ConsultaSql(ASql: string; const ParamList: Array of Variant): TDataSet; overload;
     function ConsultaSql(ATabela: string; AWhere: string): TDataSet; overload;
+    function ConsultaSqlExecute(ASql: string): TDataSet;
 
     function ConsultaTab(ATabela: TTabela; ACamposWhere: array of string)
       : TDataSet; overload;
@@ -469,6 +470,21 @@ begin
     sql.Clear;
     sql.Add(ASql);
     Open;
+  end;
+  Result := AQry;
+end;
+
+function TDaoFD.ConsultaSqlExecute(ASql: string): TDataSet;
+var
+  AQry: TFDQuery;
+begin
+  AQry := TFDQuery.Create(Application);
+  with AQry do
+  begin
+    Connection := FConexao;
+    sql.Clear;
+    sql.Add(ASql);
+    Execute();
   end;
   Result := AQry;
 end;

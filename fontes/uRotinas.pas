@@ -18,7 +18,7 @@ function fGetIdf_DocPelaChave(pChave: string):Integer;
 function fGetCNPJPelaChave(pChave: string):string;
 //Métodos para importar e exportar arquivos XML
 function fExportaLoteXML(pLista: TStringList):Boolean;
-function fDeleteObjetoXML(pLista: TStringList):Boolean;
+function fDeleteObjetoXML(pLista: TStringList; pTodos: Boolean = false):Boolean;
 //function fLoadXMLNFe(pTipoXML: TTipoXML; pChaveNFE: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFe(pObjConfig : TConfiguracoes; pTiposXML: TTipoXML; pLote: boolean = false; pChave: string = ''; pEmail : string = ''): Boolean;
 function fLoadXMLNFeLista(pLista : TStringList): Boolean;
@@ -414,22 +414,38 @@ begin
   end;
 end;
 
-function fDeleteObjetoXML(pLista: TStringList):Boolean;
+function fDeleteObjetoXML(pLista: TStringList; pTodos: Boolean = false ):Boolean;
 var i: integer;
     wObjtXML : TLm_bkpdfe;
+    wDataSet : TDataSet;
 begin
   Result := False;
-  with DaoObjetoXML do
-  for I := 0 to pLista.Count - 1 do
-  begin
-    wObjtXML := TLm_bkpdfe.create;
-    wObjtXML := TLm_bkpdfe(pLista.Objects[I]);
-    if wObjtXML.Chave = pLista.Strings[i] then
-      if DaoObjetoXML.fConsDeleteObjXML(wObjtXML,['CHAVE']) then
-      begin
-        Result := DaoObjetoXML.fExcluirObjXML(wObjtXML) > 0;
-        ObjetoXML:= TLm_bkpdfe.Create;
-      end;
+    DM_NFEDFE.Dao.StartTransaction;
+  try
+    if pTodos then
+    begin
+      wDataSet := DM_NFEDFE.Dao.ConsultaSqlExecute('delete from lm_bkpdfe');
+      Result := wDataSet.IsEmpty;
+      Exit;
+    end;
+
+    with DaoObjetoXML do
+    for I := 0 to pLista.Count - 1 do
+    begin
+      wObjtXML := TLm_bkpdfe.create;
+      wObjtXML := TLm_bkpdfe(pLista.Objects[I]);
+      if wObjtXML.Chave = pLista.Strings[i] then
+        if DaoObjetoXML.fConsDeleteObjXML(wObjtXML,['CHAVE']) then
+        begin
+          Result := DaoObjetoXML.fExcluirObjXML(wObjtXML) > 0;
+          ObjetoXML:= TLm_bkpdfe.Create;
+        end;
+    end;
+
+   DM_NFEDFE.Dao.Commit;
+  except
+    DM_NFEDFE.Dao.RollBack;
+    Result := False;
   end;
 end;
 
@@ -751,7 +767,6 @@ var
       while wOK do
       begin
         Inc(J,1);
-        Status := cAguardando;
         SetLength(wArrayObjXML, J);
         wXmlName := ExtractFileName(wFileSource);
         ObjetoXML := TLm_bkpdfe.Create;

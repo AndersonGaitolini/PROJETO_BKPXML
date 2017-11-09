@@ -543,13 +543,12 @@ end;
 
 procedure TfoPrincipal.mmDeletarTodosClick(Sender: TObject);
 begin
-  pSelTodasLinhas;
-  pSelecaoChave(wListaSelecionados);
-  if wListaSelecionados.Count > 1 then
+
   begin
     if MessageDlg('Você está prestes a deletar todos'+ IntToStr(wListaSelecionados.Count) +' arquivos.',
        mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-      fDeleteObjetoXML(wListaSelecionados);
+     if  fDeleteObjetoXML(wListaSelecionados, true) then
+       dbgNfebkp.Refresh;
   end;
 
  dbgNfebkp.Refresh;
@@ -1180,19 +1179,44 @@ begin
 end;
 
 procedure TfoPrincipal.mmRefazAutorizacaoTodosClick(Sender: TObject);
+var wPathInit : TStringList;
+    wPathMAX : string;
+    wI : Integer;
+    wColumn : TColumn;
 begin
-//  pSelTodasLinhas;
-   jopdDirDir := TJvSelectDirectory.Create(Application);
-   jopdDirDir.InitialDir := GetCurrentDir;
-   jopdDirDir.Title := 'Seleceione o diretório dos Processados.';
-  if jopdDirDir.Execute then
-    tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
 
-  if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
-  begin
-    dbgNfebkp.Refresh;
-    ShowMessage('Autorizações reprocessadas!');
-  end;
+   wPathInit := TStringList.Create;
+   jopdDirDir := TJvSelectDirectory.Create(Application);
+   try
+     wPathMAX := ExtractFileDir(ParamStr(0));
+     wPathMAX := Copy(wPathMAX, 1, LastDelimiter('\', wPathMAX));
+     if FileExists(wPathMAX+'Maxwin.exe') or (FileExists(wPathMAX+'Maxecv.exe')) then
+       wPathMAX := wPathMAX + 'DFE\XML\Envio\Processado';
+
+     if DirectoryExists(wPathMAX) then
+       jopdDirDir.InitialDir := wPathMAX
+     else
+       jopdDirDir.InitialDir := GetCurrentDir;
+
+     jopdDirDir.Title := 'Seleceione o diretório dos Processados.';
+    if jopdDirDir.Execute then
+      tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
+
+    if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
+    begin
+      pDataFiltro;
+      DaoObjetoXML.pFiltraOrdena(ffIDF_DOCUMENTO,obyASCENDENTE, CNPJDOC.Documento,  'IDF_DOCUMENTO', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+//      dbgNfebkp.Fields[]
+
+      dbgNfebkp.Refresh;
+      dbgNfebkp.DataSource.DataSet.First;
+
+      ShowMessage('Autorizações reprocessadas!');
+    end;
+   finally
+     wPathInit.free;
+     jopdDirDir.Free;
+   end;
 
 end;
 

@@ -51,11 +51,13 @@ Const
   function fOpenFileName(var prFileName:string;pTitle: string; pFilter: array of string; pFilterIndex : integer = 0): Boolean;
   function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0; pDefaultExt : string = '*.*' ): Boolean; overload;
 
+
   function fOpenPath(var pInitialDir: string; pTitle : string = ''): Boolean;
   function fSaveFile(pInitialDir, pFileNAme, pTitle: String; pFilter: array of string): TSaveDialog;
   Procedure pZapFiles(pMasc:string);
   procedure pCopyFiles(pFileSource, pFileDest:String; pListErro:Boolean);
   procedure pSalveName(pFieldName, pExt: string; var wFileName: string);
+  procedure pGetDirList(pDirectory: String; var pListaDir: TStringList; SubPastas: Boolean);
 
   function fSenhaAtual(pData: string):string;
   function fSEsp(Txt: string): string;
@@ -495,6 +497,38 @@ begin
 
   if (wStr = 'ZIPENVIO')  or ( wStr = 'ZIPEXTEND') then
    wFileName := 'Env_NFe'+ wFileName + '_XMLAutorizado.'+pExt;
+end;
+
+procedure pGetDirList(pDirectory: String; var pListaDir: TStringList; SubPastas: Boolean);
+var
+wSearch : TSearchRec;
+
+   procedure Recursive(Dir : String); { Sub Procedure, Recursiva }
+   var wSearchAux : TSearchRec;
+   begin
+     if wSearchAux.Name = EmptyStr then
+        FindFirst(pDirectory + '\' + Dir + '\*.*', faDirectory, wSearchAux);
+     while FindNext(wSearchAux) = 0 do
+        if wSearchAux.Name <> '..' then
+           if DirectoryExists(pDirectory + '\' + Dir + '\' + wSearchAux.Name) then
+           begin
+              pListaDir.Add(pDirectory + '\' + Dir + '\' + wSearchAux.Name);
+              Recursive(Dir + '\' + wSearchAux.Name);
+           end;
+   end;
+
+begin
+   FindFirst(pDirectory + '\*.*', faDirectory, wSearch);
+   while FindNext(wSearch) = 0 do
+   if wSearch.Name <> '..' then
+   if DirectoryExists(pDirectory + '\' + wSearch.Name) then
+   begin
+      pListaDir.Add(pDirectory+'\'+wSearch.Name);
+
+      if SubPastas then
+         Recursive(wSearch.Name);
+   end;
+
 end;
 
 Procedure pZapFiles(pMasc:String);
