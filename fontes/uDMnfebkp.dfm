@@ -8,10 +8,10 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      'Database=E:\BT\7.0\MaxWin\ELITE2\MAXXML\BACKUPXML.FDB'
-      '|Database=D:\Programacao\DELPHI\BASE\7357\MAXXML\BACKUPXML.FDB'
-      'DriverID=FBEmbed'
-      'Pooled=False')
+      
+        'Database=D:\Programacao\DELPHI\BASE\Zancanaro\MAXXML\BACKUPXML.F' +
+        'DB'
+      'DriverID=FBEmbed')
     LoginPrompt = False
     AfterConnect = conConexaoFDAfterConnect
     Left = 18
@@ -20,7 +20,7 @@ object DM_NFEDFE: TDM_NFEDFE
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
     Left = 243
-    Top = 26
+    Top = 18
   end
   object fdWaitCursor: TFDGUIxWaitCursor
     Provider = 'Forms'

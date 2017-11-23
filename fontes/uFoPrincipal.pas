@@ -1101,7 +1101,6 @@ procedure TfoPrincipal.pSelTodasLinhas;
 var
  wlLinha: Integer;
 begin
-//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
   with dbgNfebkp.DataSource.DataSet do
   begin
     First;
@@ -1111,9 +1110,6 @@ begin
       Next;
     end;
   end;
-
-//  dbgNfebkp.SelectedRows.Refresh;
-
 end;
 
 
@@ -1121,7 +1117,6 @@ procedure TfoPrincipal.pRemoveSelTodasLinhas;
 var
 wlLinha: Integer;
 begin
-//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
   with dbgNfebkp.DataSource.DataSet do
   begin
     First;
