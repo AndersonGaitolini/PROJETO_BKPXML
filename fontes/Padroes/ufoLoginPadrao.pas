@@ -12,7 +12,6 @@ type
     pnl1: TPanel;
     edUsuario: TEdit;
     edSenha: TEdit;
-    mmMenuTelaAcesso: TMainMenu;
     btnAcessar: TBitBtn;
     lbUserNome: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

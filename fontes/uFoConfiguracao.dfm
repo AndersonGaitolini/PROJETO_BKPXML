@@ -1,10 +1,11 @@
 object foConfiguracao: TfoConfiguracao
   Left = 0
   Top = 0
+  BorderIcons = [biSystemMenu]
   BorderStyle = bsDialog
   Caption = 'Configura'#231#245'es do banco de dados'
-  ClientHeight = 466
-  ClientWidth = 317
+  ClientHeight = 488
+  ClientWidth = 450
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,11 +14,9 @@ object foConfiguracao: TfoConfiguracao
   Font.Style = []
   FormStyle = fsMDIForm
   KeyPreview = True
-  Menu = mm1
   OldCreateOrder = False
   Position = poMainFormCenter
   OnClose = FormClose
-  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   OnKeyUp = FormKeyUp
@@ -27,43 +26,45 @@ object foConfiguracao: TfoConfiguracao
   object pnlConfig: TPanel
     Left = 0
     Top = 37
-    Width = 317
-    Height = 368
+    Width = 450
+    Height = 409
     Align = alClient
     TabOrder = 2
+    ExplicitHeight = 346
     object pgcConfig: TPageControl
       Left = 1
       Top = 1
-      Width = 315
-      Height = 366
+      Width = 448
+      Height = 407
       Hint = 'Configura par'#226'metros do banco de dados'
-      ActivePage = tsConfigNFe
+      ActivePage = tsConfigBD
       Align = alClient
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
-      OnChange = pgcConfigChange
+      ExplicitHeight = 344
       object tsConfigBD: TTabSheet
         Caption = 'Configura BD'
-        object btnGetDirBanco: TSpeedButton
-          AlignWithMargins = True
-          Left = 273
-          Top = 213
-          Width = 33
-          Height = 20
-          Margins.Left = 2
-          Margins.Top = 2
-          Margins.Right = 2
-          Margins.Bottom = 2
-          Caption = '...'
-          Flat = True
-          Layout = blGlyphTop
-          OnClick = btnGetDirBancoClick
+        ExplicitLeft = 8
+        ExplicitTop = 22
+        object Label1: TLabel
+          Left = 11
+          Top = 123
+          Width = 77
+          Height = 12
+          Caption = 'Tipo de Conex'#227'o'
+        end
+        object lbStatusConn: TLabel
+          Left = 94
+          Top = 343
+          Width = 58
+          Height = 12
+          Caption = 'Desconetado'
         end
         object edUsuarioBD: TLabeledEdit
           AlignWithMargins = True
-          Left = 3
-          Top = 141
+          Left = 11
+          Top = 20
           Width = 155
           Height = 20
           Margins.Left = 2
@@ -77,13 +78,12 @@ object foConfiguracao: TfoConfiguracao
           EditLabel.Margins.Right = 2
           EditLabel.Margins.Bottom = 2
           EditLabel.Caption = 'Usu'#225'rio'
-          TabOrder = 1
-          OnExit = edUsuarioBDExit
+          TabOrder = 0
         end
         object edSenhaBD: TLabeledEdit
           AlignWithMargins = True
-          Left = 3
-          Top = 177
+          Left = 173
+          Top = 20
           Width = 155
           Height = 20
           Margins.Left = 2
@@ -97,429 +97,264 @@ object foConfiguracao: TfoConfiguracao
           EditLabel.Margins.Right = 2
           EditLabel.Margins.Bottom = 2
           EditLabel.Caption = 'Senha'
-          TabOrder = 2
-          OnExit = edSenhaBDExit
+          TabOrder = 1
         end
-        object edArquivo: TLabeledEdit
+        object edDataBase: TLabeledEdit
           AlignWithMargins = True
-          Left = 3
-          Top = 213
-          Width = 266
+          Left = 11
+          Top = 57
+          Width = 265
           Height = 20
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
           Margins.Bottom = 2
-          EditLabel.Width = 118
+          EditLabel.Width = 72
           EditLabel.Height = 12
           EditLabel.Margins.Left = 2
           EditLabel.Margins.Top = 2
           EditLabel.Margins.Right = 2
           EditLabel.Margins.Bottom = 2
-          EditLabel.Caption = 'Banco de dados GBD/FDB'
+          EditLabel.Caption = 'Banco de dados'
           TabOrder = 3
-          OnExit = edArquivoExit
+          Text = 'MAXXML\BACKUPXML.FDB'
         end
-        object edDescriConfig: TLabeledEdit
+        object edVendorHome: TLabeledEdit
           AlignWithMargins = True
           Left = 3
-          Top = 105
-          Width = 266
+          Top = 297
+          Width = 190
           Height = 20
           Margins.Left = 2
           Margins.Top = 2
           Margins.Right = 2
           Margins.Bottom = 2
-          EditLabel.Width = 102
+          EditLabel.Width = 126
           EditLabel.Height = 12
           EditLabel.Margins.Left = 2
           EditLabel.Margins.Top = 2
           EditLabel.Margins.Right = 2
           EditLabel.Margins.Bottom = 2
-          EditLabel.Caption = 'Nome da configura'#231#227'o'
-          TabOrder = 0
-          OnExit = edDescriConfigExit
-        end
-      end
-      object tsConfigNFe: TTabSheet
-        Hint = 'Configura par'#226'metros de notas fiscais eletr'#244'nica'
-        Caption = 'Configura NFe'
-        ImageIndex = 1
-        ParentShowHint = False
-        ShowHint = True
-        object edNFePathEnvio: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 95
-          Width = 250
-          Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio do XML Envio:'
-          TabOrder = 1
-          OnExit = edNFePathEnvioExit
-        end
-        object edNFePathProcessado: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 129
-          Width = 250
-          Height = 20
-          EditLabel.Width = 122
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML Processado: '
-          TabOrder = 2
-          OnExit = edNFePathProcessadoExit
-        end
-        object edNFePathRejeitado: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 167
-          Width = 250
-          Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML Rejeitado:'
+          EditLabel.Caption = 'Diret'#243'rio da Biblioteca (DLL)'
           TabOrder = 5
-          OnExit = edNFePathRejeitadoExit
         end
-        object edNFePathRetornoLido: TLabeledEdit
+        object edSQLDialect: TLabeledEdit
           AlignWithMargins = True
-          Left = 14
-          Top = 203
-          Width = 250
+          Left = 280
+          Top = 57
+          Width = 48
           Height = 20
-          EditLabel.Width = 135
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          EditLabel.Width = 52
           EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML de retorno lido:'
+          EditLabel.Margins.Left = 2
+          EditLabel.Margins.Top = 2
+          EditLabel.Margins.Right = 2
+          EditLabel.Margins.Bottom = 2
+          EditLabel.Caption = 'Dialeto SQL'
+          TabOrder = 2
+        end
+        object edVendorLib: TLabeledEdit
+          AlignWithMargins = True
+          Left = 202
+          Top = 297
+          Width = 118
+          Height = 20
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          EditLabel.Width = 85
+          EditLabel.Height = 12
+          EditLabel.Margins.Left = 2
+          EditLabel.Margins.Top = 2
+          EditLabel.Margins.Right = 2
+          EditLabel.Margins.Bottom = 2
+          EditLabel.Caption = 'Nome da Biblioteca'
+          TabOrder = 6
+        end
+        object btnFindPathLib: TButton
+          Left = 325
+          Top = 295
+          Width = 27
+          Height = 25
+          Caption = '...'
           TabOrder = 7
-          OnExit = edNFePathRetornoLidoExit
+          OnClick = btnFindPathLibClick
         end
-        object edNFePathPDFSalvo: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 239
-          Width = 250
-          Height = 20
-          EditLabel.Width = 133
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio arquivos PDF salvo:'
-          TabOrder = 9
-          OnExit = edNFePathPDFSalvoExit
-        end
-        object btnOpen1: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 94
-          Width = 25
-          Height = 22
-          Caption = '...'
-          TabOrder = 0
-          OnClick = btnOpen1Click
-        end
-        object btnOpen2: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 130
-          Width = 25
-          Height = 22
-          Caption = '...'
-          TabOrder = 3
-          OnClick = btnOpen2Click
-        end
-        object btnOpen3: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 166
-          Width = 25
-          Height = 22
+        object btnFindBD: TButton
+          Left = 333
+          Top = 55
+          Width = 27
+          Height = 25
           Caption = '...'
           TabOrder = 4
-          OnClick = btnOpen3Click
+          OnClick = btnFindBDClick
         end
-        object btnOpen4: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 202
-          Width = 25
-          Height = 22
-          Caption = '...'
-          TabOrder = 6
-          OnClick = btnOpen4Click
+        object cbEmbedded: TCheckBox
+          Left = 3
+          Top = 262
+          Width = 70
+          Height = 17
+          Caption = 'Embedded'
+          TabOrder = 10
         end
-        object btnOpen5: TBitBtn
+        object edDriverName: TLabeledEdit
           AlignWithMargins = True
-          Left = 270
-          Top = 238
-          Width = 25
-          Height = 22
-          Caption = '...'
-          TabOrder = 8
-          OnClick = btnOpen5Click
-        end
-      end
-      object tsConfigNFSe: TTabSheet
-        Caption = 'Configura NFSe'
-        ImageIndex = 3
-        ParentShowHint = False
-        ShowHint = True
-        object edNFSePathEnvio: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 94
-          Width = 249
+          Left = 139
+          Top = 97
+          Width = 97
           Height = 20
-          EditLabel.Width = 109
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          EditLabel.Width = 56
           EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio do XML Envio:'
-          TabOrder = 1
-          OnExit = edNFSePathEnvioExit
-        end
-        object edNFSePathProcessado: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 130
-          Width = 249
-          Height = 20
-          EditLabel.Width = 122
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML Processado: '
-          TabOrder = 3
-          OnExit = edNFSePathProcessadoExit
-        end
-        object edNFSePathRejeitado: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 166
-          Width = 249
-          Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML Rejeitado:'
-          TabOrder = 5
-          OnExit = edNFSePathRejeitadoExit
-        end
-        object edNFSePathRetornoLido: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 202
-          Width = 249
-          Height = 20
-          EditLabel.Width = 135
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML de retorno lido:'
-          TabOrder = 7
-          OnExit = edNFSePathRetornoLidoExit
-        end
-        object edNFSePathPDFSalvo: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 238
-          Width = 249
-          Height = 20
-          EditLabel.Width = 133
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio arquivos PDF salvo:'
+          EditLabel.Margins.Left = 2
+          EditLabel.Margins.Top = 2
+          EditLabel.Margins.Right = 2
+          EditLabel.Margins.Bottom = 2
+          EditLabel.Caption = 'Driver Name'
           TabOrder = 9
-          OnExit = edNFSePathPDFSalvoExit
+          Text = 'FBEmbed'
         end
-        object btnOpenNFSe1: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 93
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 0
-          OnClick = btnOpenNFSe1Click
+        object cbbTipoConexao: TComboBox
+          Left = 11
+          Top = 141
+          Width = 153
+          Height = 20
+          TabOrder = 11
+          Text = 'Local'
+          OnChange = cbbTipoConexaoChange
+          Items.Strings = (
+            'Local'
+            'Remote')
         end
-        object btnOpenNFSe2: TBitBtn
+        object edCharacterSet: TLabeledEdit
           AlignWithMargins = True
-          Left = 270
-          Top = 129
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 2
-          OnClick = btnOpenNFSe2Click
-        end
-        object btnOpenNFSe3: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 165
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 4
-          OnClick = btnOpenNFSe3Click
-        end
-        object btnOpenNFSe4: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 201
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 6
-          OnClick = btnOpenNFSe4Click
-        end
-        object btnOpenNFSe5: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 237
-          Width = 24
-          Height = 22
-          Caption = '...'
+          Left = 11
+          Top = 98
+          Width = 112
+          Height = 20
+          Margins.Left = 2
+          Margins.Top = 2
+          Margins.Right = 2
+          Margins.Bottom = 2
+          EditLabel.Width = 58
+          EditLabel.Height = 12
+          EditLabel.Margins.Left = 2
+          EditLabel.Margins.Top = 2
+          EditLabel.Margins.Right = 2
+          EditLabel.Margins.Bottom = 2
+          EditLabel.Caption = 'CharacterSet'
           TabOrder = 8
-          OnClick = btnOpenNFSe5Click
+          Text = 'WIN1252'
         end
-      end
-      object tsConfigNFCe: TTabSheet
-        Hint = 'Configura par'#226'metros de notas fiscais de cumpom fiscal'
-        Caption = 'Configura NFCe'
-        ImageIndex = 2
-        ExplicitLeft = 8
-        ExplicitTop = 22
-        object edNFCePathEnvio: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 94
-          Width = 249
-          Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio do XML Envio:'
-          TabOrder = 1
-          OnExit = edNFCePathEnvioExit
+        object btnConectar: TButton
+          Left = 13
+          Top = 338
+          Width = 75
+          Height = 25
+          Caption = '&Conectar'
+          TabOrder = 12
+          OnClick = btnConectarClick
         end
-        object edNFCePathProcessado: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 130
-          Width = 249
-          Height = 20
-          EditLabel.Width = 122
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML Processado: '
-          TabOrder = 3
-          OnExit = edNFCePathProcessadoExit
-        end
-        object edNFCePathRejeitado: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 166
-          Width = 249
-          Height = 20
-          EditLabel.Width = 109
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML Rejeitado:'
-          TabOrder = 5
-          OnExit = edNFCePathRejeitadoExit
-        end
-        object edNFCePathRetornoLido: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 202
-          Width = 249
-          Height = 20
-          EditLabel.Width = 135
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio XML de retorno lido:'
-          TabOrder = 7
-          OnExit = edNFCePathRetornoLidoExit
-        end
-        object edNFCePathPDFSalvo: TLabeledEdit
-          AlignWithMargins = True
-          Left = 14
-          Top = 237
-          Width = 249
-          Height = 20
-          EditLabel.Width = 133
-          EditLabel.Height = 12
-          EditLabel.Caption = 'Diret'#243'rio arquivos PDF salvo:'
-          TabOrder = 8
-          OnExit = edNFCePathPDFSalvoExit
-        end
-        object btnOpenNFCe1: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 93
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 0
-          OnClick = btnOpenNFCe1Click
-        end
-        object btnOpenNFCe2: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 129
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 2
-          OnClick = btnOpenNFCe2Click
-        end
-        object btnOpenNFCe3: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 165
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 4
-          OnClick = btnOpenNFCe3Click
-        end
-        object btnOpenNFCe4: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 201
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 6
-          OnClick = btnOpenNFCe4Click
-        end
-        object btnOpenNFCe5: TBitBtn
-          AlignWithMargins = True
-          Left = 270
-          Top = 237
-          Width = 24
-          Height = 22
-          Caption = '...'
-          TabOrder = 9
-          OnClick = btnOpenNFCe5Click
+        object pnlRemote: TPanel
+          Left = -5
+          Top = 171
+          Width = 369
+          Height = 85
+          TabOrder = 13
+          object lbRemote: TLabel
+            Left = 25
+            Top = 8
+            Width = 33
+            Height = 12
+            Caption = 'Remote'
+          end
+          object edProtocol: TLabeledEdit
+            AlignWithMargins = True
+            Left = 184
+            Top = 54
+            Width = 85
+            Height = 20
+            Margins.Left = 2
+            Margins.Top = 2
+            Margins.Right = 2
+            Margins.Bottom = 2
+            EditLabel.Width = 44
+            EditLabel.Height = 12
+            EditLabel.Margins.Left = 2
+            EditLabel.Margins.Top = 2
+            EditLabel.Margins.Right = 2
+            EditLabel.Margins.Bottom = 2
+            EditLabel.Caption = 'Protocolo'
+            TabOrder = 0
+            Text = 'TCPIP'
+          end
+          object edServerPort: TLabeledEdit
+            AlignWithMargins = True
+            Left = 273
+            Top = 54
+            Width = 63
+            Height = 20
+            Margins.Left = 2
+            Margins.Top = 2
+            Margins.Right = 2
+            Margins.Bottom = 2
+            EditLabel.Width = 24
+            EditLabel.Height = 12
+            EditLabel.Margins.Left = 2
+            EditLabel.Margins.Top = 2
+            EditLabel.Margins.Right = 2
+            EditLabel.Margins.Bottom = 2
+            EditLabel.Caption = 'Porta'
+            MaxLength = 4
+            NumbersOnly = True
+            TabOrder = 1
+            Text = '3050'
+          end
+          object edServerName: TLabeledEdit
+            AlignWithMargins = True
+            Left = 25
+            Top = 54
+            Width = 155
+            Height = 20
+            Margins.Left = 2
+            Margins.Top = 2
+            Margins.Right = 2
+            Margins.Bottom = 2
+            EditLabel.Width = 101
+            EditLabel.Height = 12
+            EditLabel.Margins.Left = 2
+            EditLabel.Margins.Top = 2
+            EditLabel.Margins.Right = 2
+            EditLabel.Margins.Bottom = 2
+            EditLabel.Caption = 'Servidor(Nome ou IP)'
+            PopupMenu = pmHost
+            TabOrder = 2
+          end
         end
       end
     end
   end
-  object statMSg: TStatusBar
-    Left = 0
-    Top = 447
-    Width = 317
-    Height = 19
-    Panels = <
-      item
-        Text = 'Situa'#231#227'o: '
-        Width = 60
-      end
-      item
-        Text = 'Nenhuma'
-        Width = 50
-      end>
-  end
   object pnlRodape: TPanel
     Left = 0
-    Top = 405
-    Width = 317
+    Top = 446
+    Width = 450
     Height = 42
     Align = alBottom
     TabOrder = 3
+    ExplicitTop = 383
     DesignSize = (
-      317
+      450
       42)
     object btn2: TBitBtn
-      Left = 207
+      Left = 226
       Top = 11
       Width = 92
       Height = 20
@@ -548,44 +383,11 @@ object foConfiguracao: TfoConfiguracao
         3333333333333333333888330000333333333333333333333333333333333333
         0000}
       NumGlyphs = 2
-      TabOrder = 2
+      TabOrder = 1
       OnClick = btn2Click
     end
-    object btnOK: TBitBtn
-      Left = 18
-      Top = 11
-      Width = 91
-      Height = 20
-      Margins.Left = 2
-      Margins.Top = 2
-      Margins.Right = 2
-      Margins.Bottom = 2
-      Anchors = [akTop, akRight]
-      Caption = '&OK'
-      Default = True
-      Glyph.Data = {
-        DE010000424DDE01000000000000760000002800000024000000120000000100
-        0400000000006801000000000000000000001000000000000000000000000000
-        80000080000000808000800000008000800080800000C0C0C000808080000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-        3333333333333333333333330000333333333333333333333333F33333333333
-        00003333344333333333333333388F3333333333000033334224333333333333
-        338338F3333333330000333422224333333333333833338F3333333300003342
-        222224333333333383333338F3333333000034222A22224333333338F338F333
-        8F33333300003222A3A2224333333338F3838F338F33333300003A2A333A2224
-        33333338F83338F338F33333000033A33333A222433333338333338F338F3333
-        0000333333333A222433333333333338F338F33300003333333333A222433333
-        333333338F338F33000033333333333A222433333333333338F338F300003333
-        33333333A222433333333333338F338F00003333333333333A22433333333333
-        3338F38F000033333333333333A223333333333333338F830000333333333333
-        333A333333333333333338330000333333333333333333333333333333333333
-        0000}
-      NumGlyphs = 2
-      TabOrder = 0
-      OnClick = btnOKClick
-    end
     object btnAplicar: TBitBtn
-      Left = 113
+      Left = 132
       Top = 11
       Width = 90
       Height = 20
@@ -594,7 +396,7 @@ object foConfiguracao: TfoConfiguracao
       Margins.Right = 2
       Margins.Bottom = 2
       Anchors = [akTop, akRight]
-      Caption = '&Aplicar'
+      Caption = '&Salvar'
       Glyph.Data = {
         DE010000424DDE01000000000000760000002800000024000000120000000100
         0400000000006801000000000000000000001000000000000000000000000000
@@ -613,14 +415,14 @@ object foConfiguracao: TfoConfiguracao
         3333333333338888883333330000333333333333333333333333333333333333
         0000}
       NumGlyphs = 2
-      TabOrder = 1
+      TabOrder = 0
       OnClick = btnAplicarClick
     end
   end
   object pnlMenu: TPanel
     Left = 0
     Top = 36
-    Width = 317
+    Width = 450
     Height = 1
     Align = alTop
     TabOrder = 1
@@ -628,42 +430,38 @@ object foConfiguracao: TfoConfiguracao
   object jtobMenuConfig: TJvToolBar
     Left = 0
     Top = 0
-    Width = 317
+    Width = 450
     Height = 36
     ButtonHeight = 35
-    ButtonWidth = 62
+    ButtonWidth = 74
     Caption = 'Configura'#231#245'es por usuario'
     Images = ilCadastro
     ShowCaptions = True
     TabOrder = 0
-    object btn1: TToolButton
+    object btnIniFile: TToolButton
       Left = 0
       Top = 0
-      Caption = 'Padr'#227'o'
-      ImageIndex = 3
-      OnClick = btn1Click
-    end
-    object btnIniFile: TToolButton
-      Left = 62
-      Top = 0
-      Caption = 'Arquivo INI'
+      Caption = 'Auto Preenche'
       ImageIndex = 1
       OnClick = btnIniFileClick
     end
-  end
-  object jopdOpenDir: TJvSelectDirectory
-    Left = 24
-    Top = 464
+    object btnLimpa: TToolButton
+      Left = 74
+      Top = 0
+      Caption = 'Limpa'
+      ImageIndex = 2
+      OnClick = btnLimpaClick
+    end
   end
   object dlgOpenDir: TOpenDialog
-    Left = 149
-    Top = 464
+    Left = 403
+    Top = 130
   end
   object ilCadastro: TImageList
-    Left = 108
-    Top = 464
+    Left = 400
+    Top = 84
     Bitmap = {
-      494C010104000C001C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010104000C003C0110001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -934,15 +732,16 @@ object foConfiguracao: TfoConfiguracao
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000}
   end
-  object mm1: TMainMenu
-    Left = 69
-    Top = 465
-    object mniAjuste1: TMenuItem
-      Caption = 'Ajuste'
-      object mniAjustarconfiguraopadro1: TMenuItem
-        Caption = 'Ajustar configura'#231#227'o padr'#227'o'
-        OnClick = mniAjustarconfiguraopadro1Click
-      end
+  object pmHost: TPopupMenu
+    Left = 408
+    Top = 198
+    object mmNomedoPC: TMenuItem
+      Caption = '&Nome do PC'
+      OnClick = mmNomedoPCClick
+    end
+    object mmIPLocal: TMenuItem
+      Caption = 'IP Local'
+      OnClick = mmIPLocalClick
     end
   end
 end

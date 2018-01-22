@@ -5,9 +5,18 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, System.IniFiles,
   Data.SqlExpr, FireDAC.Comp.Client,Vcl.ComCtrls,Generics.Collections,TypInfo,System.DateUtils,
-  JvBaseDlg, JvSelectDirectory, FireDAC.Phys.FB,System.StrUtils;
-
+  JvBaseDlg, JvSelectDirectory, FireDAC.Phys.FB,System.StrUtils,IdIcmpClient,System.MaskUtils, Winsock, WinSvc, Vcl.FileCtrl,TlHelp32;
 Const
+
+  cXMLConsulta   = 0;
+  cXMLEnvio      = 1;
+  cXMLProcessado = 2;
+  cXMLCancProc   = 3;
+  cXMLCancEnvio  = 4;
+  cXMLInut       = 5;
+  cXMLCartaCorr  = 6;
+  cXMLLote       = 7;
+
   Threshold2000 : Integer = 2000;
 
   MinTime = 0;
@@ -20,45 +29,83 @@ Const
   HoursInDay = 24;
   MinutesInHour = 60;
 
+  clProcessado = clBlack;
+  clEnvAguard = clGreen;
+  clCancAguard = clPurple;
+  clCancProcessado = clRed;
+  clDenegada = clSilver;
+  clInutilizada = clFuchsia;
+  clXmlDefeito = clBlue;
+  clNaoIdent = clNavy;
+  clCartaCorrecao = clMaroon;
 
-  type
-    TOperacao = (opInserir, opAlterar, opExcluir, opOK, opNil);
-    TTipoClass = (tiLabel, tiButton, tiBitBtn, tiEdit, tiPanel, tiComboBox, tiTodos);
-    DayType = (Domingo, Segunda, Terca, Quarta, Quinta, Sexta, Sabado);
+  cnMaxServices = 4096;
+  SERVICE_KERNEL_DRIVER       = $00000001;
+  SERVICE_FILE_SYSTEM_DRIVER  = $00000002;
+  SERVICE_ADAPTER             = $00000004;
+  SERVICE_RECOGNIZER_DRIVER   = $00000008;
 
-  Type
+  SERVICE_DRIVER = (SERVICE_KERNEL_DRIVER or SERVICE_FILE_SYSTEM_DRIVER or SERVICE_RECOGNIZER_DRIVER);
+
+  SERVICE_WIN32_OWN_PROCESS   = $00000010;
+  SERVICE_WIN32_SHARE_PROCESS = $00000020;
+  SERVICE_WIN32 = (SERVICE_WIN32_OWN_PROCESS or SERVICE_WIN32_SHARE_PROCESS);
+
+  SERVICE_INTERACTIVE_PROCESS = $00000100;
+  SERVICE_TYPE_ALL = (SERVICE_WIN32 or SERVICE_ADAPTER or SERVICE_DRIVER  or SERVICE_INTERACTIVE_PROCESS);
+
+type
   TGenerico = 0..255;
+  TSvcA = array[0..cnMaxServices] of TEnumServiceStatus;
+  PSvcA = ^TSvcA;
+  TOperacao = (opInserir, opAlterar, opExcluir, opOK, opNil);
+  TTipoClass = (tiLabel, tiButton, tiBitBtn, tiEdit, tiPanel, tiComboBox, tiTodos);
+  DayType = (Domingo, Segunda, Terca, Quarta, Quinta, Sexta, Sabado);
+  TTipoDocumento = (tdCNPJ, tdCPF, tdPIS);
+  TStatusXML = (tsxNormAguard, tsxNormal, tsxCancAguard, tsxCanecelada, tsxDenegada, tsxInutilizada, tsxDefeito, tsxCartaCorr);
 
-   TConvert<T:record> = class
-     private
-     public
-       class procedure PopulateListEnum(AList: TStrings);
-       class function StrConvertEnum(const AStr: string):T;
-       class function EnumConvertStr(const eEnum:T):string;
-     end;
+ TConvert<T:Record> = class
+ public
+   class procedure PopulateListEnum(AList: TStrings);
+   class function StrConvertEnum(const AStr: string):T;
+   class function EnumConvertStr(const eEnum:T):string;
+ end;
 
-  function fValidaCNPJ(pCNPJ: string): boolean;
+  function fValidaCNPJ(var pCNPJ: string; pMascara: boolean=false): boolean;
+  function fValidaCNPJ2(pCNPJDoc: string; pMascara: boolean=false): boolean;
+  function fValidCPF(pCPF : string; pMascara: boolean=false): boolean;
   function fIsNumeric(pStr : String) : Boolean;
   procedure AddLog(pNameLog,pDirLog, aStr: string; pActiveAll: boolean = false);
-  procedure setINI(pIniFilePath, prSessao, prSubSessao, prValor:string);
-  function getINI(pIniFilePath, prSessao, prSubSessao, prValor:string): string;
-  function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink; pTryConexao: boolean = false):Boolean;
+  procedure setINI(pIniFilePath, prSessao, prSubSessao: string; prValor: string = '');
+  function getINI(pIniFilePath, prSessao, prSubSessao: string; prValorDefault: string = ''): string;
+
+  function fPingIP(pHost : String) :boolean;
   function fArqIni: string;
   procedure pAtivaCamposForm(pForm: TForm; pEnable: boolean; pLista : array of TTipoClass);
-  function fNomePC: string;
+  function fNomePC: string; //Retorna o nome da máquina
+  function fLocalIP : string; //Retorna o IP da máquina
   function ExtractName(const Filename: String): String;
   function DateXMLToDate(pDateXML: String): TDate;
+  procedure fOpenDirectory(var pFileName: string);
   function fOpenFileName(var prFileName:string;pTitle: string; pFilter: array of string; pFilterIndex : integer = 0): Boolean;
   function fOpenFile(pTitleName: string;var pFileName : String; pFilterName: array of string; pFilterIndex : integer = 0; pDefaultExt : string = '*.*' ): Boolean; overload;
-
+  function fGetWindowsDrive: Char;
+  function fGetIdf_DocPelaChave(pChave: string):Integer;
+  function fGetCNPJPelaChave(pChave: string):string;
+  function fGetDataXMLPelaChave(pChave: string): TDate;
 
   function fOpenPath(var pInitialDir: string; pTitle : string = ''): Boolean;
   function fSaveFile(pInitialDir, pFileNAme, pTitle: String; pFilter: array of string): TSaveDialog;
+
+  function fCloseFile(pSource: string): boolean;
   Procedure pZapFiles(pMasc:string);
   procedure pCopyFiles(pFileSource, pFileDest:String; pListErro:Boolean);
   procedure pSalveName(pFieldName, pExt: string; var wFileName: string);
   procedure pGetDirList(pDirectory: String; var pListaDir: TStringList; SubPastas: Boolean);
 
+  function fMascaraCNPJ(pString: string): string;
+  function fMascaraDoc(pSTR: string; pDoc : TTipoDocumento): string;
+  function fTiraMascaraCNPJ(pString: string): string;
   function fSenhaAtual(pData: string):string;
   function fSEsp(Txt: string): string;
   function fSomaDigitos(pValor: LongInt):LongInt;
@@ -68,75 +115,170 @@ Const
   function fInverte(pValor: string; pTipo: Boolean; Pos: LongInt): string;
   function fConsideraPrimeiros(pValor, pNum: LongInt):string;
   function fColocaVerificador(pValor: string; pNum: LongInt):string;
-//  function fDesCriptStr(pString : string) : string;
-//  function fCripStr(pString : string) : string;
+
+  function fServiceStop(sMachine,sService : string ) : boolean;
+  function fServiceStart(sMachine, sService : string ) : boolean;
+  function fServiceGetList(sMachine : string; dwServiceType, dwServiceState : DWord; var slServicesList : TStringList): Boolean;
+
+  function ServiceRunning(sMachine, sService: PChar): Boolean;
+  function ServiceGetStatus(sMachine, sService: PChar): DWORD;
+  function pProcessExists(pExeFileName: string; var pProcessCount: integer): Boolean;
+
+  procedure pAppTerminate;
+  function fSetAtribute(pPath: string; pAtribute: Cardinal): Boolean;
+  function fListaSessaoINIFile: TStringList;
+
+  procedure pMsg(pStr: string);
 
   var
    wOpe : TOperacao = opNil;
 implementation
+
+uses
+  uDMnfebkp;
 
+procedure pMsg(pStr: string);
+begin
+  ShowMessage(pStr);
+end;
 
-//  { Criptografa uma String }
-//  function fCripStr(pString : string) : string;
-//  var
-//    i   : Integer;
-//    ist : string;
-//  begin
-//     result := '';
-//     if pString = '' then
-//       Exit;
-//
-//     pString    := WideUpperCase(pString);
-//     ist   :='';
-//     for i :=1 to Length(pString) do
-//       ist[i] :=  Chr(ord(pString[i])-30-i);
-//
-//     ist := pString;
-//     result   := ist;
-//  end;
-//
-//  { DesCriptografa uma String }
-//  function fDesCriptStr(pString : string) : string;
-//  var
-//    i   : Integer;
-//    ist : array of widechar;
-//  begin
-//     result := '';
-//     if pString = '' then
-//       Exit;
-//     SetLength(ist, Length(pString));
-//     pString  := UpperCase(pString);
-//     for i:=1 to Length(pString) do
-//       ist[i]:= Chr(ord(pString[i])+30+i);
-//
-//     ist[0] := pString[1];
-//     result   := WideCharToString(ist);
-//  end;
+function fListaSessaoINIFile: TStringList;
+var I,J : Integer;
+    wLinha : String;
+    wINI : TIniFile;
+    wSessao : Boolean;
+    wList, wSLPerfil : TStringList;
 
+begin
+   wList := TStringList.create;
+   wSLPerfil := TStringList.create;
+   wINI := TIniFile.Create(ConecxaoBD.IniFile);
+   if not FileExists(ConecxaoBD.IniFile) then
+     wINI.WriteString(FNomePC, 'Alterado', FormatDateTime('hh:nn:ss',Now));
 
+   try
+     try
+       wList.LoadFromFile(ConecxaoBD.IniFile);
+       for I := 0 to wList.Count-1 do
+       begin
+         wLinha := wList.Strings[I];
+         if Length(wLinha) = 0 then
+           Continue;
 
-function fValidaCNPJ(pCNPJ: string): boolean;
+         wSessao := (wLinha[1] = '[') and (wLinha[Length(wLinha)] = ']');
+         if (wSessao) then
+         begin
+           wLinha := Copy(wLinha, 2, Pos(']',wLinha)-2);
+           if wIni.SectionExists(wLinha) then
+             if wSLPerfil.IndexOf(wLinha) < 0 then
+                wSLPerfil.Add(wLinha);
+         end;
+
+       end;
+
+       Result := wSLPerfil;
+     Except
+
+     end;
+   finally
+     FreeAndNil(wINI);
+     FreeAndNil(wList);
+   end;
+end;
+
+function fValidCPF(pCPF : string; pMascara: boolean=false): boolean;
 var
+  v: array[0..1] of Word;
+  wCPF: array[0..10] of Byte;
+  I: Byte;
+  wRetorno: boolean;
+
+  function fFormatCPF: string;
+  begin
+    Result := pCPF;
+    Insert('.',Result,04);
+    Insert('.',Result,08);
+    Insert('-',Result,12);
+  end;
+
+begin
+  if Length(pCPF) = 14 then
+    if (Copy(pCPF,4,1) + Copy(pCPF,8,1) + Copy(pCPF,12,1) = '..-') then
+    begin
+      pCPF:=Copy(pCPF,1,3) + Copy(pCPF,4,3) + Copy(pCPF,8,3) + Copy(pCPF,12,4) + Copy(pCPF,17,2);
+      wRetorno:=True;
+    end;
+
+  if Length(pCPF) = 11 then
+    wRetorno:=True;
+
+  if wRetorno then
+  begin
+    try
+      for I := 1 to 11 do
+        wCPF[i-1] := StrToInt(pCPF[i]);
+      //Nota: Calcula o primeiro dígito de verificação.
+      v[0] := 10*wCPF[0] + 9*wCPF[1] + 8*wCPF[2];
+      v[0] := v[0] + 7*wCPF[3] + 6*wCPF[4] + 5*wCPF[5];
+      v[0] := v[0] + 4*wCPF[6] + 3*wCPF[7] + 2*wCPF[8];
+      v[0] := 11 - v[0] mod 11;
+      if (v[0] >= 10) then
+        v[0] := 0;
+//      v[0] := IfThen(v[0] >= 10, 0, v[0]);
+      //Nota: Calcula o segundo dígito de verificação.
+      v[1] := 11*wCPF[0] + 10*wCPF[1] + 9*wCPF[2];
+      v[1] := v[1] + 8*wCPF[3] +  7*wCPF[4] + 6*wCPF[5];
+      v[1] := v[1] + 5*wCPF[6] +  4*wCPF[7] + 3*wCPF[8];
+      v[1] := v[1] + 2*v[0];
+      v[1] := 11 - v[1] mod 11;
+      if (v[1] >= 10) then
+        v[1] := 0;
+//      v[1] := IfThen(v[1] >= 10, 0, v[1]);
+      //Nota: Verdadeiro se os dígitos de verificação são os esperados.
+      Result :=  ((v[0] = wCPF[9]) and (v[1] = wCPF[10]));
+
+      if (Result) and (pMascara) then
+        pCPF := fFormatCPF
+
+    except on E: Exception do
+      Result := False;
+    end;
+  end;
+end;
+
+function fValidaCNPJ(var pCNPJ: string; pMascara: boolean=false): boolean;
+var
+  wFormatCNPJ,
   wCNPJ: string;
   wDig1, wDig2: integer;
   x, total: integer;
   wRetorno: boolean;
+
+  function fFormatCNPJ: string;
+  begin
+    Result := wCNPJ;
+    Insert('.',Result,03);
+    Insert('.',Result,07);
+    Insert('/',Result,11);
+    Insert('-',Result,16);
+  end;
+
 begin
   wRetorno:=False;
   wCNPJ:='';
 //Analisa os formatos
   if Length(pCNPJ) = 18 then
     if (Copy(pCNPJ,3,1) + Copy(pCNPJ,7,1) + Copy(pCNPJ,11,1) + Copy(pCNPJ,16,1) = '../-') then
-        begin
-        wCNPJ:=Copy(pCNPJ,1,2) + Copy(pCNPJ,4,3) + Copy(pCNPJ,8,3) + Copy(pCNPJ,12,4) + Copy(pCNPJ,17,2);
-        wRetorno:=True;
-        end;
+    begin
+      wCNPJ:=Copy(pCNPJ,1,2) + Copy(pCNPJ,4,3) + Copy(pCNPJ,8,3) + Copy(pCNPJ,12,4) + Copy(pCNPJ,17,2);
+      wRetorno:=True;
+    end;
 
   if Length(pCNPJ) = 14 then
-    begin
+  begin
     wCNPJ:=pCNPJ;
     wRetorno:=True;
-    end;
+  end;
 //Verifica
   if wRetorno then
   begin
@@ -182,7 +324,20 @@ begin
     end;
   end;
 
-Result := wRetorno;
+  Result := wRetorno;
+  if (Result) and (pMascara) then
+    pCNPJ := fFormatCNPJ
+  else
+  if Result then
+    pCNPJ := wCNPJ
+end;
+
+
+function fValidaCNPJ2(pCNPJDoc: string; pMascara: boolean=false): boolean;
+var wCNPJ: string;
+begin
+  wCNPJ := pCNPJDoc;
+  Result:= fValidaCNPJ(wCNPJ, pMascara);
 end;
 
 function fIsNumeric(pStr: String) : Boolean;
@@ -194,6 +349,60 @@ begin
     Result := False;
   end;
 end;
+
+function fMascaraCNPJ(pString: string): string;
+begin
+ try
+   if Length(pString) = 14 then
+      Result := Copy(pString,1,2)+'.'+Copy(pString,3,3)+'.'+Copy(pString,6,3)+'/'+Copy(pString,9,4)+'-'+Copy(pString,13,2);
+
+    if not fValidaCNPJ(result) then
+      Result := pString;
+ except
+   Result := '00.000.000/0000-00';
+ end;
+end;
+
+function fMascaraDoc(pSTR: string; pDoc : TTipoDocumento): string;
+begin
+  Result := pSTR;
+  case pDoc of
+
+    tdCNPJ: begin
+              if Length(pSTR) = 14 then
+                Result := FormatMaskText('00.000.000\0000-00', pSTR)
+              else
+               Exit;
+            end;
+
+    tdCPF: begin
+              if Length(pSTR) = 11 then
+                Result := FormatMaskText('000.000.000-00', pSTR)
+              else
+                Exit;
+            end;
+
+    tdPIS: begin
+              if Length(pSTR) = 11 then
+                Result := FormatMaskText('000.0000.000-0', pSTR)
+              else
+                Exit;
+            end;
+  end;
+end;
+
+function fTiraMascaraCNPJ(pString: string): string;
+begin
+  try
+    Result := Copy(pString,1,2) + Copy(pString,4,3) + Copy(pString,8,3) + Copy(pString,12,4) + Copy(pString,17,2);
+    if not fValidaCNPJ(result) then
+       Result := pString;
+  except
+    Result := '00.000.000/0000-00';
+  end;
+
+end;
+
 
 
 function fSenhaAtual(pData: string):string;
@@ -486,6 +695,9 @@ procedure pSalveName(pFieldName, pExt: string; var wFileName: string);
 var wStr : String;
 begin
   wStr := AnsiUpperCase(pFieldName);
+  if (wStr = 'XMLCC') then
+   wFileName := 'retcc_'+ wFileName + '.'+pExt;
+
   if (wStr = 'XMLENVIO')  or ( wStr = 'XMLEXTEND') then
    wFileName := 'Env_NFe'+ wFileName + '.'+pExt;
 
@@ -550,6 +762,7 @@ end;
 
 procedure AddLog(pNameLog,pDirLog, aStr: string; pActiveAll: boolean = false);
 var
+ wIndex: Integer;
  ArqLog: string;
  F :TStringList;
   begin
@@ -559,12 +772,12 @@ var
     F := TStringList.Create;
     try
       try
-        ArqLog := pDirLog+'\'+pNameLog+'.log';
+        ArqLog := pDirLog+'\'+pNameLog+FormatDateTime('-dd-mm-aaaa',now)+'.log';
 
         if FileExists(ArqLog) then
-         f.LoadFromFile(ArqLog);
+          f.LoadFromFile(ArqLog);
 
-        f.Add(Format('[ %s ]: %s', [DateTimeToStr(Now), aStr]));
+         f.Add(Format('[ %s ]: %s', [DateTimeToStr(Now), aStr]));
 
         f.SaveToFile(ArqLog);
       except on E: Exception do
@@ -574,6 +787,15 @@ var
       FreeAndNil(f);
     end;
   end;
+procedure fOpenDirectory(var pFileName: string);
+begin
+  if SelectDirectory('Selecione uma pasta', 'C:\', pFileName,[sdNewFolder, sdShowEdit, sdShowShares, sdNewUI, sdShowFiles,
+    sdValidateDir]) then
+    if not DirectoryExists(pFileName) then
+      pFileName := '';
+
+end;
+
 
 function fOpenFileName(var prFileName:string;pTitle: string; pFilter: array of string; pFilterIndex : integer = 0): Boolean;
 var
@@ -650,6 +872,198 @@ begin
   end;
 end;
 
+
+function fGetCNPJPelaChave(pChave: string):string;
+var wLen: Integer;
+begin
+  Result := '';
+
+  if pChave= '' then
+    exit;
+  wLen := Length(pChave);
+
+  if (wLen = 44) then
+  begin
+    pChave := Copy(pChave, 08,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+
+  if (wLen = 50) and (pos('retcc_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 13,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+
+  if (wLen = 52) and (pos('Can_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 11,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+
+  if (wLen = 53) and (pos('Inut_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 12,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+
+  if (wLen = 55) and (pos('Env_NFe',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 14,14);
+    if fValidaCNPJ(pChave) then
+      Result := pChave;
+    exit;
+  end;
+end;
+
+
+function fGetIdf_DocPelaChave(pChave: string):integer;
+var wLen : Integer;
+begin
+  Result := 0;
+  if pChave= '' then
+    exit;
+  wLen := Length(pChave);
+  if (wLen = 44) then
+  begin
+    pChave := Copy(pChave, 26,9);
+    Result := StrToIntDef(pChave,0);
+    exit;
+  end;
+
+  if (wLen = 50) and (pos('retcc_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 32,9);
+    Result := StrToIntDef(pChave,0);
+    exit;
+  end;
+
+  if (wLen = 52) and (pos('Can_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 30,9);
+    Result := StrToIntDef(pChave,0);
+    exit;
+  end;
+
+  if (wLen = 53) and (pos('Inut_',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 31,9);
+    Result := StrToIntDef(pChave,0);
+    exit;
+  end;
+
+  if (wLen = 55) and (pos('Env_NFe',pChave)>0 ) then
+  begin
+    pChave := Copy(pChave, 33,9);
+    Result := StrToIntDef(pChave,0);
+    exit;
+  end;
+end;
+
+
+function fGetDataXMLPelaChave(pChave: string): TDate;
+var wLen: Integer;
+    wAA, wMM, wDD: string;
+begin
+  Result := 0;
+
+  if pChave= '' then
+    exit;
+  wLen := Length(pChave);
+
+  if (wLen = 44) then
+  begin
+    wAA := Copy(pChave,03,02);
+    wMM := Copy(pChave,05,02);
+    try
+      Result := StrToDate('01/'+wMM+'/20'+wAA);
+    except on E: Exception do
+      Result :=0;
+    end;
+    exit;
+  end;
+
+   if (wLen = 50) and (pos('retcc_',pChave)>0 ) then
+  begin
+    wAA := Copy(pChave,09,02);
+    wMM := Copy(pChave,11,02);
+    try
+      Result := StrToDate('01/'+wMM+'/20'+wAA);
+    except on E: Exception do
+      Result :=0;
+    end;
+    exit;
+  end;
+
+  if (wLen = 52) and (pos('Can_',pChave)>0 ) then
+  begin
+    wAA := Copy(pChave,07,02);
+    wMM := Copy(pChave,09,02);
+    try
+      Result := StrToDate('01/'+wMM+'/20'+wAA);
+    except on E: Exception do
+      Result :=0;
+    end;
+    exit;
+  end;
+
+
+  if (wLen = 53) and (pos('Inut_',pChave)>0 ) then
+  begin
+    wAA := Copy(pChave,08,02);
+    wMM := Copy(pChave,10,02);
+    try
+      Result := StrToDate('01/'+wMM+'/20'+wAA);
+    except on E: Exception do
+      Result :=0;
+    end;
+    exit;
+  end;
+
+  if (wLen = 55) and (pos('Env_NFe',pChave)>0 ) then
+  begin
+    wAA := Copy(pChave,11,02);
+    wMM := Copy(pChave,13,02);
+    try
+      Result := StrToDate('01/'+wMM+'/20'+wAA);
+    except on E: Exception do
+      Result :=0;
+    end;
+    exit;
+  end;
+end;
+
+function fGetWindowsDrive: Char;
+var S: string;
+begin
+  SetLength(S, MAX_PATH);
+  if GetWindowsDirectory(PChar(S), MAX_PATH) > 0 then
+    Result := string(S)[1]
+  else
+    Result := #0;
+end;
+
+function fCloseFile(pSource: string): boolean;
+var wHandle : THandle;
+    wFileSize: Cardinal;
+begin
+  Result := false;
+  try
+    wHandle := FindWindow(0,pWideChar(pSource));
+    wFileSize := GetFileSize(wHandle,nil);
+    Result := UnlockFile(wHandle,0,0,wFileSize,0);
+    FileClose(wHandle);
+  except //on E: Exception do
+  end;
+end;
+
 function fSaveFile(pInitialDir, pFileName, pTitle: String; pFilter: array of string): TSaveDialog;
 var  wSaveXML : TSaveDialog;
      I : Integer;
@@ -711,7 +1125,6 @@ begin
   if pInitialDir <> '' then
      if DirectoryExists(pInitialDir) then
         jopdOpenDir.InitialDir := pInitialDir;
-
   try
      Result := jopdOpenDir.Execute;
      if Result then
@@ -728,7 +1141,6 @@ begin
   Result := 0;
   if pDateXML = '' then
      exit;
-            //'aaaa-mm-dd
   Result := StrToDate(Copy(pDateXML,9,2)+'/'+ Copy(pDateXML,6,2)+'/'+Copy(pDateXML,1,4));
 end;
 
@@ -738,9 +1150,9 @@ var
 aExt : String;
 aPos : Integer;
 begin
-aExt := ExtractFileExt(Filename);
-Result := ExtractFileName(Filename);
-if aExt <> '' then
+  aExt := ExtractFileExt(Filename);
+  Result := ExtractFileName(Filename);
+   if aExt <> '' then
    begin
    aPos := Pos(aExt,Result);
    if aPos > 0 then
@@ -748,6 +1160,35 @@ if aExt <> '' then
       Delete(Result,aPos,Length(aExt));
       end;
    end;
+
+end;
+
+function fLocalIP : string;
+  type
+  TaPInAddr = array [0..10] of PInAddr;
+  PaPInAddr = ^TaPInAddr;
+  var
+  phe  : PHostEnt;
+  pptr : PaPInAddr;
+  Buffer : array [0..63] of ansichar;
+  I : Integer;
+  GInitData : TWSADATA;
+begin
+  WSAStartup($101, GInitData);
+  Result := '';
+  GetHostName( Buffer, SizeOf(Buffer));
+  phe :=GetHostByName(buffer);
+  if phe = nil then
+    Exit;
+
+  pptr := PaPInAddr(Phe^.h_addr_list);
+  I := 0;
+  while pptr^[I] <> nil do
+  begin
+    result:=StrPas(inet_ntoa(pptr^[I]^));
+    Inc(I);
+  end;
+  WSACleanup;
 end;
 
 function fNomePC: string;
@@ -760,11 +1201,10 @@ begin
 
  if GetComputerName(buffer, size) then
    Result := string(buffer);
-
 end;
 
 procedure pAtivaCamposForm(pForm: TForm; pEnable: boolean; pLista : array of TTipoClass);
-var i,j : integer;
+var i : integer;
 begin
   if not Assigned(pForm) then
     exit;
@@ -785,120 +1225,73 @@ begin
   end;
 end;
 
-function ConexaoBD(var prCon: TFDConnection; prDriver: TFDPhysFBDriverLink; pTryConexao: boolean = false):Boolean;
+function fPingIP(pHost : String) :boolean;
 var
-wMSg : string;
-wDataBase: string;
-wFBClient,wFBClient1  : string;
-wUser : string;
-wSenha: string;
-wOk :Boolean;
-wHandle : THandle;
-
-  procedure pIniArquivo(pSource: string);
-  begin
-    try
-      setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
-    except
-      wHandle := FindWindow( 0,pWideChar(pSource));
-      FileClose(wHandle);
-      setINI(fArqIni, 'BD', 'ARQUIVO',wDataBase);
-    end;
-  end;
-
-  procedure pIniFbClient(pSource: string);
-  begin
-    try
-    setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
-    except
-      wHandle := FindWindow( 0,pWideChar(pSource));
-      FileClose(wHandle);
-      setINI(fArqIni, 'BD', 'FBCLIENT',wFBClient);
-    end;
-  end;
-
+  IdICMPClient: TIdICMPClient;
 begin
+  Result := False;
+  IdICMPClient := TIdICMPClient.Create(nil);
   try
     try
-      Result := False;
-      prCon.Connected := Result;
-      prCon.Close;
-//      AddLog('LOGMAXXML',GetCurrentDir,'conexaoBD: [INI: '+fArqIni+'] ['+wDataBase+'] ['+wFBClient +'] ['+wFBClient1+']');
+      IdICMPClient.Host := pHost;
+      IdICMPClient.ReceiveTimeout := 500;
+      IdICMPClient.Ping;
+      Result := (IdICMPClient.ReplyStatus.BytesReceived > 0);
+    except on E: Exception do
 
-      wFBClient := GetCurrentDir;
-      wDataBase := wFBClient;
-      if (ParamCount = 0) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
-      begin
-        AddLog('LOGMAXXML',GetCurrentDir,'1 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
-        wFBClient := wFBClient + '\fb\fbembed.dll';
-        wDataBase := wDataBase + '\BACKUPXML.FDB';
-      end
-      else
-      if (ParamCount >= 2) and (LowerCase(ExtractFileName(ParamStr(0))) = 'maxxml.exe') then
-      begin
-        AddLog('LOGMAXXML',GetCurrentDir,'2 ParamStr(0) = ['+ ParamStr(0) + ']');
-        wDataBase := wDataBase + '\MAXXML\BACKUPXML.FDB';
-        wFBClient := wFBClient + '\MAXXML\fb\fbembed.dll';
-      end
-      else
-      begin
-        AddLog('LOGMAXXML',GetCurrentDir,'3 ParamStr(0) = ['+ LowerCase(ExtractFileName(ParamStr(0))) + ']');
-        Application.Terminate;
-      end;
-
-      prDriver.VendorLib := ExtractFileName(wFBClient);
-
-      prDriver.VendorHome := '';
-      prDriver.VendorHome := ExtractFileDir(wFBClient);
-
-      prCon.Params.Values['Database'] := wDataBase;
-      prCon.Params.Values['DriverID']   := 'FBEmbed';
-//      prCon.Params.Values['DriverID']   := 'FB';
-      prCon.Params.Values['User_Name']  := 'sysdba';//wUser;
-      prCon.Params.Values['Password']   := 'masterkey';//wSenha;
-      prCon.Params.Values['SQLDialect'] := '3';
-
-      prCon.Open;
-      Result := prCon.Connected;
-
-      if ParamCount = 0 then
-        if not prCon.Connected then
-          ShowMessage('Não conectado! Path BD: '+wDataBase);
-    except
-      on E: Exception do
-         begin
-           AddLog('LOGMAXXML',GetCurrentDir,'except Conexão -  [VendorHome: ' +  prDriver.VendorHome +'] wDataBase: ['+ wDataBase + ']: Erro:'+
-           #10#13+ E.Message);
-         end;
     end;
   finally
-
-    if not Result  then
-    begin
-        Application.Terminate;
-    end;
-  end;
+    IdICMPClient.Free;
+  end
 end;
 
-procedure setINI(pIniFilePath, prSessao, prSubSessao, prValor:string);
+function fSetAtribute(pPath: string; pAtribute: Cardinal):Boolean;
+var
+  Attributes: Word;
+begin
+
+    Attributes := FileGetAttr(pPath);
+    result := FileSetAttr(pPath, pAtribute) > 0;
+
+//   (Attributes and faReadOnly) = faReadOnly;
+//   (Attributes and faArchive)  = faArchive;
+//   (Attributes and faSysFile)  = faSysFile;
+//   (Attributes and faHidden)   = faHidden;
+//   NewAttributes := Attributes;
+//      { start with original attributes }
+//        NewAttributes := NewAttributes or faReadOnly;
+//        NewAttributes := NewAttributes and not faReadOnly;
+//        NewAttributes := NewAttributes or faArchive;
+//        NewAttributes := NewAttributes and not faArchive;
+//        NewAttributes := NewAttributes or faSysFile;
+//        NewAttributes := NewAttributes and not faSysFile;
+//        NewAttributes := NewAttributes or faHidden;
+//        NewAttributes := NewAttributes and not faHidden;
+
+end;
+
+procedure setINI(pIniFilePath, prSessao, prSubSessao: string; prValor: string ='');
 var
   wINI : TIniFile;
 begin
   wINI := TIniFile.Create(pIniFilePath);
   try
+    if FileExists(pIniFilePath) then
+      fCloseFile(pIniFilePath);
+
     wINI.WriteString(prSessao, prSubSessao, prValor);
   finally
     wINI.Free;
   end;
 end;
 
-function getINI(pIniFilePath, prSessao, prSubSessao, prValor:string): string;
+function getINI(pIniFilePath, prSessao, prSubSessao: string; prValorDefault: string = ''): string;
 var
   wINI : TIniFile;
 begin
   wINI := TIniFile.Create(pIniFilePath);
   try
-    Result := wINI.ReadString(prSessao, prSubSessao, '');
+    Result := wINI.ReadString(prSessao, prSubSessao, prValorDefault);
   finally
     wINI.Free;
   end;
@@ -906,17 +1299,10 @@ end;
 
 function fArqIni: string;
 begin
-  Result := ExtractFileName(ChangeFileExt(Application.ExeName, '.INI'));
-  Result := GetCurrentDir +'\'+Result;
-
-  if not FileExists(Result) then
-    setINI(Result,'','','');
-
-//  AddLog('LOGMAXXML',GetCurrentDir,'fArqIni: [INI: '+Result+']' );
+  Result := ExtractFileDir(Application.ExeName) +'\'+ ExtractFileName(ChangeFileExt(Application.ExeName, '.INI'));;
 end;
 
 { TConvert }
-
 class procedure TConvert<T>.PopulateListEnum(AList: TStrings);
   var
    i:integer;
@@ -930,7 +1316,7 @@ class procedure TConvert<T>.PopulateListEnum(AList: TStrings);
        Enum:=GetEnumValue(TypeInfo(T),StrTexto);
        AList.Add(StrTexto);
        inc(i);
-       until Enum < 0 ;
+     until Enum < 0 ;
        AList.Delete(pred(AList.Count));
    except;
      raise EConvertError.Create(
@@ -970,6 +1356,209 @@ class function TConvert<T>.EnumConvertStr(const eEnum:T): String;
    end;
  end;
 
+ procedure pAppTerminate;
+ begin
+   Application.Terminate;
+ end;
 
+function fServiceGetList(sMachine : string; dwServiceType, dwServiceState : DWord; var slServicesList : TStringList): Boolean;
+var
+  j : integer;
+  schm : SC_Handle;
+  nBytesNeeded, nServices, nResumeHandle : DWord;
+  ssa : PSvcA;
+  wSL : TStringList;
+
+  SCManHandle, Svchandle : SC_HANDLE;
+  {Nome do computador onde esta localizado o serviço}
+  sComputerNameEx : string;
+  chrComputerName : array[0..255] of char;
+  cSize           : Cardinal;
+begin
+  wSL := TStringList.Create;
+  try
+    Result := false;
+
+    if (sMachine = '') then
+    begin
+      {Caso não tenha sido declarado captura o nome do computador local}
+      FillChar(chrComputerName, SizeOf(chrComputerName), #0);
+      GetComputerName(chrComputerName, cSize);
+      sComputerNameEx:=chrComputerName;
+    end
+    else
+      sComputerNameEx := sMachine;
+
+    schm := OpenSCManager(PChar(sComputerNameEx), nil, SC_MANAGER_ENUMERATE_SERVICE); //SC_MANAGER_ALL_ACCESS);
+
+    if(schm > 0)then
+    begin
+      nResumeHandle := 0;
+      New(ssa);
+
+      EnumServicesStatus(
+        schm,
+        dwServiceType,
+        dwServiceState,
+        ssa^[0],
+        SizeOf(ssa^),
+        nBytesNeeded,
+        nServices,
+        nResumeHandle );
+
+      for j := 0 to nServices-1 do
+        wSL.Add(StrPas(ssa^[j].lpDisplayName));
+
+      Result := true;
+      Dispose(ssa);
+      slServicesList := wSL;
+      CloseServiceHandle(schm);
+    end;
+  finally
+//    FreeAndNil(wSL);
+  end;
+end;
+
+function ServiceGetStatus(sMachine, sService: PChar): DWORD;
+var
+  SCManHandle, SvcHandle: SC_Handle;
+  SS: TServiceStatus;
+  dwStat: DWORD;
+begin
+  dwStat := 0;
+  // Open service manager handle.
+  SCManHandle := OpenSCManager(sMachine, nil, SC_MANAGER_CONNECT);
+  if (SCManHandle > 0) then
+  begin
+    SvcHandle := OpenService(SCManHandle, sService, SERVICE_QUERY_STATUS);
+    // if Service installed
+    if (SvcHandle > 0) then
+    begin
+      // SS structure holds the service status (TServiceStatus);
+      if (QueryServiceStatus(SvcHandle, SS) ) then
+        dwStat := ss.dwCurrentState;
+      CloseServiceHandle(SvcHandle);
+    end;
+    CloseServiceHandle(SCManHandle);
+  end;
+  Result := dwStat;
+end;
+
+function pProcessExists(pExeFileName: string; var pProcessCount: Integer): Boolean;
+var
+  ContinueLoop: BOOL;
+  FSnapshotHandle: THandle;
+  FProcessEntry32: TProcessEntry32;
+  wCount: Integer;
+begin
+  FSnapshotHandle := CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
+  FProcessEntry32.dwSize := SizeOf(FProcessEntry32);
+  ContinueLoop := Process32First(FSnapshotHandle, FProcessEntry32);
+  Result := False;
+  wCount := 0;
+
+  while Integer(ContinueLoop) <> 0 do
+  begin
+    if ((UpperCase(ExtractFileName(FProcessEntry32.szExeFile)) =
+      UpperCase(pExeFileName)) or (UpperCase(FProcessEntry32.szExeFile) =
+      UpperCase(pExeFileName))) then
+    begin
+      Result := True;
+      Inc(wCount,1);
+    end;
+    ContinueLoop := Process32Next(FSnapshotHandle, FProcessEntry32);
+  end;
+
+  pProcessCount := wCount;
+  CloseHandle(FSnapshotHandle);
+end;
+
+
+function ServiceRunning(sMachine, sService: PChar): Boolean;
+begin
+  Result := SERVICE_RUNNING = ServiceGetStatus(sMachine, sService);
+end;
+
+
+function fServiceStart(sMachine, sService : string ) : boolean;
+var
+  schm,
+  schs   : SC_Handle;
+  ss     : TServiceStatus;
+  psTemp : PChar;
+  dwChkP : DWord;
+begin
+  ss.dwCurrentState := 0; //-1;
+  schm := OpenSCManager(PChar(sMachine),Nil, SC_MANAGER_CONNECT);
+  if(schm > 0)then
+  begin
+    schs := OpenService(schm, PChar(sService), SERVICE_START or SERVICE_QUERY_STATUS);
+    if(schs > 0)then
+    begin
+      psTemp := Nil;
+      if(StartService(schs, 0, psTemp))then
+      begin
+        if(QueryServiceStatus(schs, ss))then
+        begin
+          while(SERVICE_RUNNING <> ss.dwCurrentState)do
+          begin
+            dwChkP := ss.dwCheckPoint;
+            Sleep(ss.dwWaitHint);
+            if(not QueryServiceStatus(schs, ss))then
+            begin
+              break;
+            end;
+            if(ss.dwCheckPoint <  dwChkP)then
+            begin
+              break;
+            end;
+          end;
+        end;
+      end;
+      CloseServiceHandle(schs);
+   end;
+    CloseServiceHandle(schm);
+  end;
+  Result := SERVICE_RUNNING = ss.dwCurrentState;
+end;
+
+function fServiceStop(sMachine,sService : string ) : boolean;
+var
+schm, schs   : SC_Handle;
+ss : TServiceStatus;
+dwChkP : DWord;
+begin
+  schm := OpenSCManager(PChar(sMachine),Nil, SC_MANAGER_CONNECT);
+  if(schm > 0)then
+  begin
+    schs := OpenService(schm,PChar(sService), SERVICE_STOP or SERVICE_QUERY_STATUS);
+    if(schs > 0)then
+    begin
+      if(ControlService(schs, SERVICE_CONTROL_STOP, ss))then
+      begin
+        if(QueryServiceStatus(schs,ss))then
+        begin
+          while(SERVICE_STOPPED <> ss.dwCurrentState)do
+          begin
+              dwChkP := ss.dwCheckPoint;
+              Sleep(ss.dwWaitHint);
+              if(not QueryServiceStatus(schs, ss))then
+              begin
+                break;
+              end;
+
+              if(ss.dwCheckPoint < dwChkP)then
+              begin
+                break;
+              end;
+          end;
+        end;
+      end;
+      CloseServiceHandle(schs);
+    end;
+    CloseServiceHandle(schm);
+  end;
+  Result := SERVICE_STOPPED = ss.dwCurrentState;
+end;
 end.
 

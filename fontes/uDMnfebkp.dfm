@@ -1,50 +1,49 @@
 object DM_NFEDFE: TDM_NFEDFE
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 276
-  Width = 350
+  Height = 343
+  Width = 308
   object conConexaoFD: TFDConnection
     Params.Strings = (
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      '|Database=E:\BT\7.0\MaxWin\ELITE2\MAXXML\BACKUPXML.FDB'
-      'Database=D:\Programacao\DELPHI\BASE\7357\MAXXML\BACKUPXML.FDB'
-      'DriverID=FBEmbed'
-      'Pooled=False')
+      'Database=E:\BT\7.0\MaxWin\Zancanaro\MAXXML\BACKUPXML.FDB'
+      'Port=3050'
+      'DriverID=FB')
+    UpdateOptions.AssignedValues = [uvEInsert, uvEUpdate, uvUpdateChngFields, uvUpdateMode, uvLockWait, uvRefreshDelete]
+    UpdateOptions.LockWait = True
     LoginPrompt = False
-    AfterConnect = conConexaoFDAfterConnect
-    Left = 24
-    Top = 24
+    Transaction = fdtrTransacao
+    Left = 22
+    Top = 19
   end
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
-    Left = 252
-    Top = 24
+    Left = 231
+    Top = 20
   end
   object fdWaitCursor: TFDGUIxWaitCursor
     Provider = 'Forms'
-    Left = 100
-    Top = 24
+    Left = 95
+    Top = 21
   end
   object fddrfbDriver: TFDPhysFBDriverLink
     DriverID = 'FBEmbed'
-    VendorHome = 'C:\fb'
-    VendorLib = 'fbClient.dll'
-    OnDriverCreated = DataModuleCreate
+    VendorLib = 'C:\fb\bin\fbembed.dll'
     Embedded = True
-    Left = 176
-    Top = 24
+    Left = 163
+    Top = 21
   end
   object dsConfiguracoes: TDataSource
     DataSet = cdsConfiguracoes
-    Left = 171
-    Top = 85
+    Left = 164
+    Top = 81
   end
   object dsBkpdfe: TDataSource
     DataSet = cdsBkpdfe
-    Left = 173
-    Top = 203
+    Left = 167
+    Top = 198
   end
   object cdsBkpdfe: TClientDataSet
     Aggregates = <>
@@ -55,16 +54,8 @@ object DM_NFEDFE: TDM_NFEDFE
         DataType = ftInteger
       end
       item
-        Name = 'STATUS'
-        DataType = ftSmallint
-      end
-      item
-        Name = 'EMPRESA'
-        DataType = ftSmallint
-      end
-      item
-        Name = 'FILIAL'
-        DataType = ftSmallint
+        Name = 'STATUSXML'
+        DataType = ftInteger
       end
       item
         Name = 'CNPJ'
@@ -151,7 +142,7 @@ object DM_NFEDFE: TDM_NFEDFE
       end
       item
         Name = 'CAMPOSTREAM'
-        DataType = ftMemo
+        DataType = ftBlob
       end
       item
         Name = 'SELECAO'
@@ -162,14 +153,34 @@ object DM_NFEDFE: TDM_NFEDFE
       item
         Name = 'CHECKBOX'
         DataType = ftSmallint
+      end
+      item
+        Name = 'CNPJDEST'
+        DataType = ftString
+        Size = 14
+      end
+      item
+        Name = 'XMLERRO'
+        DataType = ftBlob
+      end
+      item
+        Name = 'XMLINUTILIZACAO'
+        DataType = ftBlob
+      end
+      item
+        Name = 'XMLCARTACORRECAO'
+        DataType = ftBlob
+      end
+      item
+        Name = 'TPEVENTO'
+        DataType = ftInteger
       end>
     IndexDefs = <>
     Params = <>
     ProviderName = 'provBkpdfe'
     StoreDefs = True
-    AfterOpen = cdsBkpdfeAfterOpen
-    Left = 21
-    Top = 203
+    Left = 15
+    Top = 198
     object cdsBkpdfeID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
@@ -177,7 +188,7 @@ object DM_NFEDFE: TDM_NFEDFE
       Required = True
     end
     object cdsBkpdfeSTATUS: TSmallintField
-      FieldName = 'STATUS'
+      FieldName = 'STATUSXML'
       Origin = 'STATUS'
     end
     object cdsBkpdfeCNPJ: TStringField
@@ -269,33 +280,48 @@ object DM_NFEDFE: TDM_NFEDFE
       FieldName = 'CHECKBOX'
       Origin = 'CHECKBOX'
     end
+    object cdsBkpdfeXMLERRO: TMemoField
+      FieldName = 'XMLERRO'
+      BlobType = ftMemo
+    end
+    object cdsBkpdfeCNPJDEST: TStringField
+      FieldName = 'CNPJDEST'
+      Size = 14
+    end
+    object cdsBkpdfeXMLINUTILIZACAO: TBlobField
+      FieldName = 'XMLINUTILIZACAO'
+    end
+    object cdsBkpdfeXMLCARTACORRECAO: TBlobField
+      FieldName = 'XMLCARTACORRECAO'
+    end
+    object cdsBkpdfeTPEVENTO: TIntegerField
+      FieldName = 'TPEVENTO'
+    end
   end
   object provBkpdfe: TDataSetProvider
     DataSet = sqlBkpDfe
-    Left = 97
-    Top = 203
+    Left = 91
+    Top = 198
   end
   object sqlBkpDfe: TFDQuery
-    AfterOpen = sqlBkpDfeAfterOpen
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (
       'select * from LM_bkpdfe')
-    Left = 250
-    Top = 204
+    Left = 243
+    Top = 199
   end
   object dsUsuarios: TDataSource
     DataSet = cdsUsuarios
-    Left = 170
-    Top = 145
+    Left = 164
+    Top = 140
   end
   object cdsUsuarios: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'provUsuarios'
-    AfterOpen = cdsUsuariosAfterOpen
-    Left = 18
-    Top = 145
+    Left = 12
+    Top = 140
     object cdsUsuariosID: TIntegerField
       FieldName = 'ID'
       Origin = 'ID'
@@ -319,25 +345,23 @@ object DM_NFEDFE: TDM_NFEDFE
   end
   object provUsuarios: TDataSetProvider
     DataSet = sqlUsuarios
-    Left = 94
-    Top = 145
+    Left = 88
+    Top = 140
   end
   object sqlUsuarios: TFDQuery
-    AfterOpen = sqlUsuariosAfterOpen
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (
       'select * from usuarios')
-    Left = 246
-    Top = 145
+    Left = 240
+    Top = 140
   end
   object cdsConfiguracoes: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'provConfiguracoes'
-    AfterOpen = cdsConfiguracoesAfterOpen
-    Left = 19
-    Top = 85
+    Left = 13
+    Top = 80
     object intgrfldConfiguracoesID: TIntegerField
       FieldName = 'ID'
       Required = True
@@ -431,16 +455,69 @@ object DM_NFEDFE: TDM_NFEDFE
     end
   end
   object provConfiguracoes: TDataSetProvider
-    Left = 95
-    Top = 85
+    Left = 88
+    Top = 81
   end
   object sqlConfiguracoes: TFDQuery
-    AfterOpen = sqlConfiguracoesAfterOpen
     Connection = conConexaoFD
     Transaction = fdtrTransacao
     SQL.Strings = (
       'select * from configuracoes')
-    Left = 247
-    Top = 85
+    Left = 241
+    Top = 80
+  end
+  object dsTPEvento: TDataSource
+    DataSet = cdsTPEvento
+    OnDataChange = dsTPEventoDataChange
+    Left = 163
+    Top = 274
+  end
+  object cdsTPEvento: TClientDataSet
+    Aggregates = <>
+    FieldDefs = <
+      item
+        Name = 'ID'
+        Attributes = [faRequired]
+        DataType = ftInteger
+      end
+      item
+        Name = 'CODEVENTO'
+        DataType = ftInteger
+      end
+      item
+        Name = 'DESCRICAO'
+        DataType = ftString
+        Size = 100
+      end>
+    IndexDefs = <>
+    Params = <>
+    ProviderName = 'provTPEvento'
+    StoreDefs = True
+    Left = 13
+    Top = 275
+    object cdsTPEventoID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsTPEventoCODEVENTO: TIntegerField
+      FieldName = 'CODEVENTO'
+    end
+    object cdsTPEventoDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+  end
+  object provTPEvento: TDataSetProvider
+    DataSet = sqlTPEvento
+    Left = 90
+    Top = 273
+  end
+  object sqlTPEvento: TFDQuery
+    Connection = conConexaoFD
+    Transaction = fdtrTransacao
+    SQL.Strings = (
+      'select * from tpevento')
+    Left = 240
+    Top = 276
   end
 end

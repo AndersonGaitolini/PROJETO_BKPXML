@@ -12,10 +12,13 @@ uses
   JvTrayIcon, IPPeerClient, REST.Backend.PushTypes, System.JSON,
   System.PushNotification, Data.Bind.Components, Data.Bind.ObjectScope,
   REST.Backend.BindSource, REST.Backend.PushDevice,System.TypInfo, Vcl.Buttons,uRotinas,
-  Vcl.DBCtrls, Vcl.AppEvnts, JvBaseDlg, JvSelectDirectory;
+  Vcl.DBCtrls, Vcl.AppEvnts, JvBaseDlg, JvSelectDirectory,System.MaskUtils,
+  IdBaseComponent, IdComponent, IdRawBase, IdRawClient, IdIcmpClient,
+  ProgressWheel, Vcl.Mask, uProgressWheel;
 
 type
   TOrdena = (ordCodigo, ordData, ordChave);
+  TSelectRowsGrid = (sgTodos, sgNenhum, sgVarios, sgFiltro);
 
 //type
 //  TDBGrid = class(Vcl.DBGrids.TDBGrid)
@@ -24,9 +27,8 @@ type
 //  end;
 
   TfoPrincipal = class(TForm)
-    ilPrincipal: TImageList;
-    tmrHora: TTimer;
-    mmExpSelecao: TMenuItem;
+    tmrTempo: TTimer;
+    pmExpSelecao: TMenuItem;
     ilMenu: TImageList;
     pnlMenu: TPanel;
     edConfiguracao: TEdit;
@@ -34,7 +36,7 @@ type
     tiTryIcon: TJvTrayIcon;
     btnCarregaConfig: TSpeedButton;
     dlgSaveXML: TSaveDialog;
-    mmExpTodos: TMenuItem;
+    pmExpTodos: TMenuItem;
     lbDataIni: TLabel;
     dtpDataFiltroINI: TDateTimePicker;
     lbDataFIm: TLabel;
@@ -43,9 +45,9 @@ type
     pmSelecionar: TPopupMenu;
     mmSelTodos: TMenuItem;
     mmSelTodosExportar: TMenuItem;
-    mmDeletarTodos: TMenuItem;
-    mmDelTodosSelecionados: TMenuItem;
-    mmDescmarcarSelTodos: TMenuItem;
+    pmDeletarTodos: TMenuItem;
+    pmDelTodosSelecionados: TMenuItem;
+    pmDescmarcarSelTodos: TMenuItem;
     pnlControles: TPanel;
     btnEnvioArq: TButton;
     btnEnvioLote: TButton;
@@ -77,40 +79,106 @@ type
     Shape4: TShape;
     Label1: TLabel;
     btnFiltrar: TButton;
-    mmAcoes: TMenuItem;
-    mmExpXMLPDFSelecao: TMenuItem;
-    mmRefazAutorizacaoSelecao: TMenuItem;
-    mmRefazAutorizacaoTodos: TMenuItem;
-    mmLinhaGrupoRefaz: TMenuItem;
-    mmLinhaGrupoDel: TMenuItem;
-    mmN3: TMenuItem;
-    mmMarcarTodos: TMenuItem;
-    mmExpPDFSelecao: TMenuItem;
-    mmExpPDFTodos: TMenuItem;
-    mmLinhaGrupoExpPDF: TMenuItem;
-    mmExpXMLPDFTodos: TMenuItem;
-    mmConfigurar: TMenuItem;
+    pmAcoes: TMenuItem;
+    pmExpXMLPDFSelecao: TMenuItem;
+    pmRefazAutorizacaoSelecao: TMenuItem;
+    pmRefazAutorizacaoTodos: TMenuItem;
+    pmLinhaGrupoRefaz: TMenuItem;
+    pmLinhaGrupoDel: TMenuItem;
+    pmN3: TMenuItem;
+    pmMarcarTodos: TMenuItem;
+    pmExpPDFSelecao: TMenuItem;
+    pmExpPDFTodos: TMenuItem;
+    pmLinhaGrupoExpPDF: TMenuItem;
+    pmExpXMLPDFTodos: TMenuItem;
+    pmConfigurar: TMenuItem;
     mmConfgDiretorios: TMenuItem;
-    mmConfigUsaurios: TMenuItem;
-    mmDelRefazAutTodos: TMenuItem;
+    pmConfigUsaurios: TMenuItem;
+    pmDelRefazAutTodos: TMenuItem;
     pmExportar: TPopupMenu;
-    mmN1: TMenuItem;
-    mniTrocarUsuario: TMenuItem;
-    mniN1: TMenuItem;
+    pmN1: TMenuItem;
+    pmTrocarUsuario: TMenuItem;
+    pmN2: TMenuItem;
     pnl1: TPanel;
+
     dbgNfebkp: TDBGrid;
     statPrincipal: TStatusBar;
     pmFiltroData: TPopupMenu;
+    pmDataEmissao: TMenuItem;
+    pmDataAlteracao: TMenuItem;
+    pmDataRecebimento: TMenuItem;
+    jopdDirDir: TJvSelectDirectory;
+    dlgOpenPrinc: TOpenDialog;
+    pmHabiltaLogs: TMenuItem;
+    lbEmp: TLabel;
+    cbbEmpCNPJ: TComboBox;
+    ProgressBar1: TProgressBar;
+    pmTamArquivos: TMenuItem;
+    mmMaxxml: TMainMenu;
+    mmFiltrosMenu: TMenuItem;
+    mmFerramentas: TMenuItem;
+    mmExpTodos: TMenuItem;
+    mmAcoes: TMenuItem;
+    mmDescmarcarSelTodos: TMenuItem;
+    mmMarcarTodos: TMenuItem;
+    mmN1: TMenuItem;
+    mmTrocarUsuario: TMenuItem;
+    mmN2: TMenuItem;
+    mmConfigurar: TMenuItem;
+    mmExpSelecao: TMenuItem;
+    mmN3: TMenuItem;
+    mmExpPDFTodos: TMenuItem;
+    mmExpPDFSelecao: TMenuItem;
+    mmN4: TMenuItem;
+    mmExpXMLPDFTodos: TMenuItem;
+    mmDeletarTodos: TMenuItem;
+    mmDelTodosSelecionados: TMenuItem;
+    mmConfgdiretrios1: TMenuItem;
+    mmConfigUsaurios: TMenuItem;
+    objectpmHabiltaLogsTMenuItem1: TMenuItem;
+    mmTamArquivos: TMenuItem;
+    mmN5: TMenuItem;
+    mmRefazAutorizacaoSelecao: TMenuItem;
+    mmRefazAutorizacaoTodos: TMenuItem;
+    mmDelRefazAutTodos: TMenuItem;
+    mmExpXMLPDFSelecao: TMenuItem;
+    mmFetchAll: TMenuItem;
     mmDataEmissao: TMenuItem;
     mmDataAlteracao: TMenuItem;
     mmDataRecebimento: TMenuItem;
-    jopdDirDir: TJvSelectDirectory;
-    dlgOpenPrinc: TOpenDialog;
-    mmHabiltaLogs: TMenuItem;
-    lbEmp: TLabel;
-    edEmpresa: TEdit;
+    pmFiltroColunas: TPopupMenu;
+    pmRefazXML: TMenuItem;
+    mmRefazXML: TMenuItem;
+    pmFiltrodetalhado: TMenuItem;
+    mmFiltroDetalhado: TMenuItem;
+    shpNormal: TShape;
+    lb1: TLabel;
+    shpCancelada: TShape;
+    lb2: TLabel;
+    shpCancAguard: TShape;
+    lb3: TLabel;
+    lb4: TLabel;
+    shp4: TShape;
+    shp5: TShape;
+    lb5: TLabel;
+    lb6: TLabel;
+    shpAguardando: TShape;
+    lb7: TLabel;
+    shp7: TShape;
+    lbConsultas: TLabel;
+    btnFIltroSQL: TBitBtn;
+    bvl1: TBevel;
+    mmGeraClasse: TMenuItem;
+    Shape5: TShape;
+    Label2: TLabel;
+    pnlProgressWheel: TPanel;
+    pbw1: TProgressWheel;
+    btnStop: TButton;
+    edConsDocDest: TMaskEdit;
+    cbbConsDocDest: TComboBox;
+    mmConfigConn: TMenuItem;
+    mmConfigconexo1: TMenuItem;
     procedure FormCreate(Sender: TObject);
-    procedure mniConfigBDClick(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure dbgNfebkpDrawColumnCell(Sender: TObject; const Rect: TRect;
@@ -124,23 +192,22 @@ type
     procedure btnCarregaConfigClick(Sender: TObject);
     procedure dbgNfebkpDblClick(Sender: TObject);
     procedure btnPelaChaveClick(Sender: TObject);
-    procedure mmExpTodosClick(Sender: TObject);
+    procedure pmExpTodosClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure dbgNfebkpColExit(Sender: TObject);
     procedure dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
     procedure dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure mmSelTodosClick(Sender: TObject);
     procedure mmSelTodosExportarClick(Sender: TObject);
-    procedure mmExpSelecaoClick(Sender: TObject);
-    procedure mmDescmarcarSelTodosClick(Sender: TObject);
+    procedure pmExpSelecaoClick(Sender: TObject);
+    procedure pmDescmarcarSelTodosClick(Sender: TObject);
     procedure pmExportaPopup(Sender: TObject);
     procedure dbgNfebkpMouseActivate(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y, HitTest: Integer;
       var MouseActivate: TMouseActivate);
     procedure pmSelecionarPopup(Sender: TObject);
-    procedure mmDelTodosSelecionadosClick(Sender: TObject);
-    procedure mmDeletarTodosClick(Sender: TObject);
+    procedure pmDelTodosSelecionadosClick(Sender: TObject);
+    procedure pmDeletarTodosClick(Sender: TObject);
     procedure btnEnvioArqClick(Sender: TObject);
     procedure btnEnvioLoteClick(Sender: TObject);
     procedure btnEnvioExtClick(Sender: TObject);
@@ -156,67 +223,138 @@ type
       const AEventName: string; const AArgument: Variant);
     procedure btnFiltrarClick(Sender: TObject);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure mmMarcarTodosClick(Sender: TObject);
-    procedure mmRefazAutorizacaoTodosClick(Sender: TObject);
+    procedure pmMarcarTodosClick(Sender: TObject);
+    procedure pmRefazAutorizacaoTodosClick(Sender: TObject);
     procedure mmConfgDiretoriosClick(Sender: TObject);
-    procedure mmDelRefazAutTodosClick(Sender: TObject);
-    procedure mmRefazAutorizacaoSelecaoClick(Sender: TObject);
-    procedure mniTrocarUsuarioClick(Sender: TObject);
-    procedure mmConfigUsauriosClick(Sender: TObject);
+    procedure pmDelRefazAutTodosClick(Sender: TObject);
+    procedure pmRefazAutorizacaoSelecaoClick(Sender: TObject);
+    procedure pmTrocarUsuarioClick(Sender: TObject);
+    procedure pmConfigUsauriosClick(Sender: TObject);
     procedure dtpDataFiltroINIExit(Sender: TObject);
     procedure dtpDataFiltroINIKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure dtpDataFiltroFinKeyUp(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure pmFiltroDataPopup(Sender: TObject);
-    procedure mmDataEmissaoClick(Sender: TObject);
-    procedure mmDataAlteracaoClick(Sender: TObject);
-    procedure mmDataRecebimentoClick(Sender: TObject);
-    procedure mmExpPDFSelecaoClick(Sender: TObject);
-    procedure mmExpPDFTodosClick(Sender: TObject);
+    procedure pmDataEmissaoClick(Sender: TObject);
+    procedure pmDataAlteracaoClick(Sender: TObject);
+    procedure pmDataRecebimentoClick(Sender: TObject);
+    procedure pmExpPDFSelecaoClick(Sender: TObject);
+    procedure pmExpPDFTodosClick(Sender: TObject);
+    procedure cbbEmpCNPJChange(Sender: TObject);
+    procedure statPrincipalDrawPanel(StatusBar: TStatusBar; Panel: TStatusPanel;
+      const Rect: TRect);
+    procedure pmTamArquivosClick(Sender: TObject);
+    procedure mmFerramentasClick(Sender: TObject);
+    procedure cbbEmpCNPJDrawItem(Control: TWinControl; Index: Integer;
+      Rect: TRect; State: TOwnerDrawState);
+    procedure mmFetchAllClick(Sender: TObject);
+    procedure pmFiltroColunasPopup(Sender: TObject);
+    procedure pmRefazXMLClick(Sender: TObject);
+    procedure pmFiltrodetalhadoClick(Sender: TObject);
+    procedure btnFIltroSQLClick(Sender: TObject);
+    procedure edConsDocDestChange(Sender: TObject);
+    procedure edConsDocDestKeyUp(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure btnPauseClick(Sender: TObject);
+    procedure btnStopClick(Sender: TObject);
+    procedure cbbConsDocDestChange(Sender: TObject);
+    procedure dbgNfebkpCellClick(Column: TColumn);
+    procedure edConsDocDestExit(Sender: TObject);
+    procedure dbgNfebkpMouseWheel(Sender: TObject; Shift: TShiftState;
+      WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+    procedure edConsDocDestDblClick(Sender: TObject);
+    procedure lb2MouseEnter(Sender: TObject);
+    procedure lb2MouseLeave(Sender: TObject);
+    procedure lb2DblClick(Sender: TObject);
+    procedure mmConfigConnClick(Sender: TObject);
+
+//  protected
+//    procedure DoExecute; override;
+//    procedure DoSetUp; override;
+//    procedure DoTearDown; override;
   private
     { Private declarations }
+
+    FLastColunm : integer;
+    FLastOrderBy: TOrdenaBy;
+
+    wValue: String;
+    wStartTime: TTime;
     wVisible: boolean;
-    wFieldFiltros : TFieldFiltros;
-    procedure pCarregaConfigUsuario(pIDConfig: Integer);
-    procedure fFiltroEmissaoXML;
+    wLastFieldFiltros : TFieldFiltros;
+    wFetchALL :Boolean;
+    wPathXML : string;
+    wThreadAtual : cardinal;
+    {Métodos da barra de progresso em threds}
+    procedure DoMax(const PMax: Int64);
+    procedure DoProgress (const PText: String; const PNumber: Cardinal);
+    procedure pRotinasProgress(pNomeMetodo: TExecuteMetodo);
+    procedure DoTerminate(PSender: TObject);
+    procedure pMenuMaster(pAtiva : boolean);
+
     procedure pDataFiltro;
-    procedure pStatusBarProgress;
+    procedure pFiltroEmissaoXML;
+    procedure pUpdateCampoCNPJE;
     procedure pSalveName(pFieldName: string; var wFileName: string);
-    procedure pSelecaoChave(var pLista: TStringList);
-    procedure pSelTodasLinhas;
+    procedure pSelecaoChave(var pLista: TStringList; pAddObjet : boolean = true);
     procedure pDeleteRowsSelectGrid;
     procedure pRemoveSelTodasLinhas;
     procedure pIniciaGrid;
     procedure pMenuFiltroData(pFieldFiltros : TFieldFiltros);
-
+    procedure pCarregaPainelPrincipal;
+    procedure pCarregaMenuPrincipal;
+    procedure pCarregaRodapePrincipal;
+    procedure pPosicionaDocDest;
+    procedure pTrocaUsuario;
   public
     { Public declarations }
-
+    procedure pAtualizaGrid;
+    function fSelecionaLinhaGrid(pSelecao : TSelectRowsGrid = sgTodos; pCNPJ : String = '*'): Int64;
+    property FetchALL : Boolean read wFetchALL;
+    property LastColunm : integer read FLastColunm write FLastColunm;
+    property LastOrderBy: TOrdenaBy read FLastOrderBy write FLastOrderBy;
   published
     function OpenTabela:boolean;
   end;
 
 var
   foPrincipal : TfoPrincipal;
-  wLastColunm,AtualColunm,i  : Integer;
+  AtualColunm,i  : Integer;
   wUpDown,
-  wLastOrderBy: TOrdenaBy;
   wLastField : string;
   wLoadXML : TLoadXML;
   SLXMLEnv :TStringList;
-  wListaSelecionados : TStringList;
-
-const
+  wListaEmp, wListaSelecionados, wSlLoadLote : TStringList;
+  clCorGrid00,
+  clCorGrid01,
+  clCorGrid02,
+  clCorGrid03,
+  clCorGrid04: integer;
+  const
   cTodosCNPJ = '*';
+  cMaster = 2;
+  cAllEmp = 3;
+  cOneEmp = 4;
 
 implementation
 
 uses
 
-uFoConsConfiguracao, uFoConfiguracao, Configuracoes, uFoXMLSimulacao, ufoLogin, uFoCadUsuario, uFoConsUsuario;
+uFoConsConfiguracao, Configuracoes, uFoXMLSimulacao, ufoLogin, uFoCadUsuario, uFoConsUsuario, ufoTamanhoArquivos, uFoFiltroDetalhe, uFoConexao, uFoProgressao;
 
 {$R *.dfm}
+
+procedure TfoPrincipal.pmTamArquivosClick(Sender: TObject);
+begin
+  foTamArquivos := TfoTamArquivos.Create(Application);
+  try
+    foTamArquivos.ShowModal;
+
+  finally
+    FreeAndNil(foTamArquivos);
+  end;
+end;
 
 procedure TfoPrincipal.appEventBKPNFEMinimize(Sender: TObject);
 begin
@@ -228,25 +366,25 @@ end;
 
 procedure TfoPrincipal.btnCarregaConfigClick(Sender: TObject);
 begin
-  foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
-try
-  with foConsConfiguracoes do
-  begin
-    evtTelaUsuarios := etuEditar;
-    ShowModal;
-  end;
-  pCarregaConfigUsuario(tabConfiguracoes.Id);
-
-finally
-  FreeAndNil(foConsConfiguracoes);
-end;
+//  foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
+//try
+//  with foConsConfiguracoes do
+//  begin
+//    evtTelaUsuarios := etuEditar;
+//    ShowModal;
+//  end;
+//  pCarregaConfigUsuario(tabConfiguracoes.Id);
+//
+//finally
+//  FreeAndNil(foConsConfiguracoes);
+//end;
 end;
 
 procedure TfoPrincipal.btnCanEnvioArqClick(Sender: TObject);
 var wFilename: string;
 begin
   fOpenFile('Selecione o XML de Cancelamento', wFilename,['XML | *.*xml'],1);
-  fLoadXMLNFe(tabConfiguracoes,txCan_,False, wFilename);
+  wRotinas.fLoadXMLNFe(tabConfiguracoes,txCan_,False, wFilename);
   btnFiltrarClick(Sender);
 end;
 
@@ -254,19 +392,19 @@ procedure TfoPrincipal.btnCanEnvioExtClick(Sender: TObject);
 var wFilename: string;
 begin
   fOpenFile('Selecione o XML de Cancelamento processado', wFilename,['XML | *.*xml'],1);
-  fLoadXMLNFe(tabConfiguracoes,txCan_Ext,False, wFilename);
+  wRotinas.fLoadXMLNFe(tabConfiguracoes,txCan_Ext,False, wFilename);
   btnFiltrarClick(Sender);
 end;
 
 procedure TfoPrincipal.btnCanEnvioLoteClick(Sender: TObject);
 begin
-  fLoadXMLNFe(tabConfiguracoes,txCan_Lote, True);
+  wRotinas.fLoadXMLNFe(tabConfiguracoes,txCan_Lote, True);
   btnFiltrarClick(Sender);
 end;
 
 procedure TfoPrincipal.btnCanExetendLoteClick(Sender: TObject);
 begin
-  fLoadXMLNFe(tabConfiguracoes,txCan_ExtLote, True);
+  wRotinas.fLoadXMLNFe(tabConfiguracoes,txCan_ExtLote, True);
   btnFiltrarClick(Sender);
 end;
 
@@ -275,9 +413,9 @@ var wFilename: string;
 begin
   wFilename := 'Env_Nfe';
   fOpenFile('Selecione o XML de Envio', wFilename,['XML | *.*xml'],1);
-  fLoadXMLNFe(tabConfiguracoes, txNFE_Env, false, wFilename);
+  wRotinas.fLoadXMLNFe(tabConfiguracoes, txNFE_Env, false, wFilename);
   pDataFiltro;
-  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy, cTodosCNPJ,'*', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,FLastOrderBy, CNPJDOC.Documento,'cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnEnvioExtClick(Sender: TObject);
@@ -285,22 +423,34 @@ var wFilename: string;
 begin
   wFilename := 'Env_Nfe';
   fOpenFile('Selecione o XML de Envio processado', wFilename,['XML | *.*xml'],1);
-  fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt, False, wFilename);
+  wRotinas.fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt, False, wFilename);
   pDataFiltro;
-  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*',wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,FLastOrderBy,CNPJDOC.Documento,'cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnEnvioLoteClick(Sender: TObject);
 begin
-  fLoadXMLNFe(tabConfiguracoes,txNFE_EnvLote, True);
+  wRotinas.fLoadXMLNFe(tabConfiguracoes,txNFE_EnvLote, True);
   pDataFiltro;
-  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*', wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,FLastOrderBy, CNPJDOC.Documento,'cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
 end;
 
 procedure TfoPrincipal.btnFiltrarClick(Sender: TObject);
 begin
-  fFiltroEmissaoXML;
+  pFiltroEmissaoXML;
   dbgNfebkp.Refresh;
+end;
+
+procedure TfoPrincipal.btnFIltroSQLClick(Sender: TObject);
+begin
+
+  if edConsDocDest.CanFocus then
+  begin
+   edConsDocDest.SetFocus;
+   edConsDocDest.SelStart := 1;
+  end;
+
+  DaoObjetoXML.pFiltraOrdena(ffCNPJDEST, FLastOrderBy, edConsDocDest.Text, 'CNPJDEST'{wLastField}, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, wValue);
 end;
 
 procedure TfoPrincipal.btnInserirClick(Sender: TObject);
@@ -309,8 +459,13 @@ begin
     tabConfiguracoes := TConfiguracoes.Create;
 end;
 
+procedure TfoPrincipal.btnPauseClick(Sender: TObject);
+begin
+  wRotinas.Pausar := not wRotinas.Pausar;
+end;
+
 procedure TfoPrincipal.btnPelaChaveClick(Sender: TObject);
-var wFilename: string;
+//var wFilename: string;
 begin
 //  fOpenFileName(['XML | *.*xml'],['XML Arquivo | *.*xml'], wFilename,'Selecione o XML');
 //  fLoadXMLNFe(tabConfiguracoes,[txTodos],false,wFilename);
@@ -329,48 +484,142 @@ end;
 
 procedure TfoPrincipal.btnProcRetornoClick(Sender: TObject);
 begin
-  if fLoadXMLNFe(tabConfiguracoes,txRet_Sai,True) then
+  if wRotinas.fLoadXMLNFe(tabConfiguracoes,txRet_Sai,True)> 0 then
   begin
     pDataFiltro;
-    DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*','cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,FLastOrderBy,CNPJDOC.Documento,'cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
   end;
 end;
 
 procedure TfoPrincipal.btnSIMULACAOClick(Sender: TObject);
-var wProcess: integer;
 begin
   foXMLSimulcao := TfoXMLSimulcao.Create(Application);
   try
-    wProcess:= fNumProcessThreads;
     foXMLSimulcao.ShowModal;
     pDataFiltro;
-    DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*','cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+    DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,FLastOrderBy,CNPJDOC.Documento,'cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
     LastColunm := dbgNfebkp.SelectedIndex;
   finally
     foXMLSimulcao.Free;
   end;
 end;
 
-procedure TfoPrincipal.btnXMLEnvioExtLoteClick(Sender: TObject);
+procedure TfoPrincipal.btnStopClick(Sender: TObject);
+var wCardinal : CArdinal;
 begin
-  fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExtLote, True);
-  pDataFiltro;
-  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'*','cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+//  wCardinal := StrToIntDef( InputBox('Determine o Sleep', 'Sleep', '30'),0);
+//  if (Assigned(wRotinas)) and (wRotinas.Suspended) then
+//    wRotinas.Sleep(wCardinal);
+
+  if MessageDlg('Deseja para o processo?', mtConfirmation, mbYesNo, 0) = mrYes then
+  begin
+    wRotinas.Terminate;
+  end;
 
 end;
 
-procedure TfoPrincipal.pCarregaConfigUsuario(pIDConfig: Integer);
+procedure TfoPrincipal.btnXMLEnvioExtLoteClick(Sender: TObject);
 begin
-  if not Assigned(tabConfiguracoes) then
-    tabConfiguracoes := TConfiguracoes.Create;
+  wRotinas.fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExtLote, True);
+  pDataFiltro;
+  DaoObjetoXML.pFiltraOrdena(ffDATAALTERACAO,FLastOrderBy,CNPJDOC.Documento,'cnpj', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date,'','');
+end;
 
-  tabConfiguracoes.id := pIDConfig;
-  daoConfiguracoes.fCarregaConfiguracoes(tabConfiguracoes,['id']);
+procedure TfoPrincipal.cbbConsDocDestChange(Sender: TObject);
+begin
+  edConsDocDest.Clear;
+  pPosicionaDocDest;
+end;
 
-  edConfiguracao.Visible   := wVisible;
-  lbConfig.Visible         := wVisible;
-  btnCarregaConfig.Visible := wVisible;
-  edConfiguracao.Text := tabConfiguracoes.DescriConfig;
+procedure TfoPrincipal.cbbEmpCNPJChange(Sender: TObject);
+begin
+   if not Assigned(CNPJDOC) then
+     CNPJDOC := TCNPJDOC.Create;
+
+   if cbbEmpCNPJ.Items[cbbEmpCNPJ.ItemIndex] = 'Todos' then
+     CNPJDOC.Documento := '*'
+   else
+     CNPJDOC.Documento := Copy(cbbEmpCNPJ.Items[cbbEmpCNPJ.ItemIndex],7,18);
+end;
+
+procedure TfoPrincipal.cbbEmpCNPJDrawItem(Control: TWinControl; Index: Integer;
+  Rect: TRect; State: TOwnerDrawState);
+begin
+  with Control as TComboBox do
+  begin
+    case Index of
+      000: begin
+             Canvas.Brush.Color := clWhite; //clCorGrid00;
+           end;
+
+      001: begin
+             Canvas.Brush.Color := clCorGrid01;
+           end;
+
+      002: begin
+             Canvas.Brush.Color := clCorGrid02;
+           end;
+
+      003: begin
+             Canvas.Brush.Color := clCorGrid03;
+           end;
+
+      004: begin
+             Canvas.Brush.Color := clCorGrid04;
+           end;
+
+      005: begin
+             Canvas.Brush.Color := clPurple;
+           end;
+
+      006: begin
+            Canvas.Brush.Color := clAqua;
+           end;
+
+      007: begin
+             Canvas.Brush.Color := clOlive;
+           end;
+    end;
+    //pintar a barra
+//    Canvas.Brush.Color := TColor(Colors[Index]) ;
+    //pintar a fonte
+//    Canvas.Font.Color := TColor(Colors[Index]);
+    Canvas.FillRect(Rect) ;
+    Canvas.TextOut(Rect.Left,Rect.Top,cbbEmpCNPJ.Items[Index]);
+  end;
+end;
+
+procedure TfoPrincipal.pAtualizaGrid;
+begin
+  pUpdateCampoCNPJE;
+  pDataFiltro;
+  DaoObjetoXML.pFiltraOrdena(ffDATAEMISSAO, FLastOrderBy, CNPJDOC.Documento, wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  dbgNfebkp.Refresh;
+  dbgNfebkp.DataSource.DataSet.First;
+end;
+
+procedure TfoPrincipal.pCarregaMenuPrincipal;
+begin
+  wFetchALL := mmFetchAll.Checked;
+end;
+
+procedure TfoPrincipal.pCarregaPainelPrincipal;
+begin
+  //Carrega datas do filtro principal
+  pDataFiltro;
+  DaoObjetoXML.pFiltraOrdena(ffDATAEMISSAO, FLastOrderBy, CNPJDOC.Documento, wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
+  dbgNfebkp.Refresh;
+
+  //Consulta de CPF/CNPJ Destinatário
+  cbbConsDocDest.ItemIndex := 2;
+  edConsDocDest.EditMask := '99.999.999/9999-99;0;_';
+
+
+end;
+
+procedure TfoPrincipal.pCarregaRodapePrincipal;
+begin
+//
 end;
 
 procedure TfoPrincipal.pDataFiltro;
@@ -391,15 +640,62 @@ begin
     if MessageDlg('Você está prestes a deletar '+ IntToStr(wListaSelecionados.Count) +' arquivos.'+#10#13+
                    'Confirma ?',
        mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-      if fDeleteObjetoXML(wListaSelecionados) then
+      if wRotinas.fDeleteObjetoXML(wListaSelecionados) then
         dbgNfebkp.Refresh;;
   end
   else
   if dbgNfebkp.SelectedRows.Count = 1 then
   begin
     if MessageDlg('Deseja excluir o XML selecionado ?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
-      if fDeleteObjetoXML(wListaSelecionados) then
+      if wRotinas.fDeleteObjetoXML(wListaSelecionados) then
         dbgNfebkp.Refresh;;
+  end;
+end;
+
+procedure TfoPrincipal.pRotinasProgress(pNomeMetodo: TExecuteMetodo);
+begin
+//  if not Assigned(wRotinas) then
+    wRotinas := TRotinas.Create;
+    wThreadAtual := wRotinas.ThreadID;
+  with wRotinas do
+  begin
+    ExecuteMetodo := pNomeMetodo;
+
+    case pNomeMetodo of
+          emLoadXMLNFe: begin
+                          InitialDir := wPathXML;
+                          statPrincipal.Panels[1].Text := '0.00%';
+                        end;
+
+       emLoadLoteXMLNFe: begin
+                           Lista := wSlLoadLote;
+                           statPrincipal.Panels[1].Text := '0.00%';
+                         end;
+
+      emExportaLoteXML: begin
+                          Lista := wListaSelecionados;
+                          statPrincipal.Panels[1].Text := '0.00%';
+                        end;
+
+          emExportaPDF: begin
+                         Lista := wListaSelecionados;
+                        end;
+
+       emSelecionaRows: begin
+                          if not Assigned(CNPJDOC) then
+                             CNPJDOC := TCNPJDOC.Create;
+
+                          Documento := CNPJDOC.Documento;
+                        end;
+
+    end;
+
+    OnMax := DoMax;
+    OnProgress := DoProgress;
+    OnTerminate := DoTerminate;
+    wStartTime := Now;
+    //Inicia e suspende a  thread go go go...
+    start;
   end;
 end;
 
@@ -416,63 +712,146 @@ begin
 end;
 
 procedure TfoPrincipal.pMenuFiltroData(pFieldFiltros: TFieldFiltros);
- procedure pCheck(pEmissao, pAlterecao, pReceb: boolean);
+
+ procedure pCheck(pEmissao, pAlterecao, pReceb, pFiltroDetalhado: boolean);
  begin
   mmDataEmissao.Checked     := pEmissao;
   mmDataAlteracao.Checked   := pAlterecao;
   mmDataRecebimento.Checked := pReceb;
+  mmFiltroDetalhado.Checked := pFiltroDetalhado;
+
+  pmDataEmissao.Checked     := pEmissao;
+  pmDataAlteracao.Checked   := pAlterecao;
+  pmDataRecebimento.Checked := pReceb;
+  pmFiltrodetalhado.Checked := pFiltroDetalhado;
  end;
 begin
-  wFieldFiltros := pFieldFiltros;
+
+  wLastFieldFiltros := pFieldFiltros;
   case pFieldFiltros of
 
-       ffDATARECTO: pCheck(false, false, True);
-     ffDATAEMISSAO: pCheck(true, false, false);
-   ffDATAALTERACAO: pCheck(false, true, false);
+       ffDATARECTO   : pCheck(false, false, True, false);
+     ffDATAEMISSAO   : pCheck(true, false, false, false);
+   ffDATAALTERACAO   : pCheck(false, true, false, false);
+   ffFILTRODETALHADO : pCheck(false, false, false, true);
+  end;
+end;
+
+procedure TfoPrincipal.pMenuMaster(pAtiva: boolean);
+var i, j, k: integer;
+begin
+
+  with mmMaxxml do
+  begin
+    for I := 0 to mmMaxxml.Items.Count-1 do
+    begin
+      if Items[I].Name = 'mmFerramentas' then
+      for K:= 0 to mmMaxxml.Items[I].Count-1 do
+      begin
+        if mmMaxxml.Items[I].Items[K].Name = 'mmAcoes' then
+        begin
+          for J := 0 to mmMaxxml.Items[I].Items[K].Count -1 do
+          begin
+             if mmMaxxml.Items[I].Items[K].Items[J].Tag = cMaster then
+             begin
+               mmMaxxml.Items[I].Items[K].Items[J].Enabled := pAtiva;
+               mmMaxxml.Items[I].Items[K].Items[J].Visible := pAtiva;
+             end;
+
+             if (mmMaxxml.Items[I].Items[K].Items[J].Tag = cOneEmp)  and
+                (cbbEmpCNPJ.Items[cbbEmpCNPJ.ItemIndex] = 'Todos') then
+             begin
+               mmMaxxml.Items[I].Items[K].Items[J].Enabled := pAtiva;
+               mmMaxxml.Items[I].Items[K].Items[J].Visible := pAtiva;
+             end;
+          end;
+        end;
+
+        if (mmMaxxml.Items[I].Items[K].Name = 'mmConfigurar') and
+           (mmMaxxml.Items[I].Items[K].Tag = cMaster) then
+        begin
+          mmMaxxml.Items[I].Items[K].Enabled := pAtiva;
+          mmMaxxml.Items[I].Items[K].Visible := pAtiva;
+          exit;
+        end;
+      end;
+    end;
   end;
 end;
 
 procedure TfoPrincipal.pmExportaPopup(Sender: TObject);
 var wHabilita : boolean;
 
-  procedure pMenuMaster(pAtiva : boolean);
+const
+ cMaster = 2;
+ cAllEmp = 3;
+ cOneEmp = 4;
+
+  procedure pPopupMenuMaster(pAtiva : boolean);
   var i, j, k: integer;
   begin
 
-      with TMainMenu(Sender) do
+      with TPopupMenu(Sender) do
       begin
         for I := 0 to Items.Count-1 do
         begin
-          if Items[i].Name = 'mmAcoes' then
+          if Items[i].Name = 'pmAcoes' then
           begin
-            for j := 0 to TMainMenu(sender).Items[i].Count -1 do
+            for j := 0 to TPopupMenu(sender).Items[i].Count -1 do
             begin
-               if TMainMenu(Sender).Items[i].Items[j].Tag = 2 then
+               if TPopupMenu(Sender).Items[i].Items[j].Tag = cMaster then
                begin
-                 TMainMenu(Sender).Items[i].Items[j].Enabled := pAtiva;
-                 TMainMenu(Sender).Items[i].Items[j].Visible := pAtiva;
+                 TPopupMenu(Sender).Items[i].Items[j].Enabled := pAtiva;
+                 TPopupMenu(Sender).Items[i].Items[j].Visible := pAtiva;
+               end;
+
+               if (TPopupMenu(Sender).Items[i].Items[j].Tag = cOneEmp)  and
+                  (cbbEmpCNPJ.Items[cbbEmpCNPJ.ItemIndex] = 'Todos') then
+               begin
+                 TPopupMenu(Sender).Items[i].Items[j].Enabled := pAtiva;
+                 TPopupMenu(Sender).Items[i].Items[j].Visible := pAtiva;
                end;
             end;
           end;
 
-          if Items[i].Name = 'mmConfigurar' then
+          if Items[i].Name = 'pmConfigurar' then
           begin
             Items[I].Enabled := pAtiva;
             Items[I].Visible := pAtiva;
 
             exit;
           end;
-
         end;
       end;
-
   end;
 
 begin
   pSelecaoChave(wListaSelecionados);
-  wVisible := fMaster(tabUsuarios);
-  pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
-  pMenuMaster(wVisible);
+  wVisible := wRotinas.fMaster(tabUsuarios);
+  pPopupMenuMaster(wVisible);
+end;
+
+procedure TfoPrincipal.pmFiltroColunasPopup(Sender: TObject);
+
+  procedure pCriaPopupMenuColunas;
+  begin
+    for I := 0 to dbgNfebkp.Columns.Count-1 do
+    begin
+      with pmFiltroColunas do
+      begin
+
+
+
+      end;
+
+    end;
+
+  end;
+
+begin
+  pCriaPopupMenuColunas;
+
+
 end;
 
 procedure TfoPrincipal.pmFiltroDataPopup(Sender: TObject);
@@ -480,6 +859,36 @@ var i, j, k: integer;
 begin
   if True then
 
+
+end;
+
+procedure TfoPrincipal.pmFiltrodetalhadoClick(Sender: TObject);
+var wDocDest: string;
+begin
+  pMenuFiltroData(ffFILTRODETALHADO);
+  try
+    foFiltroDetalahado := TfoFiltroDetalahado.Create(Application);
+    with wFiltroDetalhado do
+    begin
+      if cbbEmpCNPJ.Items[cbbEmpCNPJ.ItemIndex] = 'Todos' then
+        CnpjEmi := 'Todos'
+      else
+        CnpjEmi := Copy(cbbEmpCNPJ.Items[cbbEmpCNPJ.ItemIndex],7,18);
+
+      DataIni := dtpDataFiltroINI.Date;
+      DataFin := dtpDataFiltroFin.Date;
+      wDocDest := dbgNfebkp.DataSource.DataSet.FieldByName('cnpjdest').AsString;
+      if fValidaCNPJ(wDocDest, true) or fValidCPF(wDocDest, true) then
+        CnpjDest := wDocDest
+      else
+        CnpjDest := 'Todos';
+    end;
+    foFiltroDetalahado.ShowModal;
+
+
+  finally
+    FreeAndNil(foFiltroDetalahado);
+  end;
 
 end;
 
@@ -501,24 +910,32 @@ end;
 
 procedure TfoPrincipal.mmConfgDiretoriosClick(Sender: TObject);
 begin
-  foConsConfiguracoes := TfoConsConfiguracoes.Create(Application);
+  foConexao:= TfoConexao.Create(Application);
 try
-  evtTelaUsuarios := etuEditar;
-
-  foConsConfiguracoes.ShowModal;
-  pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
+  foConexao.ShowModal;
 finally
-  FreeAndNil(foConsConfiguracoes);
+  FreeAndNil(foConexao);
 end;
 end;
 
-procedure TfoPrincipal.mmConfigUsauriosClick(Sender: TObject);
+procedure TfoPrincipal.mmConfigConnClick(Sender: TObject);
+begin
+    foConexao := TfoConexao.Create(Application);
+  try
+    foConexao.ShowModal;
+    if not ConecxaoBD.Conectado then
+      pTrocaUsuario;
+
+  finally
+    FreeAndNil(foConexao);
+  end;
+end;
+
+procedure TfoPrincipal.pmConfigUsauriosClick(Sender: TObject);
 begin
   FoConsUsuario := TfoConsUsuario.Create(Application);
   try
     FoConsUsuario.ShowModal;
-
-    pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
     statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
 
   finally
@@ -526,96 +943,138 @@ begin
   end;
 end;
 
-procedure TfoPrincipal.mmDataAlteracaoClick(Sender: TObject);
+procedure TfoPrincipal.pmDataAlteracaoClick(Sender: TObject);
 begin
   pMenuFiltroData(ffDATAALTERACAO);
 end;
 
-procedure TfoPrincipal.mmDataEmissaoClick(Sender: TObject);
+procedure TfoPrincipal.pmDataEmissaoClick(Sender: TObject);
 begin
   pMenuFiltroData(ffDATAEMISSAO);
 end;
 
-procedure TfoPrincipal.mmDataRecebimentoClick(Sender: TObject);
+procedure TfoPrincipal.pmDataRecebimentoClick(Sender: TObject);
 begin
   pMenuFiltroData(ffDATARECTO);
 end;
 
-procedure TfoPrincipal.mmDeletarTodosClick(Sender: TObject);
+procedure TfoPrincipal.mmFerramentasClick(Sender: TObject);
 begin
-
-  begin
-    if MessageDlg('Você está prestes a deletar todos'+ IntToStr(wListaSelecionados.Count) +' arquivos.',
-       mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-     if  fDeleteObjetoXML(wListaSelecionados, true) then
-       dbgNfebkp.Refresh;
-  end;
-
- dbgNfebkp.Refresh;
+  pMenuMaster(wVisible);
 end;
 
-procedure TfoPrincipal.mmDelRefazAutTodosClick(Sender: TObject);
+procedure TfoPrincipal.mmFetchAllClick(Sender: TObject);
 begin
-  pSelTodasLinhas;
+  mmFetchAll.Checked := not mmFetchAll.Checked;
+  wFetchALL := mmFetchAll.Checked;
+end;
+
+procedure TfoPrincipal.pmDeletarTodosClick(Sender: TObject);
+var wMsg, wCNPJEmit : string;
+begin
+  cbbEmpCNPJChange(Sender);
+  wMsg := 'Você está prestes a deletar.';
+  wCNPJEmit := CNPJDOC.Documento;
+  begin
+    if wCNPJEmit = '*' then
+      wMsg := 'Você está prestes a deletar todos os arquivos.'
+    else
+    if fValidaCNPJ(wCNPJEmit, true)then
+     wMsg := 'Você está prestes a deletar todos os arquivos do CNPJ '+ wCNPJEmit+'.';
+
+    if MessageDlg(wMsg, mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
+     if wRotinas.fDeleteObjetoXML(wListaSelecionados, CNPJDOC.Documento, tsSelTodos) then
+     begin
+       pAtualizaGrid;
+     end;
+  end;
+end;
+
+procedure TfoPrincipal.pmDelRefazAutTodosClick(Sender: TObject);
+begin
+  fSelecionaLinhaGrid;
   pSelecaoChave(wListaSelecionados);
-  fDeleteObjetoXML(wListaSelecionados);
-  if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
+  wRotinas.fDeleteObjetoXML(wListaSelecionados);
+  if wRotinas.fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') > 0 then
   begin
-    dbgNfebkp.Refresh;
+     pAtualizaGrid;
   end;
-
 end;
 
-procedure TfoPrincipal.mmDelTodosSelecionadosClick(Sender: TObject);
+procedure TfoPrincipal.pmDelTodosSelecionadosClick(Sender: TObject);
 begin
   if wListaSelecionados.Count <> dbgNfebkp.SelectedRows.Count then
     pSelecaoChave(wListaSelecionados);
 
-  if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
+  if (dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count) then
   begin
-    if MessageDlg('Você está prestes a deletar '+ IntToStr(wListaSelecionados.Count) +' arquivos.',
-       mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
-      fDeleteObjetoXML(wListaSelecionados);
-  end
-  else
-  if wListaSelecionados.Count = 1 then
-  begin
-    if MessageDlg('Deseja excluir o arquivo XML ?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
-      fDeleteObjetoXML(wListaSelecionados);
+    if (dbgNfebkp.SelectedRows.Count > 1) then
+    begin
+      if MessageDlg('Você está prestes a deletar '+ IntToStr(wListaSelecionados.Count) +' arquivos.',
+         mtConfirmation, [mbNo, mbYesToAll],0 )= mrYesToAll then
+        wRotinas.fDeleteObjetoXML(wListaSelecionados, CNPJDOC.Documento, tsSelMulti);
+    end
+    else
+    if wListaSelecionados.Count = 1 then
+    begin
+      if MessageDlg('Deseja excluir o arquivo XML ?', mtConfirmation, [mbNo, mbYes],0 ) = mrYes then
+        wRotinas.fDeleteObjetoXML(wListaSelecionados, CNPJDOC.Documento, tsSelMulti);
+    end;
   end;
 
-  dbgNfebkp.Refresh;
+  pAtualizaGrid;
 end;
 
-procedure TfoPrincipal.mmExpTodosClick(Sender: TObject);
+procedure TfoPrincipal.pmExpTodosClick(Sender: TObject);
 begin
-  pSelTodasLinhas;
+  fSelecionaLinhaGrid;
   pSelecaoChave(wListaSelecionados);
+
   if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
-    fExportaLoteXML(wListaSelecionados);
+  begin
+    pRotinasProgress(emExportaLoteXML);
+  end;
+
 end;
 
-procedure TfoPrincipal.mmExpPDFSelecaoClick(Sender: TObject);
+procedure TfoPrincipal.pmExpPDFSelecaoClick(Sender: TObject);
 var wTotSalvos: integer;
 begin
   pSelecaoChave(wListaSelecionados);
-  if fExportaPDF(wListaSelecionados, wTotSalvos) then
-    ShowMessage(IntToStr(wTotSalvos) +  ' arquivos de PFDs exportado com sucesso!');
+  pRotinasProgress(emExportaPDF);
+//  wTotSalvos :=  wRotinas.fExportaPDF(wListaSelecionados);
+//  if wTotSalvos > 0 then
+//  begin
+//    if wTotSalvos = wListaSelecionados.Count then
+//      ShowMessage(IntToStr(wTotSalvos) + ' Todos PFDs selecionados exportados com sucesso!')
+//    else
+//    if wTotSalvos > 0 then
+//      ShowMessage(IntToStr(wTotSalvos) + ' arquivos de PFDs exportados com sucesso!');
+//  end;
 end;
 
-procedure TfoPrincipal.mmExpPDFTodosClick(Sender: TObject);
+procedure TfoPrincipal.pmExpPDFTodosClick(Sender: TObject);
 var wTotSalvos: integer;
 begin
-  pSelTodasLinhas;
+  fSelecionaLinhaGrid;
   pSelecaoChave(wListaSelecionados);
-  if fExportaPDF(wListaSelecionados, wTotSalvos) then
-    ShowMessage(IntToStr(wTotSalvos) + ' arquivos de PFDs exportado com sucesso!');
+  pRotinasProgress(emExportaPDF);
+
+//  wTotSalvos :=  wRotinas.fExportaPDF(wListaSelecionados);
+//  if (wTotSalvos > 0)then
+//  begin
+//    if wTotSalvos > wListaSelecionados.Count then
+//      ShowMessage(IntToStr(wTotSalvos) + ' Todos PFDs exportados com sucesso!')
+//    else
+//    if wTotSalvos > 0 then
+//       ShowMessage(IntToStr(wTotSalvos) + ' arquivos de PFDs exportados com sucesso!');
+//  end;
 end;
 
-procedure TfoPrincipal.mmExpSelecaoClick(Sender: TObject);
+procedure TfoPrincipal.pmExpSelecaoClick(Sender: TObject);
 begin
   if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
-    fExportaLoteXML(wListaSelecionados);
+    pRotinasProgress(emExportaLoteXML)
 end;
 
 procedure TfoPrincipal.dbgNfebkpTitleClick(Column: TColumn);
@@ -760,31 +1219,127 @@ begin
   else
   wValue1 := wValueAux;
 
-  if wLastOrderBy = obyNone then
-    wLastOrderBy:= obyASCENDENTE;
+  if FLastOrderBy = obyNone then
+    FLastOrderBy:= obyASCENDENTE;
 
   wLastField := Column.FieldName;
-  DaoObjetoXML.pFiltraOrdena(wFieldOrd,wLastOrderBy,'*',wLastField ,wDataINI, wDataFIN,CNPJDOC.Documento,'');
+  DaoObjetoXML.pFiltraOrdena(wFieldOrd,FLastOrderBy,CNPJDOC.Documento,wLastField ,wDataINI, wDataFIN,'','');
 
-  if wLastOrderBy = obyASCENDENTE then
-    wLastOrderBy := obyDESCEDENTE
+  if FLastOrderBy = obyASCENDENTE then
+    FLastOrderBy := obyDESCEDENTE
   else
-   wLastOrderBy := obyASCENDENTE;
+   FLastOrderBy := obyASCENDENTE;
 
-  if wLastColunm >= 0 then
-    dbgNfebkp.Columns[wLastColunm].Title.Font.Style := [];
+  if FLastColunm >= 0 then
+    dbgNfebkp.Columns[FLastColunm].Title.Font.Style := [];
 
   dbgNfebkp.Columns[Column.Index].Title.Font.Style := [fsBold];
-  wLastColunm := Column.Index;
+  FLastColunm := Column.Index;
 
   dbgNfebkp.Refresh;
 end;
 
+//procedure TfoPrincipal.DoExecute;
+//begin
+//  if not Assigned(wRotinas) then
+//    inherited wRotinas.DoExecute();
+//end;
+//
+//procedure TfoPrincipal.DoSetUp;
+//begin
+//  if not Assigned(wRotinas) then
+//    inherited DoSetUp();
+//end;
+//
+//procedure TfoPrincipal.DoTearDown;
+//begin
+//  if not Assigned(wRotinas) then
+//    inherited DoTearDown();
+//end;
+procedure TfoPrincipal.DoMax(const PMax: Int64);
+begin
+  pnlProgressWheel.Visible := true;
+  pnlProgressWheel.BringToFront;
+  pbw1.Min := 0;
+  pbw1.Max := PMax;
+  pbw1.Position := 0;
+  pbw1.DoubleBuffered := True;
+
+//  ProgressBar1.Step := 1;
+//  ProgressBar1.Position := 0;
+//  ProgressBar1.Max := PMax;
+//  ProgressBar1.DoubleBuffered := True;
+  statPrincipal.Panels[2].Text := 'Processando!';
+end;
+
+procedure TfoPrincipal.DoProgress(const PText: String; const PNumber: Cardinal);
+var I:Int64;
+begin
+  I:= pbw1.Position;
+  Inc(I,1);
+  pbw1.Position := I;
+  statPrincipal.Panels[1].Text := FormatFloat('##0.00%',pbw1.Position / pbw1.Max * 100);
+
+//  ProgressBar1.StepIt;
+//  statPrincipal.Panels[1].Text := FormatFloat('##0.00%',ProgressBar1.Position / ProgressBar1.Max * 100);
+
+  statPrincipal.Panels[3].Text := Inttostr(PNumber)+' - '+ PText;
+end;
+
+procedure TfoPrincipal.DoTerminate(PSender: TObject);
+var wMSG: string;
+ wCardinal : cardinal;
+begin
+//  statPrincipal.Panels[1].Text := FormatFloat('##0.00%',ProgressBar1.Position / ProgressBar1.Max * 100);
+//  statPrincipal.Panels[2].Text := 'Concluído!';
+  statPrincipal.Panels[1].Text := FormatFloat('##0.00%',pbw1.Position / pbw1.Max * 100);
+  statPrincipal.Panels[2].Text := 'Concluído!';
+  with wRotinas do
+  case ExecuteMetodo of
+        emLoadXMLNFe: begin
+                        wMSG := Format('Tempo total: %s',[FormatDateTime('hh:nn:ss',Now - wStartTime)]);
+
+                        pUpdateCampoCNPJE;
+                      end;
+//        emExportaPDF: wMSG := Format('Total %d de %d Arquivos exportados - Tempo total: %s',[ProgressBar1.Position, ProgressBar1.Max, FormatDateTime('hh:nn:ss',Now - wStartTime)]);
+        emExportaPDF: wMSG := Format('Total %d de %d Arquivos exportados - Tempo total: %s',[pbw1.Position, pbw1.Max, FormatDateTime('hh:nn:ss',Now - wStartTime)]);
+
+    emExportaLoteXML: wMSG := Format('Tempo total: %s',[FormatDateTime('hh:nn:ss',Now - wStartTime)]);
+
+     emSelecionaRows: begin
+//                        wMSG := Format('%d / %d Linhas selecionadas - Tempo total: %s',[ProgressBar1.Position,ProgressBar1.Max, FormatDateTime('hh:nn:ss',Now - wStartTime)])
+                        wMSG := Format('%d / %d Linhas selecionadas - Tempo total: %s',[pbw1.Position,pbw1.Max, FormatDateTime('hh:nn:ss',Now - wStartTime)])
+                      end;
+  end;
+
+
+//  SuspendThread(Handle);
+  statPrincipal.Panels[3].Text := wMSG;
+//  ProgressBar1.Step := 1;
+//  ProgressBar1.Position := 0;
+  pbw1.Position := 0;
+  pnlProgressWheel.Visible := False;
+  wRotinas.Terminate;
+end;
+
 procedure TfoPrincipal.dtpDataFiltroFinKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+  var y,m,d:word;
 begin
   if Key = VK_F2 then
+  begin
+   DecodeDate(now,y,m,d);
+   dtpDataFiltroFin.DateTime := EncodeDate(y,m,01)
+  end;
+
+  if Key = VK_F3 then
    dtpDataFiltroFin.DateTime := now;
+
+  if Key = VK_F4 then
+  begin
+    DecodeDate(now,y,m,d);
+    dtpDataFiltroFin.DateTime := EncodeDate(y,m,DaysInMonth(Now));
+  end;
 end;
 
 procedure TfoPrincipal.dtpDataFiltroINIExit(Sender: TObject);
@@ -792,15 +1347,76 @@ var y,m,d: word;
     wDateIni : Tdate;
 begin
   DecodeDate(dtpDataFiltroINI.Date,y,m,d);
-//  dtpDataFiltroINI.DateTime := EncodeDate(y,m,01);
   dtpDataFiltroFin.DateTime := EncodeDate(y,m,DaysInMonth(dtpDataFiltroINI.Date));
 end;
 
 procedure TfoPrincipal.dtpDataFiltroINIKeyUp(Sender: TObject; var Key: Word;
   Shift: TShiftState);
+  var y,m,d: word;
 begin
   if Key = VK_F2 then
+  begin
+   DecodeDate(now,y,m,d);
+   dtpDataFiltroINI.DateTime := EncodeDate(y,m,01)
+  end;
+
+  if Key = VK_F3 then
    dtpDataFiltroINI.DateTime := now;
+
+  if Key = VK_F4 then
+  begin
+    DecodeDate(now,y,m,d);
+    dtpDataFiltroINI.DateTime := EncodeDate(y,m,DaysInMonth(Now));
+  end;
+
+end;
+
+procedure TfoPrincipal.edConsDocDestChange(Sender: TObject);
+begin
+//  wValue := Trim(LowerCase(edConsDocDest.Text));
+//  if (Length(wValue) = 14) and (fValidaCNPJ(wValue)) then
+//  begin
+//    edConsDocDest.Text := wValue;
+//    edConsDocDest.SelStart := Length( edConsDocDest.Text);
+//  end;
+//
+//  if (Length(wValue) = 9) and (fValidCPF(wValue)) then
+//  begin
+//    edConsDocDest.Text := wValue;
+//    edConsDocDest.SelStart := Length( edConsDocDest.Text);
+//  end;
+end;
+
+procedure TfoPrincipal.edConsDocDestDblClick(Sender: TObject);
+begin
+  edConsDocDest.Clear;
+end;
+
+procedure TfoPrincipal.edConsDocDestExit(Sender: TObject);
+begin
+  wValue := Trim(LowerCase(edConsDocDest.Text));
+  if (Length(wValue) = 14) and (fValidaCNPJ(wValue)) then
+  begin
+    edConsDocDest.Text := wValue;
+    edConsDocDest.SelStart := Length( edConsDocDest.Text);
+  end;
+
+  if (Length(wValue) = 9) and (fValidCPF(wValue)) then
+  begin
+    edConsDocDest.Text := wValue;
+    edConsDocDest.SelStart := Length( edConsDocDest.Text);
+  end;
+
+  InputBox()
+end;
+
+procedure TfoPrincipal.edConsDocDestKeyUp(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = vk_Return then
+  begin
+    btnFIltroSQLClick(Sender);
+  end
 end;
 
 procedure TfoPrincipal.FDEventAlerter1Alert(ASender: TFDCustomEventAlerter;
@@ -817,19 +1433,24 @@ begin
   end
 end;
 
-procedure TfoPrincipal.fFiltroEmissaoXML;
+procedure TfoPrincipal.pFiltroEmissaoXML;
 begin
  if dtpDataFiltroINI.Date > dtpDataFiltroFin.Date then
      dtpDataFiltroFin.Date := dtpDataFiltroINI.Date;
 
   if dtpDataFiltroINI.Date <= dtpDataFiltroFin.Date then
-    DaoObjetoXML.pFiltraOrdena(wFieldFiltros, wLastOrderBy, '*',wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, CNPJDOC.Documento);
+    DaoObjetoXML.pFiltraOrdena(wLastFieldFiltros, FLastOrderBy, CNPJDOC.Documento,wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
 end;
 
-procedure TfoPrincipal.dbgNfebkpColExit(Sender: TObject);
+procedure TfoPrincipal.dbgNfebkpCellClick(Column: TColumn);
 begin
-//   if dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField then
-//     dbchkCHECKBOX.Visible := False
+  if Length(Column.Grid.DataSource.DataSet.FieldByName('cnpjdest').AsString) = 11 then
+    cbbConsDocDest.ItemIndex := 0
+  else
+    cbbConsDocDest.ItemIndex := 1;
+
+  pPosicionaDocDest;
+  edConsDocDest.Text := Column.Grid.DataSource.DataSet.FieldByName('cnpjdest').AsString;
 end;
 
 procedure TfoPrincipal.dbgNfebkpDblClick(Sender: TObject);
@@ -853,7 +1474,7 @@ begin
 
      if dlgSaveXML.Execute then
      begin
-       pDecompress(wStream, dlgSaveXML.FileName);
+       wRotinas.pDecompress(wStream, dlgSaveXML.FileName);
      end;
    end;
 end;
@@ -861,70 +1482,99 @@ end;
 procedure TfoPrincipal.dbgNfebkpDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
   const IsChecked : array[Boolean] of Integer = (DFCS_BUTTONCHECK, DFCS_BUTTONCHECK or DFCS_CHECKED);
-var wStream : TStream;
-    wFileName : String;
-    wRow: integer;
+var
+    wColor: TColor;
+    wStream : TStream;
+    wRow, wStatus : Integer;
+    wFileName, wSTR : String;
 
   procedure pSetColorLinhas;
-  var wStatus : Integer;
   begin
     with (Sender as TDBGrid) do
     begin
-      Canvas.Font.Style := [];
+      wSTR := DataSource.DataSet.FieldByName('cnpj').AsString;
+      wStatus := wListaEmp.IndexOf(wSTR);
 
-      if (gdFocused in State) then
-      begin
-       Canvas.Brush.Color := clWebLightYellow;
-       Canvas.Font.Style := [];
-       Canvas.FillRect(Rect);
-       Canvas.Font.Color:= clBlack;
-       Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
-       Canvas.FillRect(Rect);
-      end;
-
-      if (gdFixed in State) then
-      begin
-       Canvas.Brush.Color := clFuchsia;
-       Canvas.Font.Style := [];
-       Canvas.FillRect(Rect);
-       Canvas.Font.Color:= clwhite;
-       Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
-       Canvas.FillRect(Rect);
-      end;
-
-      if (gdSelected in State) then
-      begin
-       Canvas.Brush.Color := clMedGray;
-       Canvas.Font.Style := [];
-       Canvas.FillRect(Rect);
-       Canvas.Font.Color:= clWhite;
-       Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
-       Canvas.FillRect(Rect);
-      end;
-
-      wStatus := DataSource.DataSet.FieldByName('STATUS').AsInteger;
       case wStatus of
-        001: Canvas.Font.Color := clGreen;     //XML Envio aguardando
-        004: Canvas.Font.Color := clPurple;   //XML Cancelamento Envio aguardando
-        100: Canvas.Font.Color := clBlack;    //XML Envio Processado
-        101,
-        135: Canvas.Font.Color := clRed;      //XML Cancel. Processado
-        110,205,301,302,
-        303: Canvas.Font.Color := clGray;     //Denegada
-        206,
-        256,
-        662: Canvas.Font.Color := clFuchsia;  //Inutilizada
-      else
-        Canvas.Font.Color := clNavy;
-      end;
+        000: begin
+               Canvas.Brush.Color := clCorGrid00;
+             end;
 
-     Canvas.FillRect(Rect);
-     DefaultDrawColumnCell(Rect, DataCol, Column, State);
+        001: begin
+               Canvas.Brush.Color := clCorGrid01;
+             end;
+
+        002: begin
+               Canvas.Brush.Color := clCorGrid02;
+             end;
+
+        003: begin
+               Canvas.Brush.Color := clCorGrid03;
+             end;
+
+        004: begin
+               Canvas.Brush.Color := clCorGrid04;
+             end;
+
+        005: begin
+               Canvas.Brush.Color := clPurple;
+             end;
+
+        006: begin
+              Canvas.Brush.Color := clAqua;
+             end;
+
+        007: begin
+               Canvas.Brush.Color := clOlive;
+             end;
+      end;
     end;
   end;
 
 begin
-  pSetColorLinhas;
+  with (Sender as TDBGrid) do
+  begin
+    wStatus := DataSource.DataSet.FieldByName('STATUSXML').AsInteger;
+    case wStatus of
+     -999: Canvas.Font.Color := clXmlDefeito;
+      001: Canvas.Font.Color := clEnvAguard;     //XML Envio aguardando
+      004: Canvas.Font.Color := clCancAguard;   //XML Cancelamento Envio aguardando
+      100: Canvas.Font.Color := clProcessado;    //XML Envio Processado
+      101,
+      135: if DataSource.DataSet.FieldByName('tpEvento').AsInteger = 110110 then
+             Canvas.Font.Color := clCartaCorrecao      //XML Carta Correção
+           else
+//           if DataSource.DataSet.FieldByName('tpEvento').AsInteger = 110111 then
+             Canvas.Font.Color := clCancProcessado;      //XML Cancel. Processado
+      110,205,301,302,
+      303: Canvas.Font.Color := clDenegada;     //Denegada
+      206,
+      256,
+      662: Canvas.Font.Color := clInutilizada;  //Inutilizada
+    else
+      Canvas.Font.Color := clNaoIdent;
+    end;
+
+    if ((gdSelected in State) or (gdRowSelected in State)) or SelectedRows.CurrentRowSelected then
+    begin
+      if SelectedRows.CurrentRowSelected then
+        Canvas.Brush.Color := clDkGray
+      else
+        Canvas.Brush.Color := clGray;
+
+      Canvas.Font.Style := [];
+      Canvas.FillRect(Rect);
+      Canvas.Font.Color:= clBlack;
+      Canvas.TextOut(Rect.Left, Rect.Top,Column.Field.AsString);
+      Canvas.FillRect(Rect);
+    end
+    else
+    if (cbbEmpCNPJ.Items[cbbEmpCNPJ.ItemIndex] = 'Todos') then
+      pSetColorLinhas;
+
+   Canvas.FillRect(Rect);
+   DefaultDrawColumnCell(Rect, DataCol, Column, State);
+  end;
 end;
 
 procedure TfoPrincipal.dbgNfebkpKeyPress(Sender: TObject; var Key: Char);
@@ -933,12 +1583,6 @@ var wOK : Boolean;
 begin
   if (key = Chr(9)) then
    Exit;
-
-//  if (dbgNfebkp.SelectedField.FieldName = dbchkCHECKBOX.DataField) then
-//  begin
-//    dbchkCHECKBOX.SetFocus;
-//    SendMessage(dbchkCHECKBOX.Handle, WM_Char, word(Key), 0);
-//  end;
 end;
 
 procedure TfoPrincipal.dbgNfebkpKeyUp(Sender: TObject; var Key: Word;
@@ -970,30 +1614,55 @@ begin
 //  end;
 end;
 
+procedure TfoPrincipal.dbgNfebkpMouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
+begin
+  if Length(TDBGrid(Sender).Columns.Grid.DataSource.DataSet.FieldByName('cnpjdest').AsString) = 11 then
+    cbbConsDocDest.ItemIndex := 0
+  else
+    cbbConsDocDest.ItemIndex := 1;
+
+  pPosicionaDocDest;
+  edConsDocDest.Text := TDBGrid(Sender).Columns.Grid.DataSource.DataSet.FieldByName('cnpjdest').AsString;
+end;
+
 procedure TfoPrincipal.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   FreeAndNil(wListaSelecionados);
-  DM_NFEDFE.conConexaoFD.Connected := false;
 end;
 
 procedure TfoPrincipal.FormCreate(Sender: TObject);
-var i:Integer;
+var i,k:Integer;
     dts : TDataSet;
 
-//  procedure pIniciaDBCheckBox;
-//  begin
-//    dbchkCHECKBOX.DataSource := DM_NFEDFE.dsBkpdfe;
-//    dbchkCHECKBOX.DataField := 'CHECKBOX';
-//    dbchkCHECKBOX.Visible := False;
-//    dbchkCHECKBOX.Color := dbgNfebkp.Color;
-//    dbchkCHECKBOX.Caption := '';
-//  end;
+ procedure pSetaCores;
+ begin
+   clCorGrid00 := StrToInt('$D6FEE1');
+   clCorGrid01 := StrToInt('$ffd7e1');
+   clCorGrid02 := StrToInt('$fdfad0');
+   clCorGrid03 := StrToInt('$ffffda');
+   clCorGrid04 := StrToInt('$B4D0F7');
+ end;
+
+ procedure pProgressBarStyle;
+var
+  ProgressBarStyle: integer;
+  begin
+    statPrincipal.Panels[3].Style := psOwnerDraw;
+    ProgressBar1.Parent := statPrincipal;
+    ProgressBarStyle := GetWindowLong(ProgressBar1.Handle, GWL_EXSTYLE);
+    ProgressBarStyle := (ProgressBarStyle - WS_EX_STATICEDGE);
+    SetWindowLong(ProgressBar1.Handle, GWL_EXSTYLE, ProgressBarStyle);
+  end;
 
 begin
-  foPrincipal.Caption := 'SOUIS MAXXML Versão 1.1 - beta';
+  if not Assigned(wRotinas) then
+    wRotinas := TRotinas.Create;
 
-//  pStatusBarProgress;
+  foPrincipal.Caption := 'SOUIS - MAXXML Versão 1.7';
+  pSetaCores;
   pIniciaGrid;
+//  pProgressBarStyle;
 
   if not Assigned(DaoObjetoXML) then
     DaoObjetoXML := TDaoBkpdfe.create;
@@ -1011,28 +1680,23 @@ begin
   i:= dts.FieldByName('configsalva').AsInteger;
   dts.Free;
 
-  wVisible := fMaster(tabUsuarios);
-  pCarregaConfigUsuario(i);
+  wVisible := wRotinas.fMaster(tabUsuarios);
+  pMenuMaster(wVisible);
+
   statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
+  statPrincipal.Panels[1].Text := '0.00%';
+  statPrincipal.Panels[2].Text := 'MAXXML!';
+  statPrincipal.Panels[3].Text := 'SOUIS, '+ FormatDateTime('dddd d, mmmm yyyy ',now);
 
   wLoadXML := lxNone;
-  wLastColunm := -1;
-  wLastOrderBy := obyNone;
+  FLastColunm := -1;
+  FLastOrderBy := obyNone;
 
   wListaSelecionados := TStringList.Create;
-
-  if Assigned(CNPJDOC) then
-  begin
-     wLastField := 'CNPJ';
-    if CNPJDOC.Parametro then
-      edEmpresa.Text := CNPJDOC.Fantasia + ' - ' + copy(CNPJDOC.Documento,1,12) +'-'+ copy(CNPJDOC.Documento,13,02)
-    else
-      edEmpresa.Text := CNPJDOC.Fantasia;
-  end;
-
-
-  wFieldFiltros := ffDATAEMISSAO;
-  pMenuFiltroData(wFieldFiltros);
+  pUpdateCampoCNPJE;
+  wLastField := 'CNPJ';
+  wLastFieldFiltros := ffDATAEMISSAO;
+  pMenuFiltroData(wLastFieldFiltros);
 end;
 
 procedure TfoPrincipal.FormKeyUp(Sender: TObject; var Key: Word;
@@ -1047,9 +1711,8 @@ end;
 
 procedure TfoPrincipal.FormShow(Sender: TObject);
 begin
-  pDataFiltro;
-  DaoObjetoXML.pFiltraOrdena(ffDATAEMISSAO, wLastOrderBy,CNPJDOC.Documento, wLastField, dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
-  dbgNfebkp.Refresh;
+  pCarregaMenuPrincipal;
+  pCarregaPainelPrincipal;
 end;
 
 procedure TfoPrincipal.pSalveName(pFieldName: string; var wFileName: string);
@@ -1061,7 +1724,7 @@ begin
    wFileName := 'Can_'+dbgNfebkp.Fields[1].AsString + '.xml';
 end;
 
-procedure TfoPrincipal.pSelecaoChave(var pLista: TStringList);
+procedure TfoPrincipal.pSelecaoChave(var pLista: TStringList; pAddObjet : boolean = true);
 var I : Integer;
     wObjXML :TLm_bkpdfe;
     wSLAux : TStringList;
@@ -1086,39 +1749,144 @@ begin
         begin
           wObjXML := TLm_bkpdfe.Create;
           wObjXML.Chave := dbgNfebkp.DataSource.DataSet.FieldByName('chave').AsString;
-          DaoObjetoXML.fConsultaObjXML(wObjXML,['chave']);
-          pLista.AddObject(wObjXML.Chave, wObjXML);
+          if pAddObjet then
+          begin
+            DaoObjetoXML.fConsObjXML4Exportar(wObjXML,['chave']);
+            pLista.AddObject(wObjXML.Chave, wObjXML);
+          end
+          else
+          pLista.Add(wObjXML.Chave);
         end;
       end;
     end;
+
+    if pLista.Count > 0 then
   end;
 end;
 
-procedure TfoPrincipal.pSelTodasLinhas;
-var
- wlLinha: Integer;
+procedure TfoPrincipal.pTrocaUsuario;
+var wShowResult : Byte;
 begin
-//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO, wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
-  with dbgNfebkp.DataSource.DataSet do
-  begin
-    First;
-    for wlLinha := 0 to RecordCount - 1 do
+  foLogin := TfoLogin.Create(Application);
+  try
+    wShowResult := foLogin.ShowModal;
+
+    if wShowResult = mrOk then
     begin
-      dbgNfebkp.SelectedRows.CurrentRowSelected := True;
-      Next;
+      wVisible := wRotinas.fMaster(tabUsuarios);
+      statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
+    end
+    else
+      Application.Terminate;
+
+  finally
+    FreeAndNil(foLogin);
+  end;
+end;
+
+function TfoPrincipal.fSelecionaLinhaGrid(pSelecao : TSelectRowsGrid = sgTodos; pCNPJ : String = '*'): Int64;
+var
+ wDataSet : TDataSet;
+
+  procedure pSelectRows;
+  var wLinha: Integer;
+  begin
+    with wDataSet do
+    begin
+      Last;
+      for wLinha := 0 to RecordCount-1 do
+      begin
+        wRotinas.pProgress('Linha',wLinha);
+        dbgNfebkp.SelectedRows.CurrentRowSelected := True;
+        Next;
+      end;
     end;
   end;
 
-//  dbgNfebkp.SelectedRows.Refresh;
+  procedure pSelectRowsFiltro;
+    var wLinha: Integer;
+  begin
+    Result :=0;
+    with dbgNfebkp.Datasource.DataSet do
+    begin
+      Last;
+      for wLinha := RecordCount  downto 1 do
+      begin
+        wRotinas.pProgress('Linha',wLinha);
+        Inc(Result,1);
+        dbgNfebkp.SelectedRows.CurrentRowSelected := True;
+        Prior;
+      end;
+    end;
+  end;
 
+begin
+  try
+    case pSelecao of
+      sgTodos  : begin
+                   if pCNPJ = '*' then
+                     wDataSet := DM_NFEDFE.Dao.ConsultaSql('select * from LM_BKPDFE')
+                   else
+                     wDataSet := DM_NFEDFE.Dao.ConsultaSql('select * from LM_BKPDFE where CNPJ = '+ QuotedStr(pCNPJ));
+                   pSelectRowsFiltro;
+                 end;
+
+      sgNenhum : begin
+                   pRemoveSelTodasLinhas;
+                 end;
+
+
+      sgFiltro : begin
+                   pSelectRowsFiltro;
+                 end;
+    end;
+  finally
+//    wDataSet.Free;
+  end;
 end;
 
+procedure TfoPrincipal.lb2DblClick(Sender: TObject);
+var wTipStatXML: TStatusXML;
+begin
+  with TLabel(Sender)do
+  begin
+    Font.Color := clBlue;
+    case tag of
+      1000: begin wTipStatXML := tsxNormal; end;      //Normal
+      1001: begin wTipStatXML := tsxNormAguard end;   //Aguard. Retorno
+      1002: begin wTipStatXML := tsxCanecelada end;   //Cancelada
+      1003: begin wTipStatXML := tsxCancAguard end;   //Aguard. Retorno cancelado
+      1004: begin wTipStatXML := tsxDenegada; end;    //Denegada
+      1005: begin wTipStatXML := tsxInutilizada; end; //Inutilizada
+      1006: begin wTipStatXML := tsxDefeito; end;     //Defeito
+      1007: begin wTipStatXML := tsxCartaCorr; end;   //Carta Correção
+    end;
+
+    wValue := TConvert<TStatusXML>.EnumConvertStr(wTipStatXML);
+    DaoObjetoXML.pFiltraOrdena(ffStatusXml, FLastOrderBy, '*', 'statusxml', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date, wValue);
+  end;
+end;
+
+procedure TfoPrincipal.lb2MouseEnter(Sender: TObject);
+begin
+  with TLabel(Sender)do
+  begin
+    Font.Color := clBlue;
+  end;
+end;
+
+procedure TfoPrincipal.lb2MouseLeave(Sender: TObject);
+begin
+  with TLabel(Sender)do
+  begin
+    Font.Color := clBlack;
+  end;
+end;
 
 procedure TfoPrincipal.pRemoveSelTodasLinhas;
 var
 wlLinha: Integer;
 begin
-//  DaoObjetoXML.fFiltraOrdena(ffDATAALTERACAO,wLastOrderBy,'Dataalteracao', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
   with dbgNfebkp.DataSource.DataSet do
   begin
     First;
@@ -1128,39 +1896,86 @@ begin
       Next;
     end;
   end;
-
-//  dbgNfebkp.SelectedRows.Refresh;
 end;
 
-procedure TfoPrincipal.pStatusBarProgress;
-//var
-// ProgressBarStyle: integer;
+procedure TfoPrincipal.pUpdateCampoCNPJE;
+var
+  k : Integer;
+  wCNPJ: string;
 begin
-//  statPrincipal.Panels[3].Style := psOwnerDraw;
-//  ProgressBar1.Parent := statPrincipal;
-//  ProgressBarStyle := GetWindowLong(ProgressBar1.Handle,GWL_EXSTYLE);
-//  ProgressBarStyle := ProgressBarStyle - WS_EX_STATICEDGE;
-//  SetWindowLong(ProgressBar1.Handle, GWL_EXSTYLE, ProgressBarStyle);
-//  ProgressBar1.Position := 0;
-//  ProgressBar1.Max := 100;
+if Assigned(CNPJDOC) then
+  begin
+    wLastField := 'CNPJ';
+    cbbEmpCNPJ.Clear;
+    wListaEmp := Lm_bkpdfe.CNPJDOC.fListaEmpresas;
+    wCNPJ := CNPJDOC.Documento;
+
+    if wListaEmp.IndexOf(wCNPJ) < 0 then
+      if fValidaCNPJ(wCNPJ) then
+         wListaEmp.Add(wCNPJ);
+
+    if wListaEmp.Count = 0 then
+      cbbEmpCNPJ.Items.Add('Não há registros!')
+    else
+    if wListaEmp.Count = 1 then
+    begin
+      wCNPJ := wListaEmp.Strings[0];
+      if fValidaCNPJ(wCNPJ,true) then
+        cbbEmpCNPJ.Items.Add('CNPJ: '+ wCNPJ);
+    end
+    else
+    if wListaEmp.Count > 1 then
+    begin
+      cbbEmpCNPJ.Items.Add('Todos');
+      for K := 0 to wListaEmp.Count-1 do
+      begin
+        wCNPJ := wListaEmp.Strings[K];
+        if (fValidaCNPJ(wCNPJ,true)) then
+          cbbEmpCNPJ.Items.Add('CNPJ: '+ wCNPJ);
+      end;
+    end;
+
+    if wCNPJ = '*' then
+       cbbEmpCNPJ.ItemIndex := 0
+    else
+    if fValidaCNPJ(wCNPJ, true) then
+      cbbEmpCNPJ.ItemIndex := cbbEmpCNPJ.Items.IndexOf('CNPJ: '+ wCNPJ);
+  end;
+end;
+
+procedure TfoPrincipal.statPrincipalDrawPanel(StatusBar: TStatusBar;
+  Panel: TStatusPanel; const Rect: TRect);
+begin
+  if Panel = statPrincipal.Panels[3] then
+  begin
+    ProgressBar1.Top := Rect.Top;
+    ProgressBar1.Left := Rect.Left;
+    ProgressBar1.Width := Rect.Right - Rect.Left - 15;
+    ProgressBar1.Height := Rect.Bottom - Rect.Top;
+  end;
 end;
 
 procedure TfoPrincipal.mmGeraclasseClick(Sender: TObject);
+var wSenha :string;
 begin
  foGeraClasse := TfoGeraClasse.Create(Application);
  try
-   foGeraClasse.ShowModal;
+   wSenha := InputBox('Digite a senha do desenvolvimento!', 'Senha:','');
+   if (Trim(wSenha) <> '') and (Trim(wSenha) = '$ouis2017') then
+     foGeraClasse.ShowModal
+   else
+     ShowMessage('Senha incorreta!');
  finally
    foGeraClasse.Free;
  end;
 end;
 
-procedure TfoPrincipal.mmMarcarTodosClick(Sender: TObject);
+procedure TfoPrincipal.pmMarcarTodosClick(Sender: TObject);
 begin
-  pSelTodasLinhas;
+  pRotinasProgress(emSelecionaRows);
 end;
 
-procedure TfoPrincipal.mmRefazAutorizacaoSelecaoClick(Sender: TObject);
+procedure TfoPrincipal.pmRefazAutorizacaoSelecaoClick(Sender: TObject);
 begin
   if dbgNfebkp.SelectedRows.Count = wListaSelecionados.Count then
   begin
@@ -1170,7 +1985,7 @@ begin
     if jopdDirDir.Execute then
       tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
 
-    if fLoadXMLNFeLista(wListaSelecionados)then
+    if wRotinas.fLoadXMLNFeLista(wListaSelecionados)then
     begin
       dbgNfebkp.Refresh;
       ShowMessage('Autorizações selecionadas reprocessadas!');
@@ -1178,49 +1993,68 @@ begin
   end;
 end;
 
-procedure TfoPrincipal.mmRefazAutorizacaoTodosClick(Sender: TObject);
-var wPathInit : TStringList;
-    wPathMAX : string;
+procedure TfoPrincipal.pmRefazAutorizacaoTodosClick(Sender: TObject);
+var
     wI : Integer;
     wColumn : TColumn;
 begin
-
-   wPathInit := TStringList.Create;
    jopdDirDir := TJvSelectDirectory.Create(Application);
    try
-     wPathMAX := ExtractFileDir(ParamStr(0));
-     wPathMAX := Copy(wPathMAX, 1, LastDelimiter('\', wPathMAX));
-     if FileExists(wPathMAX+'Maxwin.exe') or (FileExists(wPathMAX+'Maxecv.exe')) then
-       wPathMAX := wPathMAX + 'DFE\XML\Envio\Processado';
+     wPathXML := ExtractFileDir(ParamStr(0));
+     wPathXML := Copy(wPathXML, 1, LastDelimiter('\', wPathXML));
+     if FileExists(wPathXML+'Maxwin.exe') or (FileExists(wPathXML+'Maxecv.exe')) then
+       wPathXML := wPathXML + 'DFE\XML\Envio\Processado';
 
-     if DirectoryExists(wPathMAX) then
-       jopdDirDir.InitialDir := wPathMAX
+     if DirectoryExists(wPathXML) then
+       jopdDirDir.InitialDir := wPathXML
      else
        jopdDirDir.InitialDir := GetCurrentDir;
 
      jopdDirDir.Title := 'Seleceione o diretório dos Processados.';
     if jopdDirDir.Execute then
-      tabConfiguracoes.NFePathProcessado := jopdDirDir.Directory;
+      wPathXML  := jopdDirDir.Directory;
 
-    if fLoadXMLNFe(tabConfiguracoes,txNFe_EnvExt,true,'','') then
-    begin
-      pDataFiltro;
-      DaoObjetoXML.pFiltraOrdena(ffIDF_DOCUMENTO,obyASCENDENTE, CNPJDOC.Documento,  'IDF_DOCUMENTO', dtpDataFiltroINI.Date, dtpDataFiltroFin.Date);
-//      dbgNfebkp.Fields[]
+    if (wPathXML = '') OR (NOT DirectoryExists(wPathXML)) then
+      exit;
 
-      dbgNfebkp.Refresh;
-      dbgNfebkp.DataSource.DataSet.First;
-
-      ShowMessage('Autorizações reprocessadas!');
-    end;
+    pRotinasProgress(emLoadXMLNFe);
    finally
-     wPathInit.free;
      jopdDirDir.Free;
    end;
-
 end;
 
-procedure TfoPrincipal.mmDescmarcarSelTodosClick(Sender: TObject);
+procedure TfoPrincipal.pmRefazXMLClick(Sender: TObject);
+var I: Integer;
+    wFileName: string;
+begin
+  wFileName := ExtractFileDir(ParamStr(0));
+  wFileName := Copy(wFileName, 1, LastDelimiter('\', wFileName));
+  if FileExists(wFileName+'Maxwin.exe') or (FileExists(wFileName+'Maxecv.exe')) then
+  begin
+    wFileName := wFileName + 'DFE\XML\Envio\Processado';
+  end;
+
+  dlgOpenPrinc.DefaultExt := 'xml';
+
+  dlgOpenPrinc.Title := 'Escolha o Arquivo XML';
+  dlgOpenPrinc.InitialDir := wFileName;
+  dlgOpenPrinc.Filter := '*.*XML';
+  dlgOpenPrinc.Options := [ofAllowMultiSelect];
+  if dlgOpenPrinc.Execute then
+  begin
+    if not Assigned(wRotinas) then
+      wRotinas := TRotinas.Create;
+
+    wSlLoadLote := TStringList.Create;
+    dlgOpenPrinc.FileName;
+    for I := 0 to dlgOpenPrinc.Files.Count-1 do
+      wSlLoadLote.Add(dlgOpenPrinc.Files[I]);
+
+    pRotinasProgress(emLoadLoteXMLNFe);
+  end;
+end;
+
+procedure TfoPrincipal.pmDescmarcarSelTodosClick(Sender: TObject);
 begin
   pRemoveSelTodasLinhas;
 end;
@@ -1228,57 +2062,52 @@ end;
 procedure TfoPrincipal.mmSelTodosClick(Sender: TObject);
 var wI: Integer;
 begin
-  pSelTodasLinhas;
+  fSelecionaLinhaGrid;
 end;
 
 procedure TfoPrincipal.mmSelTodosExportarClick(Sender: TObject);
 begin
-  pSelTodasLinhas;
+  fSelecionaLinhaGrid;
   pSelecaoChave(wListaSelecionados);
-  fExportaLoteXML(wListaSelecionados);
-end;
-
-procedure TfoPrincipal.mniConfigBDClick(Sender: TObject);
-begin
-  foConfiguracao := TfoConfiguracao.Create(application);
-  try
-    foConfiguracao.Usuarios := tabUsuarios;
-    foConfiguracao.IDConfig := tabUsuarios.Id;
-    foConfiguracao.showmodal;
-  finally
-    foConfiguracao.Free;
-  end;
+  wRotinas.fExportaLoteXML(wListaSelecionados);
 end;
 
 procedure TfoPrincipal.mniReconectarClick(Sender: TObject);
 var statusCon : string;
 begin
-  if ConexaoBD(DM_NFEDFE.conConexaoFD, DM_NFEDFE.fddrfbDriver) then
-   statusCon := 'Conectado'
-  else
-   statusCon := 'Desconecado';
-  statPrincipal.Panels[1].text := statusCon;
+
 end;
 
-procedure TfoPrincipal.mniTrocarUsuarioClick(Sender: TObject);
-var wShowResult : Byte;
+procedure TfoPrincipal.pmTrocarUsuarioClick(Sender: TObject);
+//var wShowResult : Byte;
 begin
-  foLogin := TfoLogin.Create(Application);
-  try
-    wShowResult := foLogin.ShowModal;
 
-    if wShowResult = mrOk then
-    begin
-      wVisible := fMaster(tabUsuarios);
-      pCarregaConfigUsuario(tabUsuarios.ConfigSalva);
-      statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
-    end
-    else
-    Application.Terminate;
+ pTrocaUsuario;
+//  foLogin := TfoLogin.Create(Application);
+//  try
+//    wShowResult := foLogin.ShowModal;
+//
+//    if wShowResult = mrOk then
+//    begin
+//      wVisible := wRotinas.fMaster(tabUsuarios);
+//      statPrincipal.Panels[0].Text := 'Usuário: '+ tabUsuarios.Usuario;
+//    end
+//    else
+//      Application.Terminate;
+//
+//  finally
+//    FreeAndNil(foLogin);
+//  end;
+end;
 
-  finally
-    FreeAndNil(foLogin);
-  end;
+procedure TfoPrincipal.pPosicionaDocDest;
+begin
+  if cbbConsDocDest.ItemIndex = 0 then
+    edConsDocDest.EditMask := '999.999.999-99;0;'
+  else
+   edConsDocDest.EditMask := '99.999.999/9999-99;0;';
+
+  edConsDocDest.SelStart := 0;
 end;
 
 function TfoPrincipal.OpenTabela: boolean;
@@ -1311,7 +2140,6 @@ end;
 
 procedure TfoPrincipal.ToolButton1Click(Sender: TObject);
 begin
-   //carregarDocumetos
    ShowMessage('usuario: '+ tabUsuarios.Usuario);
 end;
 
@@ -1334,5 +2162,9 @@ end;
 //
 //  inherited;
 //end;
+initialization
 
 end.
+
+
+

@@ -2,8 +2,8 @@ object foLoginPadrao: TfoLoginPadrao
   Left = 640
   Top = 540
   Caption = 'Tela de acesso'
-  ClientHeight = 297
-  ClientWidth = 242
+  ClientHeight = 369
+  ClientWidth = 461
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -11,7 +11,6 @@ object foLoginPadrao: TfoLoginPadrao
   Font.Name = 'Tahoma'
   Font.Style = []
   KeyPreview = True
-  Menu = mmMenuTelaAcesso
   OldCreateOrder = False
   Position = poDesktopCenter
   OnClose = FormClose
@@ -21,17 +20,19 @@ object foLoginPadrao: TfoLoginPadrao
   object pnl1: TPanel
     Left = 0
     Top = 0
-    Width = 242
-    Height = 297
+    Width = 461
+    Height = 369
     Margins.Left = 2
     Margins.Top = 2
     Margins.Right = 2
     Margins.Bottom = 2
     Align = alClient
     TabOrder = 0
+    ExplicitWidth = 229
+    ExplicitHeight = 265
     object lbUserNome: TLabel
-      Left = 73
-      Top = 112
+      Left = 66
+      Top = 132
       Width = 26
       Height = 12
       Margins.Left = 2
@@ -41,8 +42,8 @@ object foLoginPadrao: TfoLoginPadrao
       Caption = 'Nome'
     end
     object edUsuario: TEdit
-      Left = 73
-      Top = 58
+      Left = 66
+      Top = 78
       Width = 97
       Height = 20
       Margins.Left = 2
@@ -52,8 +53,8 @@ object foLoginPadrao: TfoLoginPadrao
       TabOrder = 0
     end
     object edSenha: TEdit
-      Left = 73
-      Top = 88
+      Left = 66
+      Top = 108
       Width = 97
       Height = 20
       Margins.Left = 2
@@ -64,8 +65,8 @@ object foLoginPadrao: TfoLoginPadrao
       TabOrder = 1
     end
     object btnAcessar: TBitBtn
-      Left = 84
-      Top = 147
+      Left = 77
+      Top = 167
       Width = 60
       Height = 20
       Margins.Left = 2
@@ -75,9 +76,5 @@ object foLoginPadrao: TfoLoginPadrao
       Caption = '&Acessar'
       TabOrder = 2
     end
-  end
-  object mmMenuTelaAcesso: TMainMenu
-    Left = 184
-    Top = 16
   end
 end

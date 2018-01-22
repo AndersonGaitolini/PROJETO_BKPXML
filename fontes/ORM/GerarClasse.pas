@@ -82,7 +82,9 @@ begin
   Resultado.add('interface');
   Resultado.add('');
   Resultado.add('uses');
-  Resultado.add('  Base, Atributos;');
+  Resultado.add('  Base, System.SysUtils, Atributos, System.Classes,Data.DB,');
+  Resultado.add('  uDMnfebkp,FireDAC.Comp.Client,Vcl.DBGrids,');
+  Resultado.add('  Datasnap.DBClient, Datasnap.Provider,Vcl.Forms,Vcl.Dialogs,Vcl.Controls;');
   Resultado.add('');
   Resultado.add('type');
   Resultado.add('  [attTabela(' + QuotedStr(FTabela) + ')]');

@@ -1,5 +1,8 @@
 CRUD_ORM.log
-fontes/__history/
+fontes/__history/**/*
 *.pas~
 *.dcu
 dcu/*dcu
+.svn/**/*
+dcu/**/*
+!/dcu
