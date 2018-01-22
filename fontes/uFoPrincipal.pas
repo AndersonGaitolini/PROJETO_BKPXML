@@ -1406,8 +1406,6 @@ begin
     edConsDocDest.Text := wValue;
     edConsDocDest.SelStart := Length( edConsDocDest.Text);
   end;
-
-  InputBox()
 end;
 
 procedure TfoPrincipal.edConsDocDestKeyUp(Sender: TObject; var Key: Word;

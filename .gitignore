@@ -5,4 +5,4 @@ fontes/__history/**/*
 dcu/*dcu
 .svn/**/*
 dcu/**/*
-!/dcu
+*.dcu
