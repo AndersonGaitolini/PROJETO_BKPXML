@@ -8,15 +8,18 @@ object DM_NFEDFE: TDM_NFEDFE
       'CharacterSet=WIN1252'
       'User_Name=sysdba'
       'Password=masterkey'
-      'Database=E:\BT\7.0\MaxWin\Zancanaro\MAXXML\BACKUPXML.FDB'
+      'Database=E:\FontesMAXXML\MAXXML\BACKUPXML.FDB'
       'Port=3050'
       'DriverID=FB')
+    ResourceOptions.AssignedValues = [rvAutoReconnect]
+    ResourceOptions.AutoReconnect = True
     UpdateOptions.AssignedValues = [uvEInsert, uvEUpdate, uvUpdateChngFields, uvUpdateMode, uvLockWait, uvRefreshDelete]
     UpdateOptions.LockWait = True
     LoginPrompt = False
     Transaction = fdtrTransacao
-    Left = 22
-    Top = 19
+    OnError = conConexaoFDError
+    Left = 21
+    Top = 21
   end
   object fdtrTransacao: TFDTransaction
     Connection = conConexaoFD
@@ -32,7 +35,7 @@ object DM_NFEDFE: TDM_NFEDFE
     DriverID = 'FBEmbed'
     VendorLib = 'C:\fb\bin\fbembed.dll'
     Embedded = True
-    Left = 163
+    Left = 164
     Top = 21
   end
   object dsConfiguracoes: TDataSource
@@ -179,7 +182,7 @@ object DM_NFEDFE: TDM_NFEDFE
     Params = <>
     ProviderName = 'provBkpdfe'
     StoreDefs = True
-    Left = 15
+    Left = 14
     Top = 198
     object cdsBkpdfeID: TIntegerField
       FieldName = 'ID'
@@ -455,8 +458,9 @@ object DM_NFEDFE: TDM_NFEDFE
     end
   end
   object provConfiguracoes: TDataSetProvider
+    DataSet = sqlConfiguracoes
     Left = 88
-    Top = 81
+    Top = 80
   end
   object sqlConfiguracoes: TFDQuery
     Connection = conConexaoFD

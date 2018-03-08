@@ -65,7 +65,7 @@ begin
    if (pProcessExists('MaxXML.exe',CountProcess)) then
      if CountProcess > 1 then
      begin
-       uMetodosUteis.pMsg('MAXXML já está rodando!');
+//       uMetodosUteis.pMsg('MAXXML já está rodando!');
        Application.Terminate;
      end;
   if (ParamCount = 0) then

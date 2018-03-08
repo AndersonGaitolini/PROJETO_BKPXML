@@ -24,7 +24,7 @@ echo 'officepc'
 @net use J: /delete > nul
 subst J: /d
 net use J: /delete > nul
-subst J: E:\FontesMAXXML2
+subst J: E:\projeto2\PROJETO_BKPXML-001
 pause
 goto exitit
 

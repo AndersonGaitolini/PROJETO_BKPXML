@@ -178,6 +178,8 @@ type
     cbbConsDocDest: TComboBox;
     mmConfigConn: TMenuItem;
     mmConfigconexo1: TMenuItem;
+    mmAjuda: TMenuItem;
+    mmCorrecoes: TMenuItem;
     procedure FormCreate(Sender: TObject);
     procedure mniReconectarClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -1657,7 +1659,7 @@ begin
   if not Assigned(wRotinas) then
     wRotinas := TRotinas.Create;
 
-  foPrincipal.Caption := 'SOUIS - MAXXML Versão 1.7';
+  foPrincipal.Caption := 'SOUIS - MAXXML Versão 1.8';
   pSetaCores;
   pIniciaGrid;
 //  pProgressBarStyle;

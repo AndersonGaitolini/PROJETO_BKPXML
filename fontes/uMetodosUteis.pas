@@ -145,6 +145,7 @@ end;
 function fListaSessaoINIFile: TStringList;
 var I,J : Integer;
     wLinha : String;
+    wTamLinha: Integer;
     wINI : TIniFile;
     wSessao : Boolean;
     wList, wSLPerfil : TStringList;
@@ -162,10 +163,11 @@ begin
        for I := 0 to wList.Count-1 do
        begin
          wLinha := wList.Strings[I];
-         if Length(wLinha) = 0 then
+         wTamLinha :=  Length(wLinha);
+         if wTamLinha = 0 then
            Continue;
 
-         wSessao := (wLinha[1] = '[') and (wLinha[Length(wLinha)] = ']');
+         wSessao := (wLinha[1] = '[') and (wTamLinha> 2) and (Trim(Copy(wLinha,2,wTamLinha-1)) <> '') and (wLinha[wTamLinha] = ']');
          if (wSessao) then
          begin
            wLinha := Copy(wLinha, 2, Pos(']',wLinha)-2);

@@ -157,6 +157,8 @@ type
 
     procedure DataModuleCreate(Sender: TObject);
     procedure dsTPEventoDataChange(Sender: TObject; Field: TField);
+    procedure conConexaoFDError(ASender, AInitiator: TObject;
+      var AException: Exception);
   private
   public
     Dao: TDaoFD;
@@ -174,6 +176,12 @@ uses
 {%CLASSGROUP 'Vcl.Controls.TControl'}
 
 {$R *.dfm}
+
+procedure TDM_NFEDFE.conConexaoFDError(ASender, AInitiator: TObject;
+  var AException: Exception);
+begin
+//  ShowMessage('OnError');
+end;
 
 procedure TDM_NFEDFE.DataModuleCreate(Sender: TObject);
 begin
@@ -336,6 +344,13 @@ procedure TConecxaoBD.pReadParams(pSessao: String);
 begin
   FSessaoAtual := pSessao;
   pListaSessaoINI;
+
+  if (Trim(pSessao) <> '') and (FListaSessao.indexof(pSessao)<0) then
+  begin
+    pWriteParams(pSessao);
+    pListaSessaoINI;
+  end;
+
   FTipoCon      := TConvert<TTipoConexao>.StrConvertEnum(getINI(FIniFile, pSessao, 'TipoCon','tcLocal'));
   FUserName     := getINI(FIniFile, pSessao, 'User_Name');
   FPassword     := getINI(FIniFile, pSessao, 'Password');

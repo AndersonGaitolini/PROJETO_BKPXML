@@ -58,6 +58,7 @@ type
     procedure btnSalvaIniClick(Sender: TObject);
     procedure cbbPerfilConChange(Sender: TObject);
     procedure cbbPerfilConDblClick(Sender: TObject);
+    procedure cbbPerfilConClick(Sender: TObject);
   private
     { Private declarations }
     wListaServicos: TStringList;
@@ -280,8 +281,23 @@ begin
 
  pShowBotaoConectar;
  pShowStatusBar;
+
  ConecxaoBD.pReadParams(cbbPerfilCon.Items[cbbPerfilCon.ItemIndex]);
  pLerParametros;
+end;
+
+procedure TfoConexao.cbbPerfilConClick(Sender: TObject);
+var wItem:string;
+    wIndex: integer;
+begin
+ wIndex := cbbPerfilCon.ItemIndex;
+ wItem := cbbPerfilCon.Items[wIndex];
+ wIndex := cbbPerfilCon.Items.IndexOf(fNomePC);
+ if Trim(wItem) = '' then
+   if wIndex < 0 then
+     cbbPerfilCon.Items.Add(fNomePC)
+   else
+     cbbPerfilCon.Items[wIndex];
 end;
 
 procedure TfoConexao.cbbPerfilConDblClick(Sender: TObject);
@@ -313,7 +329,7 @@ begin
     1:  begin
           edServerName.Visible := true;
           edServerName.EditLabel.Caption := 'Caminho do '+ QuotedStr('fbembed.dll');
-          edServerName.Text :=  IncludeTrailingPathDelimiter(ConecxaoBD.VendorHome)  + 'BIN\' +ConecxaoBD.VendorLib;
+          edServerName.Text :=  IncludeTrailingPathDelimiter(ConecxaoBD.VendorHome)  + '..fb\bin\' +ConecxaoBD.VendorLib;
           btnPing.Visible := true;
           btnPing.Caption := '...';
         end;
