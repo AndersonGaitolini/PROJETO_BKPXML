@@ -856,7 +856,7 @@ const cAsc = 'Asc'; cdesc = 'desc';
   end;
 
 begin
-  Result := nil;
+  cResult := nil;
   pFieldName := UpperCase(Trim(pFieldName));
 
    if Length(pCNPJDest) = 18 then

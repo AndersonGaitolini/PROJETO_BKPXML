@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/03/14 09:06:23.773,=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\FormUnit1.pas</Transaction>
+    <Transaction>2018/03/14 09:06:25.916,=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\ServerMethodsUnit1.pas</Transaction>
+    <Transaction>2018/03/14 09:06:32.444,=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\WebModuleUnit1.pas</Transaction>
+    <Transaction>2018/03/14 09:12:19.410,E:\FontesMAXXML2\fontes\SeverSnap\uFoServerSnapPrincipal.dfm=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\FormUnit1.dfm</Transaction>
+    <Transaction>2018/03/14 09:12:19.410,E:\FontesMAXXML2\fontes\SeverSnap\uFoServerSnapPrincipal.pas=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\FormUnit1.pas</Transaction>
+    <Transaction>2018/03/14 09:13:20.187,E:\FontesMAXXML2\fontes\SeverSnap\uDataModuleSRVMetodos.pas=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\ServerMethodsUnit1.pas</Transaction>
+    <Transaction>2018/03/14 09:13:20.187,E:\FontesMAXXML2\fontes\SeverSnap\uDataModuleSRVMetodos.dfm=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\ServerMethodsUnit1.dfm</Transaction>
+    <Transaction>2018/03/14 09:13:46.959,E:\FontesMAXXML2\fontes\SeverSnap\uDataModuleWSRVMetodos.pas=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\WebModuleUnit1.pas</Transaction>
+    <Transaction>2018/03/14 09:13:46.959,E:\FontesMAXXML2\fontes\SeverSnap\uDataModuleWSRVMetodos.dfm=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\WebModuleUnit1.dfm</Transaction>
+    <Transaction>2018/03/14 09:14:48.345,E:\FontesMAXXML2\projeto\SRVSnapMaxXML.dproj=C:\Users\anderson\Documents\Embarcadero\Studio\Projects\Project2.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

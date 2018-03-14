@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{AEC2799F-ED2B-4323-884C-C0B2833DA2D7}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="MaxXML.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="SRVSnapMaxXML.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="MaxXML">
+        <MSBuild Projects="MaxXML.dproj"/>
+    </Target>
+    <Target Name="MaxXML:Clean">
+        <MSBuild Projects="MaxXML.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="MaxXML:Make">
+        <MSBuild Projects="MaxXML.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SRVSnapMaxXML">
+        <MSBuild Projects="SRVSnapMaxXML.dproj"/>
+    </Target>
+    <Target Name="SRVSnapMaxXML:Clean">
+        <MSBuild Projects="SRVSnapMaxXML.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SRVSnapMaxXML:Make">
+        <MSBuild Projects="SRVSnapMaxXML.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="MaxXML;SRVSnapMaxXML"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="MaxXML:Clean;SRVSnapMaxXML:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="MaxXML:Make;SRVSnapMaxXML:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,8 +1,8 @@
 object DM_NFEDFE: TDM_NFEDFE
   OldCreateOrder = False
   OnCreate = DataModuleCreate
-  Height = 343
-  Width = 308
+  Height = 335
+  Width = 607
   object conConexaoFD: TFDConnection
     Params.Strings = (
       'CharacterSet=WIN1252'
